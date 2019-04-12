@@ -44,7 +44,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
+        <div class="image d-flex align-items-center">
           <img src="./images/man.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
@@ -107,6 +107,8 @@
     <div class="content">
       <div class="container-fluid">
         <router-view></router-view>
+        <vue-progress-bar></vue-progress-bar>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->

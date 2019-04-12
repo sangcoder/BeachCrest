@@ -17,13 +17,15 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Status</th>
+                  <th>Create at</th>
                   <th>Modify</th>
                 </tr>
-                <tr>
-                  <td>183</td>
-                  <td>John Doe</td>
-                  <td>johndoe@test.com</td>
+                <tr v-for="user in users" :key="user.id">
+                  <td>{{ user.id }}</td>
+                  <td>{{ user.name | upText }}</td>
+                  <td>{{ user.email }}</td>
                   <td><span class="tag tag-success">Active</span></td>
+                  <td>{{ user.created_at | myDate }}</td>
                   <td>
                     <a href="#"><i class="fa fa-edit"></i></a> /
                     <a href="#"><i class="fa fa-trash"></i></a>
@@ -96,6 +98,7 @@
     export default {
       data () {
         return {
+          users: [],
           form : new Form({
             name : '',
             email : '',
@@ -106,12 +109,36 @@
         }
       },
       methods: {
+        loadUser(){
+          axios.get('api/user').then(({data}) => {
+            this.users = JSON.parse(JSON.stringify(data.data))
+          })
+
+        },
         createUser() {
+          this.$Progress.start()
           this.form.post('api/user')
+          .then(() => {
+          Fire.$emit('afterCreate')   // Event here
+          $('#addNewUser').modal('hide')
+          Toast.fire({
+            type: 'success',
+          title: 'Signed in successfully'
+          })
+          this.$Progress.finish()
+          })
+          .catch(() => {
+            
+          }) 
+
         }
       },
       mounted() {
-          console.log('Component mounted.')
+          this.loadUser()
+          // Call event
+          Fire.$on('afterCreate', () => {
+            this.loadUser()
+          })
       }
     }
 </script>
