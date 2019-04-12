@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content="#536878" />
-  <link rel="manifest" href="manifest.json">
+  {{-- <link rel="manifest" href="manifest.json"> --}}
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, viewport-fit=cover" />
   <title>@yield('title') - BeachCrest</title>
-  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="/custom-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -40,10 +40,10 @@
   <link href='//fonts.googleapis.com' rel='preconnect' crossorigin />
   <link href='//cdnjs.cloudflare.com' rel='preconnect' crossorigin />
 
-  <!-- <link rel="preload" href="fonts/icomoon.ttf" as="font" type="font/woff2" crossorigin />
+ <link rel="preload" href="fonts/icomoon.ttf" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/icomoon.eot" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/icomoon.woff" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="fonts/icomoon.svg" as="font" type="font/woff2" crossorigin /> -->
+  <link rel="preload" href="fonts/icomoon.svg" as="font" type="font/woff2" crossorigin /> 
   @include('layouts.loadcss')
 </head>
 

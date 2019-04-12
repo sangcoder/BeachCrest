@@ -24,7 +24,7 @@
                   <td>{{ user.id }}</td>
                   <td>{{ user.name | upText }}</td>
                   <td>{{ user.email }}</td>
-                  <td><span class="tag tag-success">Active</span></td>
+                  <td><span class="badge badge-success">Active</span></td>
                   <td>{{ user.created_at | myDate }}</td>
                   <td>
                     <a href="#"><i class="fa fa-edit"></i></a> /
@@ -128,7 +128,7 @@
           this.$Progress.finish()
           })
           .catch(() => {
-            
+
           }) 
 
         }

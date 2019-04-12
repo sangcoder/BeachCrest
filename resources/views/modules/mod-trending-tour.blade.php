@@ -15,13 +15,7 @@
               <a href="#">Northern California Summer 2019</a>
             </h4>
             <div class="tour__review">
-              <ul>
-                <li><i class="icomoon icon-cancel"></i></li>
-                <li><i class="icomoon icon-minus"></i></li>
-                <li><i class="icomoon icon-heart"></i></li>
-                <li><i class="icomoon icon-heart"></i></li>
-                <li><i class="icomoon icon-star-half"></i></li>
-              </ul>
+              <div class="reviewTour"></div>
               <span>2 Review</span>
             </div>
           </div>

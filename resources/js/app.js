@@ -13,3 +13,6 @@ import './bootstrap'
 
 import './modules/Header'
 import './modules/Menu'
+
+// Revire
+import './ultils/reviewstar'
