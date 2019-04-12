@@ -1,0 +1,9 @@
+p {
+  color: green;
+}
+@include media-breakpoint-down(md) {
+  p {
+    color: red;
+  }
+}
+

@@ -1,0 +1,44 @@
+.topbar {
+  padding: 7px 50px;
+  background: $gray-900;
+  li {
+    margin-bottom: 0;
+    a {
+      color: #fff;
+      font-weight: 400;
+      font-size: rem(14px);
+      transition: all 220ms ease-out;
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+}
+.topbar-items,
+.socials {
+  display: inline-block;
+  li {
+    display: inline-block;
+    a {
+      padding-right: 18px;
+    }
+  }
+}
+.topbar-mail {
+  display: inline-block;
+  border-left: 1px solid $blue-b;
+  padding-left: 20px;
+}
+
+.topbar-items {
+  li {
+    border-right: 1px solid $blue-b;
+    padding-right: 18px;
+    padding-left: 18px;
+    &:last-child {
+      border: 0;
+      padding-right: 0;
+    }
+  }
+
+}
