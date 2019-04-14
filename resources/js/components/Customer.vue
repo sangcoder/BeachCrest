@@ -27,8 +27,8 @@
                   <td><span class="badge badge-success">Active</span></td>
                   <td>{{ user.created_at | myDate }}</td>
                   <td>
-                    <a href="#"><i class="fa fa-edit"></i></a> /
-                    <a href="#"><i class="fa fa-trash"></i></a>
+                    <a href="#" title="Settings" data-toggle="tooltip"><i class="fa fa-edit"></i></a> /
+                    <a href="#" title="Settings" data-toggle="tooltip"><i class="fa fa-trash"></i></a>
                   </td>
                 </tr>
               </tbody></table>
@@ -134,7 +134,7 @@
         }
       },
       mounted() {
-          this.loadUser()
+        this.loadUser()
           // Call event
           Fire.$on('afterCreate', () => {
             this.loadUser()

@@ -8889,6 +8889,10 @@ input:-webkit-autofill {
   color: #5191FA;
 }
 
+.dropdown-menu {
+  top: auto;
+}
+
 .main-menu-dropdown {
   border: none;
   background-color: transparent;
@@ -9174,5 +9178,106 @@ input:-webkit-autofill {
 
 .modal-open .modal {
   overflow: hidden;
+}
+
+.tour__wrapper {
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  overflow: hidden;
+  height: 100%;
+  padding-bottom: 15px;
+}
+
+.tour--item {
+  margin-bottom: 20px;
+}
+
+.tour--footer,
+.tour--content {
+  padding: 0 15px;
+}
+
+.tour--footer p,
+.tour--content p {
+  margin-bottom: 10px;
+}
+
+.tour__img {
+  position: relative;
+  background-size: cover;
+  transition: all 220ms ease-in;
+}
+
+.tour__img span {
+  position: absolute;
+  width: 75px;
+  height: 45px;
+  background: #fd7e14;
+  right: -30px;
+  top: -13px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  line-height: 67px;
+  text-align: center;
+  z-index: 1;
+}
+
+.tour__img img {
+  position: relative;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
+
+.tour__review,
+.tour--footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tour__tag {
+  border-radius: 0 3px 3px 0;
+  position: absolute;
+  top: 10px;
+  background: #5191FA;
+  padding: 0px 10px;
+  color: #fff;
+  font-weight: 500;
+  z-index: 1;
+}
+
+.tour__review {
+  margin-top: 8px;
+  margin-bottom: 25px;
+}
+
+.tour__price .price {
+  position: relative;
+}
+
+.tour__price .price span:not(.onsale) {
+  font-size: 1.125rem;
+  color: #1A2B48;
+  font-weight: 500;
+}
+
+.tour__price .price .onsale {
+  position: absolute;
+  top: -25px;
+  text-decoration: line-through;
+  right: 0;
+  font-size: 14px;
+  color: #fd7e14;
+}
+
+.tour__duration {
+  padding-top: 2px;
+}
+
+@media (min-width: 768px) {
+  .tour--item:hover .tour__img img {
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 

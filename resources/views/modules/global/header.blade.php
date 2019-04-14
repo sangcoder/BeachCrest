@@ -4,7 +4,7 @@
       <div class="header-mobile">
         <div class="col-mb-8">
           <a id="header-logo" class="navbar-brand" title="index" href="index.html">
-            <img src="images/logo.svg" alt="index">
+            <img src="images/logo-bc.png" alt="index">
           </a>
         </div>
         <div class="col-mb-4">

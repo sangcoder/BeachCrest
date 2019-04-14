@@ -126,5 +126,6 @@
   </footer>
 </div>
 <script src="{{ mix('backend/js/main.js') }}"></script>
+
 </body>
 </html>

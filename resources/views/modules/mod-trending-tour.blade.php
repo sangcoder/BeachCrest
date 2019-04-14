@@ -1,42 +1,41 @@
 <section class="mod-tour">
   <div class="container">
+    <h2>Tour mới cập nhật</h2>
     <div class="row tour-r">
       @for ($i = 0; $i < 8; $i++)
-        <div class="col-md-3 tour--item">
-          <div class="tour__img" style='background-image: url("");'>
-            <img src="images/Tour.png" alt="BeachCrest Tour" >
-            <div class="tour__tag bestseller">
-                Featured
-            </div>
-          </div>
-          <div class="tour--content">
-            <p>California, USA</p>
-            <h4 class="tour__title">
-              <a href="#">Northern California Summer 2019</a>
-            </h4>
-            <div class="tour__review">
-              <div class="reviewTour"></div>
-              <span>2 Review</span>
-            </div>
-          </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                5 Day
-              </div>
-              <div class="tour__price">
-                <span>
-                  <i class="icomoon icon-facebook"></i>
-                  <span>From</span>
-                </span>
-                <span class="price">
-                    <span class="text-small lh1em item onsale ">€100.00</span>
-                    <span class="text-lg lh1em item "> €89.00</span>
-                </span>
+        <div class="col-lg-3 col-md-4 tour--item">
+          <div class="tour__wrapper">
+            <div class="tour__img" style='background-image: url("https://tomap.travelerwp.com/wp-content/uploads/2015/01/offthepath-680x500.jpg");'>
+              <span>11%</span>
+              <img src="images/Tour.png" alt="BeachCrest Tour">
+              <div class="tour__tag bestseller">
+                  Featured
               </div>
             </div>
+            <div class="tour--content">
+              <p><i class="icomoon icon-icon-map"></i> Nha Trang</p>
+              <h4 class="tour__title">
+                <a href="#">Tour 4 đảo Nha Trang 2019</a>
+              </h4>
+              <div class="tour__review">
+                <div class="reviewTour"></div>
+                <span>2 Review</span>
+              </div>
+            </div>
+              <div class="tour--footer">
+                <div class="tour__duration">
+                 <i class="icomoon icon-calendar-alt"></i> 2 ngày
+                </div>
+                <div class="tour__price">
+                  <span class="price">
+                      <span class="onsale ">100.000 VNĐ</span>
+                      <span>890.000 VNĐ</span>
+                  </span>
+                </div>
+              </div>
+          </div>
         </div>
       @endfor
-
     </div>
   </div>
 </section>

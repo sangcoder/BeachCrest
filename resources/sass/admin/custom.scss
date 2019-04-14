@@ -3,6 +3,9 @@
   text-decoration: none !important;
   box-shadow: none !important;
 }
+button {
+  outline: none;
+}
 .green {
   color: $green;
 }

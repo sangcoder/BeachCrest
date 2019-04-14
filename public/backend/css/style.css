@@ -19278,6 +19278,10 @@ input:-webkit-autofill {
   box-shadow: none !important;
 }
 
+button {
+  outline: none;
+}
+
 .green {
   color: #28a745;
 }

@@ -1,0 +1,97 @@
+.tour__wrapper {
+  border: 1px solid #dfdfdf;
+  border-radius: 3px;
+  overflow: hidden;
+  height: 100%;
+  padding-bottom: 15px;
+}
+.tour--item {
+  margin-bottom: 20px;
+}
+.tour--footer,
+.tour--content {
+  padding: 0 15px;
+  p {
+    margin-bottom: 10px;
+  }
+}
+.tour__img {
+  position: relative;
+  background-size: cover;
+  transition: all 220ms ease-in;
+  span {
+    position: absolute;
+    width: 75px;
+    height: 45px;
+    background: $orange;
+    right: -30px;
+    top: -13px;
+    transform: rotate(45deg);
+    line-height: 67px;
+    text-align: center;
+    z-index: 1;
+  }
+  img {
+    position: relative; 
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+}
+.tour__review,
+.tour--footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tour__tag {
+  border-radius: 0 3px 3px 0;
+  position: absolute;
+  top: 10px;
+  background: $blue;
+  padding: 0px 10px;
+  color: #fff;
+  font-weight: 500;
+  z-index: 1;
+}
+.tour__review {
+  margin-top: 8px;
+  margin-bottom: 25px;
+}
+.tour__price{
+  .price {
+    position: relative;
+    span:not(.onsale){
+      font-size: rem(18px);
+      color: $gray-900;
+      font-weight: 500;
+    }
+    .onsale {
+      position: absolute;
+      top: -25px;
+      text-decoration: line-through;
+      right: 0;
+      font-size: 14px;
+      color: $orange;
+    }
+
+  }
+
+}
+
+.tour__duration {
+  padding-top: 2px;
+}
+
+@include media-breakpoint-up(md) {
+  .tour--item {
+    &:hover {
+     .tour__img{
+      img {
+        z-index: 0;
+        background: rgba(0,0,0, 0.2);
+      }
+     } 
+    }
+  }
+}

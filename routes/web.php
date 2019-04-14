@@ -12,7 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home')->with([
+        'message' => 'This is send data to View'
+    ]);
 });
 
 // Admin route
