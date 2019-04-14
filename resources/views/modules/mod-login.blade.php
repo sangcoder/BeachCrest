@@ -27,7 +27,7 @@
             <input type="text" name="username" id="txtUsername" class="form-control" autocomplete="off"
               placeholder="Email or Username">
             <i class="input-icon field-icon fa">
-              <svg height="" width="18px" viewBox="0 0 24 19" version="1.1"
+              <svg width="18px" viewBox="0 0 24 19" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
                 <title>ico_email_login_form</title>
@@ -54,7 +54,7 @@
           <div class="form-group">
             <input type="password" class="form-control" name="password" autocomplete="off" placeholder="Password">
             <i class="input-icon field-icon fa">
-              <svg height="" width="16px" viewBox="0 0 18 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              <svg width="16px" viewBox="0 0 18 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink">
                 <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
                 <title>ico_pass_login_form</title>
@@ -101,7 +101,7 @@
             <div class="row">
               <div class="col-sm-6">
                 <a href="javascript:;" onclick="return false" class="d-block w-100">
-                    <i class="input-icon field-icon fa"><svg height="" width="100%" viewBox="0 0 140 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <i class="input-icon field-icon fa"><svg width="100%" viewBox="0 0 140 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
                       <title>fb</title>
                       <desc>Created with Sketch.</desc>
@@ -130,7 +130,7 @@
               </div>
               <div class="col-sm-6">
                 <a href="javascript:;" onclick="return false" class="d-block w-100">
-                    <i class="input-icon field-icon fa"><svg height="" width="100%" viewBox="0 0 140 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <i class="input-icon field-icon fa"><svg width="100%" viewBox="0 0 140 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
                       <title>g+</title>
                       <desc>Created with Sketch.</desc>

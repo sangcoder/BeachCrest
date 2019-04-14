@@ -13,6 +13,6 @@ import './bootstrap'
 
 import './modules/Header'
 import './modules/Menu'
-
+import './modules/FixHeight'
 // Revire
 import './ultils/reviewstar'

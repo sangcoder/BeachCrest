@@ -8232,6 +8232,10 @@ a.text-dark:focus {
   content: "\E9CD";
 }
 
+.icon-icon-sphere:before {
+  content: "\E9C9";
+}
+
 #header {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
@@ -8775,10 +8779,6 @@ input:-webkit-autofill {
   background-color: #e9ecef;
 }
 
-#header.pin-header {
-  box-shadow: 2px 9px 18px -6px rgba(0, 0, 0, 0.22);
-}
-
 #header-logo {
   width: 100%;
   max-width: 200px;
@@ -9072,6 +9072,11 @@ input:-webkit-autofill {
   }
 }
 
+.tour-list h5 {
+  margin-bottom: 0;
+  padding: 10px 15px;
+}
+
 #footer {
   padding-top: 80px;
   background-color: #dee2e6;
@@ -9210,16 +9215,16 @@ input:-webkit-autofill {
 
 .tour__img span {
   position: absolute;
+  top: -13px;
+  right: -30px;
+  z-index: 1;
   width: 75px;
   height: 45px;
   background: #fd7e14;
-  right: -30px;
-  top: -13px;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
   line-height: 67px;
   text-align: center;
-  z-index: 1;
 }
 
 .tour__img img {
@@ -9236,19 +9241,18 @@ input:-webkit-autofill {
 }
 
 .tour__tag {
-  border-radius: 0 3px 3px 0;
   position: absolute;
   top: 10px;
+  z-index: 1;
+  border-radius: 0 3px 3px 0;
   background: #5191FA;
   padding: 0px 10px;
   color: #fff;
   font-weight: 500;
-  z-index: 1;
 }
 
 .tour__review {
-  margin-top: 8px;
-  margin-bottom: 25px;
+  margin: 25px 0;
 }
 
 .tour__price .price {
@@ -9264,8 +9268,8 @@ input:-webkit-autofill {
 .tour__price .price .onsale {
   position: absolute;
   top: -25px;
-  text-decoration: line-through;
   right: 0;
+  text-decoration: line-through;
   font-size: 14px;
   color: #fd7e14;
 }
@@ -9279,5 +9283,44 @@ input:-webkit-autofill {
     z-index: 0;
     background: rgba(0, 0, 0, 0.2);
   }
+}
+
+.destination-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.destination-item:hover .destination-img img {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.destination-img {
+  overflow: hidden;
+}
+
+.destination-img img {
+  border-radius: 3px;
+  transition: -webkit-transform 220ms ease-in-out;
+  transition: transform 220ms ease-in-out;
+  transition: transform 220ms ease-in-out, -webkit-transform 220ms ease-in-out;
+}
+
+.destination-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.destination-content p {
+  margin-bottom: 0;
+  background-color: #FFE53B;
+  background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+  border-radius: 30px;
+  display: inline-block;
+  padding: 5px 20px;
 }
 

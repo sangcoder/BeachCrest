@@ -19209,6 +19209,10 @@ input:-webkit-autofill {
   content: "\E9CD";
 }
 
+.icon-icon-sphere:before {
+  content: "\E9C9";
+}
+
 @-webkit-keyframes heartbeat {
   0% {
     -webkit-transform: scale(0.75);

@@ -1,21 +1,20 @@
 <div class="navbar-collapse" id="main-menu" data-module="menu">
   <ul class="ml-auto main-menu-ul navbar-nav">
     <li class="active has-sub mega-dropdown">
-      <a href="universal.html">About Us</a>
+      <a href="#">Danh sách Tour  <i class="icomoon icon-chevron-down d-none d-lg-inline-block" aria-hidden="true"></i></a>
       <div class="nav-item-arrows d-lg-none">
         <i class="icomoon icon-chevron-down" aria-hidden="true"></i>
       </div>
       <div class="dropdown-menu main-menu-dropdown">
         <div class="container">
           <div class="row">
-            <ul class="col-lg">
+            <ul class="col-lg tour-list">
               <li>
-                <a href="singlecasestudy.html">network deployment</a>
+                <h5>Tour Miền Bắc</h5>
                 <div class="nav-item-arrows d-lg-none">
                   <i class="icomoon icon-chevron-down" aria-hidden="true"></i>
-                </div>
-                <ul class="menu-child">
-                  <li>
+                </div>                  
+                <li>
                     <a href="#">Program Management</a>
                   </li>
                   <li>
@@ -30,12 +29,11 @@
                   <li>
                     <a href="#">Pole Licensing</a>
                   </li>
-                </ul>
               </li>
             </ul>
-            <ul class="col-lg">
-              <li class="active">
-                <a href="#">Vista by ViewPoint</a>
+            <ul class="col-lg tour-list">
+              <li>
+                <h5>Tour Miền Trung</h5>
               </li>
               <li>
                 <a href="#">CMiC</a>
@@ -44,53 +42,53 @@
                 <a href="#">COINS</a>
               </li>
             </ul>
-            <ul class="col-lg">
+            <ul class="col-lg tour-list">
               <li>
-                <a href="#">broadband consulting</a>
+                <h5>Tour Miền Nam</h5>
               </li>
             </ul>
-            <ul class="col-lg">
+            <ul class="col-lg tour-list">
               <li>
-                <a href="#">broadband consulting</a>
+                  <h5>Tour Nước Ngoài</h5>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </li>
-    <li>
-      <a href="page.html">Contact Us</a>
-    </li>
     <li class="has-sub">
-      <a href="#">News</a>
-      <div class="nav-item-arrows d-lg-none">
-        <i class="icomoon icon-chevron-down" aria-hidden="true"></i>
-      </div>
-      <div class="dropdown-menu main-menu-dropdown">
-        <ul>
-          <li>
-            <a href="#">Workshops</a>
-          </li>
-          <li>
-            <a href="#">erp-selection</a>
-          </li>
-          <li>
-            <a href="#">Erp lanning</a>
-          </li>
-          <li>
-            <a href="#">erp implementation</a>
-          </li>
-          <li class="active">
-            <a href="#">Program Mangement</a>
-          </li>
-          <li>
-            <a href="#">Training</a>
-          </li>
-        </ul>
-      </div>
+        <a href="#">Tin tức <i class="icomoon icon-chevron-down d-none d-lg-inline-block" aria-hidden="true"></i></a>
+        <div class="nav-item-arrows d-lg-none">
+          <i class="icomoon icon-chevron-down" aria-hidden="true"></i>
+        </div>
+        <div class="dropdown-menu main-menu-dropdown">
+          <ul>
+            <li>
+              <a href="#">Workshops</a>
+            </li>
+            <li>
+              <a href="#">erp-selection</a>
+            </li>
+            <li>
+              <a href="#">Erp lanning</a>
+            </li>
+            <li>
+              <a href="#">erp implementation</a>
+            </li>
+            <li class="active">
+              <a href="#">Program Mangement</a>
+            </li>
+            <li>
+              <a href="#">Training</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    <li>
+      <a href="page.html">Liên Hệ</i></a>
     </li>
     <li>
-      <a href="#">Shop</a>
+      <a href="#">Khuyến Mãi</a>
     </li>
   </ul>
   {{-- <form class="form-inline my-2 my-lg-0">

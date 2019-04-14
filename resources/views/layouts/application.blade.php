@@ -39,11 +39,6 @@
   <link href='//cdnjs.cloudflare.com' rel='dns-prefetch' crossorigin />
   <link href='//fonts.googleapis.com' rel='preconnect' crossorigin />
   <link href='//cdnjs.cloudflare.com' rel='preconnect' crossorigin />
-
- <link rel="preload" href="fonts/icomoon.ttf" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="fonts/icomoon.eot" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="fonts/icomoon.woff" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="fonts/icomoon.svg" as="font" type="font/woff2" crossorigin /> 
   @include('layouts.loadcss')
 </head>
 

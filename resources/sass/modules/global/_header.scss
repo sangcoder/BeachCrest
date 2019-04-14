@@ -2,9 +2,9 @@
   @include position(relative, $index: 999);
   @extend %add-tr;
   background-color: $gray-200;
-  &.pin-header {
-    box-shadow: 2px 9px 18px -6px rgba(0, 0, 0, .22);
-  }
+  // &.pin-header {
+  //   box-shadow: 2px 9px 18px -6px rgba(0, 0, 0, .22);
+  // }
 }
 
 #header-logo {
