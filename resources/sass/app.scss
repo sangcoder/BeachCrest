@@ -34,6 +34,9 @@
 @import "lib/slick-theme";
 @import "lib/font-iconmoon";
 @import "~raty-js/lib/jquery.raty.css";
+@import "~select2/dist/css/select2.min.css";
+@import '~daterangepicker/daterangepicker.css';
+@import '~ion-rangeslider/css/ion.rangeSlider.css';
 // @import "lib/popup";
 
 // base ---
@@ -57,5 +60,7 @@
 @import "modules/mod_login";
 @import "modules/mod_trending_tour";
 @import "modules/mod_destination";
+@import "modules/mod_search";
+
 // @import "modules/test";
 

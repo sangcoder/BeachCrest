@@ -21,7 +21,6 @@ const Header = (($) => {
       this._config = this._getConfig(config)
       $(window).resize(this.onResizeWindow.bind(this))
       this.scrollPinHeader()
-      console.log("Khong duoc")
     }
     // public api
     static get Default () {

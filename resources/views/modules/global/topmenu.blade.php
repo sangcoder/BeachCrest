@@ -13,7 +13,7 @@
           </li>
         </ul>
         <ul class="st-list topbar-mail">
-          <li class="hidden-xs hidden-sm">
+          <li class="d-none d-lg-block">
             <a href="mailto:contact@sangvo.com" target="">contact@beachcrest.com</a>
           </li>
         </ul>

@@ -1,5 +1,5 @@
 .topbar {
-  padding: 7px 50px;
+  padding: 7px 0;
   background: $gray-900;
   li {
     margin-bottom: 0;
@@ -41,4 +41,11 @@
     }
   }
 
+}
+
+
+@include media-breakpoint-up(lg) {
+  .topbar {
+    padding: 7px 50px;
+  }
 }

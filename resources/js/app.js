@@ -14,5 +14,6 @@ import './bootstrap'
 import './modules/Header'
 import './modules/Menu'
 import './modules/FixHeight'
+import './modules/Search'
 // Revire
 import './ultils/reviewstar'

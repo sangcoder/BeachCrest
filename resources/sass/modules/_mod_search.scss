@@ -1,0 +1,20 @@
+.mod-search {
+  background: #fff;
+  padding: 25px 0;
+  .form-control {
+    border: 1px solid #aaa;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .button-search {
+    position: relative;
+    .form-group {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-bottom: 0;
+    }
+  }
+
+}

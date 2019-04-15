@@ -37,7 +37,6 @@ const FixHeight = (($) => {
     equalHeight () {
       let $items = this._element.find(this._config.item)
       $items.convertHeight()
-      console.log('fixheight')
       // this._element.find(this._config.item).matchHeight({
       //   byRow: true,
       //   property: 'height',
