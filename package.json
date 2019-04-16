@@ -42,6 +42,7 @@
         "babel-preset-env": "^1.6.1",
         "babel-preset-stage-1": "^6.24.1",
         "daterangepicker": "^3.0.4",
+        "es6-promise": "^4.2.6",
         "ion-rangeslider": "^2.3.0",
         "jquery-match-height": "^0.7.2",
         "lazyload": "^2.0.0-rc.2",
@@ -52,6 +53,7 @@
         "sweetalert2": "^8.8.3",
         "vform": "^1.0.0",
         "vue-progressbar": "^0.7.5",
-        "vue-router": "^3.0.2"
+        "vue-router": "^3.0.2",
+        "vuex": "^3.1.0"
     }
 }
