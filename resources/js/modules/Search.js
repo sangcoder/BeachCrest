@@ -25,6 +25,7 @@ const Search = (($) => {
       this._config = this._getConfig(config)
       // $(window).resize(this.onResizeWindow.bind(this))
       this.openSelect2()
+      this.openFormSearch()
     }
     // public api
     static get Default () {
@@ -52,6 +53,18 @@ const Search = (($) => {
         from: 300,
         to: 2000
       })
+    }
+    openFormSearch () {
+      $('.js-searchbox').on('select2:open', function() {
+        $('.body-overlay').addClass('show')
+        })
+        $(document).mouseup(function(e) {
+        if(!$('.mod-search').is(e.target) && $('.mod-search').has(e.target).length === 0) {
+          $('.body-overlay').removeClass('show')
+        }
+      })
+
+        console.log('click')
     }
     _getConfig (config) {
       config = $.extend({}, Default, config)

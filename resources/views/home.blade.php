@@ -10,4 +10,5 @@
           </div>
       </div>
   </div>
+  <div class="body-overlay"></div>
 @endsection

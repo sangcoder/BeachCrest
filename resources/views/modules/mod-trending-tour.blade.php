@@ -7,7 +7,7 @@
           <div class="tour__wrapper">
             <div class="tour__img" style='background-image: url("https://tomap.travelerwp.com/wp-content/uploads/2015/01/offthepath-680x500.jpg");'>
               <span>11%</span>
-              <img src="images/Tour.png" alt="BeachCrest Tour">
+              <img class="lazy" src="https://123job.vn/images/preloader.gif" data-original="images/Tour.png" alt="BeachCrest Tour">
               <div class="tour__tag bestseller">
                   Featured
               </div>

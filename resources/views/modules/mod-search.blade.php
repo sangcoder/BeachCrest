@@ -4,6 +4,7 @@
     <div class="col-lg-4 search-item">
       Điểm khởi hành
       <div class="form-group">
+        <form action="">
         <select class="js-searchbox form-control" name="state">
           <option value="NT">Nha Trang</option>
           <option value="VT">Vũng Tàu</option>
@@ -26,6 +27,7 @@
       <div class="form-group">
         <button type="submit" class="btn btn-block btn-primary">Tìm kiếm <i class="icomoon icon-icon-search"></i></button>
       </div>
+        </form>
     </div>
   </div>
 </div>

@@ -10,7 +10,7 @@ import './bootstrap'
 // const app = new Vue({
 //     el: '#app'
 // });
-
+import './modules/LazyLoad'
 import './modules/Header'
 import './modules/Menu'
 import './modules/FixHeight'

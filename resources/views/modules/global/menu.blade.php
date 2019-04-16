@@ -78,9 +78,6 @@
             <li class="active">
               <a href="#">Program Mangement</a>
             </li>
-            <li>
-              <a href="#">Training</a>
-            </li>
           </ul>
         </div>
       </li>
