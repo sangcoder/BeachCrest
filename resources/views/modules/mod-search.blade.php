@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-4 search-item">
-      Điểm khởi hành
+      <p>Điểm khởi hành</p>
       <div class="form-group">
         <form action="">
         <select class="js-searchbox form-control" name="state">
@@ -12,13 +12,13 @@
       </div>
     </div>
     <div class="col-lg-3 search-item">
-      Ngày khởi hành
+      <p>Ngày khởi hành</p>
       <div class="form-group" >
           <input type="text" class="form-control" name="dateDeparture" id="dateDeparture" data-format="DD/MM/YYYY">
       </div>
     </div>
     <div class="col-lg-3 search-item">
-      Mức giá
+      <p>Mức giá</p>
       <div class="form-group">
         <input class="form-control" type="text" name="price-ranger" id="price-ranger">
       </div>

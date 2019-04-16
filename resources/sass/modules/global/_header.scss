@@ -1,5 +1,5 @@
 #header {
-  @include position(relative, $index: 999);
+  @include position(relative, $index: 100);
   @extend %add-tr;
   background-color: $gray-200;
   // &.pin-header {

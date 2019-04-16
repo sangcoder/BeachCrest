@@ -9869,7 +9869,7 @@ input:-webkit-autofill {
 
 #header {
   position: relative;
-  z-index: 999;
+  z-index: 100;
   background-color: #e9ecef;
 }
 
@@ -10391,6 +10391,10 @@ input:-webkit-autofill {
   }
 }
 
+.mod-destination {
+  padding-top: 20px;
+}
+
 .destination-item {
   position: relative;
   margin-bottom: 20px;
@@ -10439,6 +10443,27 @@ input:-webkit-autofill {
 
 .mod-search .form-control {
   border: 1px solid #aaa;
+}
+
+.search-item p {
+  margin-bottom: 5px;
+  position: relative;
+  display: inline-block;
+}
+
+.search-item p::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  left: 0;
+  width: 0%;
+  background-color: #fd7e14;
+  transition: 0.5s ease all 0.3s;
+}
+
+.search-item:hover p::after {
+  width: 100%;
 }
 
 @media (min-width: 992px) {

@@ -1,6 +1,6 @@
 import $ from 'jquery'
-const Search = (($) => {
-  const NAME = 'search'
+const ExampleEx = (($) => {
+  const NAME = 'example'
   const DATA_KEY = `bs.${NAME}`
   const EVENT_KEY = `.${DATA_KEY}`
   const DATA_API_KEY = '.data-api'
@@ -15,7 +15,7 @@ const Search = (($) => {
     DATA_MODULE: `[data-module="${NAME}"]`
   }
 
-  class Search {
+  class Example {
     constructor (element, config) {
       this._element = $(element)
       this._config = this._getConfig(config)
@@ -45,7 +45,7 @@ const Search = (($) => {
         )
         let data = $element.data(DATA_KEY)
         if (!data) {
-          data = new Search(this, _config)
+          data = new Example(this, _config)
           $element.data(DATA_KEY, data)
         }
       })
@@ -56,16 +56,16 @@ const Search = (($) => {
    * Data Api implement
    */
   $(window).on(Event.LOAD_DATA_API, () => {
-    Search._jQueryInterface.call($(Selector.DATA_MODULE))
+    Example._jQueryInterface.call($(Selector.DATA_MODULE))
   })
 
   /**
    * jQuery
    */
-  $.fn[NAME] = Search._jQueryInterface
-  $.fn[NAME].Constructor = Search
+  $.fn[NAME] = Example._jQueryInterface
+  $.fn[NAME].Constructor = Example
 
-  return Search
+  return Example
 })($)
 
-export default Search
+export default ExampleEx

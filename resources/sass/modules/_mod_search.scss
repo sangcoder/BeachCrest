@@ -6,7 +6,31 @@
     border: 1px solid #aaa;
   }
 }
-
+.search-item {
+  p {
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      height: 2px;
+      left: 0;
+      width: 0%;
+      background-color: $orange;
+      transition: .5s ease all .3s;
+    }
+  }
+  &:hover {
+    p {
+      &::after{
+        width: 100%;
+      }
+    }
+    
+  }
+}
 @include media-breakpoint-up(lg) {
   .button-search {
     position: relative;

@@ -55,12 +55,15 @@ const Search = (($) => {
       })
     }
     openFormSearch () {
-      $('.js-searchbox').on('select2:open', function() {
+      $('.js-searchbox').on('select2:open', function () {
         $('.body-overlay').addClass('show')
-        })
-        $(document).mouseup(function(e) {
-        if(!$('.mod-search').is(e.target) && $('.mod-search').has(e.target).length === 0) {
+        $('#header').css({'z-index': '98'})
+      })
+      $(document).mouseup(function (e) {
+        // console.log($('.mod-search').has(e.target))
+        if (!$('.mod-search').is(e.target) && $('.mod-search').has(e.target).length === 0) {
           $('.body-overlay').removeClass('show')
+          $('#header').css({'z-index': '100'})
         }
       })
 

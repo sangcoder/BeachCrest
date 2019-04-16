@@ -43,6 +43,7 @@
         "babel-preset-stage-1": "^6.24.1",
         "daterangepicker": "^3.0.4",
         "ion-rangeslider": "^2.3.0",
+        "jquery-match-height": "^0.7.2",
         "lazyload": "^2.0.0-rc.2",
         "moment": "^2.24.0",
         "raty-js": "^2.9.0",

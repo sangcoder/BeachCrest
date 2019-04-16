@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import './ConvertHeight'
+import matchHeight from 'jquery-match-height'
 // import 'jquery-match-height'
 const FixHeight = (($) => {
   const NAME = 'fixheight'
@@ -11,7 +12,7 @@ const FixHeight = (($) => {
     CLICK_DATA_API: `click${EVENT_KEY}${DATA_API_KEY}`
   }
   const Default = {
-    item: '.destination-item',
+    item: '.item-second',
     item2: '.destination-img'
   }
 
@@ -35,14 +36,14 @@ const FixHeight = (($) => {
       this.equalHeight()
     }
     equalHeight () {
-      let $items = this._element.find(this._config.item)
-      $items.convertHeight()
-      // this._element.find(this._config.item).matchHeight({
-      //   byRow: true,
-      //   property: 'height',
-      //   target: null,
-      //   remove: false
-      // })
+      // let $items = this._element.find(this._config.item4)
+      // $items.convertHeight()
+      this._element.find(this._config.item).matchHeight({
+        byRow: true,
+        property: 'height',
+        target: null,
+        remove: false
+      })
     }
 
     _getConfig (config) {
