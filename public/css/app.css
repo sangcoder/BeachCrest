@@ -10435,7 +10435,7 @@ input:-webkit-autofill {
 }
 
 .mod-search {
-  background: #fff;
+  background: transparent;
   padding: 25px 0;
   position: relative;
   z-index: 99;
@@ -10443,6 +10443,29 @@ input:-webkit-autofill {
 
 .mod-search .form-control {
   border: 1px solid #aaa;
+}
+
+.seach-bg {
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.search-item .form-group {
+  position: relative;
+}
+
+.search-item .form-group > i {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.search-item .form-group .select2-selection__rendered,
+.search-item .form-group .dateDeparture {
+  padding-left: 30px;
 }
 
 .search-item p {
@@ -10466,6 +10489,15 @@ input:-webkit-autofill {
   width: 100%;
 }
 
+.irs--round .irs-handle {
+  border: none;
+}
+
+.irs--round .irs-bar,
+.irs--round .irs-line {
+  height: 8px !important;
+}
+
 @media (min-width: 992px) {
   .button-search {
     position: relative;
@@ -10478,21 +10510,6 @@ input:-webkit-autofill {
             transform: translateY(-50%);
     margin-bottom: 0;
   }
-}
-
-.rc-slider-handle {
-  position: absolute;
-  margin-left: -7px;
-  margin-top: -5px;
-  width: 14px;
-  height: 14px;
-  cursor: pointer;
-  cursor: -webkit-grab;
-  cursor: grab;
-  border-radius: 50%;
-  border: 2px solid #96dbfa;
-  background-color: #fff;
-  touch-action: pan-x;
 }
 
 .body-overlay.show {

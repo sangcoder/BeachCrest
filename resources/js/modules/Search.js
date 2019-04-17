@@ -48,6 +48,7 @@ const Search = (($) => {
       $('#price-ranger').ionRangeSlider({
         type: 'double',
         postfix: ' 000 ₫',
+        skin: 'round',
         min: 100,
         max: 10000,
         from: 300,

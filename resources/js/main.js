@@ -42,7 +42,7 @@ Vue.filter('myDate', function (date) {
 const options = {
   color: '#bffaf3',
   failedColor: '#874b4b',
-  thickness: '5px',
+  thickness: '2px',
   transition: {
     speed: '0.2s',
     opacity: '0.6s',
