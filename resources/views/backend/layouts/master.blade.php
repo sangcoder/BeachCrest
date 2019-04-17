@@ -48,7 +48,7 @@
           <img src="./images/man.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Administrator</a>
+        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
           <span class="text-white">Online</span>
         </div>
       </div>
@@ -95,6 +95,17 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </router-link>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();">
+              <i class="nav-icon fa fa-power-off"></i>
+              <p>{{ __('Logout') }}</p>
+            </a>
+         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+             @csrf
+         </form>
           </li>
         </ul>
       </nav>

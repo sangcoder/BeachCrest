@@ -12,12 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('home')->with([
-        'message' => 'This is send data to View'
-    ]);
+    return view('home');
 });
 
 // Admin route
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@index');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
