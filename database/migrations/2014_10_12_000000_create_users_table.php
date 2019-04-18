@@ -21,9 +21,11 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('active')->default(0);
             $table->string('photo')->nullable()->default('profile.png');
             $table->mediumText('bio')->nullable();
+            $table->string('activation_token');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
