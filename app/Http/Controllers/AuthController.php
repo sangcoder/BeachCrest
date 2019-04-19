@@ -83,7 +83,7 @@ class AuthController extends Controller
             'data' => $user
         ], AppResponse::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'),'/', null, false, true); // Set cookie  xuông browser
     }
-    
+
     public function logout() {
         // Xóa cookie token
         auth('api')->logout();
@@ -122,5 +122,47 @@ class AuthController extends Controller
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $user
         ], AppResponse::HTTP_OK);
+    }
+
+    public function createPasswordResetToken(Request $request) 
+    {
+        // Kiểm tra dữ liệu
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'succes' => AppResponse::STATUS_FAILURE,
+                'errors' => $validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        //  Tìm email
+        $user = User::where('email', $request->email)->first();
+
+        // Nếu ko tồn tại trả về message
+        if(!$user) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => 'Chúng tôi không tìm thấy Email trong hệ thống chúng tôi'
+            ], AppResponse::HTTP_BAD_REQUEST);
+        }
+        // Nếu tìm thấy create new Token
+        $passwordReset = PasswordReset::updateOrCreate(
+            [
+                'email' => $user->email,
+            ],
+            [
+                'email' => $user->email,
+                'token' => str_random(60)
+            ]
+        );
+        if($user && $passwordReset) {
+            $user->notify(new PasswordResetRequest($passwordReset->token));
+        }
+
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'message' => 'Chúng tôi đã gửi link đến địa chỉ email bạn.'
+        ]);
     }
 }

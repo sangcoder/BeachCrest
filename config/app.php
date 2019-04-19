@@ -53,7 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
+    'password_reset_url' => env('PASSWORD_RESET_URL', 'http://localhost:8000/reset-password'),
     'asset_url' => env('ASSET_URL', null),
 
     /*
