@@ -24,7 +24,7 @@
                   <td>{{ user.id }}</td>
                   <td>{{ user.name | upText }}</td>
                   <td>{{ user.email }}</td>
-                  <td><span class="badge badge-success">Active</span></td>
+                  <td><span :class="user.active === '1' ? 'badge badge-success':'badge badge-danger'">{{ user.active }}</span></td>
                   <td>{{ user.created_at | myDate }}</td>
                   <td>
                     <a href="#" title="Settings" data-toggle="tooltip" @click="editModal(user)"><i class="fa fa-edit"></i></a> /

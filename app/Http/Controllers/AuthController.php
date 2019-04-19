@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Validator;
+use Carbon\Carbon;
 use App\Enums\RoleType;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
@@ -81,5 +82,45 @@ class AuthController extends Controller
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $user
         ], AppResponse::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'),'/', null, false, true); // Set cookie  xuông browser
+    }
+    
+    public function logout() {
+        // Xóa cookie token
+        auth('api')->logout();
+        return response()->json([
+            'success' => AppRespose::STATUS_SUCCESS,
+            'message' => 'Đăng xuất thành công'
+        ], AppResponse::HTTP_OK);
+    }
+
+    public function getUser(Request $request)
+    {
+        $data = $request->user();
+        $data['roles'] = $data->getRoleNames();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $data
+        ], AppResponse::HTTP_OK);
+    }
+    public function activate($token) 
+    {
+        $user = User::where('activation_token', $token)->first();
+        if (!$user) 
+        {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => 'This activation token is invalid'
+            ], AppResponse::HTTP_BAD_REQUEST);
+        }
+        // Cập nhập thông tin
+        $user->active = true;
+        $user->activation_token = '';
+        $user->email_verified_at = Carbon::now();
+        $user->save();
+
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $user
+        ], AppResponse::HTTP_OK);
     }
 }
