@@ -199,7 +199,10 @@ class AuthController extends Controller
             'token' => 'required|string'
         ]);
         if ($validator->fails()) {
-            return response()->json(['success' => AppResponse::STATUS_FAILURE, 'errors'=>$validator->errors()], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE, 
+                'errors'=>$validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $passwordReset = PasswordReset::where([
@@ -231,5 +234,46 @@ class AuthController extends Controller
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $user
         ], AppResponse::HTTP_OK);
+    }
+    public function changePassword(Request $request) 
+    {
+        $user = $request->all();
+
+        $email = $user->email;
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string',
+            'new_password' => 'required|string|confirmed'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE, 
+                'errors'=>$validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // Kiểm tra email & password đúng mới đổi
+        $credentials = request(['password']);
+        $credentials['email'] = $email;
+        $credentials['active'] = 1;
+        $credentials['deleted_at'] = null;
+
+        if(!Auth::guard('web')->attempt($credentials)) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE, 
+                'message' => 'Email chưa được xác thực'
+            ], AppResponse::HTTP_UNAUTHORIZED);
+        }
+
+        // save new password
+        $user->password = bcrypy($request->new_password);
+        $user->save();
+        // send Email thông báo
+        $user->notify(new PasswordChangeSuccess());
+
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $user
+        ], AppResponse::HTTP_OK);
+    
     }
 }
