@@ -49,7 +49,9 @@
         </div>
         <div class="info">
         <a href="#" class="d-block">
-          {{ Auth::user()->name }}</a>
+          {{-- {{ Auth::user()->name }} --}}
+          Sang
+        </a>
           <span class="text-white">Online</span>
         </div>
       </div>

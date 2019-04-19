@@ -17,6 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Định các route register, login
+Route::group([
+    'prefix' => 'auth'
+], function() {
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+});
+
+
 Route::apiResources([
     'user' =>'API\UserController'
 ]);
