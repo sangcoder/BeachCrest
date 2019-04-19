@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Validator;
 use Carbon\Carbon;
+use App\PasswordReset;
 use App\Enums\RoleType;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class AuthController extends Controller
     {
         // Ràng buộc dữ liệu
         $validator = Validator::make($request->all(), [
+            'name' => 'required|string|email',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string',
             'password_confirmation' => 'required|string:same:password'
@@ -164,5 +166,70 @@ class AuthController extends Controller
             'success' => AppResponse::STATUS_SUCCESS,
             'message' => 'Chúng tôi đã gửi link đến địa chỉ email bạn.'
         ]);
+    }
+
+    public function findPasswordResetToken($token) {
+        $passwordReset = PasswordReset::where('token', $token)->first();
+        if(!$passwordReset) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => 'This password reset token is invalid'
+            ], AppResponse::HTTP_BAD_REQUEST);
+        }
+        if (Carbon::parse($passwordReset->updated_at)->addMinutes(720)->isPast()) {
+            $passwordReset->delete();
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => 'This password invalid'
+            ]);
+        }
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCCESS,
+            'data' => $passwordReset
+        ], AppResponse::HTTP_OK);
+    }
+
+    public function resetPassword(Request $request) {
+        //  Ràng buộc dữ liệu
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string',
+            'password_confirmation' => 'required|string:same:password',
+            'token' => 'required|string'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => AppResponse::STATUS_FAILURE, 'errors'=>$validator->errors()], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $passwordReset = PasswordReset::where([
+            ['token', $request->token],
+            ['email', $request->email]
+        ])->first();
+        if($passwordReset) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => 'Dữ liệu không hợp lệ'
+            ], AppResponse::HTTP_BAD_REQUEST);
+        }
+        $user = User::where('email', $passwordReset->email)->first();
+        if(!$user) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => 'Không tìm tài khoản nào trùng với địa chỉ chỉ email này'
+            ], AppRespose::HTTP_BAD_REQUEST);
+        }
+        // pass
+        // lưu new password
+        $user->password= brcypt($request->password);
+        $user->save();
+        // xóa password reset token
+        $passwordReset->delete();
+        //  gửi mail thông báo
+        $user->notify(new PasswordResetSuccess($passwordReset));
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $user
+        ], AppResponse::HTTP_OK);
     }
 }
