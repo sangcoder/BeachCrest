@@ -40,10 +40,11 @@ class RegisterActivate extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = url('/api/auth/register/activate/'.$notifiable->activation_token);
         return (new MailMessage)
                     ->line('Xác nhận tài khoản')
                     ->line('Để login với tài khoản quý khách vui lòng nhấn xác nhận để hoàn tất.')
-                    ->action('Xác nhận', url('/'))
+                    ->action('Xác nhận',  url($url))
                     ->line('Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!');
     }
 

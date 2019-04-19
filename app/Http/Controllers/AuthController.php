@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Validator;
+use App\Enums\RoleType;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use App\Notifications\RegisterActivate;
@@ -25,7 +27,8 @@ class AuthController extends Controller
         }
         // Lưu user vào CSDL
         $user = new User([
-            'email' => $request->$request->email,
+            'name' => $request->name,
+            'email' => $request->email,
             'password' => bcrypt($request->password),
             'activation_token' => str_random(60)
         ]);
@@ -60,7 +63,7 @@ class AuthController extends Controller
         // Nhận data từ client
         $credentials = request(['email', 'password']);
         $credentials['active'] = 1;
-        $credentials['delete_at'] = null;
+        $credentials['deleted_at'] = null;
         // Kiểm tra email password, kiểm tra tình trạng đã active hay chưa 
         $token = auth('api')->attempt($credentials);
         if(!$token) {
