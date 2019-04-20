@@ -52,7 +52,7 @@ const Search = (($) => {
         min: 100,
         max: 10000,
         from: 300,
-        to: 2000
+        to: 5000
       })
     }
     openFormSearch () {

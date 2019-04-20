@@ -13,6 +13,53 @@ use App\Notifications\RegisterActivate;
 
 class AuthController extends Controller
 {
+       /**
+    * @OA\Post(
+    *         path="/api/auth/register",
+    *         tags={"Authentication"},
+    *         summary="Register",
+    *         description="Register a new user and send notification mail",
+    *         operationId="register",
+    *         @OA\Response(
+    *             response=200,
+    *             description="Successful operation"
+    *         ),
+    *         @OA\Response(
+    *             response=422,
+    *             description="Invalid input or email taken"
+    *         ),
+    *         @OA\Response(
+    *             response=500,
+    *             description="Server error"
+    *         ),
+    *         @OA\RequestBody(
+    *             required=true,
+    *             @OA\MediaType(
+    *                 mediaType="application/x-www-form-urlencoded",
+    *                 @OA\Schema(
+    *                     type="object",
+    *                     @OA\Property(
+    *                         property="email",
+    *                         description="Email",
+    *                         type="string",
+    *                     ),
+    *                     @OA\Property(
+    *                         property="password",
+    *                         description="Password",
+    *                         type="string",
+    *                         format="password"
+    *                     ),
+    *                     @OA\Property(
+    *                         property="password_confirmation",
+    *                         description="Confirm password",
+    *                         type="string",
+    *                         format="password"
+    *                     )
+    *                 )
+    *             )
+    *         )
+    * )
+    */
     public function register(Request $request) 
     {
         // Ràng buộc dữ liệu
@@ -47,6 +94,54 @@ class AuthController extends Controller
         ],AppResponse::HTTP_OK);
     }
 
+
+        /**
+    * @OA\Post(
+    *         path="/api/auth/login",
+    *         tags={"Authentication"},
+    *         summary="Login",
+    *         description="Login an user",
+    *         operationId="login",
+    *         @OA\Response(
+    *             response=200,
+    *             description="Successful operation"
+    *         ),
+    *         @OA\Response(
+    *             response=422,
+    *             description="Invalid input"
+    *         ),
+    *         @OA\Response(
+    *             response=403,
+    *             description="Wrong combination of email and password or email not verified"
+    *         ),
+    *         @OA\Response(
+    *             response=500,
+    *             description="Server error"
+    *         ),
+    *         @OA\RequestBody(
+    *             required=true,
+    *             @OA\MediaType(
+    *                 mediaType="application/x-www-form-urlencoded",
+    *                 @OA\Schema(
+    *                     type="object",
+    *                      @OA\Property(
+    *                         property="email",
+    *                         description="Email",
+    *                         type="string",
+    *                     ),
+    *                     @OA\Property(
+    *                         property="password",
+    *                         description="Password",
+    *                         type="string",
+    *                         format="password"
+    *                     ),
+    *                 )
+    *             )
+    *         )
+    * )
+    */
+
+    
     // Login API
     public function login(Request $request) 
     {
