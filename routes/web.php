@@ -17,8 +17,13 @@ Route::get('/', function () {
 
 // Admin route
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', 'AdminController@index');
+    Route::get('/{vue_capture?}', 'AdminController@index')
+    ->middleware(['speed'])
+    ->where('vue_capture', '[\/\w\.\,\-]*');
 });
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/home',['as' => 'search', 'use' => 'HomeController@search'] );
+
+// Route everything else to Vue

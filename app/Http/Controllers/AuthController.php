@@ -39,6 +39,11 @@ class AuthController extends Controller
     *                 @OA\Schema(
     *                     type="object",
     *                     @OA\Property(
+    *                         property="name",
+    *                         description="Name",
+    *                         type="string",
+    *                     ), 
+    *                     @OA\Property(
     *                         property="email",
     *                         description="Email",
     *                         type="string",
@@ -64,7 +69,7 @@ class AuthController extends Controller
     {
         // Ràng buộc dữ liệu
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|email',
+            'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string',
             'password_confirmation' => 'required|string:same:password'
@@ -167,7 +172,7 @@ class AuthController extends Controller
         if(!$token) {
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
-                'message' => 'Email chưa được xác thực. Vui lòng check mail để xác thực xin cảm ơn.'
+                'message' => 'Email hoặc mật khẩu không đúng xin vui lòng kiểm tra.'
             ],AppResponse::HTTP_UNAUTHORIZED);
         }
         // Get thông tin user
@@ -189,7 +194,23 @@ class AuthController extends Controller
             'message' => 'Đăng xuất thành công'
         ], AppResponse::HTTP_OK);
     }
-
+    /**
+    * @OA\Get(
+    *         path="/api/auth/getUser",
+    *         tags={"Authentication"},
+    *         summary="Get user",
+    *         description="Retrieve information from current user",
+    *         operationId="getUser",
+    *         @OA\Response(
+    *             response=200,
+    *             description="Successful operation"
+    *         ),
+    *         @OA\Response(
+    *             response=500,
+    *             description="Server error"
+    *         ),
+    * )
+    */
     public function getUser(Request $request)
     {
         $data = $request->user();
@@ -199,6 +220,36 @@ class AuthController extends Controller
             'data' => $data
         ], AppResponse::HTTP_OK);
     }
+     /**
+    * @OA\Get(
+    *         path="/api/auth/register/activate/{token}",
+    *         tags={"Authentication"},
+    *         summary="Activate user",
+    *         description="Activate an registered user",
+    *         operationId="activateUser",
+    *         @OA\Parameter(
+    *             name="token",
+    *             in="path",
+    *             description="User activating token (should be included in the verification mail)",
+    *             required=true,
+    *             @OA\Schema(
+    *                 type="string",
+    *             )
+    *         ),
+    *         @OA\Response(
+    *             response=200,
+    *             description="Successful operation"
+    *         ),
+    *         @OA\Response(
+    *             response=400,
+    *             description="Invalid token"
+    *         ),
+    *         @OA\Response(
+    *             response=500,
+    *             description="Server error"
+    *         ),
+    * )
+    */
     public function activate($token) 
     {
         $user = User::where('activation_token', $token)->first();
@@ -317,7 +368,6 @@ class AuthController extends Controller
                 'message' => 'Không tìm tài khoản nào trùng với địa chỉ chỉ email này'
             ], AppRespose::HTTP_BAD_REQUEST);
         }
-        // pass
         // lưu new password
         $user->password= brcypt($request->password);
         $user->save();

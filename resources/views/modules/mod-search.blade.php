@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-lg-4 search-item">
       <p>Điểm khởi hành</p>
-      <form action="">
+    <form action="{{route('search')}}" method="POST">
       <div class="form-group">
         <select class="js-searchbox form-control" name="state">
           <option value="NT">Nha Trang</option>
@@ -29,6 +29,8 @@
       <div class="form-group">
         <button type="submit" class="btn btn-block btn-primary">Tìm kiếm <i class="icomoon icon-icon-search"></i></button>
       </div>
+      {{ csrf_field() }}
+
     </form>
     </div>
   </div>

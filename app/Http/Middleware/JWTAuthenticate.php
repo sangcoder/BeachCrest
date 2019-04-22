@@ -18,6 +18,7 @@ class JWTAuthenticate
      */
     public function handle($request, Closure $next)
     {
+        // dd($request->user());
         // Middleware decode token từ front end JWT
         $rawToken = $request->cookie('token'); // Nhận token từ cookie front end
         $token = new Token($rawToken);

@@ -27,6 +27,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         /* Roles */
         $userRole = Role::create(['name' => RoleType::MEMBER]);
+        // Nhân viên có quyền:Xem, Thêm, Sửa, không có quyền xóa
         $modRole = Role::create(['name' => RoleType::MODERATOR]);
         $modRole->givePermissionTo([
             PermissionType::VIEW_USERS,
