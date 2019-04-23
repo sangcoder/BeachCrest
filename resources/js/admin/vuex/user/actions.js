@@ -1,11 +1,9 @@
 import AuthApi from '../../api/auth.js'
 
 const login = async (context, payload) => {
-  context.commit('userLoadStatus', 1)
   try {
     let {data} = await AuthApi.getAccessToken(payload.email, payload.password)
     if (data.success === true) {
-      context.commit('userLoadStatus', 2)
       context.commit('getUser', data.data)
     }
     return data.success

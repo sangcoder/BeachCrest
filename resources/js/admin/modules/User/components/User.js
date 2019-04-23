@@ -31,7 +31,7 @@ export default {
         Swal.fire(
           'Cập nhật thành công',
           'Thông tin đã được cập nhật',
-          'sucess'
+          'success'
         )
         this.$Progress.finish()
         Fire.$emit('afterCreate')
@@ -57,7 +57,7 @@ export default {
       }) 
     },
     deleteUser (id) {
-      this.Swal.fire({
+      Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         type: 'warning',
@@ -69,7 +69,7 @@ export default {
         // Request to the server
         if (result.value) {
           this.form.delete('api/user/' + id).then(() => {
-            this.Swal.fire(
+            Swal.fire(
             'Deleted!',
             'Your file has been deleted.',
             'success'
