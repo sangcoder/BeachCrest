@@ -7,6 +7,6 @@ export default {
     get thông tin user
   */
   getUser: function () {
-    return Axios.get(APP_CONFIG.API_URL + '/api/getUser')
+    return Axios.get(APP_CONFIG.API_URL + '/auth/getUser')
   }
 }

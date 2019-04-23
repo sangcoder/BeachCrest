@@ -7,7 +7,7 @@ import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
 
 import router from './admin/router/index.js'
-import store from './admin/vuex'
+import store from './admin/store'
 window.Vue = Vue
 window.Form = Form
 window.Swal = Swal

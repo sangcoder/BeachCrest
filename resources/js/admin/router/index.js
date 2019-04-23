@@ -5,13 +5,31 @@ import User from '../modules/User'
 import Page404 from '../views/Page404.vue'
 import Admin from '../views/admin.vue'
 import Login from '../views/login.vue'
-import store from '../vuex/index.js'
+import store from '../store/index'
 // Yêu cầu có quyền mới được vào
-function requireAuth (from, to, next) {
+// function requireAuth (from, to, next) {
+//   if (store.get('user/user') && store.get('user/user').id) {
+//     next()
+//   } else {
+//     next('/admin/login')
+//   }
+// }
+function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id) {
     next()
   } else {
-    next('/admin/login')
+    if (store.get('user/userLoadStatus') === 3) {
+      next('/admin/login')
+    } else {
+      store.dispatch('user/getUser')
+      store.watch(store.getters['user/getUserLoadStatus'], n => {
+        if (store.get('user/userLoadStatus') === 2) {
+          next()
+        } else if (store.get('user/userLoadStatus') === 3) {
+          next('/admin/login')
+        }
+      })
+    }
   }
 }
 
