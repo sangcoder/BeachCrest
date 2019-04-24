@@ -2,15 +2,19 @@
 
 namespace App\Model;
 
+use App\Model\Place;
+use App\Model\Scenic_Culture;
 use Illuminate\Database\Eloquent\Model;
 
 class Scenic_Culture extends Model
 {
     protected $fillable = [
-        'PlaceID', 'Description', 'Contents', 'HitCount', 'ImgUrl', 'state'
+        'place_id', 'Description', 'Contents', 'HitCount', 'ImgUrl', 'state'
     ];
     public $timestamp = false;
+    protected $primaryKey = "ScenicID";
+
     public function place() {
-        return $this->belongsTo(Place::class);
+        return $this->belongsTo(Place::class, 'place_id');
     }
 }

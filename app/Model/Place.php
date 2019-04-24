@@ -10,8 +10,9 @@ class Place extends Model
         'PlaceName', 'Description', 'Contents', 'Region', 'ImgUrl'
     ];
     public $timestamp = false;
+    protected $primaryKey = "PlaceID";
 
     public function scenicCultures() {
-        return $this->hasMany(Scenic_Culture::class);
+        return $this->hasMany(Scenic_Culture::class,  'place_id');
     }
 }
