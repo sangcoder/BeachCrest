@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail, JWTSubject
 {
-    use HasRoles, SoftDeletes, HasApiTokens, Notifiable;
+    use HasRoles, SoftDeletes, Notifiable;
 
     /**
      * The attributes that are mass assignable.
