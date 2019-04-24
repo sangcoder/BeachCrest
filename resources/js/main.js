@@ -1,6 +1,7 @@
 import './bootstrap'
 
 import Vue from 'vue'
+import BootstrapVue from 'bootstrap-vue'
 import { Form, HasError, AlertError } from 'vform'
 import moment from 'moment'
 import VueProgressBar from 'vue-progressbar'
@@ -14,6 +15,9 @@ window.Swal = Swal
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
+
+Vue.use(BootstrapVue)
+
 // Global ulti
 Vue.filter('upText', function (text) {
   if (!text) return ''

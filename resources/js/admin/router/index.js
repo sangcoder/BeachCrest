@@ -7,7 +7,7 @@ import Admin from '../views/admin.vue'
 import Login from '../views/login.vue'
 import store from '../store/index'
 // Yêu cầu có quyền mới được vào
-// function requireAuth (from, to, next) {
+// function requireAuth (from, to,  next) {
 //   if (store.get('user/user') && store.get('user/user').id) {
 //     next()
 //   } else {
@@ -34,8 +34,23 @@ function requireAuth (to, from, next) {
 }
 
 // Ko yêu cầu quyền
-function requireNonAuth (from, to, next) {
-  next()
+function requireNonAuth (to, from, next) {
+  if (store.get('user/user') && store.get('user/user').id) {
+    next('/admin')
+  } else {
+    if (store.get('user/userLoadStatus') === 3) {
+      next()
+    } else {
+      store.dispatch('user/getUser')
+      store.watch(store.getters['user/getUserLoadStatus'], n => {
+        if (store.get('user/userLoadStatus') === 2) {
+          next('/admin')
+        } else if (store.get('user/userLoadStatus') === 3) {
+          next()
+        }
+      })
+    }
+  }
 }
 
 // Yêu cầu quyền admin
@@ -47,7 +62,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  linkActiveClass: 'active',
+  // linkActiveClass: 'active menu-open',
   routes: [
     {
       path: '/admin',

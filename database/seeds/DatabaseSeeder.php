@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RolesAndPermissionsSeeder::class);
+        // $this->call(RolesAndPermissionsSeeder::class);
+        // factory(App\Model\Place::class, 20)->create();
+        factory(App\Model\Scenic_Culture::class, 30)->create();
     }
 }

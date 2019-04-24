@@ -2,7 +2,6 @@ import { APP_CONFIG } from '../../config'
 import Axios from 'axios'
 
 const getAccessToken = (email, password) => {
-  console.log('vao day1')
   let data = Axios.post(APP_CONFIG.API_URL + '/auth/login', {
     email: email,
     password: password
@@ -15,7 +14,8 @@ const logout = function () {
 }
 
 const getDsUser = async () => {
-  let data = await Axios.get('api/user')
+  let data = await Axios.get(APP_CONFIG.API_URL + '/user')
+  // console.log('data' + JSON.stringify(data))
   return data
 }
 export default {

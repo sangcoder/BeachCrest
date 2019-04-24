@@ -15,13 +15,13 @@ const mutations = { ...defaultMutations(state) }
 
 const getters = {
   getUser: state => () => state.user,
-  getUserLoadStatus: state => () => state.userLoadStatus
+  getUserLoadStatus: state => () => state.userLoadStatus,
+  getDsUser: state => () => state.dsUser
 }
 
 const actions = {
   getUser ({ commit }) {
     commit('userLoadStatus', 1)
-    console.log('11111')
     UserAPI.getUser()
     .then((response) => {
       commit('userLoadStatus', 2)

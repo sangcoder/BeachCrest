@@ -41,12 +41,11 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item has-treeview">
-            <router-link to="/thong-tin-user" class="nav-link" active-class="active" exact>
+          <li class="nav-item has-treeview menu-open">
+            <router-link to="/admin/danh-sach-tai-khoan.html" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt green"></i>
               <p>
-                User
-                <i class="right icomoon icon-chevron-left"></i>
+                User <i class="right icomoon icon-chevron-left"></i>
               </p>
             </router-link>
             <ul class="nav nav-treeview">
@@ -65,7 +64,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <router-link to="/login-admin" class="nav-link" active-class="active" exact>
+            <router-link to="/login-admin" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
               <p>
                 Quản lý Tour
@@ -74,13 +73,36 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/customer" class="nav-link" active-class="active" exact>
+            <router-link to="/customer" class="nav-link" >
               <i class="nav-icon fa fa-users"></i>
               <p>
                 Customer
                 <span class="right badge badge-danger">New</span>
               </p>
             </router-link>
+          </li>
+          <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fa fa-dashboard"></i>
+              <p>
+                Starter Pages
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link active">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Active Page</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Inactive Page</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>

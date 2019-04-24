@@ -1,7 +1,7 @@
 import User from './components/User.vue'
 export default [
   {
-    path: '/thong-tin-user',
+    path: '/admin/danh-sach-tai-khoan.html',
     name: 'UserInfo',
     component: User
   }

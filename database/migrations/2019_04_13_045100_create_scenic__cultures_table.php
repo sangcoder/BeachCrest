@@ -14,7 +14,13 @@ class CreateScenicCulturesTable extends Migration
     public function up()
     {
         Schema::create('scenic__cultures', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('ScenicID');
+            $table->integer('place_id')->unsigned()->index();
+            $table->string('Description');
+            $table->text('Contents');
+            $table->unsignedBigInteger('HitCount')->default(0);
+            $table->string('ImgUrl');
+            $table->tinyInteger('state');
             $table->timestamps();
         });
     }
