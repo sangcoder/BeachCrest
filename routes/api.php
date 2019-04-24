@@ -30,7 +30,8 @@ Route::group([
     });
 });
 
-
+// API
 Route::apiResources([
-    'user' =>'API\UserController'
+    'user' =>'API\UserController',
+    'place' => 'API\PlaceController'
 ]);

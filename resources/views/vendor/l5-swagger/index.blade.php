@@ -25,6 +25,8 @@
     body {
       margin:0;
       background: #fafafa;
+      max-width: 960px;
+      margin: 0 auto;
     }
   </style>
 </head>

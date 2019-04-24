@@ -10,10 +10,10 @@ import './bootstrap'
 // const app = new Vue({
 //     el: '#app'
 // });
-import './modules/LazyLoad'
-import './modules/Header'
-import './modules/Menu'
-import './modules/FixHeight'
-import './modules/Search'
+import './frontend/modules/LazyLoad'
+import './frontend/modules/Header'
+import './frontend/modules/Menu'
+import './frontend/modules/FixHeight'
+import './frontend/modules/Search'
 // Revire
-import './ultils/reviewstar'
+import './frontend/ultils/reviewstar'

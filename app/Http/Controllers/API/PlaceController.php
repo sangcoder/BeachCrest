@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Model\Place;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PlaceController extends Controller
 {
@@ -14,17 +15,10 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $product = Place::paginate(10);
+        return response()->json([
+            'data' => $product
+        ]);
     }
 
     /**
@@ -35,7 +29,7 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

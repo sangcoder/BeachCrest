@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Model\Scenic_Culture;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ScenicCultureController extends Controller
 {
@@ -16,17 +17,7 @@ class ScenicCultureController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *

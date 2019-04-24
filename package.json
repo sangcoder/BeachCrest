@@ -47,6 +47,7 @@
         "bootstrap-vue": "^2.0.0-rc.16",
         "chart.js": "^2.7.3",
         "daterangepicker": "^3.0.4",
+        "element-ui": "^2.7.2",
         "es6-promise": "^4.2.6",
         "ion-rangeslider": "^2.3.0",
         "jquery-match-height": "^0.7.2",

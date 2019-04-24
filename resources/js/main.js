@@ -7,8 +7,12 @@ import moment from 'moment'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
 
-import router from './admin/router/index.js'
-import store from './admin/store'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+import router from './router/index.js'
+import store from './store/index.js'
+
 window.Vue = Vue
 window.Form = Form
 window.Swal = Swal
@@ -17,6 +21,8 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.use(BootstrapVue)
+
+Vue.use(ElementUI)
 
 // Global ulti
 Vue.filter('upText', function (text) {
