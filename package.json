@@ -10,16 +10,17 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "animate.css": "^3.7.0",
         "@babel/core": "^7.4.0",
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/preset-env": "^7.4.2",
+        "animate.css": "^3.7.0",
         "axios": "^0.18",
         "babel-core": "^7.0.0-0",
         "babel-loader": "^7.1.5",
-        "flag-icon-css": "^3.3.0",
         "browser-sync": "^2.26.3",
         "browser-sync-webpack-plugin": "^2.2.2",
         "cross-env": "^5.1",
+        "flag-icon-css": "^3.3.0",
         "jquery": "^3.3.1",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
@@ -51,6 +52,7 @@
         "es6-promise": "^4.2.6",
         "ion-rangeslider": "^2.3.0",
         "jquery-match-height": "^0.7.2",
+        "perfect-scrollbar": "0.7.1",
         "lazyload": "^2.0.0-rc.2",
         "moment": "^2.24.0",
         "raty-js": "^2.9.0",
@@ -66,6 +68,8 @@
         "vue-router": "^3.0.2",
         "vue-sweetalert2": "^1.6.4",
         "vuex": "^3.1.0",
+        "vue-notifyjs": "^0.2.0",
+        "vue-clickaway": "^2.1.0",
         "vuex-easy-access": "^3.1.6"
     }
 }

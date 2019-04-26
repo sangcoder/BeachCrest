@@ -6,7 +6,7 @@
         <div class="card-header">
           <h3 class="card-title">Customer Managament</h3>
           <div class="card-tools">
-            <button class="btn btn-primary" @click="newModal" data-toggle="modal" data-target="#addNewUser">Add new <i class="fas fa-user-plus"></i></button>
+            <button class="btn btn-primary" @click="newModal" data-toggle="modal" data-target="#addNewUser">Add new <i class="fa fa-user-plus"></i></button>
           </div>
         </div>
         <!-- /.card-header -->

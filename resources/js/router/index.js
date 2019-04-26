@@ -5,8 +5,12 @@ import Page404 from '../pages/Page404.vue'
 import Admin from '../pages/admin.vue'
 import Login from '../pages/login.vue'
 import store from '../store/index'
-// import modulea admin
+
+// import module admin
 import User from '../admin/modules/User'
+import UserInfo from '../pages/UserInfo.vue'
+
+import Destination from '../admin/modules/Destinations/components/listDestination.vue'
 // Yêu cầu có quyền mới được vào
 // function requireAuth (from, to,  next) {
 //   if (store.get('user/user') && store.get('user/user').id) {
@@ -63,14 +67,25 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  // linkActiveClass: 'active menu-open',
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/admin',
-      name: 'admin',
+      name: 'Admin',
       component: Admin,
       beforeEnter: requireAuth,
-      children: [...User]
+      children: [...User,
+        {
+          path: '/admin/thong-tin-user.html',
+          name: 'UserInfo',
+          component: UserInfo
+        },
+        {
+          path: '/admin/danh-sach-diem-den.html',
+          name: 'Destination',
+          component: Destination
+        }
+      ]
     },
     {
       path: '/admin/404',
