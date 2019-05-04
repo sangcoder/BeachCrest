@@ -9,7 +9,9 @@ use App\PasswordReset;
 use App\Enums\RoleType;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Notifications\RegisterActivate;
+use Spatie\Permission\Models\Permission;
 
 class AuthController extends Controller
 {
@@ -214,7 +216,10 @@ class AuthController extends Controller
     public function getUser(Request $request)
     {
         $data = $request->user();
+        $roles = $data['roles'];
         $data['roles'] = $data->getRoleNames();
+        $per = $this->getPermision($roles[0]->id);
+        $data['permistion'] = $per;
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $data
@@ -420,5 +425,9 @@ class AuthController extends Controller
             'data' => $user
         ], AppResponse::HTTP_OK);
     
+    }
+
+    public function getPermision($idRole) {
+        return DB::table('role_has_permissions')->where('role_id', $idRole)->get();
     }
 }

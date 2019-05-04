@@ -22626,6 +22626,16 @@ hr.transparent {
   border-right-color: #536c79;
 }
 
+.btn {
+  outline: none;
+  text-decoration: none;
+  border-radius: 3px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}
+
 .spinner-container {
   align-items: center;
   display: flex;

@@ -8,9 +8,8 @@ import store from '../store/index'
 
 // import module admin
 import User from '../admin/modules/User'
-import UserInfo from '../pages/UserInfo.vue'
+import Destination from '../admin/modules/Destinations'
 
-import Destination from '../admin/modules/Destinations/components/listDestination.vue'
 // Yêu cầu có quyền mới được vào
 // function requireAuth (from, to,  next) {
 //   if (store.get('user/user') && store.get('user/user').id) {
@@ -21,6 +20,7 @@ import Destination from '../admin/modules/Destinations/components/listDestinatio
 // }
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id) {
+
     next()
   } else {
     if (store.get('user/userLoadStatus') === 3) {
@@ -29,7 +29,12 @@ function requireAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          next()
+          console.log('to', to)
+          if (store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
+            next()
+          } else {
+            next('/admin/404')
+          }
         } else if (store.get('user/userLoadStatus') === 3) {
           next('/admin/login')
         }
@@ -74,18 +79,7 @@ export default new Router({
       name: 'Admin',
       component: Admin,
       beforeEnter: requireAuth,
-      children: [...User,
-        {
-          path: '/admin/thong-tin-user.html',
-          name: 'UserInfo',
-          component: UserInfo
-        },
-        {
-          path: '/admin/danh-sach-diem-den.html',
-          name: 'Destination',
-          component: Destination
-        }
-      ]
+      children: [...User, ...Destination]
     },
     {
       path: '/admin/404',

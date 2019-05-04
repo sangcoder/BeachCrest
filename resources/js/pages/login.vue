@@ -1,12 +1,12 @@
 <template>
   <div id="login" class="login-box">
  <div class="login-logo">
-    <a href="/"><b>Breach</b>Crest</a>
+    <img src="/../images/logo-bc.png" alt="Logo BeachCrests">
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <h2 class="login-box-msg">Login to system</h2>
         <div class="input-group mb-3">
           <input type="email" v-model="email" class="form-control" placeholder="Email">
           <div class="input-group-append">
@@ -30,10 +30,10 @@
       <div class="social-auth-links text-center mb-3">
         <p>- OR -</p>
         <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+          <i class="fa fa-facebook mr-2"></i> Sign in using Facebook
         </a>
         <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+          <i class="fa fa-google-plus mr-2"></i> Sign in using Google+
         </a>
       </div>
       <!-- /.social-auth-links -->
@@ -55,5 +55,33 @@
 .input-group-append span {
   display: flex;
 }
-
+.login-box {
+  width: 350px;
+  margin: 7% auto 0;
+}
+.login-logo {
+  display: flex;
+  justify-content: center;
+}
+.form-control {
+  border-right: none;
+}
+.input-group-text {
+  color: #777;
+  background: transparent;
+}
+.login-box-msg {
+  margin-bottom: 35px;
+  position: relative;
+  color: #5191fa;
+}
+.login-box-msg::after {
+  content: "";  
+  position: absolute;
+  width: 80px;
+  bottom: -15px;
+  background: #88b0f3;
+  height: 2px;
+  left: 0;
+}
 </style>
