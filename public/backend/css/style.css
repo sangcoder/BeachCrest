@@ -22636,6 +22636,10 @@ hr.transparent {
   box-shadow: none;
 }
 
+.ck-editor__editable {
+  min-height: 250px !important;
+}
+
 .spinner-container {
   align-items: center;
   display: flex;

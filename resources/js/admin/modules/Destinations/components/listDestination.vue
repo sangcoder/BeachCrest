@@ -1,7 +1,10 @@
 <template>
   <div class="destination-list">
     <b-container>
-      <b-col><h2>Quản lý điểm đến</h2></b-col>
+     <h2>Quản lý điểm đến</h2>
+     <b-button @click="$router.push({name: 'AddDestiantion'})">
+       Thêm mới
+     </b-button>
       <b-col>
         <el-table
           :data="tableData"

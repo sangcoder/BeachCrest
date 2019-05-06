@@ -67,11 +67,18 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'sometimes|min:6'
         ]);
+        if ($request->photo) {
+            $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->photo,$matched);
+            $ext = isset($matched[1][0]) ? $matched[1][0] : false;
+            $imageName = sha1(time()) . '.' .$ext;
+            \Image::make($request->photo)->save(public_path('/images/user').$imageName);
+            return $imageName;
+        }
 
-        $user->update($request->all());
-        return [
-            'message' => 'Updated user'
-        ];
+        // $user->update($request->all());
+        // return [
+        //     'message' => 'Updated user'
+        // ];
     }
 
     /**

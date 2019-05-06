@@ -22,9 +22,20 @@ export default {
     }
   },
   methods: {
+    uploadPhoto (e) {
+      console.log('uploading...',e)
+      let file = e.target.files[0]
+      let reader = new FileReader()
+      let that = this
+      reader.onloadend = function() {
+        // console.log('Result', reader.result)
+        that.form.photo = reader.result
+      }
+      reader.readAsDataURL(file)
+    },
     updateUser (id) {
       this.$Progress.start()
-      this.form.put('api/user/' + this.form.id)
+      this.form.put('/api/user/' + this.form.id)
       .then(() => {
         // sucess
         $('#addNewUser').modal('hide')
@@ -42,7 +53,7 @@ export default {
     },
     createUser () {
       this.$Progress.start()
-      this.form.post('api/user')
+      this.form.post('/api/user')
       .then(() => {
         this.Fire.$emit('afterCreate')   // Event here
       $('#addNewUser').modal('hide')

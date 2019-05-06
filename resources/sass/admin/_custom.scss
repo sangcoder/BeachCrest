@@ -7,3 +7,6 @@
 .form-control:focus {
   box-shadow: none;
 }
+.ck-editor__editable {
+  min-height: 250px !important;
+ }

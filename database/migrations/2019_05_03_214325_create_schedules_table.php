@@ -17,6 +17,10 @@ class CreateSchedulesTable extends Migration
             $table->increments('id');
             $table->dateTime('StartTime');
             $table->dateTime('EndTime');
+            $table->integer('guider_id')->unsigned();
+            $table->foreign('guider_id')->references('GuiderID')->on('tour_guiders')->onDelete('cascade');
+            $table->integer('tour_id')->unsigned();
+            $table->foreign('tour_id')->references('TourID')->on('tours')->onDelete('cascade');
             $table->timestamps();
         });
     }

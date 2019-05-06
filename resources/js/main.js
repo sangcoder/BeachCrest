@@ -6,6 +6,7 @@ import { Form, HasError, AlertError } from 'vform'
 import moment from 'moment'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
+import CKEditor from '@ckeditor/ckeditor5-vue'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -21,8 +22,8 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 Vue.use(BootstrapVue)
-
 Vue.use(ElementUI)
+Vue.use(CKEditor)
 
 // Global ulti
 Vue.filter('upText', function (text) {

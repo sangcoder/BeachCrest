@@ -4,6 +4,6 @@ export default [
     path: '/admin/danh-sach-tai-khoan.html',
     name: 'UserInfo',
     component: User,
-    meta: {isRoles: 4}
+    meta: { isRoles: 2 }
   }
 ]

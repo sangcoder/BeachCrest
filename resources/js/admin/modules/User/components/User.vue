@@ -24,7 +24,7 @@
               <td>{{ user.id }}</td>
               <td>{{ user.name | upText }}</td>
               <td>{{ user.email }}</td>
-              <td><span :class="user.active === '1' ? 'badge badge-success':'badge badge-danger'">{{ user.active }}</span></td>
+              <td><span :class="user.active === 1 ? 'badge badge-success':'badge badge-danger'">{{ user.active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span></td>
               <td>{{ user.created_at | myDate }}</td>
               <td>
                 <a href="#" title="Settings" data-toggle="tooltip" @click="editModal(user)"><i class="fa fa-edit"></i></a> /
@@ -74,7 +74,7 @@
         </div>
           <div class="form-group">
           <label for="photoUser">Photo</label>
-          <input type="file" class="form-control-file" id="photoUser">
+          <input type="file" @change="uploadPhoto" class="form-control-file" id="photoUser">
         </div>
         <div class="form-group">
           <label>Password</label>

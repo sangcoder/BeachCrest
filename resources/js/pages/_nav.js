@@ -9,6 +9,7 @@ export default {
     {
       name: 'Quản lý tài khoản',
       icon: 'icon-user',
+      isRoles: 2,
       children: [
         {
           name: 'Danh sách',
@@ -25,7 +26,7 @@ export default {
     {
       name: 'Quản lý Tour',
       icon: 'icon-grid',
-      children: 
+      children:
       [
         {
           name: 'Danh sách Tour',
@@ -57,19 +58,20 @@ export default {
     {
       name: 'Quản lý điểm đến',
       icon: 'icon-map',
-      children: 
+      isRoles: 2,
+      children:
       [
         {
-        name: 'Điểm đến',
-        icon: 'icon-direction',
-        url: '/admin/danh-sach-diem-den.html'
+          name: 'Điểm đến',
+          icon: 'icon-direction',
+          url: '/admin/danh-sach-dia-danh.html'
         }
       ]
     },
     {
       name: 'Thống kê',
       icon: 'icon-pie-chart',
-      children: 
+      children:
       [
         {
           name: 'Doanh thu',

@@ -14,7 +14,15 @@ class CreateNewsTable extends Migration
     public function up()
     {
         Schema::create('news', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('NewsID');
+            $table->string('Title');
+            $table->string('ImgUrl');
+            $table->text('Contents');
+            $table->tinyInteger('State');
+            $table->integer('event_id')->unsigned();
+            $table->foreign('event_id')->references('EventID')->on('events')->onDelete('cascade');
+            $table->bigInteger('ApprovedBy')->unsigned();
+            $table->foreign('ApprovedBy')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -29,7 +29,6 @@ function requireAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          console.log('to', to)
           if (store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
             next()
           } else {

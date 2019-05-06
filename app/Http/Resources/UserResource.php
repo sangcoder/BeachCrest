@@ -21,6 +21,7 @@ class UserResource extends Resource
             'email' => $this->email,
             'photo' => $this->photo,
             'bio' => $this->bio,
+            'active' =>$this->active,
             'created_at' =>  $this->created_at
         ];
     }

@@ -20,6 +20,8 @@ class CreateCustomersTable extends Migration
             $table->boolean('Gender');
             $table->string('Address');
             $table->tinyInteger('CustomerType');
+            $table->integer('booking_id')->unsigned();
+            $table->foreign('booking_id')->references('BookingID')->on('bookings')->onDelete('cascade');
             $table->timestamps();
         });
     }

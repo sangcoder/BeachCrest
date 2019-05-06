@@ -17,8 +17,9 @@ class CreateReviewsTable extends Migration
             $table->bigIncrements('ReviewID');
             $table->tinyInteger('Rating');
             $table->text('Contents');
-            $table->tinyInteger('approved');
             $table->tinyInteger('spam');
+            $table->bigInteger('ApprovedBy')->unsigned();
+            $table->foreign('ApprovedBy')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

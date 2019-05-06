@@ -18,8 +18,10 @@ class CreateBookingsTable extends Migration
             $table->tinyInteger('NumberPerson');
             $table->dateTime('DateBooking');
             $table->string('Note');
-            $table->tinyInteger('State');
+            $table->tinyInteger('State')->default(0);
             $table->tinyInteger('Payment');
+            $table->bigInteger('ApprovedBy')->unsigned();
+            $table->foreign('ApprovedBy')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

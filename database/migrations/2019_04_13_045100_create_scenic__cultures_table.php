@@ -16,6 +16,7 @@ class CreateScenicCulturesTable extends Migration
         Schema::create('scenic__cultures', function (Blueprint $table) {
             $table->increments('ScenicID');
             $table->integer('place_id')->unsigned()->index();
+            $table->foreign('place_id')->references('PlaceID')->on('places')->onDelete('cascade');
             $table->string('Description');
             $table->text('Contents');
             $table->unsignedBigInteger('HitCount')->default(0);

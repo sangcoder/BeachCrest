@@ -192,7 +192,7 @@ class AuthController extends Controller
         // Xóa cookie token
         auth('api')->logout();
         return response()->json([
-            'success' => AppRespose::STATUS_SUCCESS,
+            'success' => AppResponse::STATUS_SUCCESS,
             'message' => 'Đăng xuất thành công'
         ], AppResponse::HTTP_OK);
     }
