@@ -35,3 +35,5 @@ Route::apiResources([
     'user' =>'API\UserController',
     'place' => 'API\PlaceController'
 ]);
+
+Route::post('uploadImage', 'API\UploadImage@upload');

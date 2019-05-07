@@ -47,6 +47,11 @@
                 >
                 </b-form-input>
               </b-form-group>
+              <b-form-group
+              label="Nội dung"
+              >
+              <wysiwyg v-model="form.contents" />
+              </b-form-group>
             <b-form-group>
               <el-upload
                 action="https://jsonplaceholder.typicode.com/posts/"
@@ -82,21 +87,14 @@
   </div>
 </template>
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
   data () {
     return {
       form: {
         scenicName: '',
         description: '',
-        photo: ''
-      },
-      editor: ClassicEditor,
-      editorData: '<p>Content of the editor.</p>',
-      editorConfig: {
-        cloudServices: {
-          uploadUrl: "http://url.com/token"
-        }
+        photo: '',
+        contents: ''
       },
       dialogImageUrl: '',
       dialogVisible: false,

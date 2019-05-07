@@ -10,7 +10,7 @@ export default[
   {
     path: '/admin/danh-sach-dia-danh.html',
     name: 'listDestination',
-    meta: {isRoles: 2},
+    meta: {isRoles: 2, label: 'Danh sách địa danh'},
     component: listDestiantion
   }
 ]

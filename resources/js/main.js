@@ -6,7 +6,7 @@ import { Form, HasError, AlertError } from 'vform'
 import moment from 'moment'
 import VueProgressBar from 'vue-progressbar'
 import Swal from 'sweetalert2'
-import CKEditor from '@ckeditor/ckeditor5-vue'
+import wysiwyg from 'vue-wysiwyg'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -23,7 +23,15 @@ Vue.component(AlertError.name, AlertError)
 
 Vue.use(BootstrapVue)
 Vue.use(ElementUI)
-Vue.use(CKEditor)
+Vue.use(wysiwyg, {
+  hideModules: { 'bold': true },
+  image: {
+    uploadURL: '/api/uploadImage',
+    dropzoneOptions: {}
+  },
+  maxHeight: '500px',
+  forcePlainTextOnPaste: true
+})
 
 // Global ulti
 Vue.filter('upText', function (text) {
