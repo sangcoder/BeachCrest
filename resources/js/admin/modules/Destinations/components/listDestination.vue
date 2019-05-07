@@ -1,86 +1,69 @@
 <template>
   <div class="destination-list">
-    <b-container>
-     <h2>Quản lý điểm đến</h2>
-     <b-button @click="$router.push({name: 'AddDestiantion'})">
-       Thêm mới
-     </b-button>
-      <b-col>
-        <el-table
-          :data="tableData"
-          :default-sort = "{prop: 'date', order: 'descending'}"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="date"
-            sortable
-            label="Date"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="Name"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="Address">
-          </el-table-column>
-          <el-table-column
-            label="Image"
-            width="120"
-          >
-          <template slot-scope="scope">
-            <div class="avatar" style="width: 32px; height: 32px;">
-              <img :src="scope.row.image" alt="" style="width:32px;">
+    <div class="card">
+      <div class="card-body">
+        <!-- title -->
+        <div class="d-md-flex align-items-center">
+            <div>
+              <h4 class="card-title">Danh sách địa danh</h4>
+              <h5 class="card-subtitle">Trang lưu trữ danh sách địa danh</h5>
+              </div>
+              <div class="ml-auto">
+                <b-button variant="primary" @click="$router.push({name: 'AddDestiantion'})">Thêm mới</b-button>
+              </div>
             </div>
-           </template>
-          </el-table-column>
-        </el-table>
-      </b-col>
-    </b-container>
+            <!-- title -->
+        </div>
+        <div class="table-responsive">
+          <table class="table v-middle">
+            <thead>
+                <tr class="bg-light">
+                    <th class="border-top-0">Products</th>
+                    <th class="border-top-0">License</th>
+                    <th class="border-top-0">Support Agent</th>
+                    <th class="border-top-0">Technology</th>
+                    <th class="border-top-0">Tickets</th>
+                    <th class="border-top-0">Sales</th>
+                    <th class="border-top-0">Earnings</th>
+                </tr>
+            </thead>
+              <tbody>
+                  <tr>
+                      <td>
+                          <div class="d-flex align-items-center">
+                              <div class="m-r-10"><a class="btn btn-circle btn-info text-white">EA</a></div>
+                              <div class="">
+                                  <h4 class="m-b-0 font-16">Elite Admin</h4>
+                              </div>
+                          </div>
+                      </td>
+                      <td>Single Use</td>
+                      <td>John Doe</td>
+                      <td>
+                          <label class="label label-danger">Angular</label>
+                      </td>
+                      <td>46</td>
+                      <td>356</td>
+                      <td>
+                          <h5 class="m-b-0">$2850.06</h5>
+                      </td>
+                  </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          image: '/images/man.png'
-        }, {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          image: '/images/man.png'
-        }, {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          image: '/images/man.png'
-        }, {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          image: '/images/man.png'
-        }]
+      
       }
     }
   }
 </script>
 
 <style scoped>
-  .destination-list {
-    background: #fff;
-    padding: 20px 0;
-    border-radius: 5px;
-  }
-  .destination-list h2 {
-    color: #5191fa;
-    border-bottom: 2px solid;
-    display: inline-block;
-    margin-bottom: 20px;
-  }
+
 </style>

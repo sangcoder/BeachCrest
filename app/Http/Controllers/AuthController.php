@@ -179,12 +179,16 @@ class AuthController extends Controller
         }
         // Get thông tin user
         $user = auth('api')->user();
+        dd($user);
         // Get quyền của user
-        $user['roles'] = $user->getRoleNames();
-
+        $data = $user;
+        $roles = $data['roles'];
+        $data['roles'] = $data->getRoleNames();
+        $per = $this->getPermision($roles[0]->id);
+        $data['permistion'] = $per;
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $user
+            'data' => $data
         ], AppResponse::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'),'/', null, false, true); // Set cookie  xuông browser
     }
 

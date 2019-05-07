@@ -10,4 +10,7 @@ class Promotion extends Model
     protected $fillable = [
         'Contents'
     ];
+    public function tours() {
+        return $this->belongsToMany('App\Model\Tour');
+    }
 }

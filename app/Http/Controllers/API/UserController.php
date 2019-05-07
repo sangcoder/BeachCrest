@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate(10));
+        // return UserResource::collection(User::paginate(10));
+        $user = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                ->select('users.*', 'roles.name as roleName')->paginate(15);
+        return $user;
     }
 
     /**

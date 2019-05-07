@@ -19,8 +19,7 @@ import Destination from '../admin/modules/Destinations'
 //   }
 // }
 function requireAuth (to, from, next) {
-  if (store.get('user/user') && store.get('user/user').id) {
-
+  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
     next()
   } else {
     if (store.get('user/userLoadStatus') === 3) {
@@ -29,7 +28,7 @@ function requireAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          if (store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
+          if (store.get('user/user') && store.get('user/user').permistion && store.get('user/user').permistion.length > 0 && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
             next()
           } else {
             next('/admin/404')
@@ -44,7 +43,7 @@ function requireAuth (to, from, next) {
 
 // Ko yêu cầu quyền
 function requireNonAuth (to, from, next) {
-  if (store.get('user/user') && store.get('user/user').id) {
+  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
     next('/admin')
   } else {
     if (store.get('user/userLoadStatus') === 3) {
@@ -77,6 +76,7 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin,
+      meta: {isRoles: 2},
       beforeEnter: requireAuth,
       children: [...User, ...Destination]
     },

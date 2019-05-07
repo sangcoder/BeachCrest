@@ -4,7 +4,7 @@ export default[
   {
     path: '/admin/them-moi-dia-danh.html',
     name: 'AddDestiantion',
-    meta: {isRoles: 2},
+    meta: {isRoles: 2, label: 'Thêm mới địa danh'},
     component: addDestination
   },
   {

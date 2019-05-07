@@ -17,4 +17,7 @@ class Scenic_Culture extends Model
     public function place() {
         return $this->belongsTo(Place::class, 'place_id');
     }
+    public function tours() {
+        return $this->belongsToMany('App\Model\Tour');
+    }
 }
