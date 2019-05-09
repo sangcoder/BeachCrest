@@ -5,60 +5,79 @@
         <!-- title -->
         <div class="d-md-flex align-items-center">
             <div>
-              <h4 class="card-title">Danh sách địa danh</h4>
-              <h5 class="card-subtitle">Trang lưu trữ danh sách địa danh</h5>
+              <h4 class="card-title"><i class="el-icon-location"></i> Danh sách  Địa điểm</h4>
+              <h5 class="card-subtitle">Trang lưu trữ  Địa điểm</h5>
               </div>
               <div class="ml-auto">
-                <b-button variant="primary" @click="$router.push({name: 'AddDestiantion'})">Thêm mới</b-button>
+                <b-button variant="primary" @click="$router.push({name: 'AddDestiantion'})"><i class="el-icon-plus"></i> Thêm mới</b-button>
               </div>
             </div>
             <!-- title -->
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive table-hover">
           <table class="table v-middle">
             <thead>
                 <tr class="bg-light">
-                    <th class="border-top-0">Products</th>
-                    <th class="border-top-0">License</th>
-                    <th class="border-top-0">Support Agent</th>
-                    <th class="border-top-0">Technology</th>
-                    <th class="border-top-0">Tickets</th>
-                    <th class="border-top-0">Sales</th>
-                    <th class="border-top-0">Earnings</th>
+                    <th class="border-top-0">#</th>
+                    <th class="border-top-0">Name</th>
+                    <th class="border-top-0">Image</th>
+                    <th class="border-top-0">Description</th>
+                    <th class="border-top-0">Date Create</th>
+                    <th class="border-top-0">Modify</th>
                 </tr>
             </thead>
               <tbody>
-                  <tr>
-                      <td>
-                          <div class="d-flex align-items-center">
-                              <div class="m-r-10"><a class="btn btn-circle btn-info text-white">EA</a></div>
-                              <div class="">
-                                  <h4 class="m-b-0 font-16">Elite Admin</h4>
-                              </div>
-                          </div>
-                      </td>
-                      <td>Single Use</td>
-                      <td>John Doe</td>
-                      <td>
-                          <label class="label label-danger">Angular</label>
-                      </td>
-                      <td>46</td>
-                      <td>356</td>
-                      <td>
-                          <h5 class="m-b-0">$2850.06</h5>
-                      </td>
+                  <tr v-for="place in listPlace.data" :key="place.PlaceID">
+                    <td>{{place.PlaceID }}</td>
+                    <td>{{place.PlaceName}}</td>
+                    <td><img :src="place.ImgUrl" :alt="place.PlaceName" width="80"></td>
+                    <td>{{ place.Description}}</td>
+                    <td>{{place.created_at}}</td>
+                    <td><a href="javscript:;" @click="goToEdit(place.PlaceID)">Edit</a> / <a href="#">Delete</a></td>
                   </tr>
               </tbody>
             </table>
+            <b-pagination
+              v-model="current_page"
+              :total-rows="total"
+              :per-page="perPage"
+            ></b-pagination>
+
         </div>
-    </div>
+  </div>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-      
+      page:1,
+      current_page:1,
+      total:0,
+      perPage:0
+      }
+    },
+    mounted() {
+      this.$store.dispatch('place/getListPlace',this.page).then(res => {
+        let data = res.data.data
+        this.current_page = data.current_page
+        this.total = data.total
+        this.perPage = data.per_page
+      })
+    },
+    computed: {
+      listPlace () {
+        return this.$store.state.place.listPlace
+      }
+    },
+    watch: {
+      current_page () {
+        this.$store.dispatch('place/getListPlace',this.current_page)
+      }
+    },
+    methods: {
+      goToEdit(Pid) {
+        this.$router.push({name: 'editDestination', params:{id: Pid}})
       }
     }
   }

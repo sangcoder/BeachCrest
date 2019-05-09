@@ -17,13 +17,30 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+        /**
+    * @OA\Get(
+    *         path="/api/user",
+    *         tags={"User Manager"},
+    *         summary="Get list user",
+    *         description="Nhận thông tin của user",
+    *         operationId="index",
+    *         @OA\Response(
+    *             response=200,
+    *             description="Thành công"
+    *         ),
+    *         @OA\Response(
+    *             response=500,
+    *             description="Server error"
+    *         ),
+    * )
+    */
     public function index()
     {
         // return UserResource::collection(User::paginate(10));
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->select('users.*', 'roles.name as roleName')->paginate(15);
+                ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName')->paginate(5);
         return $user;
     }
 

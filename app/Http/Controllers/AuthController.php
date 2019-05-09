@@ -179,7 +179,7 @@ class AuthController extends Controller
         }
         // Get thông tin user
         $user = auth('api')->user();
-        dd($user);
+        // dd($user);
         // Get quyền của user
         $data = $user;
         $roles = $data['roles'];

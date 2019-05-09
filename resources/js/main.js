@@ -32,7 +32,7 @@ Vue.use(wysiwyg, {
   maxHeight: '500px',
   forcePlainTextOnPaste: true
 })
-
+Vue.component('pagination', require('laravel-vue-pagination'))
 // Global ulti
 Vue.filter('upText', function (text) {
   if (!text) return ''

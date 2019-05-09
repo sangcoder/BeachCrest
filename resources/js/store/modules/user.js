@@ -1,5 +1,4 @@
 import { defaultMutations } from 'vuex-easy-access'
-import { APP_CONFIG } from '../../config'
 import UserAPI from '../api/user'
 import AuthAPI from '../api/auth'
 

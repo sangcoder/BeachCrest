@@ -42,6 +42,7 @@ class RegisterActivate extends Notification
     {
         $url = url('/api/auth/register/activate/'.$notifiable->activation_token);
         return (new MailMessage)
+                    ->from('beachcrestsupport@gmail.com', 'BeachCrest Support')
                     ->subject('Xác nhận tài khoản tại BeachCrest')
                     ->line('Xác nhận tài khoản')
                     ->line('Để login với tài khoản quý khách vui lòng nhấn xác nhận để hoàn tất.')

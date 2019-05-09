@@ -1,10 +1,10 @@
 <template>
 
   <div class="sidebar-header">
-    <div><img src="/../images/man.png" style="width: 64px; height: 64px;" alt="Avatar" class="img-avatar">
+    <div><img :src="'/images/' + user.photo" style="width: 64px; height: 64px;" alt="Avatar" class="img-avatar">
 <div><strong>{{ user.name }}</strong>
 </div><div class="text-muted">
-  <small>{{ user.roles[0].name }}</small>
+  <small>{{ user.roles[0].name | upText }}</small>
   </div><div role="group" aria-label="Button group with nested dropdown" class="btn-group">
     <button type="button" class="btn btn-link">
     <i class="icon-settings"></i>

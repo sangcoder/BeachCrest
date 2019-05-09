@@ -5,11 +5,11 @@
         <!-- title -->
         <div class="d-md-flex align-items-center">
             <div>
-              <h4 class="card-title">Thêm mới địa danh</h4>
-              <h5 class="card-subtitle">Thêm mới một địa danh</h5>
+              <h4 class="card-title">Thêm mới Địa điểm</h4>
+              <h5 class="card-subtitle">Thêm mới một  Địa điểm</h5>
               </div>
               <div class="ml-auto">
-                <b-button variant="primary" @click="$router.push({name: 'listDestination'})">Danh sách địa danh</b-button>
+                <b-button variant="primary" @click="$router.push({name: 'listDestination'})"><i class="el-icon-back"></i> Danh sách địa danh</b-button>
               </div>
             </div>
             <!-- title -->
@@ -19,20 +19,40 @@
           <b-row>
           <b-col>
             <b-form>
-              <b-form-group
-              id="lblDiaDanh"
-              label="Địa danh"
-              label-for="lblDiaDanh"
-              >
-                <b-form-input
-                id="lblDiaDanh"
-                v-model="form.scenicName"
-                type="text"
-                required
-                placeholder="Nhập tên địa danh"
-                >
+              <b-row>
+                <b-col cols="8">
+                  <b-form-group
+                  id="lblDiaDanh"
+                  label="Địa danh"
+                  label-for="lblDiaDanh"
+                  >
+                  <b-form-input
+                  id="lblDiaDanh"
+                  v-model="form.scenicName"
+                  type="text"
+                  name="diadanh"
+                  required
+                  placeholder="Nhập tên địa danh"
+                  >
                 </b-form-input>
               </b-form-group>
+                </b-col>
+                <b-col cols="4">
+                  <b-form-group
+                  label="Khu vực"
+                  >
+                    <el-select v-model="form.value" placeholder="Chọn khu vực" name="khuvuc">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </b-form-group>
+                </b-col>
+              </b-row>
+
               <b-form-group
               id="lbldescription"
               label="Mô tả ngắn"
@@ -44,6 +64,7 @@
                 type="text"
                 required
                 placeholder="Nhập mô tả"
+                name="mota"
                 >
                 </b-form-input>
               </b-form-group>
@@ -52,32 +73,26 @@
               >
               <wysiwyg v-model="form.contents" />
               </b-form-group>
-            <b-form-group>
-              <el-upload
-                action="https://jsonplaceholder.typicode.com/posts/"
-                list-type="picture-card"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="">
-              </el-dialog>
-            </b-form-group>
-            <b-form-group>
-              <input type="file" @change="uploadPhoto" name="photo" class="form-input">
-            </b-form-group>
-            <b-form-group
-            label="Trạng thái"
-            >
-              <el-switch
-                v-model="state"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
-                active-value="1"
-                inactive-value="0">
-              </el-switch>
-            </b-form-group>
+              <b-row>
+                <b-col cols="3">
+                <b-form-group
+                  label="Hình ảnh"
+                  >
+                    <div class="avatar-uploader">
+                      <div tabindex="0" class="el-upload el-upload--text" @click="fakeClick">
+                        <img v-if="this.form.imageUrl" :src="this.form.imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        <input type="file" @change="uploadPhoto" name="file" class="el-upload__input" id="realUpload">
+                        </div></div>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="9">
+                <b-form-group>
+                  <el-button @click="addPlace" type="primary" class="mt-3" icon="el-icon-document-add">Đăng ngay</el-button>
+                </b-form-group>
+                </b-col>
+              </b-row>
+              <b-dropdown-divider></b-dropdown-divider>
             </b-form>
           </b-col>
         </b-row>
@@ -90,25 +105,33 @@
 export default {
   data () {
     return {
-      form: {
+      options: [{
+        value: 'MienBac',
+        label: 'Miền Bắc'
+      }, {
+        value: 'MienTrung',
+        label: 'Miền Trung'
+      }, {
+        value: 'MienNam',
+        label: 'Miền Nam'
+      }],
+
+      form: new Form({
         scenicName: '',
         description: '',
-        photo: '',
-        contents: ''
-      },
+        imageUrl: '',
+        contents: '',
+        value: ''
+      }),
       dialogImageUrl: '',
       dialogVisible: false,
-      state: '1'
+
     }
   },
   methods: {
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
+    fakeClick () {
+      document.getElementById('realUpload').click()
+    },
       uploadPhoto(e) {
         // console.log('uploading...',e)
         let file = e.target.files[0]
@@ -116,17 +139,40 @@ export default {
         let that = this
         reader.onloadend = function() {
           // console.log('Result', reader.result)
-          that.form.photo = reader.result
+          that.form.imageUrl = reader.result
         }
         reader.readAsDataURL(file)
-        
+      },
+      addPlace () {
+        this.form.post('/api/place').then(res => {
+          console.log(res)
+        })
       }
     }
 }
 </script>
-<style scoped>
-  .addDestination {
-    background: #fff;
-    border-radius: 3px;
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>

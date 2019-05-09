@@ -64,7 +64,7 @@ export default {
         {
           name: 'Điểm đến',
           icon: 'icon-direction',
-          url: '/admin/danh-sach-dia-danh.html'
+          url: '/admin/danh-sach-dia-diem.html'
         }
       ]
     },

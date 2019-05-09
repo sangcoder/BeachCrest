@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     protected $dates = ['deleted_at'];
     
     protected $fillable = [
-        'name', 'email', 'password', 'bio','photo', 'active', 'activation_token'
+        'name', 'email', 'bio','photo', 'active', 'activation_token'
     ];
 
     public function tours() {

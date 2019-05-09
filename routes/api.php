@@ -37,3 +37,4 @@ Route::apiResources([
 ]);
 
 Route::post('uploadImage', 'API\UploadImage@upload');
+Route::post('uploadJson','API\UploadImage@uploadJson');
