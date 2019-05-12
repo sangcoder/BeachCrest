@@ -22,7 +22,7 @@ export default {
           icon: 'icon-user-following'
         }
       ]
-    }, 
+    },
     {
       name: 'Quản lý Tour',
       icon: 'icon-grid',
@@ -67,6 +67,12 @@ export default {
           url: '/admin/danh-sach-dia-diem.html'
         }
       ]
+    },
+    {
+      name: 'Quản lý khuyến mãi',
+      icon: 'icon-options-vertical',
+      isRoles: 2,
+      url: '/admin/khuyen-mai.html'
     },
     {
       name: 'Thống kê',

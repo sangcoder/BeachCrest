@@ -33,7 +33,8 @@ Route::group([
 // API
 Route::apiResources([
     'user' =>'API\UserController',
-    'place' => 'API\PlaceController'
+    'place' => 'API\PlaceController',
+    'promotion' => 'PromotionController'
 ]);
 
 Route::post('uploadImage', 'API\UploadImage@upload');

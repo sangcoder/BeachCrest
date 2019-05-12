@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Promotion;
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
 
 class PromotionController extends Controller
@@ -14,7 +15,11 @@ class PromotionController extends Controller
      */
     public function index()
     {
-        //
+        $promition = Promotion::paginate(10);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $promition
+        ]);
     }
 
     /**
@@ -24,7 +29,7 @@ class PromotionController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +40,7 @@ class PromotionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**

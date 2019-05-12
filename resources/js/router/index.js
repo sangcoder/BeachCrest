@@ -9,7 +9,7 @@ import store from '../store/index'
 // import module admin
 import User from '../admin/modules/User'
 import Destination from '../admin/modules/Destinations'
-
+import Promotion from '../admin/modules/Promotion'
 // Yêu cầu có quyền mới được vào
 // function requireAuth (from, to,  next) {
 //   if (store.get('user/user') && store.get('user/user').id) {
@@ -78,7 +78,7 @@ export default new Router({
       component: Admin,
       meta: {isRoles: 2},
       beforeEnter: requireAuth,
-      children: [...User, ...Destination]
+      children: [...User, ...Destination, ...Promotion]
     },
     {
       path: '/admin/404',

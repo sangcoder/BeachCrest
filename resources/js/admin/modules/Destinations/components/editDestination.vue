@@ -122,10 +122,7 @@ export default {
         ImageUrl: '',
         Contents: '',
         Region: ''
-      }) ,
-      dialogImageUrl: '',
-      dialogVisible: false,
-      imageUrl: ''
+      }) 
     }
   },
   created() {
@@ -148,7 +145,7 @@ export default {
       }
       let that = this
       this.$store.dispatch('place/updatePlace', payload).then(res => {
-        console.log(res)
+        // console.log(res)
         that.$router.push({name: 'listDestination'})
         console.log(res + 'thanh cong')
       })
@@ -166,8 +163,7 @@ export default {
         let that = this
         reader.onloadend = function() {
           // console.log('Result', reader.result)
-          that.imageUrl = reader.result
-          that.placeInfo.ImgUrl = that.imageUrl
+          that.placeInfo.ImgUrl = reader.result
         }
         reader.readAsDataURL(file)
       }

@@ -23,7 +23,6 @@ export default {
   },
   methods: {
     uploadPhoto (e) {
-      console.log('uploading...',e)
       let file = e.target.files[0]
       let reader = new FileReader()
       let that = this

@@ -2931,7 +2931,7 @@ section {
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   font-weight: 400;
   line-height: 1.5;
   color: #151b1e;
@@ -3260,36 +3260,36 @@ h6,
 
 h1,
 .h1 {
-  font-size: 2.4375rem;
+  font-size: 2.2875rem;
 }
 
 h2,
 .h2 {
-  font-size: 1.95rem;
+  font-size: 1.83rem;
 }
 
 h3,
 .h3 {
-  font-size: 1.70625rem;
+  font-size: 1.60125rem;
 }
 
 h4,
 .h4 {
-  font-size: 1.4625rem;
+  font-size: 1.3725rem;
 }
 
 h5,
 .h5 {
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
 }
 
 h6,
 .h6 {
-  font-size: 0.975rem;
+  font-size: 0.915rem;
 }
 
 .lead {
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   font-weight: 300;
 }
 
@@ -3361,7 +3361,7 @@ mark,
 
 .blockquote {
   margin-bottom: 1rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
 }
 
 .blockquote-footer {
@@ -5249,7 +5249,7 @@ pre code {
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   font-weight: 400;
   line-height: 1.5;
   color: #3e515b;
@@ -5327,14 +5327,14 @@ select.form-control:focus::-ms-value {
 .col-form-label-lg {
   padding-top: calc(0.5rem + 1px);
   padding-bottom: calc(0.5rem + 1px);
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1.5;
 }
 
 .col-form-label-sm {
   padding-top: calc(0.25rem + 1px);
   padding-bottom: calc(0.25rem + 1px);
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
 }
 
@@ -5360,14 +5360,14 @@ select.form-control:focus::-ms-value {
 .form-control-sm {
   height: calc(1.5em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
 }
 
 .form-control-lg {
   height: calc(1.5em + 1rem + 2px);
   padding: 0.5rem 1rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1.5;
 }
 
@@ -5452,7 +5452,7 @@ textarea.form-control {
   max-width: 100%;
   padding: 0.25rem 0.5rem;
   margin-top: 0.1rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
   color: #fff;
   background-color: rgba(77, 189, 116, 0.9);
@@ -5593,7 +5593,7 @@ textarea.form-control.is-valid {
   max-width: 100%;
   padding: 0.25rem 0.5rem;
   margin-top: 0.1rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
   color: #fff;
   background-color: rgba(248, 108, 107, 0.9);
@@ -5798,7 +5798,7 @@ textarea.form-control.is-invalid {
   background-color: transparent;
   border: 1px solid transparent;
   padding: 0.375rem 0.75rem;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   line-height: 1.5;
   border-radius: 0;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -7855,7 +7855,7 @@ fieldset:disabled a.btn {
 .btn-lg,
 .btn-group-lg > .btn {
   padding: 0.5rem 1rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1.5;
   border-radius: 0;
 }
@@ -7863,7 +7863,7 @@ fieldset:disabled a.btn {
 .btn-sm,
 .btn-group-sm > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
   border-radius: 0;
 }
@@ -7950,7 +7950,7 @@ input[type=button].btn-block {
   min-width: 10rem;
   padding: 0 0;
   margin: 0.125rem 0 0;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   color: #151b1e;
   text-align: left;
   list-style: none;
@@ -8160,7 +8160,7 @@ input[type=button].btn-block {
   display: block;
   padding: 0 1.5rem;
   margin-bottom: 0;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   color: #536c79;
   white-space: nowrap;
 }
@@ -8358,7 +8358,7 @@ input[type=button].btn-block {
   align-items: center;
   padding: 0.375rem 0.75rem;
   margin-bottom: 0;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   font-weight: 400;
   line-height: 1.5;
   color: #3e515b;
@@ -8385,7 +8385,7 @@ input[type=button].btn-block {
 .input-group-lg > .input-group-prepend > .btn,
 .input-group-lg > .input-group-append > .btn {
   padding: 0.5rem 1rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1.5;
 }
 
@@ -8401,7 +8401,7 @@ input[type=button].btn-block {
 .input-group-sm > .input-group-prepend > .btn,
 .input-group-sm > .input-group-append > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
 }
 
@@ -8413,7 +8413,7 @@ input[type=button].btn-block {
 .custom-control {
   position: relative;
   display: block;
-  min-height: 1.4625rem;
+  min-height: 1.3725rem;
   padding-left: 1.5rem;
 }
 
@@ -8464,7 +8464,7 @@ input[type=button].btn-block {
 
 .custom-control-label::before {
   position: absolute;
-  top: 0.23125rem;
+  top: 0.18625rem;
   left: -1.5rem;
   display: block;
   width: 1rem;
@@ -8477,7 +8477,7 @@ input[type=button].btn-block {
 
 .custom-control-label::after {
   position: absolute;
-  top: 0.23125rem;
+  top: 0.18625rem;
   left: -1.5rem;
   display: block;
   width: 1rem;
@@ -8531,7 +8531,7 @@ input[type=button].btn-block {
 }
 
 .custom-switch .custom-control-label::after {
-  top: calc(0.23125rem + 2px);
+  top: calc(0.18625rem + 2px);
   left: calc(-2.25rem + 2px);
   width: calc(1rem - 4px);
   height: calc(1rem - 4px);
@@ -8563,7 +8563,7 @@ input[type=button].btn-block {
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   font-weight: 400;
   line-height: 1.5;
   color: #3e515b;
@@ -8609,7 +8609,7 @@ input[type=button].btn-block {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   padding-left: 0.5rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
 }
 
 .custom-select-lg {
@@ -8617,7 +8617,7 @@ input[type=button].btn-block {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 1rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
 }
 
 .custom-file {
@@ -8971,10 +8971,10 @@ input[type=button].btn-block {
 
 .navbar-brand {
   display: inline-block;
-  padding-top: 0.3171875rem;
-  padding-bottom: 0.3171875rem;
+  padding-top: 0.3284375rem;
+  padding-bottom: 0.3284375rem;
   margin-right: 1rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: inherit;
   white-space: nowrap;
 }
@@ -9018,7 +9018,7 @@ input[type=button].btn-block {
 
 .navbar-toggler {
   padding: 0.25rem 0.75rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1;
   background-color: transparent;
   border: 1px solid transparent;
@@ -9687,7 +9687,7 @@ input[type=button].btn-block {
 .pagination-lg .pagination li a,
 .pagination li .pagination-lg a {
   padding: 0.75rem 1.5rem;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1.5;
 }
 
@@ -9697,7 +9697,7 @@ input[type=button].btn-block {
 .pagination-sm .pagination li a,
 .pagination li .pagination-sm a {
   padding: 0.25rem 0.5rem;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
 }
 
@@ -10230,7 +10230,7 @@ a.badge-gray-900.focus {
 }
 
 .alert-dismissible {
-  padding-right: 3.9625rem;
+  padding-right: 3.8725rem;
 }
 
 .alert-dismissible .close {
@@ -10643,7 +10643,7 @@ a.badge-gray-900.focus {
   display: flex;
   height: 1rem;
   overflow: hidden;
-  font-size: 0.73125rem;
+  font-size: 0.68625rem;
   background-color: #f0f3f5;
 }
 
@@ -11295,7 +11295,7 @@ a.badge-gray-900.focus {
 
 .close {
   float: right;
-  font-size: 1.4625rem;
+  font-size: 1.3725rem;
   font-weight: 700;
   line-height: 1;
   color: #000;
@@ -11599,7 +11599,7 @@ a.close.disabled {
   word-spacing: normal;
   white-space: normal;
   line-break: auto;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   word-wrap: break-word;
   opacity: 0;
 }
@@ -11723,7 +11723,7 @@ a.close.disabled {
   word-spacing: normal;
   white-space: normal;
   line-break: auto;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   word-wrap: break-word;
   background-color: #fff;
   background-clip: padding-box;
@@ -11864,7 +11864,7 @@ a.close.disabled {
 .popover-header {
   padding: 0.5rem 0.75rem;
   margin-bottom: 0;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
 }
@@ -16888,7 +16888,7 @@ button {
 .btn-foursquare,
 .btn-vimeo {
   border: 0;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   line-height: 1.5;
   padding: 0.375rem 0.75rem;
   color: #fff !important;
@@ -16923,11 +16923,11 @@ button {
 .btn-vine::before,
 .btn-foursquare::before,
 .btn-vimeo::before {
-  font-size: 0.975rem;
-  height: 2.2125rem;
+  font-size: 0.915rem;
+  height: 2.1225rem;
   line-height: 1.5;
   padding: 0.375rem 0;
-  width: 2.2125rem;
+  width: 2.1225rem;
 }
 
 .btn-facebook span,
@@ -16955,7 +16955,7 @@ button {
 .btn-vine span,
 .btn-foursquare span,
 .btn-vimeo span {
-  margin-left: 2.2125rem;
+  margin-left: 2.1225rem;
 }
 
 .btn-facebook.icon,
@@ -16983,8 +16983,8 @@ button {
 .btn-vine.icon,
 .btn-foursquare.icon,
 .btn-vimeo.icon {
-  height: 2.2125rem;
-  width: 2.2125rem;
+  height: 2.1225rem;
+  width: 2.1225rem;
 }
 
 .btn-facebook::before,
@@ -17186,7 +17186,7 @@ button {
 .btn-vimeo.btn-lg,
 .btn-group-lg > .btn-vimeo.btn {
   border: 0;
-  font-size: 1.21875rem;
+  font-size: 1.14375rem;
   line-height: 1.5;
   padding: 0.5rem 1rem;
 }
@@ -17241,11 +17241,11 @@ button {
 .btn-group-lg > .btn-foursquare.btn::before,
 .btn-vimeo.btn-lg::before,
 .btn-group-lg > .btn-vimeo.btn::before {
-  font-size: 1.21875rem;
-  height: 2.828125rem;
+  font-size: 1.14375rem;
+  height: 2.715625rem;
   line-height: 1.5;
   padding: 0.5rem 0;
-  width: 2.828125rem;
+  width: 2.715625rem;
 }
 
 .btn-facebook.btn-lg span,
@@ -17298,7 +17298,7 @@ button {
 .btn-group-lg > .btn-foursquare.btn span,
 .btn-vimeo.btn-lg span,
 .btn-group-lg > .btn-vimeo.btn span {
-  margin-left: 2.828125rem;
+  margin-left: 2.715625rem;
 }
 
 .btn-facebook.btn-lg.icon,
@@ -17351,8 +17351,8 @@ button {
 .btn-group-lg > .btn-foursquare.icon.btn,
 .btn-vimeo.btn-lg.icon,
 .btn-group-lg > .btn-vimeo.icon.btn {
-  height: 2.828125rem;
-  width: 2.828125rem;
+  height: 2.715625rem;
+  width: 2.715625rem;
 }
 
 .btn-facebook.btn-sm,
@@ -17406,7 +17406,7 @@ button {
 .btn-vimeo.btn-sm,
 .btn-group-sm > .btn-vimeo.btn {
   border: 0;
-  font-size: 0.853125rem;
+  font-size: 0.800625rem;
   line-height: 1.5;
   padding: 0.25rem 0.5rem;
 }
@@ -17461,11 +17461,11 @@ button {
 .btn-group-sm > .btn-foursquare.btn::before,
 .btn-vimeo.btn-sm::before,
 .btn-group-sm > .btn-vimeo.btn::before {
-  font-size: 0.853125rem;
-  height: 1.7796875rem;
+  font-size: 0.800625rem;
+  height: 1.7009375rem;
   line-height: 1.5;
   padding: 0.25rem 0;
-  width: 1.7796875rem;
+  width: 1.7009375rem;
 }
 
 .btn-facebook.btn-sm span,
@@ -17518,7 +17518,7 @@ button {
 .btn-group-sm > .btn-foursquare.btn span,
 .btn-vimeo.btn-sm span,
 .btn-group-sm > .btn-vimeo.btn span {
-  margin-left: 1.7796875rem;
+  margin-left: 1.7009375rem;
 }
 
 .btn-facebook.btn-sm.icon,
@@ -17571,8 +17571,8 @@ button {
 .btn-group-sm > .btn-foursquare.icon.btn,
 .btn-vimeo.btn-sm.icon,
 .btn-group-sm > .btn-vimeo.icon.btn {
-  height: 1.7796875rem;
-  width: 1.7796875rem;
+  height: 1.7009375rem;
+  width: 1.7009375rem;
 }
 
 .btn-facebook {
@@ -22231,7 +22231,7 @@ base-chart.chart {
 .horizontal-bars.type-2 li .title {
   color: #151b1e;
   display: inline-block;
-  font-size: 0.975rem;
+  font-size: 0.915rem;
   font-weight: normal;
   line-height: 40px;
   margin-top: -9px;
@@ -22473,7 +22473,7 @@ app-root {
 }
 
 .aside-menu-fixed .aside-menu .tab-content {
-  height: calc(100vh - 2.475rem - 55px);
+  height: calc(100vh - 2.415rem - 55px);
 }
 
 .aside-menu-fixed .main,
@@ -22494,11 +22494,11 @@ app-root {
 }
 
 .aside-menu-off-canvas .aside-menu .tab-content {
-  height: calc(100vh - 2.475rem - 55px);
+  height: calc(100vh - 2.415rem - 55px);
 }
 
 .breadcrumb-fixed .main {
-  padding-top: 3.975rem;
+  padding-top: 3.915rem;
 }
 
 .breadcrumb-fixed .breadcrumb {
@@ -22872,7 +22872,7 @@ hr.transparent {
 }
 
 *[dir=rtl] .aside-menu-off-canvas .aside-menu .tab-content {
-  height: calc(100vh - 2.475rem - 55px);
+  height: calc(100vh - 2.415rem - 55px);
 }
 
 *[dir=rtl] .sidebar .sidebar-nav .nav .nav-item .nav-link,

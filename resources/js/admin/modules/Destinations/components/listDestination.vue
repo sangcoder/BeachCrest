@@ -27,13 +27,13 @@
                 </tr>
             </thead>
               <tbody>
-                  <tr v-for="place in listPlace.data" :key="place.PlaceID">
+                  <tr v-for="place in listPlace" :key="place.PlaceID">
                     <td>{{place.PlaceID }}</td>
                     <td>{{place.PlaceName}}</td>
                     <td><img :src="place.ImgUrl" :alt="place.PlaceName" width="80"></td>
                     <td>{{ place.Description}}</td>
                     <td>{{place.created_at}}</td>
-                    <td><a href="javscript:;" @click="goToEdit(place.PlaceID)">Edit</a> / <a href="#">Delete</a></td>
+                    <td><button @click="goToEdit(place.PlaceID)" class="btn">Edit</button> / <button @click="deletePlace(place.PlaceID)">Delete</button></td>
                   </tr>
               </tbody>
             </table>
@@ -78,6 +78,10 @@
     methods: {
       goToEdit(Pid) {
         this.$router.push({name: 'editDestination', params:{id: Pid}})
+      },
+      deletePlace (id) {
+        this.$store.dispatch('place/deletePlace', id).then(res => {
+        })
       }
     }
   }
