@@ -147,7 +147,7 @@ export default {
       this.$store.dispatch('place/updatePlace', payload).then(res => {
         // console.log(res)
         that.$router.push({name: 'listDestination'})
-        console.log(res + 'thanh cong')
+        this.$message.success('Đã sửa thành công')
       })
       .catch(err => {
         console.log(err)

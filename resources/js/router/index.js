@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import NProgress from 'nprogress'
 // Import Component
 import Page404 from '../pages/Page404.vue'
 import Admin from '../pages/admin.vue'
@@ -67,8 +68,7 @@ function requireNonAuth (to, from, next) {
 // }
 
 Vue.use(Router)
-
-export default new Router({
+const router = new Router({
   mode: 'history',
   linkActiveClass: 'active',
   routes: [
@@ -98,3 +98,15 @@ export default new Router({
     }
   ]
 })
+router.beforeResolve((to, from, next) => {
+  if (to.name) {
+    NProgress.start()
+  }
+  next()
+})
+
+router.afterEach((to, from) => {
+  NProgress.done()
+})
+
+export default router

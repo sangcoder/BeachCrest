@@ -20,8 +20,8 @@
                 <tr class="bg-light">
                     <th class="border-top-0">#</th>
                     <th class="border-top-0">Name</th>
-                    <th class="border-top-0">Image</th>
-                    <th class="border-top-0">Description</th>
+                    <th class="border-top-0" style="width: 10%">Image</th>
+                    <th class="border-top-0" style="width: 25%">Description</th>
                     <th class="border-top-0">Date Create</th>
                     <th class="border-top-0">Modify</th>
                 </tr>
@@ -31,9 +31,15 @@
                     <td>{{place.PlaceID }}</td>
                     <td>{{place.PlaceName}}</td>
                     <td><img :src="place.ImgUrl" :alt="place.PlaceName" width="80"></td>
-                    <td>{{ place.Description}}</td>
+                    <td>{{ place.Description | truncate(100)}}</td>
                     <td>{{place.created_at}}</td>
-                    <td><button @click="goToEdit(place.PlaceID)" class="btn">Edit</button> / <button @click="deletePlace(place.PlaceID)">Delete</button></td>
+                    <td>
+                       <a-button type="primary" icon="edit" @click="goToEdit(place.PlaceID)">Edit</a-button>
+                        <a-popconfirm title="Are you sure delete?" @confirm="confirm(place.PlaceID)" @cancel="cancel" okText="Yes" cancelText="No">
+                            <a-button type="danger" icon="delete">Delete</a-button>
+                        </a-popconfirm>
+                    </td>
+
                   </tr>
               </tbody>
             </table>
@@ -42,7 +48,6 @@
               :total-rows="total"
               :per-page="perPage"
             ></b-pagination>
-
         </div>
   </div>
   </div>
@@ -79,9 +84,13 @@
       goToEdit(Pid) {
         this.$router.push({name: 'editDestination', params:{id: Pid}})
       },
-      deletePlace (id) {
+      confirm (id) {
         this.$store.dispatch('place/deletePlace', id).then(res => {
+        this.$message.success('Đã xóa thành công')
         })
+      },
+      cancel () {
+
       }
     }
   }

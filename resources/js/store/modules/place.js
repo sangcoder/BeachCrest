@@ -42,6 +42,24 @@ const actions = {
       })
     })
   },
+  addPlace ({commit}, payload) {
+    return new Promise((resolve, reject) => {
+      let placeInfo = {
+        PlaceName: payload.PlaceName,
+        Description: payload.Description,
+        ImageUrl: payload.ImageUrl,
+        Contents: payload.Contents,
+        Region: payload.Region
+      }
+      PlaceAPI.addPlace(placeInfo).then((res) => {
+        commit('listPlace', res.data.data)
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
+    })
+  },
   updatePlace ({commit}, payload) {
     return new Promise((resolve, reject) => {
       let PlaceInfo = {

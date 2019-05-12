@@ -28,7 +28,7 @@
                   >
                   <b-form-input
                   id="lblDiaDanh"
-                  v-model="form.scenicName"
+                  v-model="form.PlaceName"
                   type="text"
                   name="diadanh"
                   required
@@ -41,7 +41,7 @@
                   <b-form-group
                   label="Khu vực"
                   >
-                    <el-select v-model="form.value" placeholder="Chọn khu vực" name="khuvuc">
+                    <el-select v-model="form.Region" placeholder="Chọn khu vực" name="khuvuc">
                       <el-option
                         v-for="item in options"
                         :key="item.value"
@@ -60,7 +60,7 @@
               >
                 <b-form-input
                 id="inputdesc"
-                v-model="form.description"
+                v-model="form.Description"
                 type="text"
                 required
                 placeholder="Nhập mô tả"
@@ -71,7 +71,7 @@
               <b-form-group
               label="Nội dung"
               >
-              <wysiwyg v-model="form.contents" />
+              <wysiwyg v-model="form.Contents" />
               </b-form-group>
               <b-row>
                 <b-col cols="3">
@@ -80,7 +80,7 @@
                   >
                     <div class="avatar-uploader">
                       <div tabindex="0" class="el-upload el-upload--text" @click="fakeClick">
-                        <img v-if="this.form.imageUrl" :src="this.form.imageUrl" class="avatar">
+                        <img v-if="form.ImageUrl" :src="form.ImageUrl" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         <input type="file" @change="uploadPhoto" name="file" class="el-upload__input" id="realUpload">
                         </div></div>
@@ -117,14 +117,12 @@ export default {
       }],
 
       form: new Form({
-        scenicName: '',
-        description: '',
-        imageUrl: '',
-        contents: '',
-        value: ''
+        PlaceName: '',
+        Description: '',
+        ImageUrl: '',
+        Contents: '',
+        Region: ''
       }),
-      dialogImageUrl: '',
-      dialogVisible: false,
 
     }
   },
@@ -133,19 +131,27 @@ export default {
       document.getElementById('realUpload').click()
     },
       uploadPhoto(e) {
-        // console.log('uploading...',e)
         let file = e.target.files[0]
         let reader = new FileReader()
         let that = this
         reader.onloadend = function() {
           // console.log('Result', reader.result)
-          that.form.imageUrl = reader.result
+          that.form.ImageUrl = reader.result
         }
         reader.readAsDataURL(file)
       },
       addPlace () {
-        this.form.post('/api/place').then(res => {
-          console.log(res)
+        let payload = {
+          PlaceName: this.form.PlaceName,
+          Description:this.form.Description,
+          ImageUrl:this.form.ImageUrl,
+          Contents:this.form.Contents, 
+          Region:this.form.Region
+        }
+        let that = this
+        this.$store.dispatch('place/addPlace', payload).then(res => {
+        that.$router.push({name: 'listDestination'})
+        this.$message.success('Đã thêm thành công')
         })
       }
     }

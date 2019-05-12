@@ -6,10 +6,12 @@ import BootstrapVue from 'bootstrap-vue'
 import wysiwyg from 'vue-wysiwyg'
 import VueProgressBar from 'vue-progressbar'
 import { Form, HasError, AlertError } from 'vform'
+import { Button, Select, Option } from 'element-ui'
+import Antd from 'ant-design-vue'
 
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
+import 'ant-design-vue/dist/antd.css'
+import 'nprogress/nprogress.css'
 import * as filters from './filters'
 // import GlobalComponents from './globalComponents'
 // Routers
@@ -22,12 +24,16 @@ var VueTruncate = require('vue-truncate-filter')
 window.Vue = Vue
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
 window.Form = Form
 // Vue.use(GlobalComponents)
 Vue.use(VueTruncate)
-Vue.use(ElementUI)
+Vue.use(Antd)
 Vue.use(BootstrapVue)
+// Elelemt UI
+Vue.use(Select)
+Vue.use(Button)
+Vue.use(Option)
+// Editor
 Vue.use(wysiwyg, {
   image: {
     uploadURL: '/api/uploadImage'

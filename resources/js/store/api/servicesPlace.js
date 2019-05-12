@@ -12,6 +12,9 @@ export default {
   GetPlaceById: function (id) {
     return Axios.get(APP_CONFIG.API_URL + '/place/' + id)
   },
+  addPlace: function (payload) {
+    return Axios.post(APP_CONFIG.API_URL + '/place', payload)
+  },
   updatePlace: function (id, payload) {
     return Axios.put(APP_CONFIG.API_URL + '/place/' + id, payload)
   },

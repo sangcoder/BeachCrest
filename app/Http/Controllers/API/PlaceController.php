@@ -52,9 +52,9 @@ class PlaceController extends Controller
     {
         // Ràng buộc dữ liệu
         $validator = Validator::make($request->all(), [
-            'scenicName' => 'required|string',
-            'description' => 'required',
-            'contents' => 'required'
+            'PlaceName' => 'required|string',
+            'Description' => 'required',
+            'Contents' => 'required'
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -62,20 +62,20 @@ class PlaceController extends Controller
                 'errors' =>  $validator->errors()
             ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-        if ($request->imageUrl) {
-            $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->imageUrl,$matched);
+        if ($request->ImageUrl ) {
+            $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImageUrl,$matched);
             $ext = isset($matched[1][0]) ? $matched[1][0] : false;
             $imageName = sha1(time()) . '.' .$ext;
-            \Image::make($request->imageUrl)->save(public_path().'/images/place/'.$imageName);
+            \Image::make($request->ImageUrl)->save(public_path().'/images/place/'.$imageName);
         }
-            $place = new Place([
-                'PlaceName' => $request->scenicName,
-                'Description' => $request->description,
-                'Contents' => $request->contents,
-                'ImgUrl' => $imageName,
-                'Region' => $request->value
-            ]);
-            $place->save();
+        $place = new Place([
+            'PlaceName' => $request->PlaceName,
+            'Description' => $request->Description,
+            'Contents' => $request->Contents,
+            'ImgUrl' => $imageName,
+            'Region' => $request->Region
+        ]);
+        $place->save();
 
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
@@ -114,6 +114,18 @@ class PlaceController extends Controller
      */
     public function update(Request $request, Place $place)
     {
+        // Ràng buộc dữ liệu
+        $validator = Validator::make($request->all(), [
+            'PlaceName' => 'required|string',
+            'Description' => 'required',
+            'Contents' => 'required'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'errors' =>  $validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
         if ($request->ImageUrl ) {
             $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImageUrl,$matched);
             $ext = isset($matched[1][0]) ? $matched[1][0] : false;

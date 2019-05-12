@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Promotion;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
-
+use Validator;
 class PromotionController extends Controller
 {
     /**
@@ -40,7 +40,24 @@ class PromotionController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        // Ràng buộc dữ liệu
+        $validator = Validator::make($request->all(), [
+            'Contents' => 'required|string'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'errors' => $validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $pro = new Promotion([
+            'Contents' => $request->Contents
+        ]);
+        $pro->save();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $pro
+        ],201);
     }
 
     /**
@@ -51,7 +68,7 @@ class PromotionController extends Controller
      */
     public function show(Promotion $promotion)
     {
-        //
+        return $promotion;
     }
 
     /**
@@ -74,7 +91,22 @@ class PromotionController extends Controller
      */
     public function update(Request $request, Promotion $promotion)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'Contents' => 'required|string'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'errors' => $validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $promotion->update([
+            'Contents' => $request->Contents
+        ]);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $promotion
+        ], 200);
     }
 
     /**
@@ -85,6 +117,9 @@ class PromotionController extends Controller
      */
     public function destroy(Promotion $promotion)
     {
-        //
+        $promotion->delete();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
     }
 }
