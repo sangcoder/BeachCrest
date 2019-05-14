@@ -11,6 +11,7 @@ import store from '../store/index'
 import User from '../admin/modules/User'
 import Destination from '../admin/modules/Destinations'
 import Promotion from '../admin/modules/Promotion'
+import TourGuider from '../admin/modules/TourGuiders'
 // Yêu cầu có quyền mới được vào
 // function requireAuth (from, to,  next) {
 //   if (store.get('user/user') && store.get('user/user').id) {
@@ -78,7 +79,7 @@ const router = new Router({
       component: Admin,
       meta: {isRoles: 2},
       beforeEnter: requireAuth,
-      children: [...User, ...Destination, ...Promotion]
+      children: [...User, ...Destination, ...Promotion, ...TourGuider]
     },
     {
       path: '/admin/404',
@@ -106,7 +107,9 @@ router.beforeResolve((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
-  NProgress.done()
+  setTimeout(() => {
+    NProgress.done()
+  }, 2000)
 })
 
 export default router

@@ -75,6 +75,12 @@ export default {
       url: '/admin/khuyen-mai.html'
     },
     {
+      name: 'Hướng dẫn viên',
+      icon: 'icon-info',
+      isRoles: 2,
+      url: '/admin/huong-dan-vien.html'
+    },
+    {
       name: 'Thống kê',
       icon: 'icon-pie-chart',
       children:

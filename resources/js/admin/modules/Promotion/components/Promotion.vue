@@ -28,7 +28,7 @@
               <tbody>
                   <tr v-for="promotion in listPromtion" :key="promotion.PromotionID">
                     <td>{{promotion.PromotionID}}</td>
-                    <td>{{promotion.Contents  }} </td>
+                    <td>{{promotion.Contents | truncate(100) }} </td>
                     <td>{{promotion.created_at}}</td>
                     <td>{{promotion.updated_at}}</td>
                     <td>

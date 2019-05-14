@@ -10,6 +10,10 @@ use App\Http\Controllers\Controller;
 
 class PlaceController extends Controller
 {
+    public function testBase($s)
+    {
+          return (bool) preg_match('~data:\w+/.*;base64,.*~', $s);
+    }
         /**
     * @OA\Get(
     *         path="/api/place",
@@ -62,11 +66,15 @@ class PlaceController extends Controller
                 'errors' =>  $validator->errors()
             ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-        if ($request->ImageUrl ) {
+
+        if ($request->ImageUrl  && $this->testBase($request->ImageUrl)) {
             $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImageUrl,$matched);
             $ext = isset($matched[1][0]) ? $matched[1][0] : false;
             $imageName = sha1(time()) . '.' .$ext;
             \Image::make($request->ImageUrl)->save(public_path().'/images/place/'.$imageName);
+        }
+        else {
+            return 'Image error';
         }
         $place = new Place([
             'PlaceName' => $request->PlaceName,
@@ -126,23 +134,32 @@ class PlaceController extends Controller
                 'errors' =>  $validator->errors()
             ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-        if ($request->ImageUrl ) {
+        if ($request->ImageUrl && base64_encode(base64_decode($request->ImageUrl, true))) {
             $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImageUrl,$matched);
             $ext = isset($matched[1][0]) ? $matched[1][0] : false;
             $imageName = sha1(time()) . '.' .$ext;
             \Image::make($request->ImageUrl)->save(public_path().'/images/place/'.$imageName);
+            $place->update([
+                'Contents' => $request->Contents,
+                'Description' => $request->Description,
+                'ImgUrl' => $imageName,
+                'PlaceName' => $request->PlaceName,
+                'Region' => $request->Region
+            ]);
         }
-        $place->update([
-            'Contents' => $request->Contents,
-            'Description' => $request->Description,
-            'ImgUrl' => $imageName,
-            'PlaceName' => $request->PlaceName,
-            'Region' => $request->Region
-        ]);
+        else {
+            $place->update([
+                'Contents' => $request->Contents,
+                'Description' => $request->Description,
+                'ImgUrl' => $request->ImageUrl ,
+                'PlaceName' => $request->PlaceName,
+                'Region' => $request->Region
+            ]);
+        }
+
         return response()->json([
             'sucess' => true,
-            'data' => $place,
-            'image'=> $imageName
+            'data' => $place
         ], 200);
 
 

@@ -1,7 +1,6 @@
 import {defaultMutations} from 'vuex-easy-access'
 import PromotionAPI from '../api/servicesPromotion'
-import { Promise } from 'es6-promise';
-
+import { Promise } from 'es6-promise'
 const state = {
   listPromtion: []
 }
@@ -16,13 +15,12 @@ const mutations = {
     state.listPromtion = listPromotion
   },
   UPDATE_PROMOTION (state, payload) {
-    console.log(payload)
-    state.listPromtion = state.listPromotion.map((item) => {
-      if (item.PromotionID === payload.PromotionID) {
-        return Object.assign({}, item, payload)
-      }
-      return item
+    console.log('vaoday')
+    let a = state.listPromtion.filter((item) => {
+      console.log('1')
+      return item.PromotionID !== payload.PromotionID
     })
+    state.listPromtion = [...a, payload]
   }
 }
 

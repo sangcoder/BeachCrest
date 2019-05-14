@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use Carbon\Carbon;
+use App\Http\AppResponse;
 use App\Model\TourGuider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TourGuiderController extends Controller
 {
+    public function testBase($s)
+    {
+          return (bool) preg_match('~data:\w+/.*;base64,.*~', $s);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,11 @@ class TourGuiderController extends Controller
      */
     public function index()
     {
-        //
+        $tourguider = TourGuider::paginate(10);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $tourguider
+        ]);
     }
 
     /**
@@ -35,7 +47,40 @@ class TourGuiderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'GuiderName' => 'required|string',
+            'PhoneNumner' => 'required',
+            'Address' => 'required'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'errors' => $validator->errors()
+            ],AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        if($request->ImgUrl && $this->testBase($request->ImgUrl)) {
+            $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImgUrl,$matched);
+            $ext = isset($matched[1][0]) ? $matched[1][0] : false;
+            $imageName = sha1(time()) . '.' .$ext;
+            \Image::make($request->ImgUrl)->save(public_path().'/images/place/'.$imageName);
+
+            $guider = new TourGuider([
+                'Address' => $request->Address,
+                'Birthday' => Carbon::parse($request->Birthday),
+                'GuiderName' => $request->GuiderName,
+                'PhoneNumner' => $request->PhoneNumner,
+                'ImgUrl' => $imageName,
+                'Gender' => $request->Gender
+            ]);
+        }
+        else {
+            return 'Image Error';
+        }
+        $guider->save();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $guider
+        ]);
     }
 
     /**
@@ -44,9 +89,9 @@ class TourGuiderController extends Controller
      * @param  \App\Model\TourGuider  $tourGuider
      * @return \Illuminate\Http\Response
      */
-    public function show(TourGuider $tourGuider)
+    public function show(TourGuider $tourguider)
     {
-        //
+        return $tourguider;
     }
 
     /**
@@ -55,7 +100,7 @@ class TourGuiderController extends Controller
      * @param  \App\Model\TourGuider  $tourGuider
      * @return \Illuminate\Http\Response
      */
-    public function edit(TourGuider $tourGuider)
+    public function edit(TourGuider $tourguider)
     {
         //
     }
@@ -67,9 +112,47 @@ class TourGuiderController extends Controller
      * @param  \App\Model\TourGuider  $tourGuider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TourGuider $tourGuider)
+    public function update(Request $request, TourGuider $tourguider)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'GuiderName' => 'required|string',
+            'PhoneNumner' => 'required',
+            'Address' => 'required'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'errors' => $validator->errors()
+            ],AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        if($request->ImgUrl && $this->testBase($request->ImgUrl)) {
+            $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImgUrl,$matched);
+            $ext = isset($matched[1][0]) ? $matched[1][0] : false;
+            $imageName = sha1(time()) . '.' .$ext;
+            \Image::make($request->ImgUrl)->save(public_path().'/images/place/'.$imageName);
+
+            $tourguider->update([
+                'Address' => $request->Address,
+                'Birthday' => Carbon::parse($request->Birthday),
+                'Gender' => $request->Gender,
+                'GuiderName' => $request->GuiderName,
+                'ImgUrl' => $imageName
+            ]);
+        }
+        else {
+            $tourguider->update([
+                'Address' => $request->Address,
+                'Birthday' => Carbon::parse($request->Birthday),
+                'Gender' => $request->Gender,
+                'GuiderName' => $request->GuiderName,
+                'ImgUrl' => $request->ImgUrl
+            ]);
+        }
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $tourguider
+        ],200);
     }
 
     /**
@@ -78,8 +161,11 @@ class TourGuiderController extends Controller
      * @param  \App\Model\TourGuider  $tourGuider
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TourGuider $tourGuider)
+    public function destroy($id)
     {
-        //
+        DB::table('tour_guiders')->where('GuiderID', $id)->delete();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ],AppResponse::HTTP_OK);
     }
 }

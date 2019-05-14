@@ -22,8 +22,6 @@ class UploadImage extends Controller
 
     }
     public function uploadJson(Request $request) {
-        return response()->json([
-            'url' => 'abc'
-        ]);
+        return $request->all();
     }
 }

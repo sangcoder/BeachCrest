@@ -34,7 +34,8 @@ Route::group([
 Route::apiResources([
     'user' =>'API\UserController',
     'place' => 'API\PlaceController',
-    'promotion' => 'PromotionController'
+    'promotion' => 'PromotionController',
+    'tourguider' => 'TourGuiderController'
 ]);
 
 Route::post('uploadImage', 'API\UploadImage@upload');

@@ -16,6 +16,7 @@ class UpdatePlaceTableImage extends Migration
         Schema::table('places', function (Blueprint $table) {
             $table->string('ImgUrl')->default('no-image.png')->change();
         });
+
     }
 
     /**
