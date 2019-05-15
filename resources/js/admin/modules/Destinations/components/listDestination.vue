@@ -97,9 +97,10 @@ export default {
   },
   mounted() {
     this.loading = true
-    this.$store.dispatch("place/getListPlace", this.page).then(res => {
+    this.$store.dispatch("place/getListPlace", this.pagination.current).then(res => {
       const pagination = { ...this.pagination }
       pagination.total = res.data.data.total
+      pagination.pageSize = res.data.data.per_page
       this.pagination = pagination;
       this.loading = false
     });
@@ -128,6 +129,12 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.loading = true;
+      this.$store.dispatch("place/getListPlace", this.pagination.current).then(res => {
+        const pagination = { ...this.pagination }
+        pagination.total = res.data.data.total
+        this.pagination = pagination;
+        this.loading = false
+      });
     },
     cancel() {}
   }

@@ -55,11 +55,11 @@ const actions = {
       })
     })
   },
-  getDsUser ({commit}, data) {
+  getDsUser ({commit}, page) {
     return new Promise((resolve, reject) => {
-      AuthAPI.getDsUser()
+      UserAPI.getDsUser(page)
       .then((response) => {
-        commit('dsUser', response.data.data)
+        commit('dsUser', response.data.data.data)
         resolve(response)
       })
       .catch((err) => {

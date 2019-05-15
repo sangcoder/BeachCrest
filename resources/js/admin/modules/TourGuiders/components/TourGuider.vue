@@ -21,6 +21,7 @@
           :dataSource="listGuiders"
           :pagination="pagination"
           :loading="loading"
+          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
           @change="handleTableChange"
         >
           <template slot="avatar" slot-scope="avatar">
@@ -29,7 +30,7 @@
           <template slot="gender" slot-scope="gender">{{gender === 1 ? 'Nam' : 'Nữ'}}</template>
           <template slot="bday" slot-scope="bday">{{bday | myDate}}</template>
           <template slot="modify" slot-scope="modify">
-            <a-button type="primary" icon="edit" @click="updateTourGuider(modify)">Edit</a-button>
+            <a-button type="primary" icon="edit" @click="updateTourGuider(modify)"></a-button>
             <a-popconfirm
               title="Are you sure delete?"
               @confirm="deleteTourGuider(modify.GuiderID)"
@@ -37,7 +38,7 @@
               okText="Yes"
               cancelText="No"
             >
-              <a-button type="danger" icon="delete">Delete</a-button>
+              <a-button type="danger" icon="delete"></a-button>
             </a-popconfirm>
           </template>
         </a-table>
@@ -149,6 +150,7 @@ export default {
       visible: false,
       editMode: false,
       columns,
+      selectedRowKeys: [],
       formData: {
         GuiderName: "",
         Birthday: "",
@@ -170,6 +172,7 @@ export default {
       .then(res => {
         const pagination = { ...this.pagination };
         pagination.total = res.data.data.total;
+        pagination.pageSize = res.data.data.per_page
         this.pagination = pagination;
         this.loading = false;
       });
@@ -180,6 +183,10 @@ export default {
     }
   },
   methods: {
+    onSelectChange (selectedRowKeys) {
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys
+    },
     handleTableChange(pagination, filters, sorter) {
       const pager = { ...this.pagination };
       pager.current = pagination.current;

@@ -9,99 +9,165 @@
               <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
               </div>
               <div class="ml-auto">
-                <button class="btn btn-primary" @click="newModal" data-toggle="modal" data-target="#addNewUser">Add new <i class="fa fa-user-plus"></i></button>
+                   <a-button type="primary">Thêm</a-button>
               </div>
             </div>
             <!-- title -->
         </div>
-        <div class="table-responsive table-hover">
-          <table class="table v-middle">
-            <thead>
-                <tr class="bg-light">
-                  <th class="border-top-0">ID</th>
-                  <th class="border-top-0">Name</th>
-                  <th class="border-top-0">Email</th>
-                  <th class="border-top-0">Status</th>
-                  <th class="border-top-0">Role</th>
-                  <th class="border-top-0">Create at</th>
-                  <th class="border-top-0">Modify</th>
-                </tr>
-            </thead>
-              <tbody>
-            <tr v-for="user in dsUser" :key="user.id">
-              <td>{{ user.id }}</td>
-              <td><img :src="'/images/' + user.photo" class="m-r-10 rounded-circle" alt="Avatar" width="45"/>{{ user.name | upText }}</td>
-              <td>{{ user.email }}</td>
-              <td><span :class="user.active === 1 ? 'badge badge-success':'badge badge-danger'">{{ user.active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span></td>
-              <td>{{ user.roleName | upText}}</td>
-              <td>{{ user.created_at | myDate }}</td>
-              <td>
-                <a href="#" title="Settings" data-toggle="tooltip" @click="editModal(user)"><i class="fa fa-edit"></i></a> /
-                <a href="#" title="Settings" data-toggle="tooltip" @click="deleteUser(user.id)"><i class="fa fa-trash"></i></a>
-              </td>
-            </tr>
-              </tbody>
-            </table>
-        </div>
+        <a-table
+          :columns="columns"
+          :rowKey="record => record.id"
+          :dataSource="dsUser"
+          :pagination="pagination"
+          :loading="loading"
+          @change="handleTableChange"
+        >
+          <template slot="photo" slot-scope="photo">
+            <a-avatar :size="64" icon="user" :src="'/images/' + photo"/>
+          </template>
+          <template slot="active" slot-scope="active">
+            <span :class="active === 1 ? 'badge badge-success':'badge badge-danger'">{{ active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span>
+          </template>
+          <template slot="roleName" slot-scope="roleName">
+            {{ roleName | upText }}
+          </template>
+          <template slot="createAt" slot-scope="createAt">
+            {{createAt | myDate}}
+            </template>
+          <template slot="modify" slot-scope="modify">
+            <a-button type="primary" icon="edit" @click="updatePermision(modify)"></a-button>
+            <a-popconfirm
+              title="Are you sure delete?"
+              @confirm="deleteUser(modify.id)"
+              @cancel="cancel"
+              okText="Yes"
+              cancelText="No"
+            >
+              <a-button type="danger" icon="delete"></a-button>
+            </a-popconfirm>
+          </template>
+        </a-table>
     </div>
   <!-- Modal -->
-  <div class="modal fade" id="addNewUser" tabindex="-1" role="dialog" aria-labelledby="addNewLabelUser" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel" v-show="!editmode">Add new user</h5>
-          <h5 class="modal-title" id="exampleModalLabel" v-show="editmode">Edit user info</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form @submit.prevent="editmode ? updateUser() :createUser() ">
-        <div class="modal-body">
-          <div class="form-group">
-            <label>Name</label>
-            <input v-model="form.name" type="text" name="name"
-            placeholder="Enter Name"
-              class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-            <has-error :form="form" field="name"></has-error>
-          </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input v-model="form.email" type="email" name="email"
-            placeholder="Enter Email"
-              class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-            <has-error :form="form" field="email"></has-error>
-          </div>
-          <div class="form-group">
-            <label>Bio</label>
-            <textarea v-model="form.bio" type="text" name="bio"
-            placeholder="Enter short bio (optional)"
-              class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }" rows="3" >
-            </textarea>
-            <has-error :form="form" field="bio"></has-error>
-          </div>
-            <div class="form-group">
-            <label for="photoUser">Photo</label>
-            <input type="file" @change="uploadPhoto" class="form-control-file" id="photoUser">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input v-model="form.password" type="password" name="password"
-            placeholder="Enter your password"
-              class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
-            <has-error :form="form" field="password"></has-error>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" v-show="!editmode">Create</button>
-          <button type="submit" class="btn btn-primary" v-show="editmode">Update</button>
-          
-        </div>
-        </form>
-      </div>
-    </div>
-  </div>
 </div>
 </template>
-<script src="./User.js">
+<script>
+ const columns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    sorter: true
+  },
+  {
+    title: "Image",
+    dataIndex: "photo",
+    scopedSlots: { customRender: "photo" }
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    width: "20%"
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email'
+  },
+  {
+    title: "Status",
+    dataIndex: "active",
+    scopedSlots: { customRender: "active" },
+    filters: [
+      { text: "Kích hoạt", value: "1" },
+      { text: "Chưa kích hoạt", value: "0" }
+    ]
+  },
+  {
+    title: "Role",
+    dataIndex: "roleName",
+    scopedSlots: {customRender: "roleName"}
+  },
+  {
+    title: 'Create at',
+    dataIndex: 'created_at',
+    scopedSlots: {customRender: "createAt"}
+  },
+  {
+    title: "Modify",
+    scopedSlots: { customRender: "modify" }
+  }
+]
+export default {
+  data () {
+    return {
+      editmode: false,
+      pagination: {},
+      loading: false,
+      visible: false,
+      columns,
+      form: new Form({
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        photo: '',
+        bio: ''
+      })
+    }
+  },
+  created () {
+    this.loading = true
+    this.$store.dispatch('user/getDsUser').then(res => {
+      const pagination = { ...this.pagination }
+      pagination.total = res.data.data.total
+      pagination.pageSize = res.data.data.per_page
+      this.pagination = pagination
+      this.loading = false
+    })
+  },
+  computed: {
+    dsUser () {
+      return this.$store.state.user.dsUser
+    }
+  },
+  methods: {
+    handleTableChange(pagination, filters, sorter) {
+      const pager = { ...this.pagination };
+      pager.current = pagination.current;
+      this.pagination = pager;
+      this.loading = true;
+      this.$store
+        .dispatch("user/getDsUser", this.pagination.current)
+        .then(res => {
+          const pagination = { ...this.pagination };
+          pagination.total = res.data.data.total;
+          this.pagination = pagination;
+          this.loading = false;
+        });
+    },
+    uploadPhoto (e) {
+      let file = e.target.files[0]
+      let reader = new FileReader()
+      let that = this
+      reader.onloadend = function() {
+        that.form.photo = reader.result
+      }
+      reader.readAsDataURL(file)
+    },
+    updatePermision (id) {
+
+    },
+    createUser () {
+
+    },
+    deleteUser (id) {
+
+    },
+    confirm () {
+      
+    },
+    cancel () {
+
+    }
+  }
+}
 </script>

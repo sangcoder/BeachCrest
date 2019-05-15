@@ -5,8 +5,7 @@
         <!-- title -->
         <div class="d-md-flex align-items-center">
             <div>
-              <h4 class="card-title">Sửa bài viết {{ this.$route.params.id }} </h4>
-              <h5 class="card-subtitle">Sửa bài viết  Địa điểm</h5>
+              <h4 class="card-title">Địa danh: {{ this.placeInfo.PlaceName }} </h4>
               </div>
               <div class="ml-auto">
                 <b-button variant="primary" @click="$router.push({name: 'listDestination'})"><i class="el-icon-back"></i> Danh sách địa danh</b-button>

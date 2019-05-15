@@ -17,12 +17,8 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     protected $dates = ['deleted_at'];
     
     protected $fillable = [
-        'name', 'email', 'bio','photo', 'active', 'activation_token'
+        'name', 'email', 'bio','photo', 'active', 'activation_token','password'
     ];
-
-    public function tours() {
-        return $this->belongsToMany('App\Model\Tour');
-    }
 
     protected $hidden = [
         'password', 'remember_token', 'activation_token'
@@ -31,6 +27,10 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    // ORM
+    public function tours() {
+        return $this->belongsToMany('App\Model\Tour');
+    }
 
     // Để sử dụng được JWT Auth
 

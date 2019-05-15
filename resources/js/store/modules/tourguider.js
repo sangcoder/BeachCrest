@@ -33,7 +33,6 @@ const getters = {
 
 const actions = {
   getListGuider ({commit}, payload) {
-    console.log(payload)
     return new Promise((resolve, reject) => {
       GuiderAPI.getListGuider(payload.page, payload.params).then(res => {
         commit('listGuiders', res.data.data.data)

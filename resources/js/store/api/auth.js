@@ -13,13 +13,8 @@ const logout = function () {
   return Axios.get(APP_CONFIG.API_URL + '/auth/logout')
 }
 
-const getDsUser = async () => {
-  let data = await Axios.get(APP_CONFIG.API_URL + '/user')
-  // console.log('data' + JSON.stringify(data))
-  return data
-}
 export default {
   getAccessToken,
-  logout,
-  getDsUser
+  logout
+
 }

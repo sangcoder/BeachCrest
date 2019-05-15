@@ -16,9 +16,9 @@ export default[
     component: addDestination
   },
   {
-    path: '/admin/chinh-sua-bai-viet-:id.html',
+    path: '/admin/chinh-sua-dia-danh/:id',
     name: 'editDestination',
-    meta: {isRoles: 2, label: 'Chỉnh sửa bài viết'},
+    meta: {isRoles: 2, label: 'Chỉnh sửa địa danh'},
     component: editDestination
   }
 ]

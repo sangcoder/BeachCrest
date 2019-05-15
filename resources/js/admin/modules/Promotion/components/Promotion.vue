@@ -29,7 +29,7 @@
         <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
         <template slot="dateUpdate" slot-scope="dateUpdate">{{dateUpdate | myDate}}</template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="updatePromotion(promotion)">Edit</a-button>
+          <a-button type="primary" icon="edit" @click="updatePromotion(modify)">Edit</a-button>
           <a-popconfirm
             title="Are you sure delete?"
             @confirm="deletePromotion(modify.PromotionID)"
@@ -108,6 +108,7 @@ export default {
       .then(res => {
         const pagination = { ...this.pagination };
         pagination.total = res.data.data.total;
+        pagination.pageSize = res.data.data.per_page
         this.pagination = pagination;
         this.loading = false;
       });
