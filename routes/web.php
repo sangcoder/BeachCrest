@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('home');
 });
 
+// Route::get('/debugvar','TourGuiderController@index');
+
 // Admin route
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/{vue_capture?}', 'AdminController@index')

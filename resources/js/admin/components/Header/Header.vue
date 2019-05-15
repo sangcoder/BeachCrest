@@ -26,7 +26,7 @@
         API Documentation
       </b-nav-item>
     </b-navbar-nav>
-    <b-navbar-nav class="ml-auto">
+    <b-navbar-nav class="ml-auto pr-5" >
       <header-dropdown />
     </b-navbar-nav>
     </button>

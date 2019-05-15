@@ -2,7 +2,6 @@ import {defaultMutations} from 'vuex-easy-access'
 import { Promise } from 'es6-promise'
 
 import GuiderAPI from '../api/servicesTourGuider'
-import { async } from 'q';
 
 const state = {
   listGuiders: []
@@ -11,17 +10,20 @@ const state = {
 const mutations = {
   ...defaultMutations(state),
   ADD_PROMOTION (state, guider) {
-    state.listGuiders = [...state.listGuiders, ...[guider]]
+    state.listGuiders = [...[guider], ...state.listGuiders]
   },
   DELETE_PROMOTION (state, id) {
     let listGuiders = state.listGuiders.filter(item => item.GuiderID !== id)
     state.listGuiders = listGuiders
   },
   UPDATE_PROMOTION (state, payload) {
-    let guiders = state.listGuiders.filter((item) => {
-      return item.GuiderID !== payload.GuiderID
+    state.listGuiders = state.listGuiders.map((item) => {
+      if (item.GuiderID === payload.GuiderID) {
+        return Object.assign({}, item, payload)
+      }
+      return item
     })
-    state.listGuiders = [...guiders, payload]
+    // state.listGuiders = [...guiders, payload]
   }
 }
 
@@ -30,9 +32,10 @@ const getters = {
 }
 
 const actions = {
-  getListGuider ({commit}, page) {
+  getListGuider ({commit}, payload) {
+    console.log(payload)
     return new Promise((resolve, reject) => {
-      GuiderAPI.getListGuider(page).then(res => {
+      GuiderAPI.getListGuider(payload.page, payload.params).then(res => {
         commit('listGuiders', res.data.data.data)
         resolve(res)
       })

@@ -20,12 +20,25 @@ class TourGuiderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tourguider = TourGuider::paginate(10);
+        // $tourguider = TourGuider::paginate(10);
+        $guider = (new TourGuider)->newQuery();
+        if ($request->exists('guiderid') && $request->guiderid == 'ascend') {
+            $guider->orderBy('GuiderID', 'asc');
+        }
+        if ($request->exists('guiderid') && $request->guiderid == 'descend') {
+            $guider->orderBy('GuiderID', 'desc');
+        }
+        
+        if ($request->exists('Gender')) {
+            $guider->where('Gender', $request->Gender);
+        }
+        $result = $guider->paginate(10);
+        // dd($request->all());
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $tourguider
+            'data' => $result
         ]);
     }
 

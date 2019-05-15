@@ -8,20 +8,22 @@
     <div class="card-body login-card-body">
       <h2 class="login-box-msg">Login to system</h2>
         <div class="input-group mb-3">
-          <input type="email" v-model="email" class="form-control" placeholder="Email">
-          <div class="input-group-append">
-              <span class="fa fa-envelope input-group-text"></span>
-          </div>
+          <a-input placeholder="Enter your email" v-model="email" ref="emailInput">
+            <a-icon slot="prefix" type="user" />
+            <a-icon v-if="email" slot="suffix" type="close-circle" @click="emitEmptyEmail" />
+          </a-input>
         </div>
         <div class="input-group mb-3">
-          <input type="password" v-model="password" class="form-control" placeholder="Password">
-          <div class="input-group-append">
-              <span class="fa fa-lock input-group-text"></span>
-          </div>
+          <a-input placeholder="Enter your password" type="password" v-model="password" ref="passwordInput">
+            <a-icon slot="prefix" type="lock" />
+            <a-icon v-if="password" slot="suffix" type="close-circle" @click="emitEmptyPassword" />
+          </a-input>
         </div>
         <div class="row">
           <div class="col-12">
-            <button @click="Login" class="btn btn-success btn-block">Sign In</button>
+              <a-button type="primary" :loading="loading" @click="Login" block>
+                {{ text }}
+              </a-button>
           </div>
           <!-- /.col -->
         </div>

@@ -4,10 +4,10 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Model\Place::class, function (Faker $faker) {
     return [
-        'PlaceName' => $faker->word,
+        'PlaceName' => $faker->state,
         'Description' => $faker->text(150),
         'Contents' => $faker->paragraph,
-        'Region' => $faker->name, 
+        'Region' => $faker->randomElement(['MienBac', 'MienTrung', 'MienNam','TayNguyen','TayBac']), 
         'ImgUrl' => $faker->ImageUrl(800, 600, 'city')
     ];
 });

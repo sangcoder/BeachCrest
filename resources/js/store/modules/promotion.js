@@ -8,19 +8,19 @@ const state = {
 const mutations = {
   ...defaultMutations(state),
   ADD_PROMOTION (state, promotion) {
-    state.listPromtion = [...state.listPromtion, ...[promotion]]
+    state.listPromtion = [...[promotion], ...state.listPromtion]
   },
   DELETE_PROMOTION (state, id) {
     let listPromotion = state.listPromtion.filter(item => item.PromotionID !== id)
     state.listPromtion = listPromotion
   },
   UPDATE_PROMOTION (state, payload) {
-    console.log('vaoday')
-    let a = state.listPromtion.filter((item) => {
-      console.log('1')
-      return item.PromotionID !== payload.PromotionID
+    state.listPromtion = state.listPromtion.map((item) => {
+      if (item.PromotionID === payload.PromotionID) {
+        return Object.assign({}, item, payload)
+      }
+      return item
     })
-    state.listPromtion = [...a, payload]
   }
 }
 

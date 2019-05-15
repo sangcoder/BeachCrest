@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\RegisterActivate;
 use Spatie\Permission\Models\Permission;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller
 {
@@ -175,7 +176,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
                 'message' => 'Email hoặc mật khẩu không đúng xin vui lòng kiểm tra.'
-            ],AppResponse::HTTP_UNAUTHORIZED);
+            ],AppResponse::HTTP_OK);
         }
         // Get thông tin user
         $user = auth('api')->user();
@@ -194,11 +195,11 @@ class AuthController extends Controller
 
     public function logout() {
         // Xóa cookie token
-        auth('api')->logout();
+        auth()->logout(true);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'message' => 'Đăng xuất thành công'
-        ], AppResponse::HTTP_OK);
+        ], AppResponse::HTTP_OK)->withCookie('token', '', config('jwt.ttl'),'/', null, false, true);
     }
     /**
     * @OA\Get(

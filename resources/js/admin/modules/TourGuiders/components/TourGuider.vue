@@ -94,7 +94,8 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import moment from "moment"
+
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -103,7 +104,8 @@ function getBase64(img, callback) {
 const columns = [
   {
     title: "ID",
-    dataIndex: "GuiderID"
+    dataIndex: "GuiderID",
+    sorter: true
   },
   {
     title: "Image",
@@ -113,7 +115,6 @@ const columns = [
   {
     title: "Name",
     dataIndex: "GuiderName",
-    sorter: true,
     width: "20%"
   },
   {
@@ -121,8 +122,8 @@ const columns = [
     dataIndex: "Gender",
     scopedSlots: { customRender: "gender" },
     filters: [
-      { text: "Male", value: "male" },
-      { text: "Female", value: "female" }
+      { text: "Male", value: "1" },
+      { text: "Female", value: "0" }
     ],
     width: "10%"
   },
@@ -143,7 +144,6 @@ const columns = [
 export default {
   data() {
     return {
-      data: [],
       pagination: {},
       loading: false,
       visible: false,
@@ -162,8 +162,11 @@ export default {
   },
   created() {
     this.loading = true;
+    const pl = {
+      page: this.pagination.current
+    }
     this.$store
-      .dispatch("tourguider/getListGuider", this.pagination.current)
+      .dispatch("tourguider/getListGuider", pl)
       .then(res => {
         const pagination = { ...this.pagination };
         pagination.total = res.data.data.total;
@@ -182,8 +185,15 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.loading = true;
+      const payload = {
+        page: this.pagination.current,
+        params: {
+          guiderid: sorter.order,
+          ...filters
+        }
+      }
       this.$store
-        .dispatch("tourguider/getListGuider", this.pagination.current)
+        .dispatch("tourguider/getListGuider", payload)
         .then(res => {
           const pagination = { ...this.pagination };
           pagination.total = res.data.data.total;

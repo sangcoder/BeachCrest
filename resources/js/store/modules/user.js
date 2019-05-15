@@ -42,7 +42,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       AuthAPI.getAccessToken(credential.email, credential.password)
       .then((response) => {
-        console.log('res', response)
         commit('userLoadStatus', 2)
         commit('user', response.data.data)
         // Return successful response

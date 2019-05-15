@@ -65,6 +65,11 @@ export default {
           name: 'Điểm đến',
           icon: 'icon-direction',
           url: '/admin/danh-sach-dia-diem.html'
+        },
+        {
+          name: 'Danh lam thắng cảnh',
+          icon: 'icon-direction',
+          url: '/admin/danh-lam-thang-canh.html'
         }
       ]
     },

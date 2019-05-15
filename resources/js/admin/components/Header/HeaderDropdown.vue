@@ -19,7 +19,7 @@
 </template>
 <script>
 import AuthAPI from '../../../store/api/auth.js'
-
+import Cookies from 'js-cookie'
 export default {
     name: 'HeaderDropdown',
     data: () => {
@@ -39,7 +39,7 @@ export default {
                 if (response.data && response.data.success) {
                     // Clear user in store
                     vueComponent.$store.dispatch('user/logout')
-                    window.location.href = "/"
+                    window.location.href = "/admin/login"
                 } else {
                     // TODO: handle error
                     console.log(JSON.stringify(response))

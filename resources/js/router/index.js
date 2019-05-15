@@ -12,14 +12,8 @@ import User from '../admin/modules/User'
 import Destination from '../admin/modules/Destinations'
 import Promotion from '../admin/modules/Promotion'
 import TourGuider from '../admin/modules/TourGuiders'
-// Yêu cầu có quyền mới được vào
-// function requireAuth (from, to,  next) {
-//   if (store.get('user/user') && store.get('user/user').id) {
-//     next()
-//   } else {
-//     next('/admin/login')
-//   }
-// }
+import Cultures from '../admin/modules/Cultures'
+
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
     next()
@@ -79,7 +73,7 @@ const router = new Router({
       component: Admin,
       meta: {isRoles: 2},
       beforeEnter: requireAuth,
-      children: [...User, ...Destination, ...Promotion, ...TourGuider]
+      children: [...User, ...Destination, ...Promotion, ...TourGuider, ...Cultures]
     },
     {
       path: '/admin/404',
