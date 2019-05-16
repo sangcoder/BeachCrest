@@ -6,7 +6,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <i class="el-icon-location"></i> Danh lam thắng cảnh
+             <a-icon type="global" /> Danh lam thắng cảnh
             </h4>
             <h5 class="card-subtitle">Danh sách danh lam thắng cảnh</h5>
           </div>

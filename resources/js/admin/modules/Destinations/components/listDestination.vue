@@ -6,14 +6,18 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <i class="el-icon-location"></i> Danh sách Địa điểm
+              <a-icon type="global" /> Danh sách Địa điểm
             </h4>
             <h5 class="card-subtitle">Trang lưu trữ Địa điểm</h5>
           </div>
           <div class="ml-auto">
-            <b-button variant="primary" @click="$router.push({name: 'AddDestiantion'})">
-              <i class="el-icon-plus"></i> Thêm mới
-            </b-button>
+            <a-button 
+            type="primary" 
+            @click="$router.push({name: 'AddDestiantion'})"
+            icon="plus"
+            >
+              Thêm mới điểm đến
+            </a-button>
           </div>
         </div>
         <!-- title -->
@@ -95,7 +99,7 @@ export default {
       columns
     };
   },
-  mounted() {
+  created() {
     this.loading = true
     this.$store.dispatch("place/getListPlace", this.pagination.current).then(res => {
       const pagination = { ...this.pagination }
@@ -108,11 +112,6 @@ export default {
   computed: {
     listPlace() {
       return this.$store.state.place.listPlace;
-    }
-  },
-  watch: {
-    current_page() {
-      this.$store.dispatch("place/getListPlace", this.current_page);
     }
   },
   methods: {

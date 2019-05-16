@@ -104,14 +104,14 @@ export default {
       loading: false,
       visible: false,
       columns,
-      form: new Form({
+      form: {
         id: '',
         name: '',
         email: '',
         password: '',
         photo: '',
         bio: ''
-      })
+      }
     }
   },
   created () {

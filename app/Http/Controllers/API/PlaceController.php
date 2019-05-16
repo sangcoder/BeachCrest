@@ -134,7 +134,7 @@ class PlaceController extends Controller
                 'errors' =>  $validator->errors()
             ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-        if ($request->ImageUrl && base64_encode(base64_decode($request->ImageUrl, true))) {
+        if ($request->ImageUrl && $this->testBase($request->ImageUrl)) {
             $imageName = preg_match_all('/data\:image\/([a-zA-Z]+)\;base64/',$request->ImageUrl,$matched);
             $ext = isset($matched[1][0]) ? $matched[1][0] : false;
             $imageName = sha1(time()) . '.' .$ext;

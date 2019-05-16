@@ -17,7 +17,6 @@
   
   <div id="app">
     <router-view></router-view>
-    <vue-progress-bar></vue-progress-bar>
   </div>
   
 <script src="{{ mix('backend/js/main.js') }}"></script>

@@ -3,14 +3,14 @@ export default {
   data () {
     return {
       editmode: false,
-      form: new Form({
+      form: {
         id: '',
         name: '',
         email: '',
         password: '',
         photo: '',
         bio: ''
-      })
+      }
     }
   },
   created () {

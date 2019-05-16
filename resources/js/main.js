@@ -2,14 +2,10 @@ import './bootstrap'
 
 import Vue from 'vue'
 
-import BootstrapVue from 'bootstrap-vue'
-import wysiwyg from 'vue-wysiwyg'
-import VueProgressBar from 'vue-progressbar'
-import { Form, HasError, AlertError } from 'vform'
-import { Button, Select, Option } from 'element-ui'
 import Antd from 'ant-design-vue'
+import wysiwyg from 'vue-wysiwyg'
+import BootstrapVue from 'bootstrap-vue'
 
-import 'element-ui/lib/theme-chalk/index.css'
 import 'ant-design-vue/dist/antd.css'
 import 'nprogress/nprogress.css'
 import * as filters from './filters'
@@ -22,17 +18,12 @@ import store from './store/index.js'
 var VueTruncate = require('vue-truncate-filter')
 
 window.Vue = Vue
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
-window.Form = Form
+
 // Vue.use(GlobalComponents)
 Vue.use(VueTruncate)
 Vue.use(Antd)
 Vue.use(BootstrapVue)
-// Elelemt UI
-Vue.use(Select)
-Vue.use(Button)
-Vue.use(Option)
+
 // Editor
 Vue.use(wysiwyg, {
   image: {
@@ -45,21 +36,6 @@ Vue.use(wysiwyg, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
-// Progress bar
-const options = {
-  color: '#bffaf3',
-  failedColor: '#874b4b',
-  thickness: '2px',
-  transition: {
-    speed: '0.2s',
-    opacity: '0.6s',
-    termination: 300
-  },
-  autoRevert: true,
-  location: 'top',
-  inverse: false
-}
-Vue.use(VueProgressBar, options)
 
 // Define a event for me
 window.Fire = new Vue()

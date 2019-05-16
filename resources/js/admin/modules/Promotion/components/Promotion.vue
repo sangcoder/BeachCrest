@@ -6,13 +6,13 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <i class="el-icon-location"></i> Danh sách khuyến mãi
+              <a-icon type="global" /> Danh sách khuyến mãi
             </h4>
             <h5 class="card-subtitle">Danh sách thông tin khuyến mãi</h5>
           </div>
           <div class="ml-auto">
             <b-button variant="primary" @click="showModalAdd">
-              <i class="el-icon-plus"></i> Thêm mới
+              <a-icon type="plus" /> Thêm mới
             </b-button>
           </div>
         </div>

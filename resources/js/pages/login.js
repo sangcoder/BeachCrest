@@ -31,7 +31,12 @@ export default {
         }
       })
       .catch(err => {
-        console.log('vao luon' + err)
+        this.loading = false
+        this.text = 'Đăng nhập'
+        console.log(err)
+        this.$notification['warning']({
+          message: 'Kết nối đến server thất bại'
+        })
       })
     },
     emitEmptyEmail () {
