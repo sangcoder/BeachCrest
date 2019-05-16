@@ -36,7 +36,8 @@ Route::apiResources([
     'user' =>'API\UserController',
     'place' => 'API\PlaceController',
     'promotion' => 'PromotionController',
-    'tourguider' => 'TourGuiderController'
+    'tourguider' => 'TourGuiderController',
+    'cultures' => 'API\ScenicCultureController'
 ]);
 
 Route::post('uploadImage', 'API\UploadImage@upload');

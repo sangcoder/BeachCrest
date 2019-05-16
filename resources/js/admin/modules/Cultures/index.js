@@ -4,7 +4,7 @@ export default [
   {
     path: '/admin/danh-lam-thang-canh.html',
     name: 'listCultures',
-    meta: {isToles: 2, label: 'Danh sách danh lam thắng cảnh'},
+    meta: {isRoles: 2, label: 'Danh sách danh lam thắng cảnh'},
     component: Cultures
   }
 ]

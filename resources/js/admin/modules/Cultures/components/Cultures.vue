@@ -11,25 +11,29 @@
             <h5 class="card-subtitle">Danh sách danh lam thắng cảnh</h5>
           </div>
           <div class="ml-auto">
-            <a-button type="primary" @click="addNewCultures">Thêm mới danh lam thắng cảnh</a-button>
+            <a-button type="primary" icon="plus" @click="addNewCultures">Thêm mới danh lam thắng cảnh</a-button>
           </div>
         </div>
         <!-- title -->
         <a-table
           :columns="columns"
-          :rowKey="record => record.GuiderID"
-          :dataSource="listGuiders"
+          :rowKey="record => record.ScenicID"
+          :dataSource="data"
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         >
-          <template slot="avatar" slot-scope="avatar">
-            <a-avatar :size="64" icon="user" :src="avatar"/>
+          <template slot="scenicName" slot-scope="scenicName">
+            <a-avatar :size="64" shape="square" icon="camera" :src="scenicName"/>
           </template>
-          <template slot="gender" slot-scope="gender">{{gender === 1 ? 'Nam' : 'Nữ'}}</template>
-          <template slot="bday" slot-scope="bday">{{bday | myDate}}</template>
+          <template slot="description" slot-scope="description">
+            {{ description | truncate(45) }}
+          </template>
+          <template slot="state" slot-scope="state">{{state === 1 ? 'OK' : 'Bảo trì'}}</template>
+          <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
           <template slot="modify" slot-scope="modify">
-            <a-button type="primary" icon="edit" @click="updateTourGuider(modify)">Edit</a-button>
+            <a-button type="primary" icon="edit" @click="updateTourGuider(modify)"></a-button>
             <a-popconfirm
               title="Are you sure delete?"
               @confirm="deleteTourGuider(modify.GuiderID)"
@@ -37,7 +41,7 @@
               okText="Yes"
               cancelText="No"
             >
-              <a-button type="danger" icon="delete">Delete</a-button>
+              <a-button type="danger" icon="delete"></a-button>
             </a-popconfirm>
           </template>
         </a-table>
@@ -46,6 +50,7 @@
   </div>
 </template>
 <script>
+import CultureAPI from '../cultureService'
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -54,37 +59,47 @@ function getBase64(img, callback) {
 const columns = [
   {
     title: "ID",
-    dataIndex: "GuiderID"
-  },
-  {
-    title: "Image",
-    dataIndex: "ImgUrl",
-    scopedSlots: { customRender: "avatar" }
-  },
-  {
-    title: "Tên địa danh",
-    dataIndex: "GuiderName",
+    dataIndex: "ScenicID",
+    width: "2%",
     sorter: true,
-    width: "20%"
   },
   {
-    title: "Description",
-    dataIndex: "Gender",
-    scopedSlots: { customRender: "gender" },
-    filters: [
-      { text: "Male", value: "male" },
-      { text: "Female", value: "female" }
-    ],
+    title: "Hình ảnh",
+    dataIndex: "ImgUrl",
+    scopedSlots: { customRender: "scenicName" },
+    width: "8%"
+  },
+  {
+    title: "Tên thắng cảnh",
+    dataIndex: "ScenicName",
+    width: "15%"
+  },
+  {
+    title: "Mô tả",
+    dataIndex: "Description",
+    width: "20%",
+    scopedSlots: {customRender: "description"}
+  },
+  {
+    title: "Trạng thái",
+    dataIndex: "State",
+    scopedSlots: { customRender: "state" },
     width: "10%"
   },
   {
-    title: "Image",
-    dataIndex: "Birthday",
-    scopedSlots: { customRender: "bday" }
+    title: "Điểm đến",
+    dataIndex: "PlaceName",
+    width: "10%"
   },
   {
-    title: "Status",
-    dataIndex: "Address"
+    title: "Ngày tạo",
+    dataIndex: "created_at",
+    scopedSlots: {customRender: "dateCreate"},
+    width: "12%",
+    filters: [
+      { text: "Mới nhất", value: "lastest" },
+      { text: "Cũ nhất", value: "oldest" }
+    ],
   },
   {
     title: "Modify",
@@ -94,10 +109,47 @@ const columns = [
 export default {
   data() {
     return {
-
+      pagination: {},
+      data: [],
+      selectedRowKeys: [],
+      loading: false,
+      visible: false,
+      editMode: false,
+      columns
     }
   },
+  created () {
+    this.fetchDataCultures()
+  },
   methods: {
+    fetchDataCultures (params = {}) {
+      this.loading = true
+      CultureAPI.getListCultures(this.pagination.current)
+        .then(res => {
+          const pagination = { ...this.pagination }
+          pagination.total = res.data.data.total
+          pagination.pageSize = res.data.data.per_page
+          this.data = res.data.data.data
+          this.pagination = pagination
+          this.loading = false
+        })
+    },
+    handleTableChange (pagination, filters, sorter) {
+      console.log(pagination);
+      const pager = { ...this.pagination }
+      pager.current = pagination.current
+      this.pagination = pager;
+      this.fetchDataCultures({
+        page: pagination.current,
+        sortField: sorter.field,
+        sortOrder: sorter.order,
+        ...filters,
+      });
+    },
+    onSelectChange (selectedRowKeys) {
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys
+    },
     addNewCultures() {
 
     },
@@ -106,6 +158,9 @@ export default {
     },
     deleteTourGuider () {
       
+    },
+    cancel() {
+
     }
   }
 }

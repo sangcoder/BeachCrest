@@ -11,9 +11,13 @@
             <h5 class="card-subtitle">Danh sách thông tin khuyến mãi</h5>
           </div>
           <div class="ml-auto">
-            <b-button variant="primary" @click="showModalAdd">
-              <a-icon type="plus" /> Thêm mới
-            </b-button>
+            <a-button 
+            type="primary" 
+            @click="showModalAdd"
+            icon="plus"
+            >
+            Thêm mới khuyến mãi
+            </a-button>
           </div>
         </div>
         <!-- title -->
@@ -25,11 +29,15 @@
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
+      <template slot="content" slot-scope="content">
+        {{content | truncate(80)}}
+      </template>
         <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
         <template slot="dateUpdate" slot-scope="dateUpdate">{{dateUpdate | myDate}}</template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="updatePromotion(modify)">Edit</a-button>
+          <a-button type="primary" icon="edit" @click="updatePromotion(modify)"></a-button>
           <a-popconfirm
             title="Are you sure delete?"
             @confirm="deletePromotion(modify.PromotionID)"
@@ -37,7 +45,7 @@
             okText="Yes"
             cancelText="No"
           >
-            <a-button type="danger" icon="delete">Delete</a-button>
+            <a-button type="danger" icon="delete"></a-button>
           </a-popconfirm>
         </template>
       </a-table>
@@ -66,7 +74,8 @@ const columns = [
   {
     title: "Nội dung khuyến mãi",
     dataIndex: "Contents",
-    width: "55%"
+    width: "55%",
+    scopedSlots: {customRender: "content"}
   },
   {
     title: "Ngày tạo",
@@ -94,6 +103,7 @@ export default {
       editMode: false,
       columns,
       editMode: false,
+      selectedRowKeys: [],
       confirmLoading: false,
       formData: {
         PromotionID: "",
@@ -119,6 +129,10 @@ export default {
     }
   },
   methods: {
+    onSelectChange (selectedRowKeys) {
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys
+    },
     handleTableChange(pagination, filters, sorter) {
       const pager = { ...this.pagination };
       pager.current = pagination.current;

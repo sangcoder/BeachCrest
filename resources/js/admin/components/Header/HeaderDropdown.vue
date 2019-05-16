@@ -58,4 +58,10 @@ export default {
 .ant-divider-horizontal {
     margin: 14px 0 !important;
 }
+.ant-popover-inner-content div:hover a {
+    background: #f8f8f8;
+}
+.ant-popover-inner-content div a {
+    display: block;
+}
 </style>

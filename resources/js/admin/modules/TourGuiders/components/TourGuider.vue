@@ -13,6 +13,7 @@
           <div class="ml-auto">
             <a-button type="primary" @click="addGuider" icon="plus">Thêm mới hướng dẫn viên</a-button>
             <a-button type="danger" icon="delete" @click="deleteMore">Xóa nhiều</a-button>
+            <a-button type="default" icon="file-excel">Export</a-button>
           </div>
         </div>
         <!-- title -->

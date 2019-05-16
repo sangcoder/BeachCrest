@@ -13,6 +13,7 @@ import Destination from '../admin/modules/Destinations'
 import Promotion from '../admin/modules/Promotion'
 import TourGuider from '../admin/modules/TourGuiders'
 import Cultures from '../admin/modules/Cultures'
+import Dashboard from '../admin/modules/Dashboard'
 
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
@@ -40,7 +41,7 @@ function requireAuth (to, from, next) {
 // Ko yêu cầu quyền
 function requireNonAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
-    next('/admin')
+    next('/admin/Dashboard')
   } else {
     if (store.get('user/userLoadStatus') === 3) {
       next()
@@ -48,7 +49,7 @@ function requireNonAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          next('/admin')
+          next('/admin/Dashboard')
         } else if (store.get('user/userLoadStatus') === 3) {
           next()
         }
@@ -73,7 +74,7 @@ const router = new Router({
       component: Admin,
       meta: {isRoles: 2},
       beforeEnter: requireAuth,
-      children: [...User, ...Destination, ...Promotion, ...TourGuider, ...Cultures]
+      children: [...Dashboard, ...User, ...Destination, ...Promotion, ...TourGuider, ...Cultures]
     },
     {
       path: '/admin/404',

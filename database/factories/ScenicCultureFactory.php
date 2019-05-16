@@ -8,6 +8,7 @@ $factory->define(App\Model\Scenic_Culture::class, function (Faker $faker) {
         'place_id' => function () {
             return Place::all()->random()->PlaceID;
         },
+        'ScenicName' => $faker->country,
         'Description' => $faker->text(150),
         'Contents' => $faker->paragraph,
         'HitCount' => $faker->numberBetween(0,1000),

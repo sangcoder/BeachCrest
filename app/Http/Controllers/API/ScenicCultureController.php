@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Model\Scenic_Culture;
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use App\Model\Scenic_Culture;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class ScenicCultureController extends Controller
@@ -15,7 +17,14 @@ class ScenicCultureController extends Controller
      */
     public function index()
     {
-        //
+        $scenic = DB::table('scenic__cultures')
+            ->join('places', 'place_id', '=','PlaceID')
+            ->select('ScenicID','scenic__cultures.ScenicName','scenic__cultures.Description','scenic__cultures.Contents','scenic__cultures.ImgUrl','State','PlaceName','scenic__cultures.created_at')
+            ->paginate(10);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $scenic
+        ]);
     }
     
     /**
