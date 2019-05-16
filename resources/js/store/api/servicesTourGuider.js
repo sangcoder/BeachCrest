@@ -4,7 +4,6 @@ import qs from 'qs'
 
 export default {
   getListGuider: function (page = 1, params = {}) {
-    console.log('ao' + JSON.stringify(params))
     let listGuider = Axios.create({
       paramsSerializer: params => qs.stringify(params, {arrayFormat: 'comma'})
     })
@@ -20,5 +19,13 @@ export default {
   },
   deleteGuider: function (id) {
     return Axios.delete(APP_CONFIG.API_URL + '/tourguider/' + id)
+  },
+  deleteMore: function (params) {
+    let deleteGuider = Axios.create({
+      paramsSerializer: params => qs.stringify(params, {arrayFormat: 'comma'})
+    })
+    return deleteGuider.post(APP_CONFIG.API_URL + '/tourguider', {
+      params
+    })
   }
 }

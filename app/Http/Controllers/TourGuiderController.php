@@ -174,11 +174,23 @@ class TourGuiderController extends Controller
      * @param  \App\Model\TourGuider  $tourGuider
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         DB::table('tour_guiders')->where('GuiderID', $id)->delete();
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS
         ],AppResponse::HTTP_OK);
+    }
+
+    public function removeMore(Request $request) {
+        // dd($request->all());
+        if($request->ids) {
+            foreach($request->ids as $idGuider) {
+                DB::table('tour_guiders')->where('GuiderID', $idGuider)->delete();
+            }
+        }
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ], AppResponse::HTTP_OK);
     }
 }

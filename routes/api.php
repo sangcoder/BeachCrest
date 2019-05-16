@@ -30,6 +30,7 @@ Route::group([
     });
 });
 
+Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
 // API
 Route::apiResources([
     'user' =>'API\UserController',

@@ -1,5 +1,6 @@
 <template>
-  <ol class="breadcrumb">
+  <b-container>
+    <ol class="breadcrumb">
     <li
       v-for="(item, index) in list"
       :key="index"
@@ -19,6 +20,8 @@
       </router-link>
     </li>
   </ol>
+  </b-container>
+  
 </template>
 
 <script>

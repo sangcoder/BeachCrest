@@ -11,7 +11,8 @@
             <h5 class="card-subtitle">Danh sách hướng dẫn viên</h5>
           </div>
           <div class="ml-auto">
-            <a-button type="primary" @click="addGuider">Thêm mới hướng dẫn viên</a-button>
+            <a-button type="primary" @click="addGuider" icon="plus">Thêm mới hướng dẫn viên</a-button>
+            <a-button type="danger" icon="delete" @click="deleteMore">Xóa nhiều</a-button>
           </div>
         </div>
         <!-- title -->
@@ -96,7 +97,8 @@
 </template>
 <script>
 import moment from "moment"
-
+import Axios from 'axios'
+import {APP_CONFIG} from '../../../../config'
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -184,8 +186,40 @@ export default {
   },
   methods: {
     onSelectChange (selectedRowKeys) {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys
+    },
+    deleteMore () {
+        let that = this
+        this.$confirm({
+        title: 'Bạn chắc chắn muốn xóa?',
+        content: 'Dữ liệu sẽ mất đi, không khôi phục lại được',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        onOk() {
+          Axios.delete(APP_CONFIG.API_URL + '/tourguider/deletemore',{params: {ids: that.selectedRowKeys}} ).then(res => {
+            const pl = {
+                page: that.pagination.current
+              }
+            that.$store
+            .dispatch("tourguider/getListGuider", pl)
+            .then(res => {
+              const pagination = { ...that.pagination };
+              pagination.total = res.data.data.total;
+              pagination.pageSize = res.data.data.per_page
+              that.pagination = pagination;
+              that.loading = false;
+              that.$message.success('Đã xóa thành công!')
+              })
+            })
+            .catch(err => {
+              console.log(err)
+            }) 
+        },
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
     },
     handleTableChange(pagination, filters, sorter) {
       const pager = { ...this.pagination };
@@ -296,7 +330,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .avatar-uploader > .ant-upload {
   width: 128px;
   height: 128px;

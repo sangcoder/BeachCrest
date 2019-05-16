@@ -18891,9 +18891,8 @@ base-chart.chart {
 }
 
 .app-footer {
-  border-top: 1px solid #a4b7c1;
   align-items: center;
-  background: #f0f3f5;
+  background: #fff;
   color: #151b1e;
   display: flex;
   flex-wrap: wrap;
@@ -23106,7 +23105,6 @@ hr.transparent {
   flex-wrap: wrap;
   padding: 0.75rem 1rem;
   margin-bottom: 1.5rem;
-  background-color: #eef5f9;
   border-bottom: none;
 }
 

@@ -77,6 +77,16 @@ const actions = {
     } catch (err) {
       return err
     }
+  },
+  deleteMore: async ({commit}, params) => {
+    try {
+      let res = await GuiderAPI.deleteMore(params)
+      console.log('delete -more' + res)
+      commit('DELETEMORE_GUIDER', params)
+      return res
+    } catch (err) {
+      return err
+    }
   }
 }
 export default {

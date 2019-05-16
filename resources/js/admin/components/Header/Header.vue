@@ -29,7 +29,6 @@
     <b-navbar-nav class="ml-auto pr-5" >
       <header-dropdown />
     </b-navbar-nav>
-    </button>
   </header>
 </template>
 <script>
