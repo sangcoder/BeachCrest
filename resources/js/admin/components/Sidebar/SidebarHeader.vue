@@ -1,33 +1,31 @@
 <template>
-
   <div class="sidebar-header">
-    <div><img :src="'/images/' + user.photo" style="width: 64px; height: 64px;" alt="Avatar" class="img-avatar">
-<div><strong>{{ user.name }}</strong>
-</div><div class="text-muted">
-  <small>{{ user.roles[0].name | upText }}</small>
-  </div><div role="group" aria-label="Button group with nested dropdown" class="btn-group">
-    <button type="button" class="btn btn-link">
-    <i class="icon-settings"></i>
-    </button><button type="button" class="btn btn-link">
-      <i class="icon-speech"></i>
-      </button><button type="button" class="btn btn-link">
-        <i class="icon-user"></i>
-        </button>
-        </div>
+    <div>
+      <img
+        :src="'/images/' + user.photo"
+        style="width: 64px; height: 64px;"
+        alt="Avatar"
+        class="img-avatar"
+      >
+      <div>
+        <strong>{{ user.name }}</strong>
+      </div>
+      <div class="text-muted">
+        <small>{{ user.roles[0].name | upText }}</small>
+      </div>
     </div>
   </div>
 </template>
 <script>
-
-export default { 
-  name: 'SidebarHeader',
+export default {
+  name: "SidebarHeader",
   data: () => {
     return {
       user: null
-    }
+    };
   },
   created() {
-    this.user = this.$store.get('user/user')
+    this.user = this.$store.get("user/user");
   }
-}
+};
 </script>

@@ -1,58 +1,61 @@
 <template>
-<div class="container">
+  <div class="container">
     <div class="card">
       <div class="card-body">
         <!-- title -->
         <div class="d-md-flex align-items-center">
-            <div>
-              <h4 class="card-title">Danh sách tài khoản</h4>
-              <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
-              </div>
-              <div class="ml-auto">
-                   <a-button type="primary">Thêm</a-button>
-              </div>
-            </div>
-            <!-- title -->
+          <div>
+            <h4 class="card-title">Danh sách tài khoản</h4>
+            <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
+          </div>
+          <div class="ml-auto">
+            <a-input-search
+              placeholder="Input email..."
+              style="width: 250px"
+              @search="onSearch"
+            />
+          </div>
         </div>
-        <a-table
-          :columns="columns"
-          :rowKey="record => record.id"
-          :dataSource="dsUser"
-          :pagination="pagination"
-          :loading="loading"
-          @change="handleTableChange"
-        >
-          <template slot="photo" slot-scope="photo">
-            <a-avatar :size="64" icon="user" :src="'/images/' + photo"/>
-          </template>
-          <template slot="active" slot-scope="active">
-            <span :class="active === 1 ? 'badge badge-success':'badge badge-danger'">{{ active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span>
-          </template>
-          <template slot="roleName" slot-scope="roleName">
-            {{ roleName | upText }}
-          </template>
-          <template slot="createAt" slot-scope="createAt">
-            {{createAt | myDate}}
-            </template>
-          <template slot="modify" slot-scope="modify">
-            <a-button type="primary" icon="edit" @click="updatePermision(modify)"></a-button>
-            <a-popconfirm
-              title="Are you sure delete?"
-              @confirm="deleteUser(modify.id)"
-              @cancel="cancel"
-              okText="Yes"
-              cancelText="No"
-            >
-              <a-button type="danger" icon="delete"></a-button>
-            </a-popconfirm>
-          </template>
-        </a-table>
+        <!-- title -->
+      </div>
+      <a-table
+        :columns="columns"
+        :rowKey="record => record.id"
+        :dataSource="dsUser"
+        :pagination="pagination"
+        :loading="loading"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        @change="handleTableChange"
+      >
+        <template slot="photo" slot-scope="photo">
+          <a-avatar :size="64" icon="user" :src="'/images/' + photo"/>
+        </template>
+        <template slot="active" slot-scope="active">
+          <span
+            :class="active === 1 ? 'badge badge-success':'badge badge-danger'"
+          >{{ active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span>
+        </template>
+        <template slot="roleName" slot-scope="roleName">{{ roleName | upText }}</template>
+        <template slot="createAt" slot-scope="createAt">{{createAt | myDate}}</template>
+        <template slot="modify" slot-scope="modify">
+          <a-button type="primary" icon="edit" @click="updatePermision(modify)"></a-button>
+          <a-popconfirm
+            title="Are you sure delete?"
+            @confirm="deleteUser(modify.id)"
+            @cancel="cancel"
+            okText="Yes"
+            cancelText="No"
+          >
+            <a-button type="danger" icon="delete"></a-button>
+          </a-popconfirm>
+        </template>
+      </a-table>
     </div>
-  <!-- Modal -->
-</div>
+    <!-- Modal -->
+  </div>
 </template>
 <script>
- const columns = [
+const columns = [
   {
     title: "ID",
     dataIndex: "id",
@@ -69,8 +72,8 @@
     width: "20%"
   },
   {
-    title: 'Email',
-    dataIndex: 'email'
+    title: "Email",
+    dataIndex: "email"
   },
   {
     title: "Status",
@@ -84,90 +87,107 @@
   {
     title: "Role",
     dataIndex: "roleName",
-    scopedSlots: {customRender: "roleName"}
+    scopedSlots: { customRender: "roleName" }
   },
   {
-    title: 'Create at',
-    dataIndex: 'created_at',
-    scopedSlots: {customRender: "createAt"}
+    title: "Create at",
+    dataIndex: "created_at",
+    scopedSlots: { customRender: "createAt" }
   },
   {
     title: "Modify",
     scopedSlots: { customRender: "modify" }
   }
-]
+];
 export default {
-  data () {
+  data() {
     return {
       editmode: false,
       pagination: {},
       loading: false,
       visible: false,
+      selectedRowKeys: [],
       columns,
       form: {
-        id: '',
-        name: '',
-        email: '',
-        password: '',
-        photo: '',
-        bio: ''
+        id: "",
+        name: "",
+        email: "",
+        password: "",
+        photo: "",
+        bio: ""
       }
-    }
+    };
   },
-  created () {
-    this.loading = true
-    this.$store.dispatch('user/getDsUser').then(res => {
-      const pagination = { ...this.pagination }
-      pagination.total = res.data.data.total
-      pagination.pageSize = res.data.data.per_page
-      this.pagination = pagination
-      this.loading = false
-    })
+  created() {
+    this.loading = true;
+    let payload = {
+      page: this.pagination.current
+    };
+    this.$store.dispatch("user/getDsUser", payload).then(res => {
+      const pagination = { ...this.pagination };
+      pagination.total = res.data.data.total;
+      pagination.pageSize = res.data.data.per_page;
+      this.pagination = pagination;
+      this.loading = false;
+    });
   },
   computed: {
-    dsUser () {
-      return this.$store.state.user.dsUser
+    dsUser() {
+      return this.$store.state.user.dsUser;
     }
   },
   methods: {
+    onSearch (value) {
+      this.loading = true
+      let payload = {
+        page: this.pagination.current,
+        params: {
+          searchEmail: value
+        }
+      }
+      this.$store.dispatch("user/getDsUser", payload).then(res => {
+        const pagination = { ...this.pagination };
+        pagination.total = res.data.data.total;
+        this.pagination = pagination;
+        this.loading = false;
+      })
+    },
+    onSelectChange(selectedRowKeys) {
+      this.selectedRowKeys = selectedRowKeys;
+    },
     handleTableChange(pagination, filters, sorter) {
       const pager = { ...this.pagination };
       pager.current = pagination.current;
       this.pagination = pager;
       this.loading = true;
-      this.$store
-        .dispatch("user/getDsUser", this.pagination.current)
-        .then(res => {
-          const pagination = { ...this.pagination };
-          pagination.total = res.data.data.total;
-          this.pagination = pagination;
-          this.loading = false;
-        });
+      let payload = {
+        page: this.pagination.current,
+        params: {
+          sortById: sorter.order,
+          ...filters
+        }
+      };
+      this.$store.dispatch("user/getDsUser", payload).then(res => {
+        const pagination = { ...this.pagination };
+        pagination.total = res.data.data.total;
+        this.pagination = pagination;
+        this.loading = false;
+      })
     },
-    uploadPhoto (e) {
-      let file = e.target.files[0]
-      let reader = new FileReader()
-      let that = this
+    uploadPhoto(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      let that = this;
       reader.onloadend = function() {
-        that.form.photo = reader.result
-      }
-      reader.readAsDataURL(file)
+        that.form.photo = reader.result;
+      };
+      reader.readAsDataURL(file);
     },
-    updatePermision (id) {
-
-    },
-    createUser () {
-
-    },
-    deleteUser (id) {
-
-    },
-    confirm () {
-      
-    },
-    cancel () {
-
-    }
+    updatePermision(id) {},
+    createUser() {},
+    deleteUser(id) {},
+    confirm() {},
+    cancel() {}
   }
-}
+};
 </script>

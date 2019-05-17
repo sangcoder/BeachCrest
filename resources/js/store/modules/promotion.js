@@ -29,9 +29,9 @@ const getters = {
 }
 
 const actions = {
-  getListProMotion ({commit}, page) {
+  getListProMotion ({commit}, payload) {
     return new Promise((resolve, reject) => {
-      PromotionAPI.getListPromotion(page).then((res) => {
+      PromotionAPI.getListPromotion(payload.page, payload.params).then((res) => {
         commit('listPromtion', res.data.data.data)
         resolve(res)
       })

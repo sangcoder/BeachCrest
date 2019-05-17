@@ -19,13 +19,5 @@ export default {
   },
   deleteGuider: function (id) {
     return Axios.delete(APP_CONFIG.API_URL + '/tourguider/' + id)
-  },
-  deleteMore: function (params) {
-    let deleteGuider = Axios.create({
-      paramsSerializer: params => qs.stringify(params, {arrayFormat: 'comma'})
-    })
-    return deleteGuider.post(APP_CONFIG.API_URL + '/tourguider', {
-      params
-    })
   }
 }

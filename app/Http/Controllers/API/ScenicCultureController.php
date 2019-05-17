@@ -15,15 +15,28 @@ class ScenicCultureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $scenic = DB::table('scenic__cultures')
+        $query = DB::table('scenic__cultures')
             ->join('places', 'place_id', '=','PlaceID')
-            ->select('ScenicID','scenic__cultures.ScenicName','scenic__cultures.Description','scenic__cultures.Contents','scenic__cultures.ImgUrl','State','PlaceName','scenic__cultures.created_at')
-            ->paginate(10);
+            ->select('ScenicID','scenic__cultures.ScenicName','scenic__cultures.Description','scenic__cultures.Contents','scenic__cultures.ImgUrl','State','PlaceName','scenic__cultures.created_at');
+        if ($request->exists('sortById') && $request->sortById == 'ascend') {
+            $query->orderBy('ScenicID', 'asc');
+        }
+        if ($request->exists('sortById') && $request->sortById == 'descend') {
+            $query->orderBy('ScenicID', 'desc');
+        }
+        if ($request->exists('filterLastest') && $request->filterLastest == 'lastest') {
+            $query->orderBy('scenic__cultures.created_at', 'asc');
+        }
+        if ($request->exists('filterOldest') && $request->sortById == 'oldest') {
+            $query->orderBy('scenic__cultures.created_at', 'desc');
+        }
+
+        $result = $query->paginate(10);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $scenic
+            'data' => $result
         ]);
     }
     

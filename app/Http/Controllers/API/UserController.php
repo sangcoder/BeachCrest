@@ -35,13 +35,27 @@ class UserController extends Controller
     *         ),
     * )
     */
-    public function index()
+    public function index(Request $request)
     {
         // return UserResource::collection(User::paginate(10));
-        $user = DB::table('users')
+        $query = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName')->paginate(5);
+                ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName');
+        
+        if ($request->exists('sortById') && $request->sortById == 'ascend') {
+            $query->orderBy('users.id', 'asc');
+        }
+        if ($request->exists('sortById') && $request->sortById == 'descend') {
+            $query->orderBy('users.id', 'desc');
+        }
+        if($request->exists('searchEmail')) {
+            $query->where('users.email', 'LIKE','%'. $request->searchEmail .'%');
+        }
+        if($request->exists('active')) {
+            $query->where('active','=',$request->active);
+        }
+        $user = $query->paginate(5);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $user

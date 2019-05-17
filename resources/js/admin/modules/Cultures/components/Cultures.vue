@@ -122,9 +122,9 @@ export default {
     this.fetchDataCultures()
   },
   methods: {
-    fetchDataCultures (params = {}) {
+    fetchDataCultures (page, params = {}) {
       this.loading = true
-      CultureAPI.getListCultures(this.pagination.current)
+      CultureAPI.getListCultures(page, params)
         .then(res => {
           const pagination = { ...this.pagination }
           pagination.total = res.data.data.total
@@ -135,16 +135,13 @@ export default {
         })
     },
     handleTableChange (pagination, filters, sorter) {
-      console.log(pagination);
       const pager = { ...this.pagination }
       pager.current = pagination.current
       this.pagination = pager;
-      this.fetchDataCultures({
-        page: pagination.current,
-        sortField: sorter.field,
-        sortOrder: sorter.order,
-        ...filters,
-      });
+      this.fetchDataCultures(this.pagination.current,{
+        sortById: sorter.order,
+        filterLastest: filters.created_at,
+      })
     },
     onSelectChange (selectedRowKeys) {
       console.log('selectedRowKeys changed: ', selectedRowKeys);

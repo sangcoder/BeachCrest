@@ -11,7 +11,7 @@
             <div class="d-flex align-items-center">
               <div class="m-r-10">
                 <span class="text-orange display-5">
-                  <i class="mdi mdi-wallet"></i>
+                  <a-icon type="exception"  style="font-size: 45px;" />
                 </span>
               </div>
               <div>
@@ -26,7 +26,7 @@
             <div class="d-flex align-items-center">
               <div class="m-r-10">
                 <span class="text-cyan display-5">
-                  <i class="mdi mdi-star-circle"></i>
+                  <a-icon type="exception"  style="font-size: 45px;"/>
                 </span>
               </div>
               <div>
@@ -41,7 +41,7 @@
             <div class="d-flex align-items-center">
               <div class="m-r-10">
                 <span class="text-info display-5">
-                  <i class="mdi mdi-shopping"></i>
+                  <a-icon type="exception" style="font-size: 45px;" />
                 </span>
               </div>
               <div>
@@ -56,7 +56,7 @@
             <div class="d-flex align-items-center">
               <div class="m-r-10">
                 <span class="text-primary display-5">
-                  <i class="mdi mdi-currency-usd"></i>
+                  <a-icon type="exception" style="font-size: 45px;"/>
                 </span>
               </div>
               <div>

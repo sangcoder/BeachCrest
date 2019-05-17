@@ -2,8 +2,10 @@ import {APP_CONFIG} from '../../config'
 import Axios from 'axios'
 
 export default {
-  getListPromotion: function (page = 1) {
-    return Axios.get(APP_CONFIG.API_URL + '/promotion?page=' + page)
+  getListPromotion: function (page = 1, params = {}) {
+    return Axios.get(APP_CONFIG.API_URL + '/promotion?page=' + page, {
+      params
+    })
   },
   addPromotion: function (payload) {
     return Axios.post(APP_CONFIG.API_URL + '/promotion', payload)

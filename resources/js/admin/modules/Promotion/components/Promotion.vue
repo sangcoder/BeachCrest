@@ -113,8 +113,11 @@ export default {
   },
   mounted() {
     this.loading = true;
+    let payload = {
+      page: this.pagination.current
+    }
     this.$store
-      .dispatch("promotion/getListProMotion", this.pagination.current)
+      .dispatch("promotion/getListProMotion", payload)
       .then(res => {
         const pagination = { ...this.pagination };
         pagination.total = res.data.data.total;
@@ -137,10 +140,15 @@ export default {
       const pager = { ...this.pagination };
       pager.current = pagination.current;
       this.pagination = pager;
-      console.log('page' + pagination, 'sort' + JSON.stringify(sorter))
       this.loading = true;
+      let payload = {
+        page: this.pagination.current,
+        params: {
+          sortById: sorter.order
+        }
+      }
       this.$store
-        .dispatch("promotion/getListProMotion", this.pagination.current)
+        .dispatch("promotion/getListProMotion", payload)
         .then(res => {
           const pagination = { ...this.pagination };
           pagination.total = res.data.data.total;

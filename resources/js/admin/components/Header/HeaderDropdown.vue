@@ -10,7 +10,7 @@
         <a-divider dashed />
         <div> <a @click="logout()"><a-icon type="poweroff" /> Đăng xuất</a></div>
     </template>
-    <a-badge dot status="success"><a-avatar icon="user" /></a-badge>
+    <a-badge dot status="success"><a-avatar icon="user" :src="'/images/' + user.photo" /></a-badge>
   </a-popover>
 
 </template>
@@ -63,5 +63,6 @@ export default {
 }
 .ant-popover-inner-content div a {
     display: block;
+    padding: 5px ;
 }
 </style>

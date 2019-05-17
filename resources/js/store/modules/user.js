@@ -55,9 +55,9 @@ const actions = {
       })
     })
   },
-  getDsUser ({commit}, page) {
+  getDsUser ({commit}, payload) {
     return new Promise((resolve, reject) => {
-      UserAPI.getDsUser(page)
+      UserAPI.getDsUser(payload.page, payload.params)
       .then((response) => {
         commit('dsUser', response.data.data.data)
         resolve(response)

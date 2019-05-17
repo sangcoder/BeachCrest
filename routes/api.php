@@ -27,18 +27,24 @@ Route::group([
         'middleware' => 'api'
     ], function() {
         Route::post('password/token/create','AuthController@createPasswordResetToken');
+        
     });
 });
 
-Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
-// API
-Route::apiResources([
-    'user' =>'API\UserController',
-    'place' => 'API\PlaceController',
-    'promotion' => 'PromotionController',
-    'tourguider' => 'TourGuiderController',
-    'cultures' => 'API\ScenicCultureController'
-]);
+Route::group([
+    'middleware' => 'jwt.auth'
+], function () {
+    Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
+    // API
+    Route::apiResources([
+        'user' =>'API\UserController',
+        'place' => 'API\PlaceController',
+        'promotion' => 'PromotionController',
+        'tourguider' => 'TourGuiderController',
+        'cultures' => 'API\ScenicCultureController'
+    ]);
+});
+
 
 Route::post('uploadImage', 'API\UploadImage@upload');
 Route::post('uploadJson','API\UploadImage@uploadJson');

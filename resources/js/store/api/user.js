@@ -13,7 +13,9 @@ export default {
   GET /api/user
   return: danh sách tài khoản
   */
-  getDsUser: function (page = 1) {
-    return Axios.get(APP_CONFIG.API_URL + '/user?page=' + page)
+  getDsUser: function (page = 1, params = {}) {
+    return Axios.get(APP_CONFIG.API_URL + '/user?page=' + page, {
+      params
+    })
   }
 }

@@ -13,13 +13,20 @@ class PromotionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $promition = Promotion::paginate(10);
+        $promotion = (new Promotion)->newQuery();
+        if ($request->exists('sortById') && $request->sortById == 'ascend') {
+            $promotion->orderBy('PromotionID', 'asc');
+        }
+        if ($request->exists('sortById') && $request->sortById == 'descend') {
+            $promotion->orderBy('PromotionID', 'desc');
+        }
+        $result = $promotion->paginate(10);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $promition
-        ]);
+            'data' => $result
+        ], AppResponse::HTTP_OK);
     }
 
     /**
