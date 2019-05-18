@@ -42,6 +42,7 @@ class UserController extends Controller
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName');
+                // ->orderBy('users.id', 'asc');
         
         if ($request->exists('sortById') && $request->sortById == 'ascend') {
             $query->orderBy('users.id', 'asc');

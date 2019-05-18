@@ -1,19 +1,17 @@
 <template>
-  <div class="container">
+  <div class="user-list">
     <div class="card">
       <div class="card-body">
         <!-- title -->
         <div class="d-md-flex align-items-center">
           <div>
-            <h4 class="card-title">Danh sách tài khoản</h4>
+            <h4 class="card-title">
+              <a-icon type="global"/>Danh sách tài khoản
+            </h4>
             <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
           </div>
           <div class="ml-auto">
-            <a-input-search
-              placeholder="Input email..."
-              style="width: 250px"
-              @search="onSearch"
-            />
+            <a-input-search placeholder="Input email..." style="width: 250px" @search="onSearch"/>
           </div>
         </div>
         <!-- title -->
@@ -35,7 +33,11 @@
             :class="active === 1 ? 'badge badge-success':'badge badge-danger'"
           >{{ active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span>
         </template>
-        <template slot="roleName" slot-scope="roleName">{{ roleName | upText }}</template>
+        <template slot="roleName" slot-scope="roleName">
+          <a-tag color="#f50" v-if="roleName === 'admin'">{{ roleName | upText }}</a-tag>
+          <a-tag color="#2db7f5" v-if="roleName === 'mod'">{{ roleName | upText }}</a-tag>
+          <a-tag color="#87d068" v-else>{{ roleName | upText }}</a-tag>
+        </template>
         <template slot="createAt" slot-scope="createAt">{{createAt | myDate}}</template>
         <template slot="modify" slot-scope="modify">
           <a-button type="primary" icon="edit" @click="updatePermision(modify)"></a-button>
@@ -103,7 +105,13 @@ export default {
   data() {
     return {
       editmode: false,
-      pagination: {},
+      pagination: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "20", "30", "40"],
+        showTotal: total => `Total ${total} items`,
+        showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
+      },
       loading: false,
       visible: false,
       selectedRowKeys: [],
@@ -137,20 +145,20 @@ export default {
     }
   },
   methods: {
-    onSearch (value) {
-      this.loading = true
+    onSearch(value) {
+      this.loading = true;
       let payload = {
         page: this.pagination.current,
         params: {
           searchEmail: value
         }
-      }
+      };
       this.$store.dispatch("user/getDsUser", payload).then(res => {
         const pagination = { ...this.pagination };
         pagination.total = res.data.data.total;
         this.pagination = pagination;
         this.loading = false;
-      })
+      });
     },
     onSelectChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys;
@@ -172,7 +180,7 @@ export default {
         pagination.total = res.data.data.total;
         this.pagination = pagination;
         this.loading = false;
-      })
+      });
     },
     uploadPhoto(e) {
       let file = e.target.files[0];

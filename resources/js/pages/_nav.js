@@ -26,17 +26,20 @@ export default {
     {
       name: 'Quản lý Tour',
       icon: 'icon-grid',
+      isRoles: 2,
       children:
       [
         {
           name: 'Danh sách Tour',
           url: '/admin/danh-sach-tour.html',
-          icon: 'icon-list'
+          icon: 'icon-list',
+          isRoles: 2
         },
         {
           name: 'Quản lý Booking',
-          url: '/admin/quan-ly-booking.html',
-          icon: 'icon-notebook'
+          url: '/admin/danh-sach-booking.html',
+          icon: 'icon-notebook',
+          isRoles: 2
         },
         {
           name: 'Lịch trình',

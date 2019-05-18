@@ -14,6 +14,11 @@ import Promotion from '../admin/modules/Promotion'
 import TourGuider from '../admin/modules/TourGuiders'
 import Cultures from '../admin/modules/Cultures'
 import Dashboard from '../admin/modules/Dashboard'
+import Authorization from '../admin/modules/Authorization'
+import Tour from '../admin/modules/Tours'
+
+// Import profile
+import Profile from '../admin/modules/Profile'
 
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
@@ -75,7 +80,7 @@ const router = new Router({
       component: Admin,
       meta: {isRoles: 2},
       beforeEnter: requireAuth,
-      children: [...Dashboard, ...User, ...Destination, ...Promotion, ...TourGuider, ...Cultures]
+      children: [...Dashboard, ...User, ...Authorization, ...Destination, ...Promotion, ...TourGuider, ...Cultures, ...Tour, ...Profile]
     },
     {
       path: '/admin/404',

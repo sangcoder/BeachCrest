@@ -1,20 +1,24 @@
 <template>
   <div class="culture">
-        <div class="card">
+    <div class="card">
       <div class="card-body">
         <!-- title -->
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-             <a-icon type="global" /> Danh lam thắng cảnh
+              <a-icon type="global"/>Danh lam thắng cảnh
             </h4>
             <h5 class="card-subtitle">Danh sách danh lam thắng cảnh</h5>
           </div>
           <div class="ml-auto">
-            <a-button type="primary" icon="plus" @click="addNewCultures">Thêm mới danh lam thắng cảnh</a-button>
+            <a-button
+              type="primary"
+              icon="plus"
+              @click="addNewCultures"
+            >Thêm mới danh lam thắng cảnh</a-button>
           </div>
         </div>
-        <!-- title -->
+        <!-- /title -->
         <a-table
           :columns="columns"
           :rowKey="record => record.ScenicID"
@@ -27,9 +31,7 @@
           <template slot="scenicName" slot-scope="scenicName">
             <a-avatar :size="64" shape="square" icon="camera" :src="scenicName"/>
           </template>
-          <template slot="description" slot-scope="description">
-            {{ description | truncate(45) }}
-          </template>
+          <template slot="description" slot-scope="description">{{ description | truncate(45) }}</template>
           <template slot="state" slot-scope="state">{{state === 1 ? 'OK' : 'Bảo trì'}}</template>
           <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
           <template slot="modify" slot-scope="modify">
@@ -50,7 +52,7 @@
   </div>
 </template>
 <script>
-import CultureAPI from '../cultureService'
+import CultureAPI from "../cultureService";
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -61,7 +63,7 @@ const columns = [
     title: "ID",
     dataIndex: "ScenicID",
     width: "2%",
-    sorter: true,
+    sorter: true
   },
   {
     title: "Hình ảnh",
@@ -78,7 +80,7 @@ const columns = [
     title: "Mô tả",
     dataIndex: "Description",
     width: "20%",
-    scopedSlots: {customRender: "description"}
+    scopedSlots: { customRender: "description" }
   },
   {
     title: "Trạng thái",
@@ -94,12 +96,12 @@ const columns = [
   {
     title: "Ngày tạo",
     dataIndex: "created_at",
-    scopedSlots: {customRender: "dateCreate"},
+    scopedSlots: { customRender: "dateCreate" },
     width: "12%",
     filters: [
       { text: "Mới nhất", value: "lastest" },
       { text: "Cũ nhất", value: "oldest" }
-    ],
+    ]
   },
   {
     title: "Modify",
@@ -116,52 +118,42 @@ export default {
       visible: false,
       editMode: false,
       columns
-    }
+    };
   },
-  created () {
-    this.fetchDataCultures()
+  created() {
+    this.fetchDataCultures();
   },
   methods: {
-    fetchDataCultures (page, params = {}) {
-      this.loading = true
-      CultureAPI.getListCultures(page, params)
-        .then(res => {
-          const pagination = { ...this.pagination }
-          pagination.total = res.data.data.total
-          pagination.pageSize = res.data.data.per_page
-          this.data = res.data.data.data
-          this.pagination = pagination
-          this.loading = false
-        })
+    fetchDataCultures(page, params = {}) {
+      this.loading = true;
+      CultureAPI.getListCultures(page, params).then(res => {
+        const pagination = { ...this.pagination };
+        pagination.total = res.data.data.total;
+        pagination.pageSize = res.data.data.per_page;
+        this.data = res.data.data.data;
+        this.pagination = pagination;
+        this.loading = false;
+      });
     },
-    handleTableChange (pagination, filters, sorter) {
-      const pager = { ...this.pagination }
-      pager.current = pagination.current
+    handleTableChange(pagination, filters, sorter) {
+      const pager = { ...this.pagination };
+      pager.current = pagination.current;
       this.pagination = pager;
-      this.fetchDataCultures(this.pagination.current,{
+      this.fetchDataCultures(this.pagination.current, {
         sortById: sorter.order,
-        filterLastest: filters.created_at,
-      })
+        filterLastest: filters.created_at
+      });
     },
-    onSelectChange (selectedRowKeys) {
-      console.log('selectedRowKeys changed: ', selectedRowKeys);
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange(selectedRowKeys) {
+      console.log("selectedRowKeys changed: ", selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys;
     },
-    addNewCultures() {
-
-    },
-    updateTourGuider() {
-
-    },
-    deleteTourGuider () {
-      
-    },
-    cancel() {
-
-    }
+    addNewCultures() {},
+    updateTourGuider() {},
+    deleteTourGuider() {},
+    cancel() {}
   }
-}
+};
 </script>
 <style scoped>
-
 </style>

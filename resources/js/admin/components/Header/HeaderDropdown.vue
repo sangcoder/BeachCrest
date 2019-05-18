@@ -48,7 +48,7 @@ export default {
             })
         },
         profile () {
-            this.$router.push({name: 'Admin'})
+            this.$router.push({name: 'Profile'})
         }
     },
 }

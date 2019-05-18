@@ -11,11 +11,12 @@
   min-height: 250px !important;
  }
  .breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  padding: .75rem 1rem;
-  margin-bottom: 1.5rem;
-  border-bottom: none;
+   display: flex;
+   flex-wrap: wrap;
+   padding: .75rem 1rem;
+   margin: 1.5rem 0;
+   border-bottom: none;
+   border-radius: 3px;
  }
  .m-r-10 {
   margin-right: 10px;
@@ -38,8 +39,32 @@ h5 {
 .card {
   border-radius: 3px;
   border: 1px solid #f1f1f1 !important;
-  box-shadow: 2px 2px #f8f8f8 !important;
+  box-shadow: 2px 2px 5px rgba(0,0,0,.125) !important;
 }
 .app-header.navbar {
   border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 7px 0 rgba(0,0,0,.1);
+
+}
+.app-header.navbar .navbar-toggler {
+  outline: none;
+}
+.card-title {
+  text-transform: uppercase;
+}
+.anticon {
+  vertical-align: 0.1em !important;
+}
+
+.border-left-orange {
+  border-left: 3px solid #ffa500;
+}
+.main {
+  background: #f0f2f5;
+}
+.ant-card {
+  margin-bottom: 1.5rem;
+}
+.sidebar-fixed .sidebar {
+  box-shadow: 0px 3px 10px rgba(0,0,0,0.85) !important;
 }

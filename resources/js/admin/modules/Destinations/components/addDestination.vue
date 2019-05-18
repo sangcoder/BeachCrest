@@ -129,7 +129,7 @@ export default {
         Description: "",
         ImageUrl: "",
         Contents: "",
-        Region: ""
+        Region: "Chọn khu vực..."
       }
     };
   },

@@ -1,5 +1,8 @@
 <?php
 
+use App\Exports\TourGuiderExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,4 +31,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home',['as' => 'search', 'use' => 'HomeController@search'] );
 
-// Route everything else to Vue
+// Export Excel
+Route::get('/download/tourguider', function () {
+    return Excel::download(new TourGuiderExport, 'danh-sach-huong-dan-vien.xlsx');
+});

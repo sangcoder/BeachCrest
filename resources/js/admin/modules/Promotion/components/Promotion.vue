@@ -97,7 +97,13 @@ const columns = [
 export default {
   data() {
     return {
-      pagination: {},
+      pagination: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "20", "30", "40"],
+        showTotal: total => `Total ${total} items`,
+        showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
+      },
       loading: false,
       visible: false,
       editMode: false,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Tour;
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
 
 class TourController extends Controller
@@ -14,7 +15,11 @@ class TourController extends Controller
      */
     public function index()
     {
-        //
+        $tour = Tour::paginate(10);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $tour
+        ]);
     }
 
     /**

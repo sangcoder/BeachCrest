@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <ol class="breadcrumb">
     <li
       v-for="(item, index) in list"
@@ -9,6 +9,7 @@
       <span
         v-if="isLast(index)"
         class="active"
+        style="color: rgba(0, 0, 0, .45);"
       >
         {{ showName(item) }}
       </span>

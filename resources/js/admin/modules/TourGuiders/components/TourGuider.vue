@@ -6,14 +6,19 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global" /> Hướng dẫn viên
+              <a-icon type="global"/>Hướng dẫn viên
             </h4>
             <h5 class="card-subtitle">Danh sách hướng dẫn viên</h5>
           </div>
           <div class="ml-auto">
             <a-button type="primary" @click="addGuider" icon="plus">Thêm mới hướng dẫn viên</a-button>
-            <a-button type="danger" icon="delete" @click="deleteMore">Xóa nhiều</a-button>
-            <a-button type="default" icon="file-excel">Export</a-button>
+            <a-button
+              type="danger"
+              icon="delete"
+              @click="deleteMore"
+              v-show="deleteMoreButton"
+            >Xóa nhiều</a-button>
+            <a-button type="default" @click="downloadExel()" icon="file-excel">Export</a-button>
           </div>
         </div>
         <!-- title -->
@@ -23,7 +28,7 @@
           :dataSource="listGuiders"
           :pagination="pagination"
           :loading="loading"
-          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange, onSelectAll: selectAll}"
           @change="handleTableChange"
         >
           <template slot="avatar" slot-scope="avatar">
@@ -97,9 +102,9 @@
   </div>
 </template>
 <script>
-import moment from "moment"
-import Axios from 'axios'
-import {APP_CONFIG} from '../../../../config'
+import moment from "moment";
+import Axios from "axios";
+import { APP_CONFIG } from "../../../../config";
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -125,10 +130,7 @@ const columns = [
     title: "Gender",
     dataIndex: "Gender",
     scopedSlots: { customRender: "gender" },
-    filters: [
-      { text: "Male", value: "1" },
-      { text: "Female", value: "0" }
-    ],
+    filters: [{ text: "Male", value: "1" }, { text: "Female", value: "0" }],
     width: "10%"
   },
   {
@@ -148,11 +150,18 @@ const columns = [
 export default {
   data() {
     return {
-      pagination: {},
+      pagination: {
+        showQuickJumper: true,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "20", "30", "40"],
+        showTotal: total => `Total ${total} items`,
+        showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
+      },
       loading: false,
       visible: false,
       editMode: false,
       columns,
+      deleteMoreButton: false,
       selectedRowKeys: [],
       formData: {
         GuiderName: "",
@@ -169,16 +178,14 @@ export default {
     this.loading = true;
     const pl = {
       page: this.pagination.current
-    }
-    this.$store
-      .dispatch("tourguider/getListGuider", pl)
-      .then(res => {
-        const pagination = { ...this.pagination };
-        pagination.total = res.data.data.total;
-        pagination.pageSize = res.data.data.per_page
-        this.pagination = pagination;
-        this.loading = false;
-      });
+    };
+    this.$store.dispatch("tourguider/getListGuider", pl).then(res => {
+      const pagination = { ...this.pagination };
+      pagination.total = res.data.data.total;
+      pagination.pageSize = res.data.data.per_page;
+      this.pagination = pagination;
+      this.loading = false;
+    });
   },
   computed: {
     listGuiders() {
@@ -186,40 +193,41 @@ export default {
     }
   },
   methods: {
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    onSelectChange(selectedRowKeys) {
+      this.selectedRowKeys = selectedRowKeys;
     },
-    deleteMore () {
-        let that = this
-        this.$confirm({
-        title: 'Bạn chắc chắn muốn xóa?',
-        content: 'Dữ liệu sẽ mất đi, không khôi phục lại được',
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
+    deleteMore() {
+      let that = this;
+      this.$confirm({
+        title: "Bạn chắc chắn muốn xóa?",
+        content: "Dữ liệu sẽ mất đi, không khôi phục lại được",
+        okText: "Yes",
+        okType: "danger",
+        cancelText: "No",
         onOk() {
-          Axios.delete(APP_CONFIG.API_URL + '/tourguider/deletemore',{params: {ids: that.selectedRowKeys}} ).then(res => {
-            const pl = {
-                page: that.pagination.current
-              }
-            that.$store
-            .dispatch("tourguider/getListGuider", pl)
+          Axios.delete(APP_CONFIG.API_URL + "/tourguider/deletemore", {
+            params: { ids: that.selectedRowKeys }
+          })
             .then(res => {
-              const pagination = { ...that.pagination };
-              pagination.total = res.data.data.total;
-              pagination.pageSize = res.data.data.per_page
-              that.pagination = pagination;
-              that.loading = false;
-              that.$message.success('Đã xóa thành công!')
-              })
+              const pl = {
+                page: that.pagination.current
+              };
+              that.$store.dispatch("tourguider/getListGuider", pl).then(res => {
+                const pagination = { ...that.pagination };
+                pagination.total = res.data.data.total;
+                pagination.pageSize = res.data.data.per_page;
+                that.pagination = pagination;
+                that.loading = false;
+                that.$message.success("Đã xóa thành công!");
+              });
             })
             .catch(err => {
-              console.log(err)
-            }) 
+              console.log(err);
+            });
         },
         onCancel() {
-          console.log('Cancel');
-        },
+          console.log("Cancel");
+        }
       });
     },
     handleTableChange(pagination, filters, sorter) {
@@ -233,15 +241,13 @@ export default {
           guiderid: sorter.order,
           ...filters
         }
-      }
-      this.$store
-        .dispatch("tourguider/getListGuider", payload)
-        .then(res => {
-          const pagination = { ...this.pagination };
-          pagination.total = res.data.data.total;
-          this.pagination = pagination;
-          this.loading = false;
-        });
+      };
+      this.$store.dispatch("tourguider/getListGuider", payload).then(res => {
+        const pagination = { ...this.pagination };
+        pagination.total = res.data.data.total;
+        this.pagination = pagination;
+        this.loading = false;
+      });
     },
     submitForm() {
       // Add
@@ -326,6 +332,16 @@ export default {
         this.$message.error("Ảnh upload phải nhỏ hơn 5MB!");
       }
       return isLt2M;
+    },
+    downloadExel() {
+      window.open("/download/tourguider", "_blank");
+    },
+    selectAll(selected, selectedRows, changeRows) {
+      if (selected) {
+        this.deleteMoreButton = true;
+      } else {
+        this.deleteMoreButton = false;
+      }
     },
     cancel() {}
   }

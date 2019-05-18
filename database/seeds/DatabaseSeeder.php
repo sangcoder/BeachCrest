@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(RolesAndPermissionsSeeder::class);
         // factory(App\Model\Place::class, 15)->create();
-        factory(App\Model\Scenic_Culture::class, 30)->create();
+        // factory(App\Model\Scenic_Culture::class, 30)->create();
         // factory(App\Model\Promotion::class, 20)->create();
         // factory(App\Model\TourGuider::class, 30)->create();
+        factory(App\Model\Tour::class, 30)->create();
 
     }
 }

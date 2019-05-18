@@ -9,8 +9,6 @@
   position: relative;
 
   .navbar-brand {
-    @include borders($navbar-brand-border);
-
     background-color: $navbar-brand-bg;
     background-image: $navbar-brand-logo;
     background-position: center center;

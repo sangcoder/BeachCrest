@@ -34,8 +34,13 @@ Route::group([
 Route::group([
     'middleware' => 'jwt.auth'
 ], function () {
+    Route::get('permission/getAll', 'AuthorizationController@getAllPermission');
+    Route::get('roles/getAll', 'AuthorizationController@getListRoles');
+    Route::get('permission/getAllPermission/{id}', 'AuthorizationController@getPermissionByRole');
     Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
-    // API
+    // Tour
+    Route::get('tour/getAll', 'TourController@index');
+    // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',
         'place' => 'API\PlaceController',
