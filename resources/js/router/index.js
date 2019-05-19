@@ -6,6 +6,7 @@ import Page404 from '../pages/Page404.vue'
 import Admin from '../pages/admin.vue'
 import Login from '../pages/login.vue'
 import store from '../store/index'
+import Client from '../pages/Client.vue'
 
 // import module admin
 import User from '../admin/modules/User'
@@ -19,6 +20,8 @@ import Tour from '../admin/modules/Tours'
 
 // Import profile
 import Profile from '../admin/modules/Profile'
+// Import Client Module
+import Home from '../frontend/modules/Home'
 
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
@@ -63,16 +66,35 @@ function requireNonAuth (to, from, next) {
   }
 }
 
-// Yêu cầu quyền admin
-// function requireAdmin (from, to, next) {
-//   next()
-// }
+// Check login in homepage
+function nonRequire (from, to, next) {
+  if (store.get('user/userLoadStatus') === 3) {
+    next()
+  } else {
+    store.dispatch('user/getUser')
+    store.watch(store.getters['user/getUserLoadStatus'], n => {
+      if (store.get('user/userLoadStatus') === 2) {
+        next()
+      } else if (store.get('user/userLoadStatus') === 3) {
+        next()
+      }
+    })
+  }
+}
 
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
   linkActiveClass: 'active',
   routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Client,
+      redirect: '/index.html',
+      beforeEnter: nonRequire,
+      children: [...Home]
+    },
     {
       path: '/admin',
       name: 'Admin',

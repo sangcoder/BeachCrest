@@ -41,7 +41,7 @@ class UserController extends Controller
         $query = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName');
+                ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName','users.created_at');
                 // ->orderBy('users.id', 'asc');
         
         if ($request->exists('sortById') && $request->sortById == 'ascend') {
@@ -131,11 +131,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+       $user = DB::table('users')->where('id', '=', $id );
         //  Delete user
         $user->delete();
-        return [
-            'message' => 'User Deleted'
-        ];
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
     }
+    
 }

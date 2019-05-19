@@ -20,13 +20,13 @@
           </a-form-item>
         </a-form>
       </a-col>
-      <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
+      <a-col :md="24" :lg="8" :style="{ minHeight: '180px', display: 'flex', justifyContent: 'center' }">
         <a-upload
           name="avatar"
           listType="picture-card"
           class="avatar-uploader"
           :showUploadList="false"
-          action="//jsonplaceholder.typicode.com/posts/"
+          action="/api/uploadJson"
           :beforeUpload="beforeUpload"
           @change="handleChange"
         >

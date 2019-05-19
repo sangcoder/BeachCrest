@@ -14,18 +14,19 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 
-Route::get('/', function () {
+Route::get('/client', function () {
     return view('home');
 });
 
-// Route::get('/debugvar','TourGuiderController@index');
 
 // Admin route
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/{vue_capture?}', 'AdminController@index')
-    ->middleware(['speed'])
-    ->where('vue_capture', '[\/\w\.\,\-]*');
+
 });
+Route::get('/{vue_capture?}', 'AdminController@index')
+->middleware(['speed'])
+->where('vue_capture', '[\/\w\.\,\-]*');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

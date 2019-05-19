@@ -29,18 +29,29 @@
           <a-avatar :size="64" icon="user" :src="'/images/' + photo"/>
         </template>
         <template slot="active" slot-scope="active">
-          <span
-            :class="active === 1 ? 'badge badge-success':'badge badge-danger'"
-          >{{ active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt' }}</span>
+          <a-tooltip placement="bottom">
+            <template slot="title">
+              <span v-if="active === 1">Kích hoạt</span>
+              <span v-else>Chưa kích hoạt</span>
+            </template>
+            <a-icon
+              v-if="active === 1"
+              type="check-circle"
+              :style="{fontSize: '30ppx;'}"
+              theme="twoTone"
+              twoToneColor="#52c41a"
+            />
+            <a-icon v-else type="check-circle"/>
+          </a-tooltip>
         </template>
         <template slot="roleName" slot-scope="roleName">
           <a-tag color="#f50" v-if="roleName === 'admin'">{{ roleName | upText }}</a-tag>
           <a-tag color="#2db7f5" v-if="roleName === 'mod'">{{ roleName | upText }}</a-tag>
           <a-tag color="#87d068" v-else>{{ roleName | upText }}</a-tag>
         </template>
-        <template slot="createAt" slot-scope="createAt">{{createAt | myDate}}</template>
+        <template slot="createAt" slot-scope="createAt">{{createAt | myDate(createAt)}}</template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="updatePermision(modify)"></a-button>
+          <a-button type="primary" icon="edit" @click="showModalRole(modify)"></a-button>
           <a-popconfirm
             title="Are you sure delete?"
             @confirm="deleteUser(modify.id)"
@@ -54,9 +65,19 @@
       </a-table>
     </div>
     <!-- Modal -->
+    <a-modal title="Chỉnh sửa quyền" v-model="visible" @ok="changeRole">
+      <a-select
+        defaultValue="Chọn nhóm người dùng"
+        style="width: 100%;"
+        @change="handleChangeSelect"
+      >
+        <a-select-option v-for="item in Roles" :key="item.id" :value="item.id">{{item.name}}</a-select-option>
+      </a-select>
+    </a-modal>
   </div>
 </template>
 <script>
+import UserAPI from "../services";
 const columns = [
   {
     title: "ID",
@@ -115,6 +136,7 @@ export default {
       loading: false,
       visible: false,
       selectedRowKeys: [],
+      Roles: [],
       columns,
       form: {
         id: "",
@@ -191,9 +213,32 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    updatePermision(id) {},
-    createUser() {},
-    deleteUser(id) {},
+    deleteUser(id) {
+      UserAPI.deleteUser(id).then(res => {
+        let payload = {
+          page: this.pagination.current
+        };
+        this.$store.dispatch("user/getDsUser", payload).then(res => {
+          const pagination = { ...this.pagination };
+          pagination.total = res.data.data.total;
+          this.pagination = pagination;
+          this.loading = false;
+        });
+      });
+    },
+    showModalRole(user) {
+      this.visible = true
+      this.fetchAllRole()
+    },
+    changeRole() {
+      this.visible = false;
+    },
+    handleChangeSelect(value) {},
+    fetchAllRole() {
+      UserAPI.getAllRole().then(res => {
+        this.Roles = res.data;
+      });
+    },
     confirm() {},
     cancel() {}
   }
