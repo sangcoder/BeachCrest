@@ -7,7 +7,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/>Quản lý Tour
+              <a-icon type="global"/> Quản lý Tour
             </h4>
             <h5 class="card-subtitle">Danh sách Tour hệ thống</h5>
           </div>
@@ -32,16 +32,27 @@
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange, onSelectAll: selectAll}"
           @change="handleTableChange"
         >
+        <template slot="Image" slot-scope="Image">
+          <a-avatar :size="64" shape="square" icon="camera" :src="'/images/tour/' + JSON.parse(Image.ImageUrl)[0]"/>
+        </template>
+        <template slot="TourName" slot-scope="TourName">
+          <a href="#" @click="updateTour(TourName)"> {{ TourName.TourName | truncate(45)}}</a>
+        </template>
           <template slot="priceAdult" slot-scope="priceAdult">{{priceAdult | toCurrency}}</template>
+          <template slot="priceKid" slot-scope="priceKid">
+            {{ priceKid | toCurrency }}
+          </template>
+          <template slot="discount" slot-scope="discount">
+            <a-tag color="#87d068">{{discount +'%'}}</a-tag>
+          </template>
           <template slot="modify" slot-scope="modify">
-            <a-button type="dashed" size="small" icon="gift" @click="showModalPromotion"></a-button>
-            <a-button type="primary" size="small" icon="edit" @click="updateTour(modify)"></a-button>
+            <a-button type="default" :style="{background: '#f50', color: '#fff', border: 'none'}" size="small" icon="gift" @click="(showModalPromotion(modify.TourID))"></a-button>
             <a-popconfirm
-              title="Are you sure delete?"
+              title="Bạn đồng ý xóa tour này?"
               @confirm="deleteTour(modify.TourID)"
               @cancel="cancel"
-              okText="Yes"
-              cancelText="No"
+              okText="Đồng ý"
+              cancelText="Không"
             >
               <span>
                 <a-button size="small" type="danger" icon="delete"></a-button>
@@ -112,7 +123,7 @@
             listType="picture-card"
             :fileList="formData.ImageUrl"
             @preview="handlePreview"
-            @change="handleChange"
+            @change="handleChangeImage"
             v-model="formData.ImageUrl"
           >
             <div v-if="formData.ImageUrl.length < 3">
@@ -127,7 +138,7 @@
       </b-form-group>
       <b-row>
         <b-col md="4">
-          <b-form-group label="Số người">
+          <b-form-group label="Số lượng người">
             <a-input-number
               size="large"
               :min="1"
@@ -154,7 +165,7 @@
     <a-modal
       title="Khuyến mãi"
       v-model="hidenModal"
-      @ok="updatePromotion"
+      @ok="addPromotion"
       okText="Áp dụng khuyến mãi"
       cancelText="Hủy bỏ"
     >
@@ -164,6 +175,7 @@
           :value="value"
           placeholder="Tìm khuyến mãi"
           style="width: 100%"
+          size="large"
           :defaultActiveFirstOption="false"
           :showArrow="false"
           :filterOption="false"
@@ -185,6 +197,7 @@
               :formatter="value => `${value}%`"
               :parser="value => value.replace('%', '')"
               style="width: 100%;"
+              size="large"
               v-model="promotionData.Discount"
             />
           </b-form-group>
@@ -219,38 +232,58 @@ const columns = [
     width: "2%"
   },
   {
+    title: 'Image',
+    scopedSlots: { customRender: "Image"}
+  },
+  {
     title: "Name",
-    dataIndex: "TourName",
-    width: "25%"
+    // dataIndex: "TourName",
+    width: "25%",
+    scopedSlots: {customRender: 'TourName'}
   },
   {
-    title: "Ngày bắt đầu",
-    dataIndex: "DateDeparture",
-    filters: [
-      { text: "Mới nhất", value: "lastest" },
-      { text: "Cũ nhất", value: "oldest" }
-    ]
+    title: 'Thời gian',
+    dataIndex: "TourTime",
+    width: "15%"
   },
+  // {
+  //   title: "Ngày bắt đầu",
+  //   dataIndex: "DateDeparture",
+  //   filters: [
+  //     { text: "Mới nhất", value: "lastest" },
+  //     { text: "Cũ nhất", value: "oldest" }
+  //   ]
+  // },
+  // {
+  //   title: "Ngày kết thúc",
+  //   dataIndex: "DateBack",
+  //   scopedSlots: { customRender: "DateBack" }
+  // },
   {
-    title: "Ngày kết thúc",
-    dataIndex: "DateBack",
-    scopedSlots: { customRender: "DateBack" }
-  },
-  {
-    title: "SL",
+    title: "Người",
     slots: { title: "customTitle" },
     dataIndex: "NumberPerson",
     sorter: true
   },
   {
-    title: "Giá người lớn",
+    title: "Người lớn",
     dataIndex: "PriceAdult",
     scopedSlots: { customRender: "priceAdult" }
   },
   {
+    title: "Trẻ nhỏ",
+    dataIndex: "PriceKid",
+    scopedSlots: { customRender: "priceKid" }
+  },
+  {
+    title: "KM",
+    dataIndex: "Discount",
+    scopedSlots: { customRender: "discount"}
+  },
+  {
     title: "Modify",
     scopedSlots: { customRender: "modify" },
-    width: "15%"
+    width: "12%"
   }
 ];
 // Debounce function search ajax
@@ -264,7 +297,6 @@ function fetchPromotion(value, callback) {
   }
   currentValue = value;
   function fakeRequest() {
-    console.log("search" + value);
     Axios.get("/api/promotion/search?q=" + value).then(res => {
       if (currentValue === value) {
         const result = res.data.data;
@@ -295,7 +327,6 @@ export default {
         showTotal: total => `Total ${total} items`,
         showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
       },
-      dataSource: ["Burns Bay Road", "Downing Street", "Wall Street"],
       editMode: false,
       loading: false,
       data: [],
@@ -324,6 +355,7 @@ export default {
       },
       promotionData: {
         PromotionID: "",
+        TourID: "",
         Discount: 0,
         ExpriedDate: moment()
       }
@@ -352,9 +384,9 @@ export default {
       this.loading = true;
       TourAPI.getListTour(page).then(res => {
         const pagination = { ...this.pagination };
-        pagination.total = res.data.data.total;
+        pagination.total = res.data.meta.total;
         this.pagination = pagination;
-        this.data = res.data.data.data;
+        this.data = res.data.data;
         this.loading = false;
       });
     },
@@ -368,7 +400,7 @@ export default {
         orderByDeparture: filters.DateDeparture
       };
       TourAPI.getListTour(this.pagination.current, params).then(res => {
-        this.data = res.data.data.data;
+        this.data = res.data.data;
         this.loading = false;
       });
     },
@@ -382,8 +414,10 @@ export default {
         this.deleteMoreButton = false;
       }
     },
-    showModalPromotion() {
+    showModalPromotion(id) {
       this.hidenModal = true;
+      this.promotionData.TourID = id
+
     },
     addTour() {
       this.visible = true;
@@ -462,7 +496,13 @@ export default {
     },
     exportTour() {},
     deleteMore() {},
-    updatePromotion() {},
+    addPromotion() {
+      TourAPI.addPromotion(this.promotionData.TourID, this.promotionData).then(res => {
+        this.hidenModal = false
+        this.fetchTour(this.pagination.current)
+        this.$message.success('Thêm khuyến mãi thành công')
+      })
+    },
     disabledDate(current) {
       // Can not select days before today and today
       return current && current < moment().endOf("day");
@@ -478,13 +518,11 @@ export default {
       this.previewVisible = false;
     },
     handlePreview(file) {
-      this.previewImage = file.url;
+      this.previewImage = file.url || file.thumbUrl;
       this.previewVisible = true;
     },
-    updatePreview(url) {},
-    handleChange({ fileList }) {
+    handleChangeImage({ fileList }) {
       // this.fileList = fileList;
-      console.log(fileList);
       this.formData.ImageUrl = fileList;
     },
     // Search khuyến mãi

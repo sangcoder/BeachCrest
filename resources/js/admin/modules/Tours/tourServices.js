@@ -15,5 +15,8 @@ export default {
   },
   deleteTour (id) {
     return Axios.delete(APP_CONFIG.API_URL + '/tour/deleteTour/' + id)
+  },
+  addPromotion (idTour, payload) {
+    return Axios.post(APP_CONFIG.API_URL + '/tour/addPromotion/' + idTour, payload)
   }
 }

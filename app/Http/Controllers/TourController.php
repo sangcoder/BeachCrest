@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Model\Tour;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\TourCollection;
 
 class TourController extends Controller
 {
@@ -42,15 +43,14 @@ class TourController extends Controller
             $tour->orderBy('DateDeparture','asc');
         }
         if($request->exists('pageresult')){
-            $result = $tour->paginate($request->pageresult);
-        } else {
-            $result = $tour->paginate(10);
-        }
+            $result = TourCollection::collection($tour->paginate($request->pageresult));
 
-        return response()->json([
-            'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $result
-        ]);
+        } else {
+            // $result = $tour->paginate(10);
+            $result = TourCollection::collection($tour->paginate(10));
+        }
+        return $result;
+
     }
 
     /**
@@ -202,6 +202,12 @@ class TourController extends Controller
 
     // Them khuyen mai cho tour
     public function addPromotion (Request $request) {
-        dd($request->all());
+        $tour = Tour::find($request->TourID);
+        $tour->promotions()->attach($request->PromotionID, [
+            'Discount' => $request->Discount,
+            'ExpiredDate' => Carbon::parse($request->ExpriedDate)
+        ]);
+        // dd($tour->promotions[0]->pivot->Discount);
     }
+
 }

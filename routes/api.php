@@ -31,6 +31,12 @@ Route::group([
     });
 });
 
+// Tour
+Route::get('tour/getAll', 'TourController@index');
+Route::post('tour/addNewTour', 'TourController@store');
+Route::put('tour/updateTour/{tour}', 'TourController@update');
+Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
+
 Route::group([
     'middleware' => 'jwt.auth'
 ], function () {
@@ -38,13 +44,12 @@ Route::group([
     Route::get('roles/getAll', 'AuthorizationController@getListRoles');
     Route::get('permission/getAllPermission/{id}', 'AuthorizationController@getPermissionByRole');
     Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
-    // Tour
-    Route::get('tour/getAll', 'TourController@index');
-    Route::post('tour/addNewTour', 'TourController@store');
-    Route::put('tour/updateTour/{tour}', 'TourController@update');
-    Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
+
+    // Add khuyến mãi
+    Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai
     Route::get('promotion/search', 'PromotionController@search');
+
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',
