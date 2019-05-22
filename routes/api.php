@@ -40,6 +40,11 @@ Route::group([
     Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
     // Tour
     Route::get('tour/getAll', 'TourController@index');
+    Route::post('tour/addNewTour', 'TourController@store');
+    Route::put('tour/updateTour/{tour}', 'TourController@update');
+    Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
+    // Search khuyen mai
+    Route::get('promotion/search', 'PromotionController@search');
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

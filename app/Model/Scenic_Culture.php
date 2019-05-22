@@ -13,7 +13,6 @@ class Scenic_Culture extends Model
     ];
     public $timestamp = false;
     protected $primaryKey = "ScenicID";
-
     public function place() {
         return $this->belongsTo(Place::class, 'place_id');
     }

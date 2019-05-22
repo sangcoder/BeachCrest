@@ -6,7 +6,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/>Danh sách tài khoản
+              <a-icon type="global"/> Danh sách tài khoản
             </h4>
             <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
           </div>
@@ -91,8 +91,7 @@ const columns = [
   },
   {
     title: "Name",
-    dataIndex: "name",
-    width: "20%"
+    dataIndex: "name"
   },
   {
     title: "Email",
@@ -227,8 +226,8 @@ export default {
       });
     },
     showModalRole(user) {
-      this.visible = true
-      this.fetchAllRole()
+      this.visible = true;
+      this.fetchAllRole();
     },
     changeRole() {
       this.visible = false;

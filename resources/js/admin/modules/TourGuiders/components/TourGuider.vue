@@ -6,7 +6,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/>Hướng dẫn viên
+              <a-icon type="global"/> Hướng dẫn viên
             </h4>
             <h5 class="card-subtitle">Danh sách hướng dẫn viên</h5>
           </div>

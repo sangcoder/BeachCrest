@@ -1,35 +1,35 @@
 <template>
-  <div>
-    <a-popover v-if="!empty" title="Tài khoản" trigger="click" v-model="visible" placement="bottomRight">
-      <template slot="content">
-        <div>
-          <a @click="resgister">
-            <a-icon type="setting"/> Đăng kí
-          </a>
-        </div>
-        <a-divider dashed/>
-        <div>
-          <a @click="login()">
-            <a-icon type="poweroff"/>Đăng nhập
-          </a>
-        </div>
+  <div class="menu-pop">
+    <a-popover
+      v-if="!empty"
+      title="Tài khoản"
+      trigger="click"
+      v-model="visible"
+      placement="bottomRight"
+    >
+      <template slot="content" >
+        <a-menu>
+          <a-menu-item key="1">
+            <a-icon type="user" @click="resgister"/>Đăng kí
+          </a-menu-item>
+          <a-menu-item key="2" @click="login()">
+            <a-icon type="login"/>Đăng nhập
+          </a-menu-item>
+        </a-menu>
       </template>
       <a-avatar v-if="!empty" icon="user"/>
       <a-avatar v-else icon="user" :src="'/images/' + user.photo"/>
     </a-popover>
     <a-popover v-else title="Tài khoản" trigger="click" v-model="visible" placement="bottomRight">
       <template slot="content">
-        <div>
-          <a @click="profile">
-            <a-icon type="setting"/>Thông tin tài khoản
-          </a>
-        </div>
-        <a-divider dashed/>
-        <div>
-          <a @click="logout()">
-            <a-icon type="poweroff"/>Đăng xuất
-          </a>
-        </div>
+        <a-menu>
+          <a-menu-item key="1">
+            <a-icon type="user" @click="profile"/>Thông tin tài khoản
+          </a-menu-item>
+          <a-menu-item key="2" @click="logout()">
+            <a-icon type="logout"/>Đăng xuất
+          </a-menu-item>
+        </a-menu>
       </template>
       <a-avatar v-if="!empty" icon="user"/>
       <a-avatar v-else icon="user" :src="'/images/' + user.photo"/>
@@ -83,11 +83,9 @@ export default {
     profile() {
       this.$router.push({ name: "Profile" });
     },
-    resgister () {
-
-    },
-    login () {
-
+    resgister() {},
+    login() {
+      this.$router.push({name: 'Login'})
     }
   }
 };
@@ -102,5 +100,11 @@ export default {
 .ant-popover-inner-content div a {
   display: block;
   padding: 5px;
+}
+.ant-popover-inner-content {
+  padding: 0 !important;
+}
+.app-header .ant-menu-item:hover {
+  background-color: #e6f7ff;
 }
 </style>

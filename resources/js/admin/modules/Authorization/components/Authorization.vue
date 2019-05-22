@@ -66,6 +66,11 @@ export default {
     this.fetchAllRole()
     this.fetchAllPermision()
   },
+  computed: {
+    filterPermission () {
+      
+    }
+  },
   methods: {
     handleChangeSelect(value) {
       // this.fetchPermisionByRole(value)

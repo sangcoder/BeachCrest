@@ -22,11 +22,12 @@ class Tour extends Model
     ];
 
     public function promotions() {
-        return $this->belongsToMany('App\Model\Promotion', 'promotion_tour', 'promotion_id', 'tour_id')->withPivot('Discount','ExpriredDate');
+        return $this->belongsToMany('App\Model\Promotion','promotion_tour','tour_id','promotion_id')
+        ->withPivot('Discount','ExpiredDate');
     }
     public function scenics() {
-        return $this->belongsToMany('App\Model\Scenic_Culture', 'scenic__culture_tour','ScenicID','TourID');
-    }
+        return $this->belongsToMany(Scenic_Culture::class, 'scenic__culture_tour','scenic_id','tour_id');
+    }   
     public function users() {
         return $this->belongsToMany('App\User', 'tour_user', 'tour_id', 'user_id')->withPivot('NumberPerson','DateBooking', 'Note', 'State');
     }

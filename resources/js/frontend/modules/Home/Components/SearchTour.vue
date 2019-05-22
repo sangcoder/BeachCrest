@@ -2,74 +2,60 @@
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Tìm kiếm tour</h4>
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="Tìm theo tên">
-              <a-input v-model="queryParam.id" placeholder size="large" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="Điểm khởi hành">
-              <a-input v-model="queryParam.id" placeholder size="large" />
-            </a-form-item>
-          </a-col>
-          <template v-if="advanced">
-            <a-col :md="8" :sm="24">
-            <a-form-item label="Tên tour">
-              <a-input v-model="queryParam.id" placeholder/>
-            </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="Ngày bắt đầu">
-                <a-date-picker v-model="queryParam.date" style="width: 100%" placeholder="Chọn ngày"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-            <a-form-item label="Tên tour">
-              <a-input v-model="queryParam.id" placeholder/>
-            </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-            <a-form-item label="Tên tour">
-              <a-input v-model="queryParam.id" placeholder/>
-            </a-form-item>
-            </a-col>
-          </template>
-          <a-col :md="!advanced && 8 || 24" :sm="24">
-            <span
-              class="table-page-search-submitButtons"
-              :style="advanced && { float: 'right', overflow: 'hidden' } || {} "
-            >
-              <a-button type="primary" @click="searchTour">Search</a-button>
-              <a-button >Clear</a-button>
-              <a @click="toggleAdvanced" style="margin-left: 8px">
-                {{ advanced ? 'Ẩn nâng cao' : 'Tìm nâng cao' }}
-                <a-icon :type="advanced ? 'up' : 'down'"/>
-              </a>
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
+      <b-row>
+        <b-col lg="4">
+          <a-form-item label="Điểm đến">
+            <a-input size="large" placeholder="Nhập tên điểm đến"/>
+          </a-form-item>
+        </b-col>
+        <b-col lg="4">
+          <a-form-item label="Ngày khởi hành">
+            <a-range-picker
+              :defaultValue="[moment('01/06/2019', dateFormat), moment('01/09/2019', dateFormat)]"
+              :format="dateFormat"
+              size="large"
+              style="width: 100%;"
+            />
+          </a-form-item>
+        </b-col>
+        <b-col lg="4" class="d-flex justify-content-center align-items-center">
+          <a-button
+            type="primary"
+            @click="searchTour"
+            block
+            icon="search"
+            size="large"
+            style="margin-top: 10px;"
+          >Tìm kiếm</a-button>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
 <script>
+import moment from "moment";
 export default {
-  name: 'SearchTour',
+  name: "SearchTour",
   data() {
     return {
       advanced: false,
-      queryParam: {}
-    }
+      queryParam: {},
+      dateFormat: "DD/MM/YYYY",
+      monthFormat: "MM/YYYY"
+    };
   },
   methods: {
-    toggleAdvanced () {
-      this.advanced = !this.advanced
+    moment,
+    handleChange() {},
+    toggleAdvanced() {
+      this.advanced = !this.advanced;
     },
-    searchTour () {
-
-    }
+    searchTour() {}
   }
-}
+};
 </script>
+<style>
+.ant-form-item-label label {
+  margin-bottom: 0 !important;
+}
+</style>

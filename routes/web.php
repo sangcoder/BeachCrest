@@ -18,6 +18,7 @@ Route::get('/client', function () {
     return view('home');
 });
 
+Route::get('/test','HomeController@test');
 
 // Admin route
 Route::group(['prefix' => 'admin'], function () {

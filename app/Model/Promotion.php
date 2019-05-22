@@ -11,6 +11,6 @@ class Promotion extends Model
         'Contents'
     ];
     public function tours() {
-        return $this->belongsToMany('App\Model\Tour');
+        return $this->belongsToMany(Tour::class,'promotion_tour','promotion_id','tour_id');
     }
 }

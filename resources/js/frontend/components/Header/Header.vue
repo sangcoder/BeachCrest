@@ -21,7 +21,7 @@
         <b-nav-item class="px-3" @click="goTo('/api/documentation')">Danh sách tour</b-nav-item>
         <b-nav-item class="px-3" @click="goTo('/api/documentation')">Tour khuyến mãi</b-nav-item>
       </b-navbar-nav>
-      <b-navbar-nav class="ml-auto pr-5">
+      <b-navbar-nav class="ml-auto">
         <header-dropdown/>
       </b-navbar-nav>
     </b-container>

@@ -20,13 +20,13 @@
             </div>
             <div class="tour--content">
               <p>
-                <i class="icomoon icon-icon-map"></i> Nha Trang
+                <a-icon type="tags" /> Nha Trang
               </p>
               <h4 class="tour__title">
                 <a href="#">Tour 4 đảo Nha Trang 2019</a>
               </h4>
               <div class="tour__review">
-                <div class="reviewTour"></div>
+                 <a-rate :defaultValue="2.5" allowHalf />
                 <span>2 Review</span>
               </div>
             </div>
@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
+        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
           <div class="tour__wrapper">
             <div
               class="tour__img"
@@ -83,7 +83,7 @@
             </div>
           </div>
         </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
+        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
           <div class="tour__wrapper">
             <div
               class="tour__img"
@@ -123,7 +123,7 @@
             </div>
           </div>
         </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
+        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
           <div class="tour__wrapper">
             <div
               class="tour__img"
@@ -163,7 +163,7 @@
             </div>
           </div>
         </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
+        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
           <div class="tour__wrapper">
             <div
               class="tour__img"
@@ -203,7 +203,7 @@
             </div>
           </div>
         </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
+        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
           <div class="tour__wrapper">
             <div
               class="tour__img"
@@ -244,18 +244,19 @@
           </div>
         </div>
       </div>
+      <p  class="text-center"><a-button type="primary">Tải thêm</a-button></p>
     </div>
   </section>
 </template>
 <script>
 export default {
-  name: 'ListTour'
+  name: "ListTour"
 };
 </script>
 <style scoped>
 .mod-tour {
   background: #f8f8f8;
-  padding: 15px 0;
+  padding: 12px 0;
 }
 .tour__wrapper {
   border: 1px solid #dfdfdf;
@@ -264,6 +265,9 @@ export default {
   height: 100%;
   padding-bottom: 15px;
   background-color: #fff;
+}
+.tour__title a {
+  font-size: 17px;
 }
 .tour--item {
   margin-bottom: 20px;
@@ -315,7 +319,7 @@ export default {
   font-weight: 500;
 }
 .tour__review {
-  margin: 25px 0;
+  margin: 12px 0;
 }
 .tour__price .onsale {
   position: absolute;

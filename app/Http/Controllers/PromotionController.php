@@ -22,6 +22,7 @@ class PromotionController extends Controller
         if ($request->exists('sortById') && $request->sortById == 'descend') {
             $promotion->orderBy('PromotionID', 'desc');
         }
+
         $result = $promotion->paginate(10);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
@@ -34,11 +35,21 @@ class PromotionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() 
     {
-        
+
     }
 
+    public function search(Request $request) {
+        $search = (new Promotion)->newQuery();
+        if($request->exists('q')) {
+            $search->where('Contents', 'LIKE','%'.$request->q.'%'); 
+        }
+        $result = $search->get();
+        return response()->json([
+            'data' => $result
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *
