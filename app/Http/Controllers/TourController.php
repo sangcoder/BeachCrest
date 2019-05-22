@@ -167,8 +167,8 @@ class TourController extends Controller
             $tour->update([
                 'TourName' => $request->TourName,
                 'TourDescription' =>$request->TourDescription,
-                'DateDeparture' => Carbon::parse($request->DateDeparture) ,
-                'DateBack' => Carbon::parse($request->DateBack),
+                'DateDeparture' =>$request->DateDeparture,
+                'DateBack' => $request->DateBack,
                 'Note' => $request->Note,
                 'ImageUrl' => json_encode($listImage),
                 'NumberPerson' => $request->NumberPerson,
@@ -203,9 +203,13 @@ class TourController extends Controller
     // Them khuyen mai cho tour
     public function addPromotion (Request $request) {
         $tour = Tour::find($request->TourID);
-        $tour->promotions()->attach($request->PromotionID, [
-            'Discount' => $request->Discount,
-            'ExpiredDate' => Carbon::parse($request->ExpriedDate)
+        // dd($request->all());
+        $tour->promotions()->syncWithoutDetaching([
+            $request->PromotionID => [
+                'Discount' => $request->Discount,
+                'ExpiredDate' => $request->ExpriedDate
+            ]
+
         ]);
         // dd($tour->promotions[0]->pivot->Discount);
     }

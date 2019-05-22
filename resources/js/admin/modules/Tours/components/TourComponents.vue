@@ -471,8 +471,8 @@ export default {
       let payload = {
         TourName: this.formData.TourName,
         TourDescription: this.formData.TourDescription,
-        DateDeparture: this.formData.DateDeparture,
-        DateBack: this.formData.DateBack,
+        DateDeparture: moment(this.formData.DateDeparture).format('YYYY-MM-DD HH:mm:ss'),
+        DateBack: moment(this.formData.DateBack).format('YYYY-MM-DD HH:mm:ss'),
         Note: this.formData.Note,
         ImageUrl: this.formData.ImageUrl,
         NumberPerson: this.formData.NumberPerson,
@@ -497,7 +497,13 @@ export default {
     exportTour() {},
     deleteMore() {},
     addPromotion() {
-      TourAPI.addPromotion(this.promotionData.TourID, this.promotionData).then(res => {
+      let payload = {
+        PromotionID: this.promotionData.PromotionID,
+        TourID: this.promotionData.TourID,
+        Discount: this.promotionData.Discount,
+        ExpriedDate: moment(this.promotionData.ExpriedDate).format('YYYY-MM-DD HH:mm:ss')
+      }
+      TourAPI.addPromotion(this.promotionData.TourID, payload).then(res => {
         this.hidenModal = false
         this.fetchTour(this.pagination.current)
         this.$message.success('Thêm khuyến mãi thành công')

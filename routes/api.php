@@ -37,6 +37,9 @@ Route::post('tour/addNewTour', 'TourController@store');
 Route::put('tour/updateTour/{tour}', 'TourController@update');
 Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
 
+// Review
+Route::get('review/getReviewById', 'ReviewController@index')->name('reviews.index');
+
 Route::group([
     'middleware' => 'jwt.auth'
 ], function () {

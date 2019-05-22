@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Review;
 use Illuminate\Database\Eloquent\Model;
 
 class Tour extends Model
@@ -28,7 +29,10 @@ class Tour extends Model
     public function scenics() {
         return $this->belongsToMany(Scenic_Culture::class, 'scenic__culture_tour','scenic_id','tour_id');
     }   
-    public function users() {
-        return $this->belongsToMany('App\User', 'tour_user', 'tour_id', 'user_id')->withPivot('NumberPerson','DateBooking', 'Note', 'State');
+    public function reviews() {
+        return $this->hasMany(Review::class, 'tour_id');
     }
+    // public function users() {
+    //     return $this->belongsToMany('App\User', 'tour_user', 'tour_id', 'user_id')->withPivot('NumberPerson','DateBooking', 'Note', 'State');
+    // }
 }

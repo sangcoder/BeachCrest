@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         // factory(App\Model\Scenic_Culture::class, 30)->create();
         // factory(App\Model\Promotion::class, 20)->create();
         // factory(App\Model\TourGuider::class, 30)->create();
-        factory(App\Model\Tour::class, 30)->create();
+        // factory(App\Model\Tour::class, 30)->create();
+        factory(App\Model\Review::class, 30)->create();
 
     }
 }

@@ -33,7 +33,8 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $tour = Tour::find(3);
+        $tour = Tour::find(41);
+        dd($tour->reviews);
         // // $tour->scenics()->detach(31);
         // // dd($tour->scenics);
 
@@ -43,9 +44,9 @@ class HomeController extends Controller
         //     'ExpiredDate' => '2019-05-11 16:10:34'
         // ]);
         // dd($tour->promotions[0]->pivot->Discount);
-        foreach($tour->promotions as $pro) {
-            echo $pro->pivot->Discount;
-        }
+        // foreach($tour->promotions as $pro) {
+        //     echo $pro->pivot->Discount;
+        // }
         // dd($tour->promotions);
        // dd($promotion->tours);
     //    foreach ($tour->promotions as $promotion)
