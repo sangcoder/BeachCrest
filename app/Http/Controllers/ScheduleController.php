@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Model\Schedule;
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\SchedulesCollection;
+use App\Http\Resources\ScheduleSearchCollection;
 
 class ScheduleController extends Controller
 {
@@ -14,7 +17,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        //
+        return SchedulesCollection::collection(Schedule::paginate(10));
     }
 
     /**
@@ -81,5 +84,14 @@ class ScheduleController extends Controller
     public function destroy(Schedule $schedule)
     {
         //
+    }
+
+    public function findSchedulesById (Request $request) {
+        $schedule = (new Schedule)->newQuery();
+        if ($request->exists('q')) {
+            $schedule->where('id', '=' ,$request->q);
+        }
+        return ScheduleSearchCollection::collection($schedule->get());
+
     }
 }

@@ -18,5 +18,8 @@ export default {
   },
   addPromotion (idTour, payload) {
     return Axios.post(APP_CONFIG.API_URL + '/tour/addPromotion/' + idTour, payload)
+  },
+  getScheduleById (id) {
+    return Axios.get(APP_CONFIG.API_URL + '/schedules/getById?q=' + id)
   }
 }

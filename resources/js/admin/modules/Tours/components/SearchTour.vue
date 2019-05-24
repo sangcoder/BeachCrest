@@ -13,7 +13,7 @@
             <a-input size="large" placeholder="Nhập tên điểm đến"/>
           </a-form-item>
         </b-col>
-        <b-col lg="4" class="d-flex justify-content-center align-items-center">
+        <b-col lg="2" class="d-flex justify-content-center align-items-center">
           <a-button
             type="primary"
             @click="searchTour"

@@ -163,7 +163,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
                 'errors' => $validator->errors()
-            ], AppResponsee::HTTP_UNPROCESSABLE_ENTITY);
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         // dd($request->all());
         // Nhận data từ client

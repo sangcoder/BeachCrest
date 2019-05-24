@@ -19,7 +19,8 @@ class Tour extends Model
         'NumberPerson',
         'PriceAdult',
         'PriceKid',
-        'Unit'
+        'Unit',
+        'schedule_id'
     ];
 
     public function promotions() {
@@ -32,7 +33,7 @@ class Tour extends Model
     public function reviews() {
         return $this->hasMany(Review::class, 'tour_id');
     }
-    // public function users() {
-    //     return $this->belongsToMany('App\User', 'tour_user', 'tour_id', 'user_id')->withPivot('NumberPerson','DateBooking', 'Note', 'State');
-    // }
+    public function schedules() {
+        return $this->hasOne('App\Model\Schedule', 'schedule_id');
+    }
 }

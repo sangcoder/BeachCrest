@@ -1,54 +1,70 @@
 <template>
   <div id="login" class="login-box">
- <div class="login-logo">
-    <img src="/../images/logo-bc.png" alt="Logo BeachCrests">
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <h2 class="login-box-msg">Login to system</h2>
+    <div class="login-logo">
+      <img src="/../images/logo-bc.png" alt="Logo BeachCrests">
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <h2 class="login-box-msg">Login to system</h2>
         <div class="input-group mb-3">
-          <a-input placeholder="Enter your email" v-model="email" ref="emailInput">
-            <a-icon slot="prefix" type="user" />
-            <a-icon v-if="email" slot="suffix" type="close-circle" @click="emitEmptyEmail" />
+          <a-input
+            placeholder="Enter your email"
+            v-model="email"
+            ref="emailInput"
+            :class="$v.email.$error ? 'has-feedback has-error' : ''"
+          >
+            <a-icon slot="prefix" type="user"/>
+            <a-icon v-if="email" slot="suffix" type="close-circle" @click="emitEmptyEmail"/>
           </a-input>
+          <div
+            class="invalid-feedback d-block"
+            v-if="$v.email.$invalid && validation.errors && validation.errors.email"
+          >{{ validation.errors.email[0] }}</div>
         </div>
         <div class="input-group mb-3">
-          <a-input placeholder="Enter your password" type="password" v-model="password" ref="passwordInput">
-            <a-icon slot="prefix" type="lock" />
-            <a-icon v-if="password" slot="suffix" type="close-circle" @click="emitEmptyPassword" />
+          <a-input
+            placeholder="Enter your password"
+            type="password"
+            v-model="password"
+            ref="passwordInput"
+             :class="$v.password.$error ? 'has-feedback has-error' : ''"
+          >
+            <a-icon slot="prefix" type="lock"/>
+            <a-icon v-if="password" slot="suffix" type="close-circle" @click="emitEmptyPassword"/>
           </a-input>
+          <div
+            class="invalid-feedback d-block"
+            v-if="$v.password.$invalid && validation.errors && validation.errors.password"
+          >{{ validation.errors.password[0] }}</div>
         </div>
         <div class="row">
           <div class="col-12">
-              <a-button type="primary" :loading="loading" @click="Login" block>
-                {{ text }}
-              </a-button>
+            <a-button type="primary" :loading="loading" @click="Login" block>{{ text }}</a-button>
           </div>
           <!-- /.col -->
         </div>
 
+        <div class="social-auth-links text-center mb-3">
+          <p>- OR -</p>
+          <a href="#" class="btn btn-block btn-primary">
+            <i class="fa fa-facebook mr-2"></i> Sign in using Facebook
+          </a>
+          <a href="#" class="btn btn-block btn-danger">
+            <i class="fa fa-google-plus mr-2"></i> Sign in using Google+
+          </a>
+        </div>
+        <!-- /.social-auth-links -->
 
-      <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fa fa-facebook mr-2"></i> Sign in using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fa fa-google-plus mr-2"></i> Sign in using Google+
-        </a>
+        <p class="mb-1">
+          <a href="#">I forgot my password</a>
+        </p>
+        <p class="mb-0">
+          <a href="register.html" class="text-center">Register a new membership</a>
+        </p>
       </div>
-      <!-- /.social-auth-links -->
-
-      <p class="mb-1">
-        <a href="#">I forgot my password</a>
-      </p>
-      <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
-      </p>
+      <!-- /.login-card-body -->
     </div>
-    <!-- /.login-card-body -->
-  </div>
   </div>
 </template>
 
@@ -78,7 +94,7 @@
   color: #5191fa;
 }
 .login-box-msg::after {
-  content: "";  
+  content: "";
   position: absolute;
   width: 80px;
   bottom: -15px;

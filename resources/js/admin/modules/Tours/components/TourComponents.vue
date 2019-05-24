@@ -7,7 +7,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/> Quản lý Tour
+              <a-icon type="global"/>Quản lý Tour
             </h4>
             <h5 class="card-subtitle">Danh sách Tour hệ thống</h5>
           </div>
@@ -32,21 +32,30 @@
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange, onSelectAll: selectAll}"
           @change="handleTableChange"
         >
-        <template slot="Image" slot-scope="Image">
-          <a-avatar :size="64" shape="square" icon="camera" :src="'/images/tour/' + JSON.parse(Image.ImageUrl)[0]"/>
-        </template>
-        <template slot="TourName" slot-scope="TourName">
-          <a href="#" @click="updateTour(TourName)"> {{ TourName.TourName | truncate(45)}}</a>
-        </template>
-          <template slot="priceAdult" slot-scope="priceAdult">{{priceAdult | toCurrency}}</template>
-          <template slot="priceKid" slot-scope="priceKid">
-            {{ priceKid | toCurrency }}
+          <template slot="Image" slot-scope="Image">
+            <a-avatar
+              :size="64"
+              shape="square"
+              icon="camera"
+              :src="'/images/tour/' + JSON.parse(Image.ImageUrl)[0]"
+            />
           </template>
+          <template slot="TourName" slot-scope="TourName">
+            <a href="#" @click="updateTour(TourName)">{{ TourName.TourName | truncate(45)}}</a>
+          </template>
+          <template slot="priceAdult" slot-scope="priceAdult">{{priceAdult | toCurrency}}</template>
+          <template slot="priceKid" slot-scope="priceKid">{{ priceKid | toCurrency }}</template>
           <template slot="discount" slot-scope="discount">
             <a-tag color="#87d068">{{discount +'%'}}</a-tag>
           </template>
           <template slot="modify" slot-scope="modify">
-            <a-button type="default" :style="{background: '#f50', color: '#fff', border: 'none'}" size="small" icon="gift" @click="(showModalPromotion(modify.TourID))"></a-button>
+            <a-button
+              type="default"
+              :style="{background: '#f50', color: '#fff', border: 'none'}"
+              size="small"
+              icon="gift"
+              @click="(showModalPromotion(modify.TourID))"
+            ></a-button>
             <a-popconfirm
               title="Bạn đồng ý xóa tour này?"
               @confirm="deleteTour(modify.TourID)"
@@ -126,7 +135,7 @@
             @change="handleChangeImage"
             v-model="formData.ImageUrl"
           >
-            <div v-if="formData.ImageUrl.length < 3">
+            <div v-if="formData.ImageUrl.length < 5">
               <a-icon type="plus"/>
               <div class="ant-upload-text">Upload</div>
             </div>
@@ -158,6 +167,22 @@
         <b-col md="4">
           <b-form-group label="Giá trẻ nhỏ (VND)">
             <a-input v-model="formData.PriceKid" size="large" placeholder="Giá trẻ nhỏ"/>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="4">
+          <b-form-group label="Lịch trình">
+            <a-input-search
+              placeholder="Nhập mã lịch trình"
+              style="width: 100%;"
+              @search="handleSchedule"
+            />
+          </b-form-group>
+        </b-col>
+        <b-col md="8">
+          <b-form-group label="Mô tả">
+            <a-textarea placeholder="Nội dung lịch trình..." :rows="4" :value="DataSchedule.length > 0 ? DataSchedule[0].Contents : ''" />
           </b-form-group>
         </b-col>
       </b-row>
@@ -232,17 +257,17 @@ const columns = [
     width: "2%"
   },
   {
-    title: 'Image',
-    scopedSlots: { customRender: "Image"}
+    title: "Image",
+    scopedSlots: { customRender: "Image" }
   },
   {
     title: "Name",
     // dataIndex: "TourName",
     width: "25%",
-    scopedSlots: {customRender: 'TourName'}
+    scopedSlots: { customRender: "TourName" }
   },
   {
-    title: 'Thời gian',
+    title: "Thời gian",
     dataIndex: "TourTime",
     width: "15%"
   },
@@ -278,7 +303,7 @@ const columns = [
   {
     title: "KM",
     dataIndex: "Discount",
-    scopedSlots: { customRender: "discount"}
+    scopedSlots: { customRender: "discount" }
   },
   {
     title: "Modify",
@@ -339,6 +364,7 @@ export default {
       hidenModal: false,
       fileListUpdate: [],
       dataSelectbox: [],
+      DataSchedule: [],
       value: undefined,
       formData: {
         TourID: "",
@@ -351,7 +377,8 @@ export default {
         NumberPerson: 0,
         PriceAdult: "",
         PriceKid: "",
-        Unit: "VND"
+        Unit: "VND",
+        ScheduleId: ""
       },
       promotionData: {
         PromotionID: "",
@@ -404,6 +431,7 @@ export default {
         this.loading = false;
       });
     },
+    fetchSchedules() {},
     onSelectChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys;
     },
@@ -414,10 +442,21 @@ export default {
         this.deleteMoreButton = false;
       }
     },
+    handleSchedule(value) {
+      TourAPI.getScheduleById(value).then(res => {
+        if (res.data.data.length > 0){
+          this.formData.ScheduleId = value
+          this.DataSchedule = res.data.data
+        }
+        else {
+          this.$message.warning('Mã bạn nhập không hợp lệ. Vui lòng check lại!');
+          this.DataSchedule = []
+        }
+      })
+    },
     showModalPromotion(id) {
       this.hidenModal = true;
-      this.promotionData.TourID = id
-
+      this.promotionData.TourID = id;
     },
     addTour() {
       this.visible = true;
@@ -471,14 +510,17 @@ export default {
       let payload = {
         TourName: this.formData.TourName,
         TourDescription: this.formData.TourDescription,
-        DateDeparture: moment(this.formData.DateDeparture).format('YYYY-MM-DD HH:mm:ss'),
-        DateBack: moment(this.formData.DateBack).format('YYYY-MM-DD HH:mm:ss'),
+        DateDeparture: moment(this.formData.DateDeparture).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        DateBack: moment(this.formData.DateBack).format("YYYY-MM-DD HH:mm:ss"),
         Note: this.formData.Note,
         ImageUrl: this.formData.ImageUrl,
         NumberPerson: this.formData.NumberPerson,
         PriceAdult: this.formData.PriceAdult,
         PriceKid: this.formData.PriceKid,
-        Unit: this.formData.Unit
+        Unit: this.formData.Unit,
+        ScheduleId: this.formData.ScheduleId
       };
       if (!this.editMode) {
         TourAPI.addNewTour(payload).then(res => {
@@ -501,17 +543,19 @@ export default {
         PromotionID: this.promotionData.PromotionID,
         TourID: this.promotionData.TourID,
         Discount: this.promotionData.Discount,
-        ExpriedDate: moment(this.promotionData.ExpriedDate).format('YYYY-MM-DD HH:mm:ss')
-      }
+        ExpriedDate: moment(this.promotionData.ExpriedDate).format(
+          "YYYY-MM-DD HH:mm:ss"
+        )
+      };
       TourAPI.addPromotion(this.promotionData.TourID, payload).then(res => {
-        this.hidenModal = false
-        this.fetchTour(this.pagination.current)
-        this.$message.success('Thêm khuyến mãi thành công')
-      })
+        this.hidenModal = false;
+        this.fetchTour(this.pagination.current);
+        this.$message.success("Thêm khuyến mãi thành công");
+      });
     },
     disabledDate(current) {
       // Can not select days before today and today
-      return current && current < moment().endOf("day");
+      return current && current < moment().startOf("day");
     },
     disabledDateTime() {
       return {

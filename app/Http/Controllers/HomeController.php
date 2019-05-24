@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Tour;
+use App\Model\Schedule;
 use App\Model\Promotion;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,12 @@ class HomeController extends Controller
 
     public function test() {
         $tour = Tour::find(41);
-        dd($tour->reviews);
+        // dd($tour->schedules);
+
+        // $schedule = Schedule::find(1);
+        dd(Schedule::all()->random());
+        // dd($tour->schedules);
+        // echo $tour->schedules;
         // // $tour->scenics()->detach(31);
         // // dd($tour->scenics);
 

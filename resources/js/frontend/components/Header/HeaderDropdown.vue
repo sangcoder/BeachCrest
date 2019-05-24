@@ -101,10 +101,16 @@ export default {
   display: block;
   padding: 5px;
 }
-.ant-popover-inner-content {
+
+</style>
+<style>
+.ant-popover.ant-popover-placement-bottomRight .ant-popover-inner-content {
   padding: 0 !important;
 }
-.app-header .ant-menu-item:hover {
+.ant-popover.ant-popover-placement-bottomRight .ant-menu-item:hover {
   background-color: #e6f7ff;
+}
+.menu-pop {
+  cursor: pointer;
 }
 </style>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Tour;
 use App\Model\Review;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,10 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    // Get all review on tour
+    public function index(Tour $tour)
     {
-        //
+        return $tour->reviews;
     }
 
     /**

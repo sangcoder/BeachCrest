@@ -3,6 +3,7 @@
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
 use App\Model\Tour;
+use App\Model\Schedule;
 use Faker\Generator as Faker;
 
 $factory->define(Tour::class, function (Faker $faker) {
@@ -16,6 +17,10 @@ $factory->define(Tour::class, function (Faker $faker) {
         'NumberPerson' => $faker->numberBetween(10,20),
         'PriceAdult' => $faker->numberBetween(300000,15000000),
         'PriceKid' => $faker->numberBetween(300000,350000),
-        'Unit' => 'VND'
+        'Unit' => 'VND',
+        // Ko random dc vi 1 tour chi co 1 lich trinh
+        'schedule_id ' => function () {
+            return Schedule::all()->random();
+        },
     ];
 });

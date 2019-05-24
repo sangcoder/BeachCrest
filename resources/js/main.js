@@ -5,7 +5,7 @@ import Vue from 'vue'
 import Antd from 'ant-design-vue'
 import wysiwyg from 'vue-wysiwyg'
 import BootstrapVue from 'bootstrap-vue'
-
+import Vuelidate from 'vuelidate'
 import 'ant-design-vue/dist/antd.css'
 import 'nprogress/nprogress.css'
 import * as filters from './filters'
@@ -23,6 +23,7 @@ window.Vue = Vue
 Vue.use(VueTruncate)
 Vue.use(Antd)
 Vue.use(BootstrapVue)
+Vue.use(Vuelidate)
 
 // Editor
 Vue.use(wysiwyg, {

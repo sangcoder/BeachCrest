@@ -43,8 +43,9 @@ export default {
         },
         {
           name: 'Lịch trình',
-          url: '/admin/quan-ly-lich-trinh.html',
-          icon: 'icon-calendar'
+          url: '/admin/danh-sach-lich-trinh.html',
+          icon: 'icon-calendar',
+          isRoles: 2
         }
       ]
     },

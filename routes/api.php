@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
 
 /*
@@ -38,7 +39,11 @@ Route::put('tour/updateTour/{tour}', 'TourController@update');
 Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
 
 // Review
-Route::get('review/getReviewById', 'ReviewController@index')->name('reviews.index');
+Route::get('review/getReviewById/{tour}', 'ReviewController@index')->name('reviews.index');
+
+// Schedule
+Route::get('schedules/getAll', 'ScheduleController@index');
+Route::get('schedules/getById', 'ScheduleController@findSchedulesById');
 
 Route::group([
     'middleware' => 'jwt.auth'

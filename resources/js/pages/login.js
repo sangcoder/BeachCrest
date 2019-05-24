@@ -1,22 +1,34 @@
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   data () {
     return {
       email: '',
       password: '',
       loading: false,
-      text: 'Đăng nhập'
+      text: 'Đăng nhập',
+      validation: {
+        message: '',
+        errors: {}
+      }
+    }
+  },
+  validations () {
+    return {
+      email: { required, email },
+      password: { required }
     }
   },
   methods: {
     Login () {
+      this.$v.$touch()
       this.text = 'Đang đăng nhập...'
       this.loading = true
-      let payload = {email: this.email, password: this.password}
+      let payload = { email: this.email, password: this.password }
       var that = this
       that.$store.dispatch('user/login', payload).then(res => {
         if (res.data.success) {
           this.loading = false
-          that.$router.push({name: 'Dashboard'})
+          that.$router.push({ name: 'Dashboard' })
           this.$notification['success']({
             message: 'Đăng nhập thành công',
             description: 'Chào mừng bạn đến với hệ thống quản lý tour BeachCrest'
@@ -30,14 +42,16 @@ export default {
           })
         }
       })
-      .catch(err => {
-        this.loading = false
-        this.text = 'Đăng nhập'
-        console.log(err)
-        this.$notification['warning']({
-          message: 'Kết nối đến server thất bại'
+        .catch(err => {
+          this.loading = false
+          this.text = 'Đăng nhập'
+          if (err.response && err.response.data) {
+            this.validation.errors = err.response.data.errors
+          }
+          this.$notification['warning']({
+            message: 'Kết nối đến server thất bại'
+          })
         })
-      })
     },
     emitEmptyEmail () {
       this.$refs.emailInput.focus()
