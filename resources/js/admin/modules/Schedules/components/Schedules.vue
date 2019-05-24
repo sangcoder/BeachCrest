@@ -36,15 +36,23 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
+          :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         >
-          <template slot="Tour" slot-scope="Tour">{{ Tour.BelongTour.TourName }}</template>
-          <template slot="hdv" slot-scope="hdv">{{hdv.ByGuider.GuiderName}}</template>
+          <template slot="Contents" slot-scope="schedule">
+            <a href="#" @click="updateSchedule(schedule)">{{ schedule.Contents | truncate(80) }}</a>
+          </template>
+          <template slot="createAt" slot-scope="createAt">{{createAt | myDate}}</template>
+          <template slot="updateAt" slot-scope="updateAt">{{updateAt | myDate}}</template>
           <template slot="modify" slot-scope="modify">
-            <a-button size="small" type="primary" icon="edit" @click="updateSchedule(modify)"></a-button>
+            <a-button
+              size="small"
+              type="primary"
+              icon="usergroup-add"
+              @click="addGuiderModal(modify)"
+            ></a-button>
             <a-popconfirm
               title="Bạn muốn xóa lịch trình ?"
               @confirm="deleteSchedule(modify.id)"
-              @cancel="cancel"
               okText="Yes"
               cancelText="No"
             >
@@ -54,81 +62,103 @@
         </a-table>
       </div>
     </div>
+    <a-modal
+      :title="editMode ? 'Sửa lịch trình' :'Thêm lịch trình'"
+      v-model="visibleSchedule"
+      @ok="submitSchedule"
+      :maskClosable="false"
+    >
+      <b-form-group label="Lịch trình">
+        <a-textarea
+          placeholder="Nhập mô tả ngắn về lịch trình"
+          v-model="formData.Contents"
+          :autosize="{ minRows: 2, maxRows: 4 }"
+        />
+      </b-form-group>
+    </a-modal>
+    <a-modal
+      title="Thêm hướng dẫn viên vào lịch trình"
+      v-model="visibleGuider"
+      @ok="addGuider"
+      :width="760"
+      :maskClosable="false"
+    >
+      <b-form-group label="Hướng dẫn viên">
+        <a-select
+          showSearch
+          placeholder="Chọn hướng dẫn viên"
+          optionFilterProp="children"
+          style="width: 100%;"
+          v-model="formScheduleGuider.GuiderID"
+        >
+          <a-select-option
+            v-for="item in listGuider"
+            :key="item.GuiderID"
+            :value="item.GuiderID"
+          >{{item.GuiderName}}</a-select-option>
+        </a-select>
+      </b-form-group>
+      <b-row>
+        <b-col md="6">
+          <b-form-group label="Thời gian bắt đầu">
+            <a-date-picker
+              format="YYYY-MM-DD HH:mm:ss"
+              :disabledDate="disabledDate"
+              :disabledTime="disabledDateTime"
+              :showTime="{ defaultValue: moment('00:00:00', 'HH:mm:ss') }"
+              size="large"
+              style="width: 100%;"
+              v-model="formScheduleGuider.StartTime"
+            />
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label="Thời gian kết thúc">
+            <a-date-picker
+              format="YYYY-MM-DD HH:mm:ss"
+              :disabledDate="disabledDate"
+              :disabledTime="disabledDateTime"
+              :showTime="{ defaultValue: moment('00:00:00', 'HH:mm:ss') }"
+              size="large"
+              style="width: 100%;"
+              v-model="formScheduleGuider.EndTime"
+            />
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-form-group label="Nội dung lịch trình">
+        <a-textarea
+          placeholder="Nhập nội dung lịch trình..."
+          :autosize="{ minRows: 2, maxRows: 6 }"
+          v-model="formScheduleGuider.Contents"
+        />
+      </b-form-group>
+      <b-form-group>
+        <a-button type="primary" @click="addGuiderSchedule">Thêm hướng dẫn viên</a-button>
+      </b-form-group>
+      <table class="table table-hover">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Hướng dẫn viên</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Modify</th>
+          </tr>
+          <tr v-for="item in listGuiderID" :key="item.GuiderID">
+            <td>{{ item.GuiderID }}</td>
+            <td>{{ item.GuiderName | upText }}</td>
+            <td>{{ item.StartTime| myDate }}</td>
+            <td>{{ item.StartTime | myDate }}</td>
+            <td>
+              <a href="#" @click="viewSchedule(item)">Xem</a> 
+              <a href="#" @click="deleteSchelduleGuider(formData.id, item.GuiderID)">Xóa</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </a-modal>
   </div>
 </template>
 
-<script>
-const columns = [
-  {
-    title: "ID",
-    dataIndex: "id",
-    sorter: true
-  },
-  {
-    title: "HDV",
-    scopedSlots: { customRender: "hdv" }
-  },
-  {
-    title: "Bắt đầu",
-    dataIndex: "StartTime"
-  },
-  {
-    title: "Kết thúc",
-    dataIndex: "EndTime"
-  },
-
-  {
-    title: "Modify",
-    scopedSlots: { customRender: "modify" },
-    width: "12%"
-  }
-];
-import ScheduleAPI from "../scheduleServices";
-export default {
-  data() {
-    return {
-      data: [],
-      pagination: {},
-      loading: false,
-      columns
-    };
-  },
-  created() {
-    this.fetchSchedule();
-  },
-  methods: {
-    fetchSchedule(page) {
-      this.loading = true;
-      ScheduleAPI.getListSchedules(page).then(res => {
-        const pagination = { ...this.pagination };
-        pagination.total = res.data.meta.total;
-        this.pagination = pagination;
-        this.data = res.data.data;
-        this.loading = false;
-        this.loading = false;
-      });
-    },
-    handleTableChange(pagination, filters, sorter) {
-      const pager = { ...this.pagination };
-      pager.current = pagination.current;
-      this.pagination = pager;
-      this.loading = true;
-      let params = {
-        orderById: sorter.order
-      };
-      ScheduleAPI.getListSchedules(this.pagination.current, params).then(
-        res => {
-          this.data = res.data.data;
-          this.loading = false;
-        }
-      );
-    },
-    updateSchedule(schedule) {},
-    deleteSchedule(id) {},
-    addSchedule() {},
-    seachTourGuider(value) {},
-    downloadExel() {},
-    cancel() {}
-  }
-};
-</script>
+<script src="./Schedule.js"></script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 
 class SchedulesCollection extends Resource
@@ -17,13 +18,9 @@ class SchedulesCollection extends Resource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'StartTime' => $this->StartTime,
-            'EndTime' => $this->EndTime,
-            'ByGuider' => [
-                'GuiderID' => $this->guider->GuiderID,
-                'GuiderName' => $this->guider->GuiderName
-            ],
-            'Contents'=> $this->Contents
+            'Contents'=> $this->Contents,
+            'created_at' => Carbon::parse($this->created_at),
+            'updated_at' => Carbon::parse($this->updated_at)
         ];
     }
 }

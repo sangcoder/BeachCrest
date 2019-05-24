@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // factory(App\Model\Promotion::class, 20)->create();
         // factory(App\Model\TourGuider::class, 30)->create();
         // factory(App\Model\Review::class, 30)->create();
-        // factory(App\Model\Schedule::class, 15)->create();
+        factory(App\Model\Schedule::class, 5)->create();
         // factory(App\Model\Tour::class, 15)->create();
 
     }

@@ -15,6 +15,6 @@ class TourGuider extends Model
 
     // Relationship ORM
     public function schedules() {
-        $this->hasMany(Schedule::class, 'guider_id');
+        $this->belongsToMany(Schedule::class, 'schedule_tour_guider' , 'tour_guider_id','schedule_id');
     }
 }

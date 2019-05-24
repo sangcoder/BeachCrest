@@ -45,6 +45,7 @@ class TourCollection extends Resource
             'TourTime' => $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
             'Rating' => $this->reviews->count() > 0 ? round($this->reviews->sum('Rating') / $this->reviews->count(), 1) : 'Không có review nào',
             'NumberReview' => $this->reviews->count(),
+            'Schedule' => $this->schedules->guiders->count() > 0 ? $this->schedules->guiders : 'Chưa có lịch trình cho Tour này!',
             'href' => [
                 'views' => route('reviews.index', $this->TourID)
             ]

@@ -6,7 +6,7 @@ export function upText (text) {
   return text.charAt(0).toUpperCase() + text.substr(1)
 }
 export function myDate (date) {
-  return moment(date).format('DD/MM/YYYY')
+  return moment(date).format('YYYY-MM-DD HH:mm:ss')
 }
 export function toCurrency (value) {
   if (typeof value !== 'number') {

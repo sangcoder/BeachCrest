@@ -44,6 +44,15 @@ Route::get('review/getReviewById/{tour}', 'ReviewController@index')->name('revie
 // Schedule
 Route::get('schedules/getAll', 'ScheduleController@index');
 Route::get('schedules/getById', 'ScheduleController@findSchedulesById');
+Route::get('schedules/getListGuider/{id}', 'ScheduleController@getListGuiderBySchedule');
+// Add guider to schedule
+Route::post('schedules/addGuiderToSchedule/{schedule}', 'ScheduleController@addGuiderToSchedule');
+Route::post('schedules/deleteGuiderToSchedule/{schedule}', 'ScheduleController@deleteGuiderSchedule');
+
+// CRUD
+Route::post('schedules/addNew', 'ScheduleController@store');
+Route::put('schedules/updateSchedule/{schedule}', 'ScheduleController@update');
+Route::delete('schedules/deleteSchedule/{schedule}', 'ScheduleController@destroy');
 
 Route::group([
     'middleware' => 'jwt.auth'

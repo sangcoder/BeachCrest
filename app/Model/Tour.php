@@ -34,6 +34,6 @@ class Tour extends Model
         return $this->hasMany(Review::class, 'tour_id');
     }
     public function schedules() {
-        return $this->hasOne('App\Model\Schedule', 'schedule_id');
+        return $this->hasOne('App\Model\Schedule', 'id', 'schedule_id');
     }
 }

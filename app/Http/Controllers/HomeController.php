@@ -34,11 +34,25 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $tour = Tour::find(41);
-        // dd($tour->schedules);
+        $schedule = Schedule::find(51);
+        // dd($schedule->guiders);
+        // foreach ($schedule->guiders as $item) {
+        //     echo $item->pivot->Contents;
+        //     echo '<br />';
+        //     echo $item->GuiderName;
+        // }
+        $schedule->guiders()->attach(10, [
+            'StartTime' => '2019-05-11 16:10:34',
+            'EndTime' => '2019-05-11 16:10:34',
+            'Contents' => 'This is Test'
+        ]);
+        dd($schedule->guiders);
+
+        // $tour = Tour::find(48);
+        // dd($tour->schedules->guiders);
 
         // $schedule = Schedule::find(1);
-        dd(Schedule::all()->random());
+        // dd(Schedule::all()->random());
         // dd($tour->schedules);
         // echo $tour->schedules;
         // // $tour->scenics()->detach(31);

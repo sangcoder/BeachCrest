@@ -34,7 +34,11 @@ class TourGuiderController extends Controller
         if ($request->exists('Gender')) {
             $guider->where('Gender', $request->Gender);
         }
-        $result = $guider->paginate(10);
+        if ($request->exists('type') && $request->type == 'all') {
+            $result = $guider->get();
+        } else {
+            $result = $guider->paginate(10);
+        }
         // dd($request->all());
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
