@@ -41,12 +41,12 @@ class HomeController extends Controller
         //     echo '<br />';
         //     echo $item->GuiderName;
         // }
-        $schedule->guiders()->attach(10, [
-            'StartTime' => '2019-05-11 16:10:34',
-            'EndTime' => '2019-05-11 16:10:34',
-            'Contents' => 'This is Test'
-        ]);
-        dd($schedule->guiders);
+        // $schedule->guiders()->attach(10, [
+        //     'StartTime' => '2019-05-11 16:10:34',
+        //     'EndTime' => '2019-05-11 16:10:34',
+        //     'Contents' => 'This is Test'
+        // ]);
+        dd($schedule->guiders[0]->pivot->StartTime);
 
         // $tour = Tour::find(48);
         // dd($tour->schedules->guiders);

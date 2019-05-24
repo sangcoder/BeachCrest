@@ -3,241 +3,43 @@
     <div class="container">
       <h2>Tour mới cập nhật</h2>
       <div class="row tour-r">
-        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
+        <div v-for="tour in listTour" :key="tour.TourID" class="col-lg-3 col-md-4 col-sm-6 tour--item">
           <div class="tour__wrapper">
             <div
               class="tour__img"
-              style="background-image: url('http://toidi.net/wp-content/uploads/2015/12/honeymoon_nhatrang-001-768x515.jpg')"
+              :style="{backgroundImage: 'url('+ '/images/tour/'+ tour.ImageUrl[0] +')'}"
             >
-              <span>11%</span>
-              <img
-                class="lazy"
-                src="https://123job.vn/images/preloader.gif"
-                data-original="images/Tour.png"
-                alt="BeachCrest Tour"
-              >
-              <div class="tour__tag bestseller">Featured</div>
+              <span :class="tour.Discount === 0 ? 'text-white d-none' : 'text-white d-block'">{{tour.Discount}}%</span>
+              <a href="#" style="display:block;" :title="tour.TourName">
+                <img
+                  class="lazy"
+                  src="images/Tour.png"
+                  alt="BeachCrest Tour"
+                >
+              </a>
+
+              <!-- <div class="tour__tag bestseller">Featured</div> -->
             </div>
             <div class="tour--content">
               <p>
                 <a-icon type="tags" /> Nha Trang
               </p>
               <h4 class="tour__title">
-                <a href="#">Tour 4 đảo Nha Trang 2019</a>
+                <a href="#" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
               </h4>
               <div class="tour__review">
-                 <a-rate :defaultValue="2.5" allowHalf />
-                <span>2 Review</span>
+                 <a-rate :defaultValue="tour.Rating" allowHalf disabled  />
+                <span>{{tour.NumberReview}} Review</span>
               </div>
             </div>
             <div class="tour--footer">
               <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i> 2 ngày
+                <i class="icomoon icon-calendar-alt"></i>{{ tour.TourTime }}
               </div>
               <div class="tour__price">
                 <span class="price">
-                  <span class="onsale">100.000 VNĐ</span>
-                  <span>890.000 VNĐ</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
-          <div class="tour__wrapper">
-            <div
-              class="tour__img"
-              style="background-image: url('http://toidi.net/wp-content/uploads/2015/12/honeymoon_nhatrang-001-768x515.jpg')"
-            >
-              <span>11%</span>
-              <img
-                class="lazy"
-                src="https://123job.vn/images/preloader.gif"
-                data-original="images/Tour.png"
-                alt="BeachCrest Tour"
-              >
-              <div class="tour__tag bestseller">Featured</div>
-            </div>
-            <div class="tour--content">
-              <p>
-                <i class="icomoon icon-icon-map"></i> Nha Trang
-              </p>
-              <h4 class="tour__title">
-                <a href="#">Tour 4 đảo Nha Trang 2019</a>
-              </h4>
-              <div class="tour__review">
-                <div class="reviewTour"></div>
-                <span>2 Review</span>
-              </div>
-            </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i> 2 ngày
-              </div>
-              <div class="tour__price">
-                <span class="price">
-                  <span class="onsale">100.000 VNĐ</span>
-                  <span>890.000 VNĐ</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
-          <div class="tour__wrapper">
-            <div
-              class="tour__img"
-              style="background-image: url('http://toidi.net/wp-content/uploads/2015/12/honeymoon_nhatrang-001-768x515.jpg')"
-            >
-              <span>11%</span>
-              <img
-                class="lazy"
-                src="https://123job.vn/images/preloader.gif"
-                data-original="images/Tour.png"
-                alt="BeachCrest Tour"
-              >
-              <div class="tour__tag bestseller">Featured</div>
-            </div>
-            <div class="tour--content">
-              <p>
-                <i class="icomoon icon-icon-map"></i> Nha Trang
-              </p>
-              <h4 class="tour__title">
-                <a href="#">Tour 4 đảo Nha Trang 2019</a>
-              </h4>
-              <div class="tour__review">
-                <div class="reviewTour"></div>
-                <span>2 Review</span>
-              </div>
-            </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i> 2 ngày
-              </div>
-              <div class="tour__price">
-                <span class="price">
-                  <span class="onsale">100.000 VNĐ</span>
-                  <span>890.000 VNĐ</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
-          <div class="tour__wrapper">
-            <div
-              class="tour__img"
-              style="background-image: url('http://toidi.net/wp-content/uploads/2015/12/honeymoon_nhatrang-001-768x515.jpg')"
-            >
-              <span>11%</span>
-              <img
-                class="lazy"
-                src="https://123job.vn/images/preloader.gif"
-                data-original="images/Tour.png"
-                alt="BeachCrest Tour"
-              >
-              <div class="tour__tag bestseller">Featured</div>
-            </div>
-            <div class="tour--content">
-              <p>
-                <i class="icomoon icon-icon-map"></i> Nha Trang
-              </p>
-              <h4 class="tour__title">
-                <a href="#">Tour 4 đảo Nha Trang 2019</a>
-              </h4>
-              <div class="tour__review">
-                <div class="reviewTour"></div>
-                <span>2 Review</span>
-              </div>
-            </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i> 2 ngày
-              </div>
-              <div class="tour__price">
-                <span class="price">
-                  <span class="onsale">100.000 VNĐ</span>
-                  <span>890.000 VNĐ</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
-          <div class="tour__wrapper">
-            <div
-              class="tour__img"
-              style="background-image: url('http://toidi.net/wp-content/uploads/2015/12/honeymoon_nhatrang-001-768x515.jpg')"
-            >
-              <span>11%</span>
-              <img
-                class="lazy"
-                src="https://123job.vn/images/preloader.gif"
-                data-original="images/Tour.png"
-                alt="BeachCrest Tour"
-              >
-              <div class="tour__tag bestseller">Featured</div>
-            </div>
-            <div class="tour--content">
-              <p>
-                <i class="icomoon icon-icon-map"></i> Nha Trang
-              </p>
-              <h4 class="tour__title">
-                <a href="#">Tour 4 đảo Nha Trang 2019</a>
-              </h4>
-              <div class="tour__review">
-                <div class="reviewTour"></div>
-                <span>2 Review</span>
-              </div>
-            </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i> 2 ngày
-              </div>
-              <div class="tour__price">
-                <span class="price">
-                  <span class="onsale">100.000 VNĐ</span>
-                  <span>890.000 VNĐ</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-sm-6 tour--item">
-          <div class="tour__wrapper">
-            <div
-              class="tour__img"
-              style="background-image: url('http://toidi.net/wp-content/uploads/2015/12/honeymoon_nhatrang-001-768x515.jpg')"
-            >
-              <span>11%</span>
-              <img
-                class="lazy"
-                src="https://123job.vn/images/preloader.gif"
-                data-original="images/Tour.png"
-                alt="BeachCrest Tour"
-              >
-              <div class="tour__tag bestseller">Featured</div>
-            </div>
-            <div class="tour--content">
-              <p>
-                <i class="icomoon icon-icon-map"></i> Nha Trang
-              </p>
-              <h4 class="tour__title">
-                <a href="#">Tour 4 đảo Nha Trang 2019</a>
-              </h4>
-              <div class="tour__review">
-                <div class="reviewTour"></div>
-                <span>2 Review</span>
-              </div>
-            </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i> 2 ngày
-              </div>
-              <div class="tour__price">
-                <span class="price">
-                  <span class="onsale">100.000 VNĐ</span>
-                  <span>890.000 VNĐ</span>
+                  <span :class="tour.Discount === 0 ? 'd-none' : 'onsale'">{{tour.PriceAdult | toCurrency}}</span>
+                  <span>{{ tour.Discount === 0 ? tour.PriceAdult : tour.Onsale | toCurrency}}</span>
                 </span>
               </div>
             </div>
@@ -250,7 +52,20 @@
 </template>
 <script>
 export default {
-  name: "ListTour"
+  name: "ListTour",
+  data () {
+    return {
+
+    }
+  },
+  mounted() {
+    this.$store.dispatch('tour/getListTour')
+  },
+  computed: {
+    listTour () {
+      return this.$store.state.tour.listTour
+    }
+  }
 };
 </script>
 <style scoped>
@@ -339,5 +154,10 @@ export default {
 }
 .tour__duration {
   padding-top: 2px;
+}
+</style>
+<style>
+.ant-rate {
+  font-size: 16px;
 }
 </style>

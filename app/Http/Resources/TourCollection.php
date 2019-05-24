@@ -28,7 +28,16 @@ class TourCollection extends Resource
         // dd(strtotime(Carbon::now()), strtotime('2019-05-24 22:27:00'));
         $date1 = new DateTime($this->DateDeparture);
         $date2 = new DateTime($this->DateBack);
-        $numberOfNights= $date1->diff($date2)->format("%a"); 
+        $numberOfNights= $date1->diff($date2)->format("%a");
+        $newSchedule = array();
+        foreach($this->schedules->guiders as $item) {
+            array_push($newSchedule, [
+                'GuiderName' => $item->GuiderName,
+                'StartTime' => $item->pivot->StartTime,
+                'EndTime' => $item->pivot->EndTime,
+                'Contents' => $item->pivot->Contents
+            ]);
+        }
         return [
             'TourID' => $this->TourID,
             'TourName' => $this->TourName,
@@ -42,10 +51,12 @@ class TourCollection extends Resource
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
             'Discount' => $promotion,
+            'Onsale' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'TourTime' => $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
-            'Rating' => $this->reviews->count() > 0 ? round($this->reviews->sum('Rating') / $this->reviews->count(), 1) : 'Không có review nào',
+            'Rating' => $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
             'NumberReview' => $this->reviews->count(),
-            'Schedule' => $this->schedules->guiders->count() > 0 ? $this->schedules->guiders : 'Chưa có lịch trình cho Tour này!',
+            'Schedule' => 
+            $this->schedules->guiders->count() > 0 ? $newSchedule : 'Chưa có lịch trình cho Tour này!',
             'href' => [
                 'views' => route('reviews.index', $this->TourID)
             ]
