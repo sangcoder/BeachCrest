@@ -53,20 +53,12 @@
 <script>
 export default {
   name: "ListTour",
-  data () {
-    return {
-
-    }
-  },
-  mounted() {
-    this.$store.dispatch('tour/getListTour')
-  },
-  computed: {
-    listTour () {
-      return this.$store.state.tour.listTour
+  props: {
+    listTour: {
+      type: Array
     }
   }
-};
+  };
 </script>
 <style scoped>
 .mod-tour {

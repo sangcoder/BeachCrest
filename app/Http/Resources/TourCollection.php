@@ -58,7 +58,7 @@ class TourCollection extends Resource
             'Schedule' => 
             $this->schedules->guiders->count() > 0 ? $newSchedule : 'Chưa có lịch trình cho Tour này!',
             'href' => [
-                'views' => route('reviews.index', $this->TourID)
+                'reviews' => route('reviews.index', $this->TourID)
             ]
         ];
     }

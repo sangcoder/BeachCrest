@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Tour;
+use App\Model\Review;
 use App\Model\Schedule;
 use App\Model\Promotion;
 use Illuminate\Http\Request;
@@ -34,7 +35,9 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $schedule = Schedule::find(51);
+        $review = Review::find(21);
+        dd($review->tours);
+        // $schedule = Schedule::find(51);
         // dd($schedule->guiders);
         // foreach ($schedule->guiders as $item) {
         //     echo $item->pivot->Contents;
@@ -46,7 +49,7 @@ class HomeController extends Controller
         //     'EndTime' => '2019-05-11 16:10:34',
         //     'Contents' => 'This is Test'
         // ]);
-        dd($schedule->guiders[0]->pivot->StartTime);
+        // dd($schedule->guiders[0]->pivot->StartTime);
 
         // $tour = Tour::find(48);
         // dd($tour->schedules->guiders);

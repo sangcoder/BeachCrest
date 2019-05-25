@@ -27,9 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    // ORM
-    public function tours() {
-        return $this->belongsToMany('App\Model\Tour');
+
+    public function reviews() {
+        return $this->hasMany('App\Model\Review', 'user_id');
     }
 
     // Để sử dụng được JWT Auth

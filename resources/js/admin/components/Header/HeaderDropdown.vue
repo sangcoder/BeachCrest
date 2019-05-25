@@ -3,8 +3,8 @@
     <a-popover title="Tài khoản" trigger="click" v-model="visible" placement="bottomRight">
       <template slot="content" >
         <a-menu>
-          <a-menu-item key="1">
-            <a-icon type="user" @click="profile"/>Thông tin tài khoản
+          <a-menu-item key="1" @click="profile">
+            <a-icon type="user" />Thông tin tài khoản
           </a-menu-item>
           <a-menu-item key="2" @click="logout()">
             <a-icon type="logout"/>Đăng xuất

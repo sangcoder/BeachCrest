@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Model\Tour;
 use App\Model\Review;
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\ReviewSource;
+use App\Http\Resources\ReviewCollection;
 
 class ReviewController extends Controller
 {
+    public function __construct () {
+        $this->middleware('jwt.auth')->except(['getAll','index']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,17 +22,27 @@ class ReviewController extends Controller
     // Get all review on tour
     public function index(Tour $tour)
     {
-        return $tour->reviews;
+        return ReviewCollection::collection($tour->reviews);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function getAll (Request $request) {
+        $query = (new Review)->newQuery();
+        if($request->exists('type')) {
+            if ($request->type == 'all') {
+                $result = ReviewSource::collection($query->orderBy('created_at', 'desc')->paginate(10));
+            }
+            if ($request->type == 'spam') {
+                $review = $query->whereNull('approve_by')->orderBy('created_at', 'desc')->paginate(10);
+                $result =  ReviewSource::collection($review);
+            }
+            if ($request->type == 'approved') {
+                $review = $query->where('approve_by', '<>', 'NULL')->orderBy('created_at', 'desc')->paginate(10);
+                $result = ReviewSource::collection($review);
+            }
+        } else {
+            $result = ReviewSource::collection($query->orderBy('created_at', 'desc')->paginate(10));
+        }
+        return $result; 
     }
 
     /**
@@ -51,16 +67,6 @@ class ReviewController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -82,6 +88,9 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
     }
 }

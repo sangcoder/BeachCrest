@@ -18,6 +18,8 @@ import Dashboard from '../admin/modules/Dashboard'
 import Authorization from '../admin/modules/Authorization'
 import Tour from '../admin/modules/Tours'
 import Schedule from '../admin/modules/Schedules'
+import Review from '../admin/modules/Reviews'
+
 // Import profile
 import Profile from '../admin/modules/Profile'
 // Import Client Module
@@ -104,7 +106,7 @@ const router = new Router({
       beforeEnter: requireAuth,
       children: [...Dashboard, ...User, ...Authorization,
         ...Destination, ...Promotion, ...TourGuider,
-        ...Cultures, ...Tour, ...Profile, ...Schedule
+        ...Cultures, ...Tour, ...Profile, ...Schedule, ...Review
       ]
     },
     {

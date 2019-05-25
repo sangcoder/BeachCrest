@@ -40,7 +40,9 @@ Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
 
 // Review
 Route::get('review/getReviewById/{tour}', 'ReviewController@index')->name('reviews.index');
-
+Route::get('review/getAll', 'ReviewController@getAll');
+// Delete a review
+Route::delete('review/deleleReview/{review}', 'ReviewController@destroy');
 // Schedule
 Route::get('schedules/getAll', 'ScheduleController@index');
 Route::get('schedules/getById', 'ScheduleController@findSchedulesById');

@@ -40,7 +40,7 @@
           {{dateCreate | myDate}}
         </template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="goToEdit(modify.PlaceID)">Edit</a-button>
+          <a-button type="primary" icon="edit" @click="goToEdit(modify.PlaceID)"></a-button>
           <a-popconfirm
             title="Are you sure delete?"
             @confirm="confirm(modify.PlaceID)"
@@ -48,7 +48,7 @@
             okText="Yes"
             cancelText="No"
           >
-            <a-button type="danger" icon="delete">Delete</a-button>
+            <a-button type="danger" icon="delete"></a-button>
           </a-popconfirm>
         </template>
       </a-table>

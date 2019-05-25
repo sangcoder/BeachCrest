@@ -59,7 +59,6 @@
             <a-popconfirm
               title="Bạn đồng ý xóa tour này?"
               @confirm="deleteTour(modify.TourID)"
-              @cancel="cancel"
               okText="Đồng ý"
               cancelText="Không"
             >

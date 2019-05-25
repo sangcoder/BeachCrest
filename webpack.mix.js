@@ -38,8 +38,8 @@ mix.webpackConfig(webpack => {
 // mix.js('resources/js/app.js', 'public/js').sourceMaps().version()
 //   .sass('resources/sass/app.scss', 'public/css').sourceMaps()
 
-mix.js('resources/js/main.js', 'public/backend/js').sourceMaps().version()
-  .sass('resources/sass/admin/style.scss', 'public/backend/css')
+mix.js('resources/js/main.js', 'public/backend/js').sourceMaps()
+  .sass('resources/sass/admin/style.scss', 'public/backend/css').sourceMaps()
 
 mix.browserSync('localhost:8000')
 mix.disableNotifications()

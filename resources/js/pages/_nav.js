@@ -52,10 +52,12 @@ export default {
     {
       name: 'Quản lý Review',
       icon: 'icon-badge',
+      isRoles: 2,
       children: [
         {
           name: 'Danh sách Review',
-          icon: 'icon-list'
+          icon: 'icon-list',
+          url: '/admin/quan-ly-binh-luan.html'
         }
       ]
     },

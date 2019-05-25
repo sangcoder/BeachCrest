@@ -1,7 +1,7 @@
 <template>
   <div class="main-index">
-    <SearchTour/>
-    <ListTour/>
+    <SearchTour />
+    <ListTour :list-tour="listTour"/>
   </div>
 </template>
 <script>
@@ -11,6 +11,19 @@ export default {
   components: {
     SearchTour,
     ListTour
+  },
+    data () {
+    return {
+
+    }
+  },
+  mounted() {
+    this.$store.dispatch('tour/getListTour')
+  },
+  computed: {
+    listTour () {
+      return this.$store.state.tour.listTour
+    }
   }
 };
 </script>
