@@ -1,64 +1,47 @@
 <template>
-  <section class="mod-tour">
-    <div class="container">
-      <h2>Tour mới cập nhật</h2>
-      <div class="row tour-r">
-        <div v-for="tour in listTour" :key="tour.TourID" class="col-lg-3 col-md-4 col-sm-6 tour--item">
-          <div class="tour__wrapper">
-            <div
-              class="tour__img"
-              :style="{backgroundImage: 'url('+ '/images/tour/'+ tour.ImageUrl[0] +')'}"
-            >
-              <span :class="tour.Discount === 0 ? 'text-white d-none' : 'text-white d-block'">{{tour.Discount}}%</span>
-              <a href="#" style="display:block;" :title="tour.TourName">
-                <img
-                  class="lazy"
-                  src="images/Tour.png"
-                  alt="BeachCrest Tour"
-                >
-              </a>
+  <div class="tour__wrapper">
+    <skeleton-box v-if="loading" width="275px" height="200px" />
+    <slot v-else name="tour_image"/>
 
-              <!-- <div class="tour__tag bestseller">Featured</div> -->
-            </div>
-            <div class="tour--content">
-              <p>
-                <a-icon type="tags" /> Nha Trang
-              </p>
-              <h4 class="tour__title">
-                <a href="#" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
-              </h4>
-              <div class="tour__review">
-                 <a-rate :defaultValue="tour.Rating" allowHalf disabled  />
-                <span>{{tour.NumberReview}} Review</span>
-              </div>
-            </div>
-            <div class="tour--footer">
-              <div class="tour__duration">
-                <i class="icomoon icon-calendar-alt"></i>{{ tour.TourTime }}
-              </div>
-              <div class="tour__price">
-                <span class="price">
-                  <span :class="tour.Discount === 0 ? 'd-none' : 'onsale'">{{tour.PriceAdult | toCurrency}}</span>
-                  <span>{{ tour.Discount === 0 ? tour.PriceAdult : tour.Onsale | toCurrency}}</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="tour--content">
+      <p>
+        <skeleton-box v-if="loading" :max-width="20" :min-height="60"/>
+        <slot v-else name="tag"/>
+      </p>
+      <h4 class="tour__title">
+        <skeleton-box v-if="loading" :min-width="80" :min-height="60"/>
+        <slot v-else name="heading"/>
+      </h4>
+      <div class="tour__review">
+        <skeleton-box v-if="loading" width="80px" :min-height="50"/>
+        <slot v-else name="rating"/>
+        <skeleton-box v-if="loading" width="60px" :min-height="50"/>
+        <slot v-else name="review"/>
       </div>
-      <p  class="text-center"><a-button type="primary">Tải thêm</a-button></p>
     </div>
-  </section>
+    <div class="tour--footer">
+      <slot name="footer"/>
+      <skeleton-box v-if="loading" width="80px" :min-height="50"/>
+      <slot v-else name="duration"/>
+      <skeleton-box v-if="loading" width="90px" :min-height="90"/>
+      <slot v-else name="price"/>
+    </div>
+  </div>
 </template>
 <script>
+import SkeletonBox from "../../../components/Effects/SkeletonBox";
 export default {
   name: "ListTour",
+  components: {
+    SkeletonBox
+  },
   props: {
-    listTour: {
-      type: Array
+    loading: {
+      default: false,
+      type: Boolean
     }
   }
-  };
+};
 </script>
 <style scoped>
 .mod-tour {
