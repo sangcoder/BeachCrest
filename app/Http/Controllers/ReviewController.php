@@ -8,7 +8,7 @@ use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\ReviewSource;
 use App\Http\Resources\ReviewCollection;
-
+use Validator;
 class ReviewController extends Controller
 {
     public function __construct () {
@@ -22,7 +22,7 @@ class ReviewController extends Controller
     // Get all review on tour
     public function index(Tour $tour)
     {
-        return ReviewCollection::collection($tour->reviews);
+        return ReviewSource::collection($tour->reviews()->paginate(10));
     }
 
     public function getAll (Request $request) {
@@ -77,7 +77,26 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        //
+        // dd($request->all(), $review);
+        $validator = Validator::make($request->all(), [
+            'Contents' => 'required|string',
+            'Rating' => 'required|numeric'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'errors' => $validator->errors()
+            ]);
+        }
+        // pass
+        $review->update([
+            'spam' => 0,
+            'approve_by' => $request->ApproveBy
+        ]);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $review
+        ]);
     }
 
     /**

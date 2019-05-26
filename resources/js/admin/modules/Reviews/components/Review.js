@@ -75,12 +75,25 @@ export default {
       let params = {
         type: value.target.value
       }
-      ReviewAPI.getListReview(this.pagination.current, params).then(res => {
+      ReviewAPI.getListReview(1, params).then(res => {
         this.loading = false
         this.data = res.data.data
         const pagination = { ...this.pagination }
         pagination.total = res.data.meta.total
         this.pagination = pagination
+      })
+    },
+    acceptComment (review) {
+      this.loading = true
+      let payload = {
+        Contents: review.Contents,
+        Rating: review.Rating,
+        spam: review.spam,
+        ApproveBy: this.$store.state.user.user.id
+      }
+      ReviewAPI.acceptReview(review.ReviewID, payload).then(res => {
+        this.fetchReview(this.pagination.current)
+        this.loading = false
       })
     },
     deleteReview (id) {
@@ -91,7 +104,17 @@ export default {
       })
     },
     searchReview (value) {
-      console.log(value)
+      this.loading = true
+      ReviewAPI.getReviewByTour(value).then(res => {
+        this.data = res.data.data
+        const pagination = { ...this.pagination }
+        pagination.total = res.data.meta.total
+        this.pagination = pagination
+        this.loading = false
+      }).catch(err => {
+        this.$message.error('ID Tour không hợp lệ!')
+        this.loading = false
+      })
     }
   }
 }

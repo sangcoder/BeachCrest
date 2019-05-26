@@ -19,3 +19,7 @@ export function toCurrency (value) {
   })
   return formatter.format(value)
 }
+
+export function timeAgo (value) {
+  return moment(value).endOf('day').fromNow()
+}

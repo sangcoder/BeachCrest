@@ -12,7 +12,7 @@
           </div>
           <div class="ml-auto">
             <a-input-search
-              placeholder="Tìm bình luận"
+              placeholder="Nhập ID tour cần tìm..."
               style="width: 250px"
               @search="searchReview"
             />
@@ -43,24 +43,33 @@
           @change="handleTableChange"
         >
           <template slot="content" slot-scope="content">
+            <p><a-rate :defaultValue="content.Rating" disabled /></p>
             {{content.Contents | truncate(80)}}
             <span>
               <a href>{{content.tour.TourName}}</a>
             </span>
           </template>
-          <template slot="dayCreate" slot-scope="dayCreate">{{dayCreate | myDate}}</template>
+          <template slot="dayCreate" slot-scope="dayCreate">{{dayCreate | timeAgo}}</template>
           <template slot="createBy" slot-scope="createBy">
-            <a-avatar icon="user" :src="'/images/'+createBy.user.photo" class="mr-3"/>
+            <a-avatar icon="user" :src="'/images/' + createBy.user.photo" class="mr-3"/>
             <a href="#">{{createBy.user.name | upText}}</a>
           </template>
           <template
             slot="approveBy"
             slot-scope="approveBy"
-          >{{ approveBy ? approveBy : 'Chưa duyệt' }}</template>
-          <template slot="modify" slot-scope="modify">
-            <a-button type="primary" size="small">
-              <a-icon type="edit"/>
+          >
+           <a-tag v-if="approveBy" color="#2db7f5">{{approveBy}}</a-tag>
+            <a-button
+            v-else
+            size="small" 
+            :style="{backgroundColor: '#87d068', color: '#fff', border: 'none'}"
+            @click="acceptComment(modify)"
+            >
+              <a-icon type="check"/>
+              Duyệt
             </a-button>
+          </template>
+          <template slot="modify" slot-scope="modify">
             <a-popconfirm
               title="Bạn đồng ý xóa nhận xét này?"
               @confirm="deleteReview(modify.ReviewID)"

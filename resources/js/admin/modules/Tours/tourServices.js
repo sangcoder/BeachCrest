@@ -21,5 +21,8 @@ export default {
   },
   getScheduleById (id) {
     return Axios.get(APP_CONFIG.API_URL + '/schedules/getById?q=' + id)
+  },
+  getAllSchedule () {
+    return Axios.get(APP_CONFIG.API_URL + '/schedules/getAll?type=all')
   }
 }

@@ -9,5 +9,11 @@ export default {
   },
   deleteReview (id) {
     return Axios.delete(APP_CONFIG.API_URL + '/review/deleleReview/' + id)
+  },
+  acceptReview (id, payload) {
+    return Axios.post(APP_CONFIG.API_URL + '/review/acceptReview/' + id, payload)
+  },
+  getReviewByTour (id) {
+    return Axios.get(APP_CONFIG.API_URL + '/review/getReviewById/' + id)
   }
 }

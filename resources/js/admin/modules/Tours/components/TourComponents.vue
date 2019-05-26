@@ -79,6 +79,7 @@
       okText="Hoàn tất"
       cancelText="Hủy bỏ"
     >
+    <a-divider><a-icon type="audit"  class="mr-2"/> Thông tin Tour<a-icon type="audit"  class="ml-2"/> </a-divider>
       <b-form-group label="Tên Tour:">
         <a-input size="large" v-model="formData.TourName" placeholder="Nhập tên tour"/>
       </b-form-group>
@@ -172,19 +173,22 @@
       <b-row>
         <b-col md="4">
           <b-form-group label="Lịch trình">
-            <a-input-search
-              placeholder="Nhập mã lịch trình"
-              style="width: 100%;"
-              @search="handleSchedule"
-            />
+            <a-select size="large" defaultValue="Chọn lịch trình..." style="width: 100%" @change="handleListSchedule">
+              <a-select-option v-for="schedule in AllSchedule" :key="schedule.id" :value="schedule.id">{{schedule.id}}</a-select-option>
+            </a-select>
           </b-form-group>
         </b-col>
         <b-col md="8">
           <b-form-group label="Mô tả">
-            <a-textarea placeholder="Nội dung lịch trình..." :rows="4" :value="DataSchedule.length > 0 ? DataSchedule[0].Contents : ''" />
+            <a-textarea
+              placeholder="Nội dung lịch trình..."
+              :rows="2"
+              :value="ContentSchedule"
+            />
           </b-form-group>
         </b-col>
       </b-row>
+      <a-divider>Địa điểm thăm quan của Tour</a-divider>
     </a-modal>
     <a-modal
       title="Khuyến mãi"

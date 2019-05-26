@@ -29,6 +29,7 @@
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <template slot="placeImage" slot-scope="placeImage">
           <a-avatar shape="square" :size="64" icon="camera" :src="placeImage"/>
@@ -40,7 +41,7 @@
           {{dateCreate | myDate}}
         </template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="goToEdit(modify.PlaceID)"></a-button>
+          <a-button size="small" type="primary" icon="edit" @click="goToEdit(modify.PlaceID)"></a-button>
           <a-popconfirm
             title="Are you sure delete?"
             @confirm="confirm(modify.PlaceID)"
@@ -48,7 +49,7 @@
             okText="Yes"
             cancelText="No"
           >
-            <a-button type="danger" icon="delete"></a-button>
+            <a-button size="small" type="danger" icon="delete"></a-button>
           </a-popconfirm>
         </template>
       </a-table>
@@ -64,8 +65,7 @@ const columns = [
   },
   {
     title: "Tỉnh",
-    dataIndex: "PlaceName",
-    width: "15%"
+    dataIndex: "PlaceName"
   },
   {
     title: "Hình ảnh",
@@ -77,7 +77,7 @@ const columns = [
     title: "Mô tả",
     dataIndex: "Description",
     scopedSlots: { customRender: "description" },
-    width: "40%"
+    width: '30%'
   },
   {
     title: "Ngày tạo",
@@ -94,6 +94,7 @@ export default {
     return {
       pagination: {},
       loading: false,
+      selectedRowKeys: [],
       visible: false,
       editMode: false,
       columns
@@ -134,6 +135,9 @@ export default {
         this.pagination = pagination;
         this.loading = false
       });
+    },
+    onSelectChange (selectedRowKeys) {
+      this.selectedRowKeys = selectedRowKeys
     },
     cancel() {}
   }

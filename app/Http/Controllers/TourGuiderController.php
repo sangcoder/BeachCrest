@@ -112,17 +112,6 @@ class TourGuiderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\TourGuider  $tourGuider
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TourGuider $tourguider)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

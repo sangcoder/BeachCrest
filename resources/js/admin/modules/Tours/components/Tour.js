@@ -115,9 +115,9 @@ export default {
       previewVisible: false,
       previewImage: '',
       hidenModal: false,
-      fileListUpdate: [],
       dataSelectbox: [],
-      DataSchedule: [],
+      AllSchedule: [],
+      ContentSchedule: '',
       value: undefined,
       formData: {
         TourID: '',
@@ -184,7 +184,11 @@ export default {
         this.loading = false
       })
     },
-    fetchSchedules () {},
+    fetchSchedules () {
+      TourAPI.getAllSchedule().then(res => {
+        this.AllSchedule = res.data.data
+      })
+    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
@@ -195,14 +199,10 @@ export default {
         this.deleteMoreButton = false
       }
     },
-    handleSchedule (value) {
-      TourAPI.getScheduleById(value).then(res => {
-        if (res.data.data.length > 0) {
-          this.formData.ScheduleId = value
-          this.DataSchedule = res.data.data
-        } else {
-          this.$message.warning('Mã bạn nhập không hợp lệ. Vui lòng check lại!')
-          this.DataSchedule = []
+    handleListSchedule (value) {
+      this.AllSchedule.forEach((item, index) => {
+        if (item.id === value) {
+          this.ContentSchedule = item.Contents
         }
       })
     },
@@ -213,7 +213,7 @@ export default {
     addTour () {
       this.visible = true
       this.editMode = false
-
+      this.fetchSchedules()
       // Clear field
       this.formData.TourName = ''
       this.formData.TourDescription = ''
@@ -241,7 +241,6 @@ export default {
       this.formData.DateDeparture = moment(tour.DateDeparture)
       this.formData.DateBack = moment(tour.DateBack)
       this.formData.Note = tour.Note
-      // this.fileListUpdate = JSON.parse(tour.ImageUrl)
       this.formData.NumberPerson = tour.NumberPerson
       this.formData.PriceAdult = tour.PriceAdult
       this.formData.PriceKid = tour.PriceKid

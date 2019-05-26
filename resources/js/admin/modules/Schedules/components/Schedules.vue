@@ -151,7 +151,9 @@
             <td>{{ item.StartTime| myDate }}</td>
             <td>{{ item.StartTime | myDate }}</td>
             <td>
-              <a href="#" @click="viewSchedule(item)">Xem</a> 
+              <a-divider type="vertical"/>
+              <a href="#" @click="viewSchedule(item)">Xem</a>
+              <a-divider type="vertical"/>
               <a href="#" @click="deleteSchelduleGuider(formData.id, item.GuiderID)">Xóa</a>
             </td>
           </tr>
