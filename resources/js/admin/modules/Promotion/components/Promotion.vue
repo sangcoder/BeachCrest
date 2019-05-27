@@ -37,7 +37,7 @@
         <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
         <template slot="dateUpdate" slot-scope="dateUpdate">{{dateUpdate | myDate}}</template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="updatePromotion(modify)"></a-button>
+          <a-button size="small" type="primary" icon="edit" @click="updatePromotion(modify)"></a-button>
           <a-popconfirm
             title="Are you sure delete?"
             @confirm="deletePromotion(modify.PromotionID)"
@@ -45,7 +45,7 @@
             okText="Yes"
             cancelText="No"
           >
-            <a-button type="danger" icon="delete"></a-button>
+            <a-button size="small" type="danger" icon="delete"></a-button>
           </a-popconfirm>
         </template>
       </a-table>
@@ -74,19 +74,16 @@ const columns = [
   {
     title: "Nội dung khuyến mãi",
     dataIndex: "Contents",
-    width: "55%",
     scopedSlots: {customRender: "content"}
   },
   {
     title: "Ngày tạo",
     dataIndex: "created_at",
-    width: "10%",
     scopedSlots: { customRender: "dateCreate" }
   },
   {
     title: "Ngày sửa",
     dataIndex: "updated_at",
-    width: "10%",
     scopedSlots: { customRender: "dateUpdate" }
   },
   {

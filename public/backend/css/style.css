@@ -22247,6 +22247,13 @@ h5 {
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.85) !important;
 }
 
+.border-box-content {
+  background: #fff;
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #dae1e7;
+}
+
 .spinner-container {
   align-items: center;
   display: flex;

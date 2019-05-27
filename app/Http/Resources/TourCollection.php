@@ -52,7 +52,7 @@ class TourCollection extends Resource
             'Unit' => $this->Unit,
             'Discount' => $promotion,
             'Onsale' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
-            'TourTime' => $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
+            'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
             'Rating' => $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
             'NumberReview' => $this->reviews->count(),
             'Schedule' => 

@@ -24,6 +24,7 @@ import Review from '../admin/modules/Reviews'
 import Profile from '../admin/modules/Profile'
 // Import Client Module
 import Home from '../frontend/modules/Home'
+import Detail from '../frontend/modules/Detail'
 
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
@@ -95,7 +96,7 @@ const router = new Router({
       component: Client,
       redirect: '/index.html',
       beforeEnter: nonRequire,
-      children: [...Home]
+      children: [...Home, ...Detail]
     },
     {
       path: '/admin',

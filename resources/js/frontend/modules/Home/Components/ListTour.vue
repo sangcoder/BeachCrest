@@ -1,6 +1,6 @@
 <template>
   <div class="tour__wrapper">
-    <skeleton-box v-if="loading" width="275px" height="200px" />
+    <skeleton-box v-if="loading" width="100%" height="200px" />
     <slot v-else name="tour_image"/>
 
     <div class="tour--content">
