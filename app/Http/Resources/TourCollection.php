@@ -53,8 +53,11 @@ class TourCollection extends Resource
             'Discount' => $promotion,
             'Onsale' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
-            'Rating' => $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
-            'NumberReview' => $this->reviews->count(),
+            'Rating' => [
+                'NumberRating' =>  $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
+                'Count' => $this->countReview,
+                'NumberReview' => $this->reviews->count(),
+            ],
             'Schedule' => 
             $this->schedules->guiders->count() > 0 ? $newSchedule : 'Chưa có lịch trình cho Tour này!',
             'href' => [

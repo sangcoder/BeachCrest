@@ -36,4 +36,10 @@ class Tour extends Model
     public function schedules() {
         return $this->hasOne('App\Model\Schedule', 'id', 'schedule_id');
     }
+
+    public function countReview() {
+        return $this->reviews()
+                ->selectRaw('Rating, count(*) as total')
+                ->groupBy('Rating');
+    }
 }

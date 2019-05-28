@@ -19,7 +19,7 @@
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="Trẻ em < 6">
+          <b-form-group label="Trẻ em > 6">
             <a-input-number
               size="large"
               :min="1"

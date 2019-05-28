@@ -1,29 +1,36 @@
 <template>
   <div class="box-comment border-box-content my-3">
-    <review-score/>
-    <div data-show="true" class="ant-alert ant-alert-info ant-alert-no-icon ant-alert-closable">
-      <span class="ant-alert-message">
-        Vui lòng
-        <a href="#">đăng nhập</a> để đăng nhận xét!
-      </span>
+    <h3>Đánh giá</h3>
+    <div class="review-box">
+      <b-row>
+        <b-col md="5" class="review-box-score">
+          <div class="review-score">
+            {{ CountReview && CountReview.NumberRating }}
+            <span>/5</span>
+          </div>
+
+          <a-rate v-if="CountReview" :defaultValue="CountReview.NumberRating" disabled/>
+          <p>Trên {{CountReview && CountReview.NumberReview}} nhận xét</p>
+        </b-col>
+        <b-col md="7">
+          <div v-if="CountReview" class="counter-score">
+            <p v-for="(item, index) in CountReview.Score" :key="index">
+              <span>{{sumary[index]}}</span>
+              <a-progress :percent="item.percent" size="small" status="active"/>
+            </p>
+          </div>
+        </b-col>
+      </b-row>
     </div>
-    <a-comment>
-      <a-avatar
-        slot="avatar"
-        size="large"
-        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        alt="Han Solo"
-      />
+
+    <a-comment v-if="empty">
+      <a-avatar slot="avatar" size="large" :src="'/images/' + this.$store.state.user.user.photo"/>
       <div slot="content">
-        <b-form-group
-        label="Đánh giá về tour này"
-        >
-          <a-rate :defaultValue="3" />
+        <b-form-group label="Đánh giá về tour này">
+          <a-rate :defaultValue="3" v-model="formData.Rating"/>
         </b-form-group>
-        <b-form-group
-        label="Nhận xét của bạn"
-        >
-          <a-textarea :rows="4" @change="handleChange" :value="value"></a-textarea>
+        <b-form-group label="Nhận xét của bạn">
+          <a-textarea :rows="4" @change="handleChange" v-model="formData.Contents"></a-textarea>
         </b-form-group>
         <b-form-group>
           <a-button
@@ -35,33 +42,36 @@
         </b-form-group>
       </div>
     </a-comment>
-    <div class="comment-item mt-3">
+    <div
+      v-else
+      data-show="true"
+      class="ant-alert ant-alert-info ant-alert-no-icon ant-alert-closable"
+    >
+      <span class="ant-alert-message">
+        Vui lòng
+        <a href="#">đăng nhập</a> để đăng nhận xét!
+      </span>
+    </div>
+    <div class="comment-item mt-3" v-for="comment in comments" :key="comment.ReviewID">
       <div class="comment-item-head">
         <div class="media">
           <div class="media-left">
-            <a-avatar
-              size="large"
-              icon="user"
-              src="https://secure.gravatar.com/avatar/?s=50&amp;d=mm&amp;r=g"
-            />
+            <a-avatar size="large" icon="user" :src="'/images/' + comment.user.photo"/>
           </div>
           <div class="media-body">
             <h5 class="media-heading">
-              <a href="#">Customer</a>
+              <a href="#">{{comment.user.name}}</a>
             </h5>
-            <div class="date">16/01/2019</div>
+            <div class="date">{{comment.created_at | timeAgo}}</div>
           </div>
           <div class="ml-auto">
-            <a-rate v-model="value"/>
+            <a-rate :defaultValue="comment.Rating" disabled/>
           </div>
         </div>
       </div>
       <div class="comment-item-body">
         <div class="detail">
-          <div
-            class="st-description"
-            data-show-all="st-description-235"
-          >Very professional support system and serious support team all my questions answered</div>
+          <div class="st-description" data-show-all="st-description-235">{{comment.Contents}}</div>
         </div>
       </div>
     </div>
@@ -69,19 +79,37 @@
 </template>
 <script>
 import moment from "moment";
-import ReviewScore from "./ReviewScore";
 export default {
   name: "CommentBox",
-  components: {
-    ReviewScore
+  props: {
+    CountReview: Object,
+    comments: Array
   },
   data() {
     return {
-      comments: [],
       submitting: false,
       value: 4,
+      formData: {
+        Rating: 5,
+        Contents: ""
+      },
+      sumary: ["Rất tệ", "Tệ", "Bình thường", "Tốt", "Tuyệt vời"],
+      user: null,
+      empty: false,
       moment
     };
+  },
+  created() {
+    this.user = this.$store.get("user/user");
+  },
+  watch: {
+    user() {
+      if (_.isEmpty(this.user)) {
+        this.empty = false;
+      } else {
+        this.empty = true;
+      }
+    }
   },
   methods: {
     handleSubmit() {
@@ -135,5 +163,26 @@ export default {
 }
 .st-description {
   padding: 20px;
+}
+.review-box {
+  padding: 2rem;
+}
+.review-box-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border: 1px dashed #eee;
+  background-color: #f0f8ff;
+}
+.review-score {
+  font-size: 30px;
+}
+.review-score span {
+  font-size: 1rem;
+}
+.counter-score p {
+  margin-bottom: 0;
 }
 </style>

@@ -24,7 +24,7 @@
                   <span
                     :class="tour.Discount === 0 ? 'text-white d-none' : 'text-white d-block'"
                   >{{tour.Discount}}%</span>
-                  <a href="#" style="display:block;" :title="tour.TourName">
+                  <a @click="$router.push({name: 'booking', query: {tour: tour.TourID}})" style="display:block;" :title="tour.TourName">
                     <img src="/images/Tour.png">
                   </a>
                   <!-- <div class="tour__tag bestseller">Featured</div> -->
@@ -34,13 +34,13 @@
                 <a-icon type="tags"/>Nha Trang
               </template>
               <template slot="heading">
-                <a  @click="$router.push({name: 'booking', query: {tour: '1'}})" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
+                <a  @click="$router.push({name: 'booking', query: {tour: tour.TourID}})" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
               </template>
               <template slot="rating">
-                <a-rate :defaultValue="tour.Rating" allowHalf disabled/>
+                <a-rate :defaultValue="tour.Rating.NumberRating" allowHalf disabled/>
               </template>
               <template slot="review">
-                <span>{{tour.NumberReview}} Review</span>
+                <span>{{tour.Rating.NumberReview}} Review</span>
               </template>
               <template slot="duration">
                 <div class="tour__duration">

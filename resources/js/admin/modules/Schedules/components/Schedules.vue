@@ -135,6 +135,7 @@
       </b-form-group>
       <b-form-group>
         <a-button type="primary" @click="addGuiderSchedule">Thêm hướng dẫn viên</a-button>
+        <a-button type="primary" @click="clearInput">Xóa trường</a-button>
       </b-form-group>
       <table class="table table-hover">
         <tbody>
@@ -149,7 +150,7 @@
             <td>{{ item.GuiderID }}</td>
             <td>{{ item.GuiderName | upText }}</td>
             <td>{{ item.StartTime| myDate }}</td>
-            <td>{{ item.StartTime | myDate }}</td>
+            <td>{{ item.EndTime | myDate }}</td>
             <td>
               <a-divider type="vertical"/>
               <a href="#" @click="viewSchedule(item)">Xem</a>

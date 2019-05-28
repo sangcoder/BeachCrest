@@ -37,6 +37,14 @@ class TourResource extends JsonResource
                 'Contents' => $item->pivot->Contents
             ]);
         }
+        $full = array();
+        foreach($this->countReview as $rev) {
+            array_push($full, [
+                'Rating' => $rev->Rating,
+                'Total' => $rev->total,
+                'percent' => round(($rev->total * 100) / $this->reviews->count(), 2)
+                ]);
+            }
         return [
             'TourID' => $this->TourID,
             'TourName' => $this->TourName,
@@ -52,13 +60,17 @@ class TourResource extends JsonResource
             'Discount' => $promotion,
             'Onsale' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
-            'Rating' => $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
-            'NumberReview' => $this->reviews->count(),
+            'Rating' => [
+                'NumberRating' =>  $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
+                'Score' => $full,
+                'NumberReview' => $this->reviews->count(),
+                'href' => [
+                    'reviews' => route('reviews.index', $this->TourID)
+                ]
+            ],
             'Schedule' => 
             $this->schedules->guiders->count() > 0 ? $newSchedule : 'Chưa có lịch trình cho Tour này!',
-            'href' => [
-                'reviews' => route('reviews.index', $this->TourID)
-            ]
+
         ];    
     }
 }

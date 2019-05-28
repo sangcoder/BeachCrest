@@ -111,6 +111,7 @@ class ScheduleController extends Controller
         }
         return ScheduleSearchCollection::collection($schedule->get());
     }
+
     public function getListGuiderBySchedule($id) {
         $schedule = Schedule::find($id);
         $guider = array();
@@ -123,6 +124,10 @@ class ScheduleController extends Controller
                 'Contents' => $item->pivot->Contents
             ]);
         }
+        usort($guider, function ($a, $b) {
+            return strtotime($a["StartTime"]) - strtotime($b["StartTime"]);
+        });
+        // dd($guider);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $guider

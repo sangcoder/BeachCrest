@@ -139,6 +139,10 @@ export default {
     addGuider () {
 
     },
+    clearInput () {
+      this.formScheduleGuider.GuiderID = ''
+      this.formScheduleGuider.Contents = ''
+    },
     viewSchedule (item) {
       this.formScheduleGuider.GuiderID = item.GuiderID
       this.formScheduleGuider.StartTime = moment(item.StartTime)

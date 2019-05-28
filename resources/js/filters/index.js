@@ -23,3 +23,7 @@ export function toCurrency (value) {
 export function timeAgo (value) {
   return moment(value).endOf('day').fromNow()
 }
+
+export function timeHour (value) {
+  return moment(value).format('hh:mm a')
+}
