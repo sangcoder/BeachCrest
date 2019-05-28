@@ -1,5 +1,5 @@
 <template>
-  <div :style="{height, width: computedWidth}" class="SkeletonBox"></div>
+  <div :style="{height, width: computedWidth}" class="list-item-loader"></div>
 </template>
 
 <script>
@@ -36,14 +36,14 @@ export default {
 };
 </script>
 <style>
-.SkeletonBox {
+.list-item-loader {
   display: inline-block;
   vertical-align: middle;
   background-color: #dddbdd;
   position: relative;
   overflow: hidden;
 }
-.SkeletonBox::after {
+.list-item-loader::after {
   position: absolute;
   top: 0;
   right: 0;

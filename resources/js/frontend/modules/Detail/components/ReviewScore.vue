@@ -41,6 +41,7 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
+  border: 1px dashed #eee;
 }
 .review-score {
   font-size: 30px;

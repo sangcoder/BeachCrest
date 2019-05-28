@@ -8,6 +8,7 @@ use App\Model\Tour;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\TourCollection;
+use App\Http\Resources\TourResource;
 
 class TourController extends Controller
 {
@@ -121,7 +122,11 @@ class TourController extends Controller
      */
     public function show(Tour $tour)
     {
-        //
+        // dd($tour->first());
+        // $t = Tour::find($tour->TourID);
+        // return $tour;
+        // dd($t);
+        return new TourResource($tour);
     }
 
 

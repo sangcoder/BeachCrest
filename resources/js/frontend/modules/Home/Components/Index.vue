@@ -34,7 +34,7 @@
                 <a-icon type="tags"/>Nha Trang
               </template>
               <template slot="heading">
-                <a href="#" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
+                <a  @click="$router.push({name: 'booking', query: {tour: '1'}})" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
               </template>
               <template slot="rating">
                 <a-rate :defaultValue="tour.Rating" allowHalf disabled/>

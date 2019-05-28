@@ -120,6 +120,8 @@ export default {
 }
 .media {
   align-items: center;
+  border-bottom: 1px dashed #eee;
+  padding-bottom: 15px;
 }
 .media-heading {
   margin-bottom: 0;

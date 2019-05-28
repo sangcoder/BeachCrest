@@ -37,7 +37,7 @@ Route::get('tour/getAll', 'TourController@index');
 Route::post('tour/addNewTour', 'TourController@store');
 Route::put('tour/updateTour/{tour}', 'TourController@update');
 Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
-
+Route::get('tour/getById/{tour}', 'TourController@show');
 // Review
 Route::get('review/getReviewById/{tour}', 'ReviewController@index')->name('reviews.index');
 Route::get('review/getAll', 'ReviewController@getAll');

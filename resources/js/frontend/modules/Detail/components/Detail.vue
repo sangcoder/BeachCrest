@@ -1,8 +1,8 @@
 <template>
-  <div class="section section-detail" ref="tourContent">
-    <h2>Du Lịch Quy Nhơn - Phú Yên - Nha Trang</h2>
+  <div class="section section-detail" >
+    <h2>Du Lịch Quy Nhơn - Phú Yên - Nha Trang {{ $route.query.tour}}</h2>
     <b-row>
-      <b-col md="8">
+      <b-col md="8" ref="tourContent">
         <detail-content></detail-content>
         <comment-box/>
       </b-col>
@@ -30,8 +30,12 @@ export default {
   },
   data() {
     return {
+      mainContent: {
+        height: 0
+      },
       sidebar: {
         height: 0,
+        width: 0,
         windowHeight: 0,
         windowScrollTop: 0
       }
@@ -50,7 +54,7 @@ export default {
         return { 'fixed-top': false };
       }
       if ((this.sidebar.windowScrollTop + this.sidebar.windowHeight) > this.sidebar.height )
-        return {'fixed-bottom-sidebar': true}
+        return {'fixed-bottom-sidebar': false}
       else {
         return {'fixed-bottom-sidebar': false}
       }
@@ -59,6 +63,7 @@ export default {
   methods: {
     handleResize: _.throttle(function() {
       this.calculateSidebar();
+      console.log(window.innerWidth)
     }, 100),
     handleScroll: _.throttle(function() {
       this.sidebar.windowScrollTop = window.pageYOffset || window.document.documentElement.scrollTop 
@@ -68,6 +73,7 @@ export default {
     calculateSidebar() {
       this.sidebar.height = this.$refs.sidebarContent.offsetHeight;
       this.sidebar.windowHeight = window.innerHeight;
+      this.mainContent.height = this.$refs.tourContent.offsetHeight
     }
   }
 };
