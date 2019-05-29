@@ -42,6 +42,7 @@ Route::get('tour/getById/{tour}', 'TourController@show');
 Route::get('review/getReviewById/{tour}', 'ReviewController@index')->name('reviews.index');
 Route::get('review/getAll', 'ReviewController@getAll');
 Route::post('review/acceptReview/{review}', 'ReviewController@update');
+Route::post('review/addReview', 'ReviewController@store');
 // Delete a review
 Route::delete('review/deleleReview/{review}', 'ReviewController@destroy');
 // Schedule

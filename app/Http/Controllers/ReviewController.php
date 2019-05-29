@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Model\Tour;
 use App\Model\Review;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ReviewSource;
 use App\Http\Resources\ReviewCollection;
-use Validator;
+
 class ReviewController extends Controller
 {
     public function __construct () {
@@ -53,7 +55,30 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'Rating' => 'required|numeric',
+            'Content' => 'required|string:min:3'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE, 
+                'errors'=>$validator->errors()
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // $review = new Review([
+
+        // ]);
+        $arrPermission = array();
+        foreach ($request->Permistion as $per) {
+            array_push($arrPermission, $per['permission_id']);
+        }
+        // dd($arrPermission);
+        // Nếu có quyền ko kiểm duyệt sẽ xuất hiện ngay khi comment 
+        if (in_array(5, $arrPermission)) {
+            
+        }
     }
 
     /**

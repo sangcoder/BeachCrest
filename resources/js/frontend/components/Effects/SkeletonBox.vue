@@ -42,6 +42,7 @@ export default {
   background-color: #dddbdd;
   position: relative;
   overflow: hidden;
+  margin-bottom: 0.35rem;
 }
 .list-item-loader::after {
   position: absolute;

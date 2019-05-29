@@ -1,9 +1,11 @@
 <template>
   <div class="box-booking border-box-content">
-    <div class="booking-head">
-      <p class="price">
-        {{priceTour | toCurrency}}/Lớn
-        </p>
+    <template v-if="loading">
+      <skeleton-box width="100%" height="56px"/>
+      <skeleton-box width="100%" height="56px"/>
+    </template>
+    <div v-else class="booking-head">
+      <p class="price">{{priceTour | toCurrency}}/Lớn</p>
       <p class="price">{{priceKid | toCurrency}}/Trẻ em</p>
       <img src="/images/price.svg">
     </div>
@@ -39,21 +41,30 @@
   </div>
 </template>
 <script>
-import moment from 'moment'
+import moment from "moment";
+import SkeletonBox from "../../../components/Effects/SkeletonBox";
 export default {
   name: "BoxBooking",
   props: {
     priceTour: {
       type: Number
     },
-    priceKid: Number
+    priceKid: Number,
+    loading: {
+      default: false,
+      type: Boolean
+    }
   },
-  date() {
-    return {};
+  components: {
+    SkeletonBox
+  },
+  data() {
+    return {
+    }
   },
   methods: {
-     moment,
-         range(start, end) {
+    moment,
+    range(start, end) {
       const result = [];
       for (let i = start; i < end; i++) {
         result.push(i);
@@ -63,7 +74,7 @@ export default {
 
     disabledDate(current) {
       // Can not select days before today and today
-      return current && current < moment().startOf('day');
+      return current && current < moment().startOf("day");
     },
 
     disabledDateTime() {
@@ -72,8 +83,7 @@ export default {
         // disabledMinutes: () => this.range(30, 60),
         // disabledSeconds: () => [55, 56],
       };
-    },
-
+    }
   }
 };
 </script>

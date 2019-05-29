@@ -1,17 +1,39 @@
 <template>
   <div class="section section-detail">
-    <b-row>
+    <b-row class="flex-column-reverse flex-lg-row">
       <b-col md="8">
-        <h2 class="heading-title">{{dataTour.TourName}}</h2>
+        <template v-if="loading">
+          <skeleton-box width="90%" height="20px"/>
+          <skeleton-box width="40%" height="15px"/>
+        </template>
+        <h2 v-else class="heading-title">{{dataTour.TourName}}</h2>
         <div class="tourContent" ref="tourContent">
-          <detail-content :image-url="dataTour.ImageUrl" :Schedules="dataTour.Schedule"></detail-content>
+          <detail-content
+            v-if="loading"
+            loading
+            :image-url="dataTour.ImageUrl"
+            :Schedules="dataTour.Schedule"
+          ></detail-content>
+          <detail-content v-else :image-url="dataTour.ImageUrl" :Schedules="dataTour.Schedule"></detail-content>
           <comment-box :CountReview="dataTour.Rating" :comments="comments"></comment-box>
         </div>
       </b-col>
       <b-col md="4">
         <div class="sidebar-content" :class="sidebarStyle" ref="sidebarContent">
-          <box-booking :price-tour="dataTour.PriceAdult" :price-kid="dataTour.PriceKid"></box-booking>
-          <list-promotion :list-promotion="listPromotion"></list-promotion>
+          <box-booking
+            v-if="loading"
+            loading
+            :price-tour="dataTour.PriceAdult"
+            :price-kid="dataTour.PriceKid"
+          ></box-booking>
+          <box-booking v-else :price-tour="dataTour.PriceAdult" :price-kid="dataTour.PriceKid"></box-booking>
+          <list-promotion
+            :title-promotion="'Tour có khuyến mãi'"
+            :list-promotion="listPromotion"
+            v-if="loading"
+            loading
+          ></list-promotion>
+          <list-promotion :title-promotion="'Tour có khuyến mãi'" :list-promotion="listPromotion"></list-promotion>
         </div>
       </b-col>
     </b-row>
@@ -23,6 +45,7 @@ import BoxBooking from "./BoxBook";
 import DetailContent from "./DetailContent";
 import CommentBox from "./Review";
 import ListPromotion from "../../../components/ListPromotion";
+import SkeletonBox from "../../../components/Effects/SkeletonBox";
 // import service
 import DetailTourAPI from "../serviceDetailTour";
 export default {
@@ -30,10 +53,12 @@ export default {
     BoxBooking,
     DetailContent,
     CommentBox,
-    ListPromotion
+    ListPromotion,
+    SkeletonBox
   },
   data() {
     return {
+      loading: false,
       dataTour: [],
       comments: [],
       listPromotion: [],
@@ -61,9 +86,9 @@ export default {
   },
   watch: {
     "$route.query.tour"() {
-    this.fetchTour(this.$route.query.tour);
-    this.fetchComment(this.$route.query.tour);
-    this.fetchPromotion();
+      this.fetchTour(this.$route.query.tour);
+      this.fetchComment(this.$route.query.tour);
+      this.fetchPromotion();
     }
   },
   computed: {
@@ -84,14 +109,22 @@ export default {
   methods: {
     // Fetch Tour by query ID
     fetchTour(id) {
+      this.loading = true;
       DetailTourAPI.getTourId(id)
         .then(res => {
           if (res.data.status === "404") {
-            console.log("Không tìm thấy tour này");
+            this.$notification['info']({
+              message: "Tour này không có hoặc đã hết hạn",
+              description:
+                "Xin lỗi vì bất tiện này, chúng tôi sẽ chuyến hướng bạn đến trang chủ",
+              duration: 5,
+            });
+           this.$router.push({name: 'Index'}) 
           } else {
             let tempArray = res.data.data;
             tempArray.ImageUrl = JSON.parse(tempArray.ImageUrl);
             this.dataTour = tempArray;
+            this.loading = false;
           }
         })
         .catch(err => {
@@ -99,11 +132,14 @@ export default {
         });
     },
     fetchComment(id) {
+      this.loading = true;
       DetailTourAPI.getCommentByTourID(id).then(res => {
         this.comments = res.data.data;
+        this.loading = false;
       });
     },
     fetchPromotion() {
+      this.loading = true;
       DetailTourAPI.getListPromotion().then(res => {
         let tempArray = res.data;
         tempArray.forEach(ele => {
@@ -111,6 +147,7 @@ export default {
           ele.ImageUrl = tmp;
         });
         this.listPromotion = tempArray;
+        this.loading = false;
       });
     },
     handleResize: _.throttle(function() {

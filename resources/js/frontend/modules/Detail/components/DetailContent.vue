@@ -1,6 +1,7 @@
 <template>
   <div class="content-tour border-box-content" >
-    <a-carousel arrows dotsClass="slick-dots slick-thumb" autoplay>
+    <skeleton-box v-if="loading" width="100%" height="350px" />
+    <a-carousel v-else arrows dotsClass="slick-dots slick-thumb" autoplay>
       <a slot="customPaging" slot-scope="props">
         <img :src="getImgUrl(props.i)">
       </a>
@@ -8,7 +9,14 @@
         <img :src="baseUrl + item">
       </div>
     </a-carousel>
-    <div class="lichTrinh">
+    <template v-if="loading">
+      <skeleton-box />
+      <skeleton-box  width="80%" :min-height="120"/>
+      <skeleton-box />
+      <skeleton-box  width="100%" :min-height="80" />
+      <skeleton-box />
+    </template>
+    <div v-else class="lichTrinh">
       <h3>Lịch trình</h3>
       <a-timeline >
         <a-timeline-item v-for="(item, index) in Schedules" :key="index"><span class="startTime">{{item.StartTime | timeHour}}</span> - <span class="endTime">{{ item.EndTime | timeHour }}</span>: 
@@ -19,13 +27,20 @@
   </div>
 </template>
 <script>
-const baseUrl =
-  "/images/tour/";
+import SkeletonBox from '../../../components/Effects/SkeletonBox'
+const baseUrl = "/images/tour/";
 export default {
   name: "DetaiContent",
   props: {
     ImageUrl: Array,
-    Schedules: Array
+    Schedules: Array,
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  components: {
+    SkeletonBox
   },
   data() {
     return {

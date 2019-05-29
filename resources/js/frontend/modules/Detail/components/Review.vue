@@ -78,7 +78,8 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import moment from "moment"
+import ReviewAPI from '../serviceDetailTour'
 export default {
   name: "CommentBox",
   props: {
@@ -113,26 +114,23 @@ export default {
   },
   methods: {
     handleSubmit() {
-      if (!this.value) {
+      if (!this.formData.Contents) {
         return;
       }
 
       this.submitting = true;
+      let payload = {
+        UserID: this.$store.state.user.user.id,
+        TourID: this.$route.query.tour,
+        Rating: this.formData.Rating,
+        Contents: this.formData.Contents,
+        Permistion: this.$store.state.user.user.permistion
+      }
+      ReviewAPI.addReview(payload).then(res => {
+        console.log('ok')
+        this.submitting = false
+      })
 
-      setTimeout(() => {
-        this.submitting = false;
-        this.comments = [
-          {
-            author: "Han Solo",
-            avatar:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            content: this.value,
-            datetime: moment().fromNow()
-          },
-          ...this.comments
-        ];
-        this.value = "";
-      }, 1000);
     },
     handleChange(e) {
       this.value = e.target.value;

@@ -10,5 +10,8 @@ export default {
   },
   getListPromotion () {
     return Axios.get(APP_CONFIG.API_URL + '/tour/getAll', {params: {type: 'promotion'}})
+  },
+  addReview (payload) {
+    return Axios.post(APP_CONFIG.API_URL + '/review/addReview', payload)
   }
 }
