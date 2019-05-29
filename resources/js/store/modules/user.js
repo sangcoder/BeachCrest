@@ -27,7 +27,7 @@ const actions = {
       commit('user', response.data.data)
     })
     .catch(function (e) {
-      console.log(e.message)
+      console.log(e.response.data.error)
       commit('userLoadStatus', 3)
       commit('user', {})
     })

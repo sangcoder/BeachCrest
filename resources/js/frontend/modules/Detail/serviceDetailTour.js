@@ -7,5 +7,8 @@ export default {
   },
   getCommentByTourID (idTour) {
     return Axios.get(APP_CONFIG.API_URL + '/review/getReviewById/' + idTour)
+  },
+  getListPromotion () {
+    return Axios.get(APP_CONFIG.API_URL + '/tour/getAll', {params: {type: 'promotion'}})
   }
 }

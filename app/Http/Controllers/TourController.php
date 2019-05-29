@@ -7,8 +7,9 @@ use Carbon\Carbon;
 use App\Model\Tour;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\TourCollection;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\TourResource;
+use App\Http\Resources\TourCollection;
 
 class TourController extends Controller
 {
@@ -30,6 +31,7 @@ class TourController extends Controller
         // $tour = Tour::paginate(10);
         // dd($tour);
         // dd($request);
+
         $tour = (new Tour)->newQuery();
         if ($request->exists('orderById') && $request->orderById == 'ascend') {
             $tour->orderBy('TourID', 'asc');
@@ -42,6 +44,19 @@ class TourController extends Controller
         }
         if($request->exists('orderByDeparture') && $request->orderByDeparture[0] == 'oldest') {
             $tour->orderBy('DateDeparture','asc');
+        }
+        if ($request->exists('type') && $request->type == 'promotion') {
+            // dd($pro);
+            $pro = DB::table('tours')->join('promotion_tour', 'promotion_tour.tour_id', '=', 'tours.TourID')
+            ->get();
+            $arrayPromotion = array();
+            foreach ( $pro as  $item) {
+                if(strtotime($item->ExpiredDate) > strtotime(Carbon::now())) {
+                    array_push($arrayPromotion, $item);
+                } 
+            }
+            return  array_slice($arrayPromotion, 0, 5, true);
+
         }
         if($request->exists('pageresult')){
             $result = TourCollection::collection($tour->paginate($request->pageresult));
@@ -210,7 +225,7 @@ class TourController extends Controller
     public function addPromotion (Request $request) {
         $tour = Tour::find($request->TourID);
         // dd($request->all());
-        $tour->promotions()->syncWithoutDetaching([
+        $tour->promotions()->sync([
             $request->PromotionID => [
                 'Discount' => $request->Discount,
                 'ExpiredDate' => $request->ExpriedDate

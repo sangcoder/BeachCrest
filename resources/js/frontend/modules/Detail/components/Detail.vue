@@ -1,8 +1,8 @@
 <template>
   <div class="section section-detail">
-    <h2>{{dataTour.TourName}}</h2>
     <b-row>
       <b-col md="8">
+        <h2 class="heading-title">{{dataTour.TourName}}</h2>
         <div class="tourContent" ref="tourContent">
           <detail-content :image-url="dataTour.ImageUrl" :Schedules="dataTour.Schedule"></detail-content>
           <comment-box :CountReview="dataTour.Rating" :comments="comments"></comment-box>
@@ -10,8 +10,8 @@
       </b-col>
       <b-col md="4">
         <div class="sidebar-content" :class="sidebarStyle" ref="sidebarContent">
-          <box-booking/>
-          <list-promotion/>
+          <box-booking :price-tour="dataTour.PriceAdult" :price-kid="dataTour.PriceKid"></box-booking>
+          <list-promotion :list-promotion="listPromotion"></list-promotion>
         </div>
       </b-col>
     </b-row>
@@ -36,6 +36,7 @@ export default {
     return {
       dataTour: [],
       comments: [],
+      listPromotion: [],
       mainContent: {
         height: 0
       },
@@ -50,11 +51,20 @@ export default {
   mounted() {
     this.calculateSidebar();
   },
+
   created() {
     this.fetchTour(this.$route.query.tour);
     this.fetchComment(this.$route.query.tour);
+    this.fetchPromotion();
     window.addEventListener("resize", this.handleResize);
     window.addEventListener("scroll", this.handleScroll);
+  },
+  watch: {
+    "$route.query.tour"() {
+    this.fetchTour(this.$route.query.tour);
+    this.fetchComment(this.$route.query.tour);
+    this.fetchPromotion();
+    }
   },
   computed: {
     sidebarStyle() {
@@ -91,6 +101,16 @@ export default {
     fetchComment(id) {
       DetailTourAPI.getCommentByTourID(id).then(res => {
         this.comments = res.data.data;
+      });
+    },
+    fetchPromotion() {
+      DetailTourAPI.getListPromotion().then(res => {
+        let tempArray = res.data;
+        tempArray.forEach(ele => {
+          let tmp = (ele.ImageUrl = JSON.parse(ele.ImageUrl));
+          ele.ImageUrl = tmp;
+        });
+        this.listPromotion = tempArray;
       });
     },
     handleResize: _.throttle(function() {

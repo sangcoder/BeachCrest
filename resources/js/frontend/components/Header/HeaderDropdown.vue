@@ -69,7 +69,7 @@ export default {
           if (response.data && response.data.success) {
             // Clear user in store
             vueComponent.$store.dispatch("user/logout");
-            window.location.href = "/admin/login";
+            window.location.href = "auth/login";
           } else {
             // TODO: handle error
             console.log(JSON.stringify(response));

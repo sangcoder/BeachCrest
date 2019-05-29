@@ -19,8 +19,9 @@ export default {
     }
   },
   methods: {
-    Login () {
+    Login (e) {
       this.$v.$touch()
+      e.preventDefault()
       this.text = 'Đang đăng nhập...'
       this.loading = true
       let payload = { email: this.email, password: this.password }

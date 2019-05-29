@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use DateTime;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TourResource extends JsonResource
@@ -37,14 +38,22 @@ class TourResource extends JsonResource
                 'Contents' => $item->pivot->Contents
             ]);
         }
-        $full = array();
-        foreach($this->countReview as $rev) {
-            array_push($full, [
-                'Rating' => $rev->Rating,
-                'Total' => $rev->total,
-                'percent' => round(($rev->total * 100) / $this->reviews->count(), 2)
+        // $t = DB::table('reviews')
+        //     ->selectRaw('Rating, count(*) as Total')
+        //     ->rightJoin('tours', 'reviews.tour_id', '=', 'tours.TourID')
+        //     ->where('TourID', '=', $this->TourID)
+        //     // ->where('tour.TourID', '=', $this->TourID)
+        //     ->groupBy('Rating')
+        //     ->get();
+            $full = array();
+            foreach($this->countReview as $rev) {
+                array_push($full, [
+                    'Rating' => $rev->Rating,
+                    'Total' => $rev->total,
+                    'percent' => round(($rev->total * 100) / $this->reviews->count(), 2)
                 ]);
             }
+        // dd($full);
         return [
             'TourID' => $this->TourID,
             'TourName' => $this->TourName,

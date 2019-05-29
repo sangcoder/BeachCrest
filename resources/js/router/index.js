@@ -31,7 +31,7 @@ function requireAuth (to, from, next) {
     next()
   } else {
     if (store.get('user/userLoadStatus') === 3) {
-      next('/admin/login')
+      next('/auth/login')
     } else {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
@@ -42,7 +42,7 @@ function requireAuth (to, from, next) {
             next('/admin/404')
           }
         } else if (store.get('user/userLoadStatus') === 3) {
-          next('/admin/login')
+          next('/auth/login')
         }
       })
     }
@@ -111,12 +111,12 @@ const router = new Router({
       ]
     },
     {
-      path: '/admin/404',
+      path: '/404',
       name: 'Page404',
       component: Page404
     },
     {
-      path: '/admin/login',
+      path: '/auth/login',
       name: 'Login',
       beforeEnter: requireNonAuth,
       component: Login

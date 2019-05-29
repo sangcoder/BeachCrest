@@ -22254,6 +22254,10 @@ h5 {
   border: 1px solid #dae1e7;
 }
 
+.heading-title {
+  font-size: 1.35rem;
+}
+
 .spinner-container {
   align-items: center;
   display: flex;
