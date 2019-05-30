@@ -37,12 +37,7 @@ class UserController extends Controller
     */
     public function index(Request $request)
     {
-        // return UserResource::collection(User::paginate(10));
-        $query = DB::table('users')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->select('users.id','users.name','users.email','users.bio','users.photo','users.active', 'roles.name as roleName','users.created_at');
-                // ->orderBy('users.id', 'asc');
+        $query = (new User)->newQuery();
         
         if ($request->exists('sortById') && $request->sortById == 'ascend') {
             $query->orderBy('users.id', 'asc');
@@ -56,13 +51,11 @@ class UserController extends Controller
         if($request->exists('active')) {
             $query->where('active','=',$request->active);
         }
-        $user = $query->paginate(5);
-        return response()->json([
-            'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $user
-        ]);
-    }
-
+        // return UserResource::collection(User::paginate(5));
+        $result = UserResource::collection($query->paginate(5));
+        return $result;
+        }
+        
     /**
      * Store a newly created resource in storage.
      *

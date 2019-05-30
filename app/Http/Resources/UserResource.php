@@ -21,6 +21,7 @@ class UserResource extends Resource
             'email' => $this->email,
             'photo' => $this->photo,
             'bio' => $this->bio,
+            'roleName' => $this->getRoleNames(),
             'active' =>$this->active,
             'created_at' =>  $this->created_at
         ];

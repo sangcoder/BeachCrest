@@ -60,7 +60,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       UserAPI.getDsUser(payload.page, payload.params)
       .then((response) => {
-        commit('dsUser', response.data.data.data)
+        commit('dsUser', response.data.data)
         resolve(response)
       })
       .catch((err) => {

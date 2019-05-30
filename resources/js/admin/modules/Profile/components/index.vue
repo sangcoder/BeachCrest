@@ -4,7 +4,7 @@
       <div class="account-settings-info-main" >
         <div class="account-settings-info-left">
           <a-menu
-            defaultSelectedKeys="1"
+            :defaultSelectedKeys="['1']"
             type="inner"
             @openChange="onOpenChange"
           >

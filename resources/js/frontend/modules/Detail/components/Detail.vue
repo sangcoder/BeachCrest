@@ -30,10 +30,10 @@
           <list-promotion
             :title-promotion="'Tour có khuyến mãi'"
             :list-promotion="listPromotion"
-            v-if="loading"
-            loading
+            v-if="loadingPromotion"
+            :loading="loadingPromotion"
           ></list-promotion>
-          <list-promotion :title-promotion="'Tour có khuyến mãi'" :list-promotion="listPromotion"></list-promotion>
+          <list-promotion v-else :title-promotion="'Tour có khuyến mãi'" :list-promotion="listPromotion"></list-promotion>
         </div>
       </b-col>
     </b-row>
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       loading: false,
+      loadingPromotion: false,
       dataTour: [],
       comments: [],
       listPromotion: [],
@@ -139,7 +140,7 @@ export default {
       });
     },
     fetchPromotion() {
-      this.loading = true;
+      this.loadingPromotion = true;
       DetailTourAPI.getListPromotion().then(res => {
         let tempArray = res.data;
         tempArray.forEach(ele => {
@@ -147,7 +148,7 @@ export default {
           ele.ImageUrl = tmp;
         });
         this.listPromotion = tempArray;
-        this.loading = false;
+        this.loadingPromotion = false;
       });
     },
     handleResize: _.throttle(function() {

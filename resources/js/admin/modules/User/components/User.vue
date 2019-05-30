@@ -45,8 +45,7 @@
           </a-tooltip>
         </template>
         <template slot="roleName" slot-scope="roleName">
-          <a-tag color="#f50" v-if="roleName === 'admin'">{{ roleName | upText }}</a-tag>
-          <a-tag color="#2db7f5" v-if="roleName === 'mod'">{{ roleName | upText }}</a-tag>
+          <a-tag color="#f50" v-if="roleName.includes('admin') || roleName.includes('Mod')">{{ roleName | upText }}</a-tag>
           <a-tag color="#87d068" v-else>{{ roleName | upText }}</a-tag>
         </template>
         <template slot="createAt" slot-scope="createAt">{{createAt | myDate(createAt)}}</template>
@@ -154,8 +153,8 @@ export default {
     };
     this.$store.dispatch("user/getDsUser", payload).then(res => {
       const pagination = { ...this.pagination };
-      pagination.total = res.data.data.total;
-      pagination.pageSize = res.data.data.per_page;
+      pagination.total = res.data.meta.total;
+      pagination.pageSize = res.data.meta.per_page;
       this.pagination = pagination;
       this.loading = false;
     });
@@ -176,7 +175,7 @@ export default {
       };
       this.$store.dispatch("user/getDsUser", payload).then(res => {
         const pagination = { ...this.pagination };
-        pagination.total = res.data.data.total;
+        pagination.total = res.data.meta.total;
         this.pagination = pagination;
         this.loading = false;
       });
@@ -198,7 +197,7 @@ export default {
       };
       this.$store.dispatch("user/getDsUser", payload).then(res => {
         const pagination = { ...this.pagination };
-        pagination.total = res.data.data.total;
+        pagination.total = res.data.meta.total;
         this.pagination = pagination;
         this.loading = false;
       });

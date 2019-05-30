@@ -10,9 +10,6 @@
       <div>
         <strong>{{ user.name }}</strong>
       </div>
-      <div class="text-muted">
-        <small>{{ user.roles[0].name | upText }}</small>
-      </div>
     </div>
   </div>
 </template>

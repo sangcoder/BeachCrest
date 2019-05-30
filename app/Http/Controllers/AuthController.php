@@ -223,8 +223,19 @@ class AuthController extends Controller
         $data = $request->user();
         $roles = $data['roles'];
         $data['roles'] = $data->getRoleNames();
-        $per = $this->getPermision($roles[0]->id);
-        $data['permistion'] = $per;
+        // $per = $this->getPermision($roles[0]->id);
+        $arrPer = array();
+        foreach($roles as $rol) {
+            array_push($arrPer, $this->getPermision($rol->pivot->role_id));
+        }
+        $arrPermission = array();
+        foreach ($arrPer as $per) {
+            for ($i = 0; $i < sizeof($per); $i++) {
+                array_push($arrPermission,$per[$i]);
+            }
+        }
+        // dd($arrPermission);
+        $data['permistion'] = $arrPermission;
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $data

@@ -53,12 +53,15 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function getPermision($idRole) {
+        return DB::table('role_has_permissions')->where('role_id','=', $idRole)->get();
+    }
     public function store(Request $request)
     {
-        dd($request->all());
+
         $validator = Validator::make($request->all(), [
             'Rating' => 'required|numeric',
-            'Content' => 'required|string:min:3'
+            'Contents' => 'required|string:min:3'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -67,17 +70,41 @@ class ReviewController extends Controller
             ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        // $review = new Review([
-
-        // ]);
-        $arrPermission = array();
-        foreach ($request->Permistion as $per) {
-            array_push($arrPermission, $per['permission_id']);
+        $user = auth()->user();
+        $role = DB::table('model_has_roles')->select('role_id')->where('model_id', '=' , $user->id)->get();
+        $arrPer = array();
+        foreach($role as $rol) {
+            array_push($arrPer, $this->getPermision($rol->role_id));
         }
-        // dd($arrPermission);
+        // dd($arrPer[1][0]->permission_id);
+        $arrPermission = array();
+        foreach ($arrPer as $per) {
+            for ($i = 0; $i < sizeof($per); $i++) {
+                array_push($arrPermission,$per[$i]->permission_id);
+                // dd($per[$i]->permission_id);
+            }
+            // array_push($arrPermission, $per->permission_id);
+        }
+        dd($arrPermission);
         // Nếu có quyền ko kiểm duyệt sẽ xuất hiện ngay khi comment 
         if (in_array(5, $arrPermission)) {
-            
+            $review = new Review([
+                'user_id' => $user->id,
+                'tour_id' => $request->TourID,
+                'Rating' =>  $request->Rating,
+                'Contents' => $request->Contents,
+                'spam' => 0,
+                'approve_by' => $user->id
+            ]);
+            $review->save();
+        }
+        else {
+            $review = new Review([
+                'Rating' =>  $request->Rating,
+                'Contents' => $request->Contents,
+                'spam' => 1
+            ]);
+            $review->save();
         }
     }
 

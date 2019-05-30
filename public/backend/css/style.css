@@ -22258,6 +22258,18 @@ h5 {
   font-size: 1.35rem;
 }
 
+::-moz-selection {
+  background: #fde69a !important;
+  color: #212121 !important;
+  text-shadow: none;
+}
+
+::selection {
+  background: #fde69a !important;
+  color: #212121 !important;
+  text-shadow: none;
+}
+
 .spinner-container {
   align-items: center;
   display: flex;

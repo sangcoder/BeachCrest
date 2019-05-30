@@ -1,7 +1,8 @@
 <template>
   <div class="list-promotion mt-4">
     <div class="box-header">
-      <h3 class="box-title">{{titlePromotion}}</h3>
+      <skeleton-box v-if="loading" height="30px" />
+      <h3 v-else class="box-title">{{titlePromotion}}</h3>
     </div>
     <div class="box-body">
       <ul class="box-promotion no-padding">

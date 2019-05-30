@@ -118,13 +118,11 @@ export default {
         return;
       }
 
-      this.submitting = true;
+      // this.submitting = true;
       let payload = {
-        UserID: this.$store.state.user.user.id,
         TourID: this.$route.query.tour,
         Rating: this.formData.Rating,
         Contents: this.formData.Contents,
-        Permistion: this.$store.state.user.user.permistion
       }
       ReviewAPI.addReview(payload).then(res => {
         console.log('ok')

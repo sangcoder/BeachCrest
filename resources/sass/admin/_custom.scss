@@ -77,3 +77,8 @@ h5 {
 .heading-title {
   font-size: 1.35rem;
 }
+::selection {
+  background: #fde69a !important;
+  color: #212121 !important;
+  text-shadow: none;
+}
