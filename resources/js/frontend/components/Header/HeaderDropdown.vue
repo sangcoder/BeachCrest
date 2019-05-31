@@ -9,8 +9,8 @@
     >
       <template slot="content" >
         <a-menu>
-          <a-menu-item key="1">
-            <a-icon type="user" @click="resgister"/>Đăng kí
+          <a-menu-item key="1" @click="resgister()">
+            <a-icon type="user" />Đăng kí
           </a-menu-item>
           <a-menu-item key="2" @click="login()">
             <a-icon type="login"/>Đăng nhập
@@ -83,7 +83,9 @@ export default {
     profile() {
       this.$router.push({ name: "Profile" });
     },
-    resgister() {},
+    resgister() {
+      this.$router.push({name: 'Register'})
+    },
     login() {
       this.$router.push({name: 'Login'})
     }

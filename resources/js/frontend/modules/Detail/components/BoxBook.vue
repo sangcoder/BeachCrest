@@ -5,9 +5,8 @@
       <skeleton-box width="100%" height="56px"/>
     </template>
     <div v-else class="booking-head">
-      <p class="price">{{priceTour | toCurrency}}/Lớn</p>
-      <p class="price">{{priceKid | toCurrency}}/Trẻ em</p>
-      <img src="/images/price.svg">
+      <p class="price"><a-icon type="user" />{{priceTour | toCurrency}}</p>
+      <p class="price"><a-icon type="user" />{{priceKid | toCurrency}}</p>
     </div>
     <a-divider dashed>Thông tin</a-divider>
     <div class="booking-body">
@@ -91,6 +90,7 @@ export default {
 .booking-head {
   font-size: 1.25rem;
   text-align: center;
+  display: flex;
 }
 .ant-divider-horizontal {
   margin: 16px 0 !important;
@@ -105,6 +105,7 @@ export default {
   right: 0;
 }
 .price {
+  flex: 1;
   background: #02af8e;
   padding: 0.835rem;
   color: #fff;

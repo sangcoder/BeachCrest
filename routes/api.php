@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 // Định các route register, login
+
 Route::group([
     // api/auth/
     'prefix' => 'auth'

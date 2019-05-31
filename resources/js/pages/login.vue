@@ -6,7 +6,7 @@
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
-        <h2 class="login-box-msg">Login to system</h2>
+        <h2 class="login-box-msg">Đăng nhập vào hệ thống</h2>
         <div class="input-group mb-3">
           <a-input
             placeholder="Enter your email"
@@ -57,10 +57,10 @@
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-          <a href="#">I forgot my password</a>
+          <a href="#">Quên mật khẩu?</a>
         </p>
         <p class="mb-0">
-          <a href="register.html" class="text-center">Register a new membership</a>
+          <a href="javascript:;" @click="$router.push({name: 'Register'})" class="text-center">Đăng kí mới tài khoản tại đây</a>
         </p>
       </div>
       <!-- /.login-card-body -->

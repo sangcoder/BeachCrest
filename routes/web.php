@@ -14,6 +14,11 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 
+// Login social network
+Route::get('/redirect/facebook', 'SocialAuthController@redirectFacebook');
+Route::get('/redirect/facebook/callback', 'SocialAuthController@callbackFacebook');
+
+
 Route::get('/client', function () {
     return view('home');
 });

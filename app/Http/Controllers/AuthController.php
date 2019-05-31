@@ -6,10 +6,13 @@ use App\User;
 use Validator;
 use Carbon\Carbon;
 use App\PasswordReset;
+use App\SocialNetwork;
+use Facebook\Facebook;
 use App\Enums\RoleType;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Notifications\RegisterActivate;
 use Spatie\Permission\Models\Permission;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -446,4 +449,5 @@ class AuthController extends Controller
     public function getPermision($idRole) {
         return DB::table('role_has_permissions')->where('role_id', $idRole)->get();
     }
+
 }

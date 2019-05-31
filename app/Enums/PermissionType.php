@@ -20,4 +20,5 @@ final class PermissionType extends Enum
   const QUANLYKHUYENMAI = 'Quản lý khuyến mãi';
   const QUANLYHUONGDANVIEN = 'Quản lý hướng dẫn viên';
   const THONGKE = 'Thống kê';
+  const XEMTHONGTIN = 'Xem thông tin tài khoản';
 }

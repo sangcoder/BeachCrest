@@ -4,23 +4,23 @@ import ChangePassword from './components/ChangePassword.vue'
 
 export default [
   {
-    path: '/admin/profile',
+    path: '/auth/profile',
     name: 'Account',
     component: MainProfile,
-    redirect: '/admin/thong-tin-tai-khoan.html',
-    meta: {isRoles: 2},
+    redirect: '/auth/thong-tin-tai-khoan.html',
+    meta: {isRoles: 1},
     children: [
       {
-        path: '/admin/thong-tin-tai-khoan.html',
+        path: '/auth/thong-tin-tai-khoan.html',
         name: 'Profile',
         component: Profile,
-        meta: {isRoles: 2}
+        meta: {isRoles: 1}
       },
       {
-        path: 'admin/changpassword',
+        path: 'auth/changpassword',
         name: 'ChangePassword',
         component: ChangePassword,
-        meta: {isRoles: 2}
+        meta: {isRoles: 1}
       }
     ]
   }

@@ -24,7 +24,7 @@ class ReviewController extends Controller
     // Get all review on tour
     public function index(Tour $tour)
     {
-        return ReviewSource::collection($tour->reviews()->paginate(10));
+        return ReviewSource::collection($tour->reviews()->orderBy('created_at', 'desc')->paginate(10));
     }
 
     public function getAll (Request $request) {
@@ -58,7 +58,7 @@ class ReviewController extends Controller
     }
     public function store(Request $request)
     {
-
+        // dd($request->TourID);
         $validator = Validator::make($request->all(), [
             'Rating' => 'required|numeric',
             'Contents' => 'required|string:min:3'
@@ -76,16 +76,14 @@ class ReviewController extends Controller
         foreach($role as $rol) {
             array_push($arrPer, $this->getPermision($rol->role_id));
         }
-        // dd($arrPer[1][0]->permission_id);
         $arrPermission = array();
         foreach ($arrPer as $per) {
             for ($i = 0; $i < sizeof($per); $i++) {
                 array_push($arrPermission,$per[$i]->permission_id);
-                // dd($per[$i]->permission_id);
             }
             // array_push($arrPermission, $per->permission_id);
         }
-        dd($arrPermission);
+        // dd($arrPermission);
         // Nếu có quyền ko kiểm duyệt sẽ xuất hiện ngay khi comment 
         if (in_array(5, $arrPermission)) {
             $review = new Review([
@@ -100,12 +98,18 @@ class ReviewController extends Controller
         }
         else {
             $review = new Review([
+                'user_id' => $user->id,
+                'tour_id' => intval($request->TourID),
                 'Rating' =>  $request->Rating,
                 'Contents' => $request->Contents,
                 'spam' => 1
             ]);
             $review->save();
         }
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $review
+        ]);
     }
 
     /**

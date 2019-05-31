@@ -45,13 +45,11 @@
           <div class="card-body">
             <h5 class="text-uppercase mb-3">Danh sách chức năng</h5>
             <a-checkbox-group @change="onChange">
-              <b-row>
-                <b-col v-for="per in Permission" :key="per.id" md="6">
-                  <b-form-group>
-                    <a-checkbox :value="per.id" :checked="userPermisionchecked">{{per.name}}</a-checkbox>
+              <b-container>
+                  <b-form-group>  
+                    <a-checkbox-group :options="nameRoles"  v-model="valueRoles" ></a-checkbox-group>
                   </b-form-group>
-                </b-col>
-              </b-row>
+              </b-container>
             </a-checkbox-group>
             <p>
               <a-button type="primary">Primary</a-button>
@@ -70,7 +68,10 @@ export default {
       value: "",
       Roles: [],
       Permission: [],
-      userPermision: []
+      userPermision: [],
+      nameRoles: [],
+      valueRoles: [],
+      valueCheck: [],
     };
   },
   created() {
@@ -81,13 +82,18 @@ export default {
     filterPermission() {}
   },
   methods: {
+    addPermistion (value) {
+      console.log(value)
+    },
     handleChangeSelect(value) {
       // this.fetchPermisionByRole(value)
     },
     selectMenu({ item, key, selectedKeys }) {
       this.fetchPermisionByRole(key);
     },
-    onChange() {},
+    onChange() {
+
+    },
     addNewGroup() {},
     fetchAllRole() {
       AuthAPI.getAllRole().then(res => {
@@ -97,11 +103,14 @@ export default {
     fetchAllPermision() {
       AuthAPI.getAllPermission().then(res => {
         this.Permission = res.data;
+        this.nameRoles = this.Permission.map(item => {return {label:item.name, value: item.id} })
+        // this.valueRoles = this.Permission.map(item => {return item.id})
       });
     },
     fetchPermisionByRole(id) {
       AuthAPI.getAllPermisionById(id).then(res => {
         this.userPermision = res.data;
+        this.valueRoles = this.userPermision.map(item => {return item.permission_id})
       });
     }
   }

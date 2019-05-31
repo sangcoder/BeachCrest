@@ -4,7 +4,7 @@ export default {
       name: 'Bảng điều khiển',
       url: '/admin/dashboard',
       icon: 'icon-speedometer',
-      isRoles: 2
+      isRoles: 1
     },
     {
       name: 'Quản lý tài khoản',

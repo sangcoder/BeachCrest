@@ -99,6 +99,7 @@ export default {
     deleteReview (id) {
       this.loading = true
       ReviewAPI.deleteReview(id).then(res => {
+        this.fetchReview(this.pagination.current)
         this.$message.success('Đã xóa bình luận')
         this.loading = false
       })

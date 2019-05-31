@@ -21,7 +21,7 @@ export function toCurrency (value) {
 }
 
 export function timeAgo (value) {
-  return moment(value).endOf('day').fromNow()
+  return moment(value).fromNow()
 }
 
 export function timeHour (value) {

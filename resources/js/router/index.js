@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress'
-// Import Component
+// Import page
 import Page404 from '../pages/Page404.vue'
 import Admin from '../pages/admin.vue'
 import Login from '../pages/login.vue'
+import Register from '../pages/Register.vue'
 import store from '../store/index'
 import Client from '../pages/Client.vue'
 
@@ -51,8 +52,8 @@ function requireAuth (to, from, next) {
 
 // Ko yêu cầu quyền
 function requireNonAuth (to, from, next) {
-  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
-    next('/admin')
+  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
+    next('/auth/profile')
   } else {
     if (store.get('user/userLoadStatus') === 3) {
       next()
@@ -60,7 +61,7 @@ function requireNonAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          next('/admin')
+          next('/auth/profile')
         } else if (store.get('user/userLoadStatus') === 3) {
           next()
         }
@@ -88,7 +89,7 @@ function nonRequire (from, to, next) {
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
-  linkActiveClass: 'active',
+  linkActiveClass: 'open active',
   routes: [
     {
       path: '/',
@@ -120,6 +121,11 @@ const router = new Router({
       name: 'Login',
       beforeEnter: requireNonAuth,
       component: Login
+    },
+    {
+      path: '/auth/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '*',

@@ -31,6 +31,10 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function reviews() {
         return $this->hasMany('App\Model\Review', 'user_id');
     }
+    public function socialNetWork()
+    {
+        return $this->hasMany(SocialNetwork::class);
+    }
 
     // Để sử dụng được JWT Auth
 

@@ -10,7 +10,7 @@ class Review extends Model
 {
     protected $primaryKey = "ReviewID";
     protected $fillable = [
-        'Rating', 'Contents', 'spam', 'approve_by'
+        'Rating', 'Contents', 'spam', 'approve_by','tour_id','user_id'
     ];
 
     public function tours() {

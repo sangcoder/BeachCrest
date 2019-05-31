@@ -1,85 +1,98 @@
 <template>
   <div class="box-comment border-box-content my-3">
-    <h3>Đánh giá</h3>
-    <div class="review-box">
-      <b-row>
-        <b-col md="5" class="review-box-score">
-          <div class="review-score">
-            {{ CountReview && CountReview.NumberRating }}
-            <span>/5</span>
-          </div>
+    <a-spin :spinning="spinning">
+      <h3>Đánh giá</h3>
+      <div class="review-box">
+        <b-row>
+          <b-col md="5" class="review-box-score">
+            <div class="review-score">
+              {{ CountReview && CountReview.NumberRating }}
+              <span>/5</span>
+            </div>
 
-          <a-rate v-if="CountReview" :defaultValue="CountReview.NumberRating" disabled/>
-          <p>Trên {{CountReview && CountReview.NumberReview}} nhận xét</p>
-        </b-col>
-        <b-col md="7">
-          <div v-if="CountReview" class="counter-score">
-            <p v-for="(item, index) in CountReview.Score" :key="index">
-              <span>{{sumary[index]}}</span>
-              <a-progress :percent="item.percent" size="small" status="active"/>
-            </p>
-          </div>
-        </b-col>
-      </b-row>
-    </div>
-
-    <a-comment v-if="empty">
-      <a-avatar slot="avatar" size="large" :src="'/images/' + this.$store.state.user.user.photo"/>
-      <div slot="content">
-        <b-form-group label="Đánh giá về tour này">
-          <a-rate :defaultValue="3" v-model="formData.Rating"/>
-        </b-form-group>
-        <b-form-group label="Nhận xét của bạn">
-          <a-textarea :rows="4" @change="handleChange" v-model="formData.Contents"></a-textarea>
-        </b-form-group>
-        <b-form-group>
-          <a-button
-            htmlType="submit"
-            :loading="submitting"
-            @click="handleSubmit"
-            type="primary"
-          >Add Comment</a-button>
-        </b-form-group>
+            <a-rate v-if="CountReview" :defaultValue="CountReview.NumberRating" disabled/>
+            <p>Trên {{CountReview && CountReview.NumberReview}} nhận xét</p>
+          </b-col>
+          <b-col md="7">
+            <div v-if="CountReview" class="counter-score">
+              <p v-for="(item, index) in CountReview.Score" :key="index">
+                <span>{{sumary[index]}}</span>
+                <a-progress :percent="item.percent" size="small" status="active"/>
+              </p>
+            </div>
+          </b-col>
+        </b-row>
       </div>
-    </a-comment>
-    <div
-      v-else
-      data-show="true"
-      class="ant-alert ant-alert-info ant-alert-no-icon ant-alert-closable"
-    >
-      <span class="ant-alert-message">
-        Vui lòng
-        <a href="#">đăng nhập</a> để đăng nhận xét!
-      </span>
-    </div>
-    <div class="comment-item mt-3" v-for="comment in comments" :key="comment.ReviewID">
-      <div class="comment-item-head">
-        <div class="media">
-          <div class="media-left">
-            <a-avatar size="large" icon="user" :src="'/images/' + comment.user.photo"/>
+
+      <a-comment v-if="empty">
+        <a-avatar slot="avatar" size="large" :src="'/images/' + this.$store.state.user.user.photo"/>
+        <div slot="content">
+          <b-form-group label="Đánh giá về tour này">
+            <a-rate :defaultValue="3" v-model="formData.Rating"/>
+          </b-form-group>
+          <b-form-group label="Nhận xét của bạn">
+            <a-textarea :rows="4" @change="handleChange" v-model="formData.Contents"></a-textarea>
+          </b-form-group>
+          <b-form-group>
+            <a-button
+              htmlType="submit"
+              :loading="submitting"
+              @click="handleSubmit"
+              type="primary"
+            >Add Comment</a-button>
+          </b-form-group>
+        </div>
+      </a-comment>
+      <div
+        v-else
+        data-show="true"
+        class="ant-alert ant-alert-info ant-alert-no-icon ant-alert-closable"
+      >
+        <span class="ant-alert-message">
+          Vui lòng
+          <a href="#">đăng nhập</a> để đăng nhận xét!
+        </span>
+      </div>
+      <div class="comment-item mt-3" v-for="comment in comments" :key="comment.ReviewID">
+        <div class="comment-item-head">
+          <div class="media">
+            <div class="media-left">
+              <a-avatar size="large" icon="user" :src="'/images/' + comment.user.photo"/>
+            </div>
+            <div class="media-body">
+              <h5 class="media-heading">
+                <a href="#">{{comment.user.name}}</a>
+              </h5>
+              <div class="date">{{comment.created_at | timeAgo}}</div>
+            </div>
+            <div class="ml-auto">
+              <a-rate :defaultValue="comment.Rating" disabled/>
+            </div>
           </div>
-          <div class="media-body">
-            <h5 class="media-heading">
-              <a href="#">{{comment.user.name}}</a>
-            </h5>
-            <div class="date">{{comment.created_at | timeAgo}}</div>
-          </div>
-          <div class="ml-auto">
-            <a-rate :defaultValue="comment.Rating" disabled/>
+        </div>
+        <div class="comment-item-body">
+          <div class="detail">
+            <div class="st-description" data-show-all="st-description-235">{{comment.Contents}}</div>
           </div>
         </div>
       </div>
-      <div class="comment-item-body">
-        <div class="detail">
-          <div class="st-description" data-show-all="st-description-235">{{comment.Contents}}</div>
-        </div>
-      </div>
-    </div>
+      <p class="mt-2">
+        <a-pagination
+          :pageSizeOptions="pageSizeOptions"
+          :total="total"
+          showSizeChanger
+          :pageSize="pageSize"
+          v-model="current"
+          @showSizeChange="onShowSizeChange"
+        />
+      </p>
+    </a-spin>
   </div>
 </template>
 <script>
-import moment from "moment"
-import ReviewAPI from '../serviceDetailTour'
+import moment from "moment";
+import ReviewAPI from "../serviceDetailTour";
+import DetailTourAPI from "../serviceDetailTour";
 export default {
   name: "CommentBox",
   props: {
@@ -88,7 +101,12 @@ export default {
   },
   data() {
     return {
+      pageSizeOptions: ["10", "20", "30", "40", "50"],
+      current: 1,
+      pageSize: 10,
+      total: 50,
       submitting: false,
+      spinning: false,
       value: 4,
       formData: {
         Rating: 5,
@@ -113,22 +131,37 @@ export default {
     }
   },
   methods: {
+    onShowSizeChange(current, pageSize) {
+      console.log(current)
+      this.pageSize = pageSize;
+    },
     handleSubmit() {
       if (!this.formData.Contents) {
         return;
       }
 
-      // this.submitting = true;
+      this.submitting = true;
       let payload = {
         TourID: this.$route.query.tour,
         Rating: this.formData.Rating,
-        Contents: this.formData.Contents,
-      }
-      ReviewAPI.addReview(payload).then(res => {
-        console.log('ok')
-        this.submitting = false
-      })
-
+        Contents: this.formData.Contents
+      };
+      ReviewAPI.addReview(payload)
+        .then(res => {
+          this.submitting = false;
+          let that = this;
+          location.reload();
+        })
+        .catch(err => {
+          this.submitting = false;
+        });
+    },
+    fetchComment(id) {
+      this.spinning = true;
+      DetailTourAPI.getCommentByTourID(id).then(res => {
+        this.$prop.comments = res.data.data;
+        this.spinning = false;
+      });
     },
     handleChange(e) {
       this.value = e.target.value;
