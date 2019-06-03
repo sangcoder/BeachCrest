@@ -40,7 +40,7 @@ class RegisterActivate extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/api/auth/register/activate/'.$notifiable->activation_token);
+        $url = url('/auth/active/'.$notifiable->activation_token);
         return (new MailMessage)
                     ->from('beachcrestsupport@gmail.com', 'BeachCrest Support')
                     ->subject('Xác nhận tài khoản tại BeachCrest')

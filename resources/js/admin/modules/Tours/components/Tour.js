@@ -163,11 +163,12 @@ export default {
     fetchTour (page) {
       this.loading = true
       TourAPI.getListTour(page).then(res => {
+        this.loading = false
+        this.data = res.data.data
         const pagination = { ...this.pagination }
         pagination.total = res.data.meta.total
+        pagination.pageSize = res.data.meta.per_page
         this.pagination = pagination
-        this.data = res.data.data
-        this.loading = false
       })
     },
     handleTableChange (pagination, filters, sorter) {

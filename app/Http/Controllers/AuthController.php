@@ -306,7 +306,7 @@ class AuthController extends Controller
         {
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
-                'message' => 'This activation token is invalid'
+                'message' => 'Token không hợp lệ hoặc đã hết hạn'
             ], AppResponse::HTTP_BAD_REQUEST);
         }
         // Cập nhập thông tin
@@ -316,8 +316,7 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json([
-            'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $user
+            'success' => AppResponse::STATUS_SUCCESS
         ], AppResponse::HTTP_OK);
     }
 

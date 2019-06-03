@@ -66,6 +66,7 @@ export default {
         this.data = res.data.data
         const pagination = { ...this.pagination }
         pagination.total = res.data.meta.total
+        pagination.pageSize = res.data.meta.per_page
         this.pagination = pagination
       })
     },

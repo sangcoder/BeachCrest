@@ -5,7 +5,7 @@ export default {
   deleteUser (id) {
     return Axios.delete(APP_CONFIG.API_URL + '/user/' + id)
   },
-  getlistUser (page = 1, params) {
+  getlistUser (page = 1, params = {}) {
     return Axios.get(APP_CONFIG.API_URL + '/user?page=' + page, {
       params
     })

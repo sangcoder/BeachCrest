@@ -19,7 +19,7 @@
       <a-table
         :columns="columns"
         :rowKey="record => record.id"
-        :dataSource="dsUser"
+        :dataSource="data"
         :pagination="pagination"
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
@@ -144,6 +144,7 @@ export default {
       selectedRowKeys: [],
       Roles: [],
       columns,
+      data: [],
       form: {
         id: "",
         name: "",
@@ -155,38 +156,25 @@ export default {
     };
   },
   created() {
-    this.loading = true;
-    let payload = {
-      page: this.pagination.current
-    };
-    this.$store.dispatch("user/getDsUser", payload).then(res => {
-      const pagination = { ...this.pagination };
-      pagination.total = res.data.meta.total;
-      pagination.pageSize = res.data.meta.per_page;
-      this.pagination = pagination;
-      this.loading = false;
-    });
-  },
-  computed: {
-    dsUser() {
-      return this.$store.state.user.dsUser;
-    }
+    this.fetchListUser()
   },
   methods: {
+    fetchListUser (page, params = {}) {
+        this.loading = true
+        UserAPI.getlistUser(page, params).then (res => {
+          this.loading = false
+          this.data = res.data.data
+          const pagination = { ...this.pagination }
+          pagination.pageSize = res.data.meta.per_page
+          pagination.total = res.data.meta.total
+          this.pagination = pagination
+        })
+    },
     onSearch(value) {
       this.loading = true;
-      let payload = {
-        page: this.pagination.current,
-        params: {
+      this.fetchListUser(this.pagination.current, {
           searchEmail: value
-        }
-      };
-      this.$store.dispatch("user/getDsUser", payload).then(res => {
-        const pagination = { ...this.pagination };
-        pagination.total = res.data.meta.total;
-        this.pagination = pagination;
-        this.loading = false;
-      });
+        })
     },
     onSelectChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys;
@@ -196,19 +184,10 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.loading = true;
-      let payload = {
-        page: this.pagination.current,
-        params: {
-          sortById: sorter.order,
-          ...filters
-        }
-      };
-      this.$store.dispatch("user/getDsUser", payload).then(res => {
-        const pagination = { ...this.pagination };
-        pagination.total = res.data.meta.total;
-        this.pagination = pagination;
-        this.loading = false;
-      });
+      this.fetchListUser(this.pagination.current, {          
+        sortById: sorter.order,
+        ...filters 
+      })
     },
     uploadPhoto(e) {
       let file = e.target.files[0];
@@ -222,12 +201,7 @@ export default {
     deleteUser(id) {
       UserAPI.deleteUser(id).then(res => {
         this.loading = false;
-        UserAPI.getlistUser(this.pagination.current).then (res => {
-          const pagination = { ...this.pagination };
-          pagination.total = res.data.meta.total;
-          this.pagination = pagination;
-          this.loading = false;
-        })
+
       });
     },
     showModalRole(user) {
@@ -237,8 +211,9 @@ export default {
     },
     changeRole() {
       this.visible = false;
+      this.loading = false;
       UserAPI.addRoleModel(this.modelHasRole).then(res => {
-        console.log('Ok')
+        this.fetchListUser(this.pagination.current)
       })
     },
     handleChangeSelect(value) {

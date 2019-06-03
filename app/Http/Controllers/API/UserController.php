@@ -142,7 +142,12 @@ class UserController extends Controller
         //     ['role_id' => $request->roleID, 'model_type' => 'App\User', 'model_id' => $request->userID]
         // );
         $user = User::find($request->userID);
-        dd($user->roles);
+        $user->roles()->syncWithoutDetaching([
+            $request->roleID => [
+                'model_type' => 'App\User'
+            ]
+        ]);
+        // dd($user->roles);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS
         ]);

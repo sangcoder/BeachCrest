@@ -8,7 +8,7 @@ import Login from '../pages/login.vue'
 import Register from '../pages/Register.vue'
 import store from '../store/index'
 import Client from '../pages/Client.vue'
-
+import ActiveMember from '../pages/ActiveMember.vue'
 // import module admin
 import User from '../admin/modules/User'
 import Destination from '../admin/modules/Destinations'
@@ -40,7 +40,7 @@ function requireAuth (to, from, next) {
           if (store.get('user/user') && store.get('user/user').permistion && store.get('user/user').permistion.length > 0 && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
             next()
           } else {
-            next('/auth/thong-tin-tai-khoan.html')
+            next('/')
           }
         } else if (store.get('user/userLoadStatus') === 3) {
           next('/auth/login')
@@ -126,6 +126,11 @@ const router = new Router({
       path: '/auth/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/auth/active/:token',
+      name: ActiveMember,
+      component: ActiveMember
     },
     {
       path: '*',
