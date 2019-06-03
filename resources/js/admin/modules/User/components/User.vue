@@ -26,7 +26,7 @@
         @change="handleTableChange"
       >
         <template slot="photo" slot-scope="photo">
-          <a-avatar :size="64" icon="user" :src="'/images/' + photo"/>
+          <a-avatar :size="64" icon="user" :src="/^https?:\/\//i.test(photo) ? photo :'/images/' + photo"/>
         </template>
         <template slot="active" slot-scope="active">
           <a-tooltip placement="bottom">
@@ -45,7 +45,7 @@
           </a-tooltip>
         </template>
         <template slot="roleName" slot-scope="roleName">
-          <a-tag color="#f50" v-if="roleName.includes('admin') || roleName.includes('Mod')">{{ roleName | upText }}</a-tag>
+          <a-tag color="#f50" v-if="roleName.includes('admin') || roleName.includes('mod')">{{ roleName | upText }}</a-tag>
           <a-tag color="#87d068" v-else>{{ roleName | upText }}</a-tag>
         </template>
         <template slot="createAt" slot-scope="createAt">{{createAt | myDate(createAt)}}</template>
@@ -109,6 +109,10 @@ const columns = [
     title: "Role",
     dataIndex: "roleName",
     scopedSlots: { customRender: "roleName" }
+  },
+  {
+    title: 'Login with',
+    dataIndex: 'loginWith'
   },
   {
     title: "Create at",

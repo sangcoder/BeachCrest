@@ -22,6 +22,7 @@ class UserResource extends Resource
             'photo' => $this->photo,
             'bio' => $this->bio,
             'roleName' => $this->getRoleNames(),
+            'loginWith' => $this->socialNetWork->count() == 1 ? 'Facebook' : 'Normal',
             'active' =>$this->active,
             'created_at' =>  $this->created_at
         ];

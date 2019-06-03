@@ -23,7 +23,6 @@ const columns = [{
 },
 {
   title: 'Duyệt bởi',
-  dataIndex: 'ApproveBy',
   scopedSlots: { customRender: 'approveBy' }
 },
 {
@@ -103,6 +102,9 @@ export default {
         this.$message.success('Đã xóa bình luận')
         this.loading = false
       })
+    },
+    gotoTour (id) {
+      window.open('/view?tour=' + id, '_blank')
     },
     searchReview (value) {
       this.loading = true

@@ -25,7 +25,7 @@
       </div>
 
       <a-comment v-if="empty">
-        <a-avatar slot="avatar" size="large" :src="'/images/' + this.$store.state.user.user.photo"/>
+        <a-avatar slot="avatar" size="large" :src="/^https?:\/\//i.test(this.$store.state.user.user.photo) ? this.$store.state.user.user.photo : '/images/' + this.$store.state.user.user.photo"/>
         <div slot="content">
           <b-form-group label="Đánh giá về tour này">
             <a-rate :defaultValue="3" v-model="formData.Rating"/>
@@ -57,7 +57,7 @@
         <div class="comment-item-head">
           <div class="media">
             <div class="media-left">
-              <a-avatar size="large" icon="user" :src="'/images/' + comment.user.photo"/>
+              <a-avatar size="large" icon="user" :src="/^https?:\/\//i.test(comment.user.photo) ? comment.user.photo : '/images/' + comment.user.photo"/>
             </div>
             <div class="media-body">
               <h5 class="media-heading">

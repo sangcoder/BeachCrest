@@ -46,24 +46,24 @@
             <p><a-rate :defaultValue="content.Rating" disabled /></p>
             {{content.Contents | truncate(80)}}
             <span>
-              <a href>{{content.tour.TourName}}</a>
+              <a href="#" @click="gotoTour(content.tour.TourID)">{{content.tour.TourName}}</a>
             </span>
           </template>
           <template slot="dayCreate" slot-scope="dayCreate">{{dayCreate | timeAgo}}</template>
           <template slot="createBy" slot-scope="createBy">
-            <a-avatar icon="user" :src="'/images/' + createBy.user.photo" class="mr-3"/>
+            <a-avatar icon="user" :src="/^https?:\/\//i.test(createBy.user.photo) ? createBy.user.photo : '/images/' + createBy.user.photo" class="mr-3"/>
             <a href="#">{{createBy.user.name | upText}}</a>
           </template>
           <template
             slot="approveBy"
             slot-scope="approveBy"
           >
-           <a-tag v-if="approveBy" color="#2db7f5">{{approveBy}}</a-tag>
+           <a-tag v-if="approveBy.ApproveBy" color="#2db7f5">{{approveBy.ApproveBy}}</a-tag>
             <a-button
             v-else
             size="small" 
             :style="{backgroundColor: '#87d068', color: '#fff', border: 'none'}"
-            @click="acceptComment(modify)"
+            @click="acceptComment(approveBy)"
             >
               <a-icon type="check"/>
               Duyệt

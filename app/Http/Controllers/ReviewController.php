@@ -24,7 +24,7 @@ class ReviewController extends Controller
     // Get all review on tour
     public function index(Tour $tour)
     {
-        return ReviewSource::collection($tour->reviews()->orderBy('created_at', 'desc')->paginate(10));
+        return ReviewSource::collection($tour->reviews()->where('spam', 0)->orderBy('created_at', 'desc')->paginate(10));
     }
 
     public function getAll (Request $request) {
@@ -138,6 +138,7 @@ class ReviewController extends Controller
             'Contents' => 'required|string',
             'Rating' => 'required|numeric'
         ]);
+        $user = auth()->user();
         if ($validator->fails()) {
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
@@ -147,7 +148,7 @@ class ReviewController extends Controller
         // pass
         $review->update([
             'spam' => 0,
-            'approve_by' => $request->ApproveBy
+            'approve_by' =>  $user->id
         ]);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
