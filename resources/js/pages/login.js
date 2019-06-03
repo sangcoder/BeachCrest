@@ -54,6 +54,9 @@ export default {
           })
         })
     },
+    goTo (path) {
+      window.location.href = path
+    },
     emitEmptyEmail () {
       this.$refs.emailInput.focus()
       this.email = ''

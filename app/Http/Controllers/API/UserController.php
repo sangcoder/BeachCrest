@@ -122,14 +122,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-       $user = DB::table('users')->where('id', '=', $id );
-        //  Delete user
+    //    $user = DB::table('users')->where('id', '=', $id );
+    //     //  Delete user
+        $social = $user->socialNetWork;
+        // dd(sizeof($social) != 0);
+        if (sizeof($social) != 0) {
+            $user->socialNetWork()->delete();
+    }
         $user->delete();
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS
         ]);
     }
     
+    public function addModelRole (Request $request) {
+        // DB::table('model_has_roles')->insert(
+        //     ['role_id' => $request->roleID, 'model_type' => 'App\User', 'model_id' => $request->userID]
+        // );
+        $user = User::find($request->userID);
+        dd($user->roles);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
+    }
 }

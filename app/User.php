@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +37,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         return $this->hasMany(SocialNetwork::class);
     }
 
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id','role_id');
+    }
     // Để sử dụng được JWT Auth
 
     public function getJWTIdentifier()

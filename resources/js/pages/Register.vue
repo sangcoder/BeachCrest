@@ -15,8 +15,9 @@
             :class="$v.name.$error ? 'has-feedback has-error' : ''"
           >
             <a-icon slot="prefix" type="user"/>
-            <a-icon v-if="name" slot="suffix" type="close-circle" />
           </a-input>
+          <div class="invalid-feedback d-block" v-if="!$v.name.required">Tên là bắt buộc.</div>
+            <div class="invalid-feedback d-block" v-if="!$v.name.minLength">Phải có ít nhất {{ $v.password.$params.minLength.min }} kí tự.</div>
           <div
             class="invalid-feedback d-block"
             v-if="$v.name.$invalid && validation.errors && validation.errors.name"
@@ -35,7 +36,7 @@
           </a-input>
           <div
             class="invalid-feedback d-block"
-            v-if="$v.email.$invalid && validation.errors && validation.errors.email"
+            v-if="validation.errors && validation.errors.email"
           >{{ validation.errors.email[0] }}</div>
         </div>
         <p>Mật khẩu</p>
@@ -50,6 +51,8 @@
             <a-icon slot="prefix" type="lock"/>
             <a-icon v-if="password" slot="suffix" type="close-circle" @click="emitEmptyPassword"/>
           </a-input>
+          <div class="invalid-feedback d-block" v-if="!$v.password.required">Mật khẩu là bắt buộc.</div>
+            <div class="invalid-feedback d-block" v-if="!$v.password.minLength">Mật khẩu phải có ít nhất {{ $v.password.$params.minLength.min }} kí tự.</div>
           <div
             class="invalid-feedback d-block"
             v-if="$v.password.$invalid && validation.errors && validation.errors.password"
@@ -60,16 +63,19 @@
           <a-input
             placeholder="Nhập lại mật khẩu"
             type="password"
-            v-model="repassword"
-            :class="$v.repassword.$error ? 'has-feedback has-error' : ''"
+            v-model="rePassword"
+            ref="rePassword"
+            :class="$v.rePassword.$error ? 'has-feedback has-error' : ''"
           >
             <a-icon slot="prefix" type="lock"/>
-            <a-icon v-if="repassword" slot="suffix" type="close-circle" />
+            <a-icon v-if="rePassword" slot="suffix" type="close-circle" click="emitClearPassword"/>
           </a-input>
+            <div class="invalid-feedback d-block" v-if="!$v.rePassword.sameAsPassword">Mật khẩu không giống nhau</div>
+
           <div
             class="invalid-feedback d-block"
-            v-if="$v.repassword.$invalid && validation.errors && validation.errors.repassword"
-          >{{ validation.errors.repassword[0] }}</div>
+            v-if="$v.rePassword.$invalid && validation.errors && validation.errors.rePassword"
+          >{{ validation.errors.rePassword[0] }}</div>
         </div>
         <div class="row">
           <div class="col-12">
@@ -78,64 +84,22 @@
           <!-- /.col -->
         </div>
 
-        <div class="social-auth-links text-center mb-3">
-          <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-primary">
-            <i class="fa fa-facebook mr-2"></i> Đăng nhập nhanh bằng Facebook
-          </a>
-          <a href="#" class="btn btn-block btn-danger">
-            <i class="fa fa-google-plus mr-2"></i> Đăng nhập nhanh bằng  Google+
-          </a>
+        <div class="social-auth-links text-center my-3">
+          <p>
+            <button
+              class="btn btn-success block"
+              @click="$router.push({name: 'Login'})"
+            >Đăng nhập tài khoản tại đây
+            </button>
+          </p>
         </div>
         <!-- /.social-auth-links -->
-        <p class="mb-0">
-          <a href="javascript:;" @click="$router.push({name: 'Login'})" class="text-center">Đăng nhập tại đây</a>
-        </p>
       </div>
       <!-- /.login-card-body -->
     </div>
   </div>
 </template>
-<script>
-import { required, email } from "vuelidate/lib/validators";
-export default {
-  data() {
-    return {
-      name: "",
-      email: "",
-      password: "",
-      repassword: "",
-      loading: false,
-      text: "Đăng kí tài khoản",
-      validation: {
-        message: "",
-        errors: {}
-      }
-    };
-  },
-  validations() {
-    return {
-      name: {required, email},
-      email: { required, email },
-      password: { required },
-      repassword: {required}
-    };
-  },
-  methods: {
-    Register () {
-      this.$v.$touch()
-    },
-    emitEmptyEmail() {
-      this.$refs.emailInput.focus();
-      this.email = "";
-    },
-    emitEmptyPassword() {
-      this.$refs.passwordInput.focus();
-      this.password = "";
-    }
-  }
-};
-</script>
+<script src="./register.js"></script>
 <style scoped>
 .input-group-append span {
   display: flex;

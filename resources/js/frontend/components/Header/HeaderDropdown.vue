@@ -32,7 +32,7 @@
         </a-menu>
       </template>
       <a-avatar v-if="!empty" icon="user"/>
-      <a-avatar v-else icon="user" :src="'/images/' + user.photo"/>
+      <a-avatar v-else icon="user" :src="checkImage ? user.photo : '/images/' + user.photo"/>
     </a-popover>
   </div>
 </template>
@@ -60,6 +60,17 @@ export default {
         this.empty = true;
       }
     }
+  },
+  computed: {
+    checkImage () {
+    let url = this.user.photo
+    var pat = /^https?:\/\//i
+    if (pat.test(url)) {
+      return true
+    } else {
+      return false
+    }
+  }
   },
   methods: {
     logout() {

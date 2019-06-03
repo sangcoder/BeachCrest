@@ -12,7 +12,7 @@
         </a-menu>
       </template>
       <a-badge dot status="success">
-        <a-avatar icon="user" :src="'/images/' + user.photo"/>
+        <a-avatar icon="user" :src="checkImage ? user.photo : '/images/' + user.photo"/>
       </a-badge>
     </a-popover>
   </div>
@@ -27,6 +27,17 @@ export default {
       user: null,
       visible: false
     };
+  },
+  computed: {
+    checkImage () {
+      let url = this.user.photo
+      var pat = /^https?:\/\//i
+      if (pat.test(url)) {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   created() {
     this.user = this.$store.get("user/user");

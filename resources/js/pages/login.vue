@@ -27,6 +27,7 @@
             placeholder="Enter your password"
             type="password"
             v-model="password"
+            @keyup.enter="Login"
             ref="passwordInput"
              :class="$v.password.$error ? 'has-feedback has-error' : ''"
           >
@@ -40,19 +41,19 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <a-button type="primary" :loading="loading" @click="Login" block>{{ text }}</a-button>
+            <a-button type="primary" :loading="loading"  @click="Login" block>{{ text }}</a-button>
           </div>
           <!-- /.col -->
         </div>
 
         <div class="social-auth-links text-center mb-3">
           <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-primary">
-            <i class="fa fa-facebook mr-2"></i> Sign in using Facebook
-          </a>
-          <a href="#" class="btn btn-block btn-danger">
-            <i class="fa fa-google-plus mr-2"></i> Sign in using Google+
-          </a>
+          <button class="btn btn-block btn-primary" @click="goTo('/redirect/facebook')">
+            <a-icon type="facebook" class="mr-2" /> Đăng nhập nhanh bằng Facebook
+          </button>
+          <!-- <button href="#" class="btn btn-block btn-danger">
+            <a-icon type="google" /> Đăng nhập nhanh bằng Google
+          </button> -->
         </div>
         <!-- /.social-auth-links -->
 

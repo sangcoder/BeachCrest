@@ -40,7 +40,7 @@ function requireAuth (to, from, next) {
           if (store.get('user/user') && store.get('user/user').permistion && store.get('user/user').permistion.length > 0 && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
             next()
           } else {
-            next('/admin/404')
+            next('/auth/thong-tin-tai-khoan.html')
           }
         } else if (store.get('user/userLoadStatus') === 3) {
           next('/auth/login')

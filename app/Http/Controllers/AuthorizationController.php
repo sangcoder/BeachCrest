@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class AuthorizationController extends Controller
 {
@@ -24,5 +26,30 @@ class AuthorizationController extends Controller
         $per = DB::table('permissions')
         ->get();
         return $per;
+    }
+
+    public function addPermissionToRole (Request $request) {
+        $role = Role::find($request->roleId);
+        $role->permissions()->sync($request->valueRoles);
+        // dd($role->permissions);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
+    }
+
+    public function addNewRole (Request $request) {
+        // dd($request->all());
+        $newRole = Role::create(['name' => $request->NameRoles]);
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => $newRole
+        ]);
+    }
+
+    public function deleteRoles (Role $role) {
+        $role->delete();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
     }
 }

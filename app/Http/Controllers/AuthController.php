@@ -12,6 +12,7 @@ use App\Enums\RoleType;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\RegisterActivate;
 use Spatie\Permission\Models\Permission;
@@ -104,7 +105,19 @@ class AuthController extends Controller
             'data' => $user
         ],AppResponse::HTTP_OK);
     }
-
+    public function checkUniqueEmail (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|unique:users',
+        ]);
+        if ( $validator->fails()) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE
+            ],AppResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
+    }
 
         /**
     * @OA\Post(
@@ -188,11 +201,22 @@ class AuthController extends Controller
         $data = $user;
         $roles = $data['roles'];
         $data['roles'] = $data->getRoleNames();
-        $per = $this->getPermision($roles[0]->id);
-        $data['permistion'] = $per;
+        // $per = $this->getPermision($roles[0]->id);
+        $arrPer = array();
+        foreach($roles as $rol) {
+            array_push($arrPer, $this->getPermision($rol->pivot->role_id));
+        }
+        $arrPermission = array();
+        foreach ($arrPer as $per) {
+            for ($i = 0; $i < sizeof($per); $i++) {
+                array_push($arrPermission,$per[$i]);
+            }
+        }
+        $data['permistion'] = $arrPermission;
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $data
+            'data' => $data,
+            'token' => $token
         ], AppResponse::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'),'/', null, false, true); // Set cookie  xuông browser
     }
 
@@ -223,6 +247,7 @@ class AuthController extends Controller
     */
     public function getUser(Request $request)
     {
+        // dd($request->user());
         $data = $request->user();
         $roles = $data['roles'];
         $data['roles'] = $data->getRoleNames();
@@ -434,7 +459,7 @@ class AuthController extends Controller
         }
 
         // save new password
-        $user->password = bcrypy($request->new_password);
+        $user->password = bcrypt($request->new_password);
         $user->save();
         // send Email thông báo
         $user->notify(new PasswordChangeSuccess());

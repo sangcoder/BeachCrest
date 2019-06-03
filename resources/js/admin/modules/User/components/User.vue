@@ -50,15 +50,15 @@
         </template>
         <template slot="createAt" slot-scope="createAt">{{createAt | myDate(createAt)}}</template>
         <template slot="modify" slot-scope="modify">
-          <a-button type="primary" icon="edit" @click="showModalRole(modify)"></a-button>
+          <a-button size="small" type="primary" icon="edit" @click="showModalRole(modify)"></a-button>
           <a-popconfirm
-            title="Are you sure delete?"
+            title="Bạn có chắc muốn xóa tài khoản này?"
             @confirm="deleteUser(modify.id)"
             @cancel="cancel"
             okText="Yes"
             cancelText="No"
           >
-            <a-button type="danger" icon="delete"></a-button>
+            <a-button size="small" type="danger" icon="delete"></a-button>
           </a-popconfirm>
         </template>
       </a-table>
@@ -130,6 +130,10 @@ export default {
         pageSizeOptions: ["10", "20", "30", "40"],
         showTotal: total => `Total ${total} items`,
         showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
+      },
+      modelHasRole: {
+        roleID: 0,
+        userID: 0
       },
       loading: false,
       visible: false,
@@ -213,25 +217,29 @@ export default {
     },
     deleteUser(id) {
       UserAPI.deleteUser(id).then(res => {
-        let payload = {
-          page: this.pagination.current
-        };
-        this.$store.dispatch("user/getDsUser", payload).then(res => {
+        this.loading = false;
+        UserAPI.getlistUser(this.pagination.current).then (res => {
           const pagination = { ...this.pagination };
-          pagination.total = res.data.data.total;
+          pagination.total = res.data.meta.total;
           this.pagination = pagination;
           this.loading = false;
-        });
+        })
       });
     },
     showModalRole(user) {
       this.visible = true;
+      this.modelHasRole.userID = user.id
       this.fetchAllRole();
     },
     changeRole() {
       this.visible = false;
+      UserAPI.addRoleModel(this.modelHasRole).then(res => {
+        console.log('Ok')
+      })
     },
-    handleChangeSelect(value) {},
+    handleChangeSelect(value) {
+      this.modelHasRole.roleID = value
+    },
     fetchAllRole() {
       UserAPI.getAllRole().then(res => {
         this.Roles = res.data;

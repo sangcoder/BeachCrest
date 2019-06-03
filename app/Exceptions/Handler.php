@@ -53,10 +53,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException)
         {
-                return response()->json([
-                    'errors'=>'Model Not Found',
-                    'status' => '404'
-                    ]);
+            return response()->json([
+                'errors'=>'Model Not Found',
+                'status' => '404'
+                ]);
         }
         if ($exception instanceof UnauthorizedHttpException) {
             // detect previous instance

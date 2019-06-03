@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\SocialNetwork;
+use App\Enums\RoleType;
+use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Socialite\Facades\Socialite;
+// use Spatie\Permission\Models\Permission;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 class SocialAuthController extends Controller
 {
@@ -13,57 +23,57 @@ class SocialAuthController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
     public function callbackFacebook () {
-        $user = Socialite::driver('facebook')->user();
-        dd($user->user);
-    }
-    // đăng nhập facebook
-    public function facebook (Request $request) {
-        $facebook = $request->only('access_token');
-        if (!$facebook || !isset($facebook['access_token'])) {
-            return $this->responseErrors(config('code.user.login_facebook_failed'), 'Đăng nhập facebook thất bại');
-        }
-        // Khởi tạo Facebook graph SDK
-        $fb = new Facebook([
-            'app_id' => config('services.facebook.app_id'),
-            'app_secret' => config('services.facebook.app_secret'),
-        ]);
-        try {
-            // get thông tin facebook qua access token
-            $response = $fb->get('/me?fields?=id,name,email,link,birthday', $facebook['access_token']);
-            $profile = $response->getGraphUser();
-            if (!$profile || !isset($profile['id'])) {
-                // Không lây được thông tin user
-                return reponse()->json([
-                    'success' =>  AppResponse::STATUS_FAILURE
-                ], config('code.user.login_facebook_failed'));
-            }
 
+        $response = Socialite::driver('facebook')->user();
+        // dd($response);
+        $token = $response->token;
+        if (!$token) {
+            return response()->json([
+                'messages' => 'Đăng nhập facebook thất bại'
+            ],config('code.user.login_facebook_failed'));
+        }
+
+        try {
+            $profile = $response->user;
+            if(!$profile || !isset($profile['id'])) {
+                return response()->json([
+                    'messages' => 'Đăng nhập facebook thất bại'
+                ],config('code.user.login_facebook_failed'));
+            }
             $email = $profile['email'] ?? null;
-            $social = SocialNetwork::where('social_id', $profile['id'])-where('type', 1)->first();
-            // Kiểm tra userId facebook tồn tại trong bảng social network
-            // => nếu có đã đăng nhập rồi => tạo token jwt trả về client
-            // => Nếu chưa, tiếp tục kiểm tra email => đã tồn tại trong hệ thồng thì lấy user đó
-            // => Nếu chưa có hết tạo bản ghi mới vào social network trả về token cho client
+            $social = SocialNetwork::where('social_id', $profile['id'])->where('type', 1)->first();
             if ($social) {
                 $user = $social->user;
             } else {
-                $user = $email? User::firstOrCreate(['email' => $email]) : User::create();
-                $user->socialNetWork([
+                $user = $email ? User::firstOrCreate(['name' => $profile['name'],'email' => $email, 'photo' => $response->avatar, 'active' => 1]) : User::create();
+                $user->roles()->syncWithoutDetaching([
+                    1 => [
+                        'model_type' => 'App\User'
+                    ]
+                ]);
+                $user->socialNetWork()->create([
                     'social_id' => $profile['id'],
                     'type' => 1
                 ]);
                 $user->name = $profile['name'];
                 $user->save();
-                // Create token 
-                $token = JWTAuth::fromUser($user);
-                return response()->json([
-                    'success' => AppResponse::STATUS_SUCCESS,
-            ], AppResponse::HTTP_OK)->withCookie('token', $token, config('jwt.ttl'),'/', null, false, true);
             }
+            // dd($user);
+            $userToken = JWTAuth::fromUser($user);
+            $cookie = cookie('token', $userToken, 600);
+            return redirect('/auth/login')->withCookie($cookie);
+            
+
         } catch (\Exception $e) {
             Log::error('Error when login with facebook: ' . $e->getMessage());
-
         }
+    }
+    public function redirectGoogle () {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function callbackGoogle () {
         
     }
+
 }

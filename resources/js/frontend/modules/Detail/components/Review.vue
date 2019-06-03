@@ -15,9 +15,9 @@
           </b-col>
           <b-col md="7">
             <div v-if="CountReview" class="counter-score">
-              <p v-for="(item, index) in CountReview.Score" :key="index">
-                <span>{{sumary[index]}}</span>
-                <a-progress :percent="item.percent" size="small" status="active"/>
+              <p v-for="(item, index) in sumary" :key="index">
+                {{item.label}}
+                <a-progress :percent="item.percent || item.value" size="small" status="active"/>
               </p>
             </div>
           </b-col>
@@ -93,6 +93,7 @@
 import moment from "moment";
 import ReviewAPI from "../serviceDetailTour";
 import DetailTourAPI from "../serviceDetailTour";
+import _ from 'lodash'
 export default {
   name: "CommentBox",
   props: {
@@ -112,7 +113,32 @@ export default {
         Rating: 5,
         Contents: ""
       },
-      sumary: ["Rất tệ", "Tệ", "Bình thường", "Tốt", "Tuyệt vời"],
+      sumary: [
+        {
+          label: "Rất tệ",
+          Rating: 1,
+          value: 0
+        },
+        {
+          label: "Tệ",
+          Rating: 2,
+          value: 0
+        },
+        {
+          label: "Bình thường",
+          Rating: 3,
+          value: 0
+        },
+        {
+          label: "Tốt",
+          Rating: 4,
+          value: 0
+        },
+        {
+          label: "Tuyệt vời",
+          Rating: 5,
+          value: 0
+        }],
       user: null,
       empty: false,
       moment
@@ -127,6 +153,20 @@ export default {
         this.empty = false;
       } else {
         this.empty = true;
+      }
+    },
+    CountReview (v) {
+      if (v) {
+        let data = _.cloneDeep(v)
+        for(let item of this.sumary) 
+        {
+          for(let item2 of data.Score) 
+          {
+            if(item2.Rating === item.Rating) {
+                item.percent = item2.percent
+            }
+          }
+        }
       }
     }
   },

@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 // Định các route register, login
+// Route::get('/redirect/facebook', 'SocialAuthController@redirectFacebook');
 
 Route::group([
     // api/auth/
     'prefix' => 'auth'
 ], function() {
     Route::post('register', 'AuthController@register');
+    Route::post('checkUnique', 'AuthController@checkUniqueEmail');
     Route::post('login', 'AuthController@login');
     Route::get('register/activate/{token}','AuthController@activate');
     // Phải xác thực mới được thực hiện
@@ -62,9 +64,15 @@ Route::delete('schedules/deleteSchedule/{schedule}', 'ScheduleController@destroy
 Route::group([
     'middleware' => 'jwt.auth'
 ], function () {
+    // Add Role for User
+    Route::post('user/addRoleModel', 'API\UserController@addModelRole');
+
     Route::get('permission/getAll', 'AuthorizationController@getAllPermission');
     Route::get('roles/getAll', 'AuthorizationController@getListRoles');
     Route::get('permission/getAllPermission/{id}', 'AuthorizationController@getPermissionByRole');
+    Route::post('permission/addPermissionToRole', 'AuthorizationController@addPermissionToRole');
+    Route::post('roles/addNewRole', 'AuthorizationController@addNewRole');
+    Route::delete('role/DeleteRole/{role}', 'AuthorizationController@deleteRoles');
     Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
 
     // Add khuyến mãi
