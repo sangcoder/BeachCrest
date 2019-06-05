@@ -15,4 +15,10 @@ class Booking extends Model
     public function payments() {
         return $this->hasMany('App\Model\Payment');
     }
+    public function tour() {
+        return $this->belongsTo(Tour::class);
+    }
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

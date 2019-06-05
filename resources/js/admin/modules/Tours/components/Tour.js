@@ -2,6 +2,8 @@ import SearchTour from './SearchTour'
 import moment from 'moment'
 import TourAPI from '../tourServices'
 import Axios from 'axios'
+import Multiselect from 'vue-multiselect'
+
 const columns = [
   {
     title: 'ID',
@@ -94,7 +96,8 @@ function fetchPromotion (value, callback) {
 
 export default {
   components: {
-    SearchTour
+    SearchTour,
+    Multiselect
   },
   data () {
     return {
@@ -105,9 +108,11 @@ export default {
         showTotal: total => `Total ${total} items`,
         showSizeChange: (current, pageSize) => (this.pageSize = pageSize)
       },
+      isLoading: false,
       editMode: false,
       loading: false,
       data: [],
+      selectedValue: [],
       visible: false,
       columns,
       deleteMoreButton: false,
@@ -117,6 +122,8 @@ export default {
       hidenModal: false,
       dataSelectbox: [],
       AllSchedule: [],
+      options: [],
+      list: [],
       ContentSchedule: '',
       value: undefined,
       formData: {
@@ -190,6 +197,11 @@ export default {
         this.AllSchedule = res.data.data
       })
     },
+    fetchCulture () {
+      TourAPI.getListCulture().then(res => {
+        this.options = res.data.data
+      })
+    },
     onSelectChange (selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys
     },
@@ -215,6 +227,7 @@ export default {
       this.visible = true
       this.editMode = false
       this.fetchSchedules()
+      this.fetchCulture()
       // Clear field
       this.formData.TourName = ''
       this.formData.TourDescription = ''
@@ -272,7 +285,8 @@ export default {
         PriceAdult: this.formData.PriceAdult,
         PriceKid: this.formData.PriceKid,
         Unit: this.formData.Unit,
-        ScheduleId: this.formData.ScheduleId
+        ScheduleId: this.formData.ScheduleId,
+        ListCultures: this.selectedValue
       }
       if (!this.editMode) {
         TourAPI.addNewTour(payload).then(res => {

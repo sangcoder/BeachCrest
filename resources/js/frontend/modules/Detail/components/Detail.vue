@@ -16,6 +16,7 @@
           ></detail-content>
           <detail-content v-else :image-url="dataTour.ImageUrl" :Schedules="dataTour.Schedule"></detail-content>
           <comment-box :CountReview="dataTour.Rating" :comments="comments"></comment-box>
+          <!-- <comment-box :CountReview="dataTour.Rating" /*v-on="ReloadDS(item)" :comments="comments"></comment-box> -->
         </div>
       </b-col>
       <b-col md="4">
@@ -23,10 +24,10 @@
           <box-booking
             v-if="loading"
             loading
-            :price-tour="dataTour.PriceAdult"
-            :price-kid="dataTour.PriceKid"
+            :price-tour="dataTour.OnsaleAdult"
+            :price-kid="dataTour.OnsaleKid"
           ></box-booking>
-          <box-booking v-else :price-tour="dataTour.PriceAdult" :price-kid="dataTour.PriceKid"></box-booking>
+          <box-booking v-else :price-tour="dataTour.OnsaleAdult" :price-kid="dataTour.OnsaleKid"></box-booking>
           <list-promotion
             :title-promotion="'Tour có khuyến mãi'"
             :list-promotion="listPromotion"
@@ -158,7 +159,9 @@ export default {
       this.sidebar.windowScrollTop =
         window.pageYOffset || window.document.documentElement.scrollTop;
     }, 100),
-
+    // ReloadDS (item) {
+    //   this.comments.push(item)
+    // },
     // Tính toán sidebar
     calculateSidebar() {
       // this.sidebar.height = this.$refs.sidebarContent.offsetHeight;

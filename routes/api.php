@@ -79,7 +79,7 @@ Route::group([
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai
     Route::get('promotion/search', 'PromotionController@search');
-
+    Route::get('cultures/getAllSelect', 'API\ScenicCultureController@getListTourValue');
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

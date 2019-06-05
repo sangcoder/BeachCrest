@@ -35,8 +35,10 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $review = Review::find(21);
-        dd($review->tours);
+        $tour = Tour::find(50);
+        dd($tour->bookings);
+        // $review = Review::find(21);
+        // dd($review->tours);
         // $schedule = Schedule::find(51);
         // dd($schedule->guiders);
         // foreach ($schedule->guiders as $item) {

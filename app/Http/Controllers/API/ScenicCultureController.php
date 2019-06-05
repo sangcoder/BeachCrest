@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\Scenic_Culture;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CultureResouce;
 
 class ScenicCultureController extends Controller
 {
@@ -40,6 +41,10 @@ class ScenicCultureController extends Controller
         ]);
     }
     
+    public function getListTourValue() {
+        $culture = Scenic_Culture::all();
+        return CultureResouce::collection(Scenic_Culture::all());
+    }
     /**
      * Store a newly created resource in storage.
      *

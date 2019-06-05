@@ -40,6 +40,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function roles() {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id','role_id');
     }
+    public function bookings () {
+        return $this->hasMany('App\Model\Booking', 'user_id');
+    }
     // Để sử dụng được JWT Auth
 
     public function getJWTIdentifier()

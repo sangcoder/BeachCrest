@@ -122,7 +122,14 @@ class TourController extends Controller
             'Unit' => $request->Unit,
             'schedule_id' => $request->ScheduleId
         ]);
+        // dd($tour, $request->all());
+        $arrayCultures = array();
+        foreach ($request->ListCultures as $cultureId) {
+            array_push($arrayCultures, $cultureId['value']);
+        }
+        // dd();
         $tour->save();
+        $tour->scenics()->sync($arrayCultures);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $tour

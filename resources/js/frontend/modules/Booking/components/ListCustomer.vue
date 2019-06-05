@@ -1,0 +1,97 @@
+<template>
+  <div class="list-customer">
+    <b-row>
+      <b-col md="6">
+        <b-form-group>
+          <p>
+            Họ và tên (
+            <span class="red-rquired">*</span>)
+          </p>
+          <a-input size="large" placeholder="Nhập họ và tên"/>
+        </b-form-group>
+      </b-col>
+      <b-col md="6">
+        <b-form-group>
+          <p>
+            Email (
+            <span class="red-rquired">*</span>)
+          </p>
+          <a-input size="large" placeholder="Email"/>
+        </b-form-group>
+      </b-col>
+      <b-col md="6">
+        <b-form-group>
+          <p>
+            Số điện thoại (
+            <span class="red-rquired">*</span>)
+          </p>
+          <a-input size="large" placeholder="Số điện thoại"/>
+        </b-form-group>
+      </b-col>
+      <b-col md="6">
+        <b-form-group>
+          <p>Địa chỉ</p>
+          <a-input size="large" placeholder="Nhập địa chỉ"/>
+        </b-form-group>
+      </b-col>
+      <b-col md="6" class="d-flex align-items-md-center">
+        <b-form-group>
+          <p>
+            Số người hành khách (
+            <span class="red-rquired">*</span>)
+          </p>
+          <span>Người lớn</span>
+          <a-input-number size="large" v-model="NumberAdult" :min="1" :max="12" :defaultValue="3"/>
+          <span style="margin-left: 10px;">Trẻ em</span>
+          <a-input-number size="large" v-model="NumberKid" :min="0" :max="12" :defaultValue="0"/>
+        </b-form-group>
+      </b-col>
+      <b-col md="6">
+        <b-form-group label="Ghi chú">
+          <a-textarea placeholder="Nhập ghi chú" :rows="4"/>
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <h4 class="card-title">Danh sách khách hàng đi Tour</h4>
+    <info-customer :number-adult="NumberAdult" :number-kid="NumberKid" :price-kid="tourInfo.OnsaleKid" :price-adult="tourInfo.OnsaleAdult" />
+  </div>
+</template>
+<script>
+import moment from "moment";
+import InfoCustomer from "./InfoCustomer";
+export default {
+  name: "ListCustomer",
+  components: {
+    InfoCustomer
+  },
+  props: {
+    tourInfo: Object
+  },
+  data () {
+    return {
+        NumberKid: parseInt(this.$route.query.numberKid),
+        NumberAdult: parseInt(this.$route.query.numberAdult)
+    }
+  },
+  watch: {
+    NumberKid(value)
+    {
+      this.NumberKid = value
+    },
+    NumberAdult (value) {
+      this.NumberAdult = value
+    }
+  },
+  methods: {
+    moment,
+    handleSubmit(e) {}
+  }
+};
+</script>
+<style lang="css" scoped>
+.red-rquired {
+  font-weight: bold;
+  color: #cd2c24;
+}
+
+</style>

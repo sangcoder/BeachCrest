@@ -13,28 +13,27 @@
       <b-form-group>
         <a-date-picker
           placeholder="Chọn ngày"
-          format="YYYY-MM-DD HH:mm:ss"
+          format="DD-MM-YYYY"
+          v-model="dataBooking.dateBooking"
           :disabledDate="disabledDate"
-          :disabledTime="disabledDateTime"
           size="large"
-          :showTime="{ defaultValue: moment('00:00:00', 'HH:mm:ss') }"
           style="width: 100%;"
         />
       </b-form-group>
       <b-row>
         <b-col md="6">
           <b-form-group label="Người lớn">
-            <a-input-number size="large" :min="1" :max="10" :defaultValue="2" style="width: 100%;"/>
+            <a-input-number size="large" :min="1" :max="10" v-model="dataBooking.numberAdult" :defaultValue="2" style="width: 100%;"/>
           </b-form-group>
         </b-col>
         <b-col md="6">
           <b-form-group label="Trẻ em">
-            <a-input-number size="large" :min="1" :max="10" :defaultValue="0" style="width: 100%;"/>
+            <a-input-number size="large" :min="1" :max="10" v-model="dataBooking.numberKid" :defaultValue="0" style="width: 100%;"/>
           </b-form-group>
         </b-col>
       </b-row>
       <b-form-group>
-        <a-button size="large" type="primary" block>Đặt ngay</a-button>
+        <a-button size="large" type="primary" @click="toBooking" block>Đặt ngay</a-button>
       </b-form-group>
     </div>
   </div>
@@ -59,6 +58,11 @@ export default {
   },
   data() {
     return {
+      dataBooking: {
+        dateBooking: moment(),
+        numberKid: 0,
+        numberAdult: 1
+      }
     }
   },
   methods: {
@@ -82,6 +86,9 @@ export default {
         // disabledMinutes: () => this.range(30, 60),
         // disabledSeconds: () => [55, 56],
       };
+    },
+    toBooking () {
+      this.$router.push({name: 'bookingTour', query: {tour: this.$route.query.tour, dateBooking: moment(this.dataBooking.dateBooking).format('DD-MM-YYYY'), numberAdult: this.dataBooking.numberAdult, numberKid: this.dataBooking.numberKid}})
     }
   }
 };

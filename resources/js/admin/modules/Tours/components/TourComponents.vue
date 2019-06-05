@@ -79,7 +79,10 @@
       okText="Hoàn tất"
       cancelText="Hủy bỏ"
     >
-    <a-divider><a-icon type="audit"  class="mr-2"/> Thông tin Tour<a-icon type="audit"  class="ml-2"/> </a-divider>
+      <a-divider>
+        <a-icon type="audit" class="mr-2"/>Thông tin Tour
+        <a-icon type="audit" class="ml-2"/>
+      </a-divider>
       <b-form-group label="Tên Tour:">
         <a-input size="large" v-model="formData.TourName" placeholder="Nhập tên tour"/>
       </b-form-group>
@@ -173,22 +176,50 @@
       <b-row>
         <b-col md="4">
           <b-form-group label="Lịch trình">
-            <a-select size="large" defaultValue="Chọn lịch trình..." style="width: 100%" @change="handleListSchedule">
-              <a-select-option v-for="schedule in AllSchedule" :key="schedule.id" :value="schedule.id">{{schedule.id}}</a-select-option>
+            <a-select
+              size="large"
+              defaultValue="Chọn lịch trình..."
+              style="width: 100%"
+              v-model="formData.ScheduleId"
+              @change="handleListSchedule"
+            >
+              <a-select-option
+                v-for="schedule in AllSchedule"
+                :key="schedule.id"
+                :value="schedule.id"
+              >{{schedule.id}}</a-select-option>
             </a-select>
           </b-form-group>
         </b-col>
         <b-col md="8">
           <b-form-group label="Mô tả">
-            <a-textarea
-              placeholder="Nội dung lịch trình..."
-              :rows="2"
-              :value="ContentSchedule"
-            />
+            <a-textarea placeholder="Nội dung lịch trình..." :rows="2" :value="ContentSchedule"/>
           </b-form-group>
         </b-col>
       </b-row>
       <a-divider>Địa điểm thăm quan của Tour</a-divider>
+      <multiselect
+        v-model="selectedValue"
+        :options="options"
+        :multiple="true"
+        :close-on-select="false"
+        :clear-on-select="false"
+        :preserve-search="true"
+        :select-label="'Chọn địa điểm'"
+        :deselect-label="'Bỏ chọn'"
+        :selected-label="'Đã chọn'"
+        label="name"
+        track-by="name"
+        placeholder="Chọn các địa danh"
+        :preselect-first="true"
+      >
+        <template slot="selection" slot-scope="{ values, search, isOpen }">
+          <span
+            class="multiselect__single"
+            v-if="values.length &amp;&amp; !isOpen"
+          >Đã chọn {{ values.length }} địa danh</span>
+        </template>
+      </multiselect>
     </a-modal>
     <a-modal
       title="Khuyến mãi"
@@ -248,3 +279,4 @@
   </div>
 </template>
 <script src="./Tour.js"></script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

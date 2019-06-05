@@ -39,7 +39,7 @@
               :loading="submitting"
               @click="handleSubmit"
               type="primary"
-            >Add Comment</a-button>
+            >Thêm nhận xét</a-button>
           </b-form-group>
         </div>
       </a-comment>
@@ -179,17 +179,19 @@ export default {
       if (!this.formData.Contents) {
         return;
       }
-
+     
       this.submitting = true;
       let payload = {
         TourID: this.$route.query.tour,
         Rating: this.formData.Rating,
         Contents: this.formData.Contents
       };
+       
       ReviewAPI.addReview(payload)
         .then(res => {
           this.submitting = false;
           let that = this;
+          // this.$emit('ReloadDS',payload )
           location.reload();
         })
         .catch(err => {

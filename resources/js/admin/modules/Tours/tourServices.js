@@ -24,5 +24,8 @@ export default {
   },
   getAllSchedule () {
     return Axios.get(APP_CONFIG.API_URL + '/schedules/getAll?type=all')
+  },
+  getListCulture () {
+    return Axios.get(APP_CONFIG.API_URL + '/cultures/getAllSelect')
   }
 }

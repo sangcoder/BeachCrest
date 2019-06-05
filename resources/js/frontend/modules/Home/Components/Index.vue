@@ -54,7 +54,7 @@
                     <span
                       :class="tour.Discount === 0 ? 'd-none' : 'onsale'"
                     >{{tour.PriceAdult | toCurrency}}</span>
-                    <span>{{ tour.Discount === 0 ? tour.PriceAdult : tour.Onsale | toCurrency}}</span>
+                    <span>{{ tour.Discount === 0 ? tour.PriceAdult : tour.OnsaleAdult | toCurrency}}</span>
                   </span>
                 </div>
               </template>

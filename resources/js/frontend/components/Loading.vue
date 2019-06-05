@@ -1,10 +1,18 @@
 <template>
-  <div class="beachCrest_loading">
+  <div v-show="loading" class="beachCrest_loading" >
     <div class="loader"></div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name: 'Loading',
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
 </script>
 <style>
 .beachCrest_loading {

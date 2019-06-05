@@ -38,13 +38,6 @@ class TourResource extends JsonResource
                 'Contents' => $item->pivot->Contents
             ]);
         }
-        // $t = DB::table('reviews')
-        //     ->selectRaw('Rating, count(*) as Total')
-        //     ->rightJoin('tours', 'reviews.tour_id', '=', 'tours.TourID')
-        //     ->where('TourID', '=', $this->TourID)
-        //     // ->where('tour.TourID', '=', $this->TourID)
-        //     ->groupBy('Rating')
-        //     ->get();
             $full = array();
             foreach($this->countReview as $rev) {
                 array_push($full, [
@@ -67,7 +60,8 @@ class TourResource extends JsonResource
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
             'Discount' => $promotion,
-            'Onsale' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
+            'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
+            'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
             'Rating' => [
                 'NumberRating' =>  $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,

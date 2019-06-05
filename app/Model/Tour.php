@@ -28,7 +28,7 @@ class Tour extends Model
         ->withPivot('Discount','ExpiredDate');
     }
     public function scenics() {
-        return $this->belongsToMany(Scenic_Culture::class, 'scenic__culture_tour','scenic_id','tour_id');
+        return $this->belongsToMany(Scenic_Culture::class, 'scenic__culture_tour','tour_id', 'scenic_id');
     }   
     public function reviews() {
         return $this->hasMany(Review::class, 'tour_id');
@@ -36,7 +36,9 @@ class Tour extends Model
     public function schedules() {
         return $this->hasOne('App\Model\Schedule', 'id', 'schedule_id');
     }
-
+    public function bookings() {
+        return $this->hasMany(Booking::class, 'tour_id');
+    }
     public function countReview() {
         return $this->reviews()
                 ->selectRaw('Rating, count(*) as total')
