@@ -24,4 +24,15 @@ class UploadImage extends Controller
     public function uploadJson(Request $request) {
         return $request->all();
     }
+
+    public function uploadMCE (Request $request) {
+        $file = $request->file('file');
+        $path = 'upload/images';
+        if ($request->hasFile('file')) {
+            $name = sha1(time()).'.'.$file->getClientOriginalExtension();
+            $file->move($path,$name);
+        }
+        $imgPath =env('APP_URL').'/'. $path.'/'.$name;
+        return json_encode(['location' => $imgPath]);
+    }
 }

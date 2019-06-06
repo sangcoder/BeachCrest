@@ -148,7 +148,9 @@ export default {
       console.log("selectedRowKeys changed: ", selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    addNewCultures() {},
+    addNewCultures() {
+      this.$router.push({name: 'editCultures'})
+    },
     updateTourGuider() {},
     deleteTourGuider() {},
     cancel() {}

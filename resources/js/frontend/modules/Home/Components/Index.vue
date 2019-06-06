@@ -1,6 +1,6 @@
 <template>
   <div class="main-index">
-    <SearchTour/>
+    <SearchTour :list-place="listPlace"/>
     <section class="mod-tour">
       <h2>Tour mới cập nhật</h2>
       <div class="row tour-r">
@@ -68,6 +68,7 @@
 <script>
 import SearchTour from "./SearchTour";
 import ListTour from "./ListTour";
+import HomeAPI from './homeSerive'
 export default {
   components: {
     SearchTour,
@@ -75,17 +76,29 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      listPlace: []
     };
   },
-  mounted() {
-    this.$store.dispatch("tour/getListTour").then(res => {
-      this.loading = false;
-    });
+  created() {
+    this.fetchListTour()
+    this.fetchPlace()
   },
   computed: {
     listTour() {
       return this.$store.state.tour.listTour;
+    }
+  },
+  methods: {
+    fetchListTour () {
+      this.$store.dispatch("tour/getListTour").then(res => {
+        this.loading = false;
+      })
+    },
+    fetchPlace () {
+      HomeAPI.getListPlace().then(res => {
+        this.listPlace = res.data.data
+      })
     }
   }
 };

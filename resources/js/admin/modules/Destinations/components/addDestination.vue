@@ -55,7 +55,11 @@
                 <a-input placeholder="Nhập mô tả" v-model="form.Description" type="text" required/>
               </b-form-group>
               <b-form-group label="Nội dung">
-                <wysiwyg v-model="form.Contents"/>
+                <editor
+                api-key="9nvefd4odlvd827e3j3aed8lbunqxjc9pyzruuxa37j58j4m"
+                v-model="form.Contents"
+                :init="init"
+              ></editor>
               </b-form-group>
               <b-row>
                 <b-col cols="3">
@@ -130,6 +134,43 @@ export default {
         ImageUrl: "",
         Contents: "",
         Region: "Chọn khu vực..."
+      },
+            init: {
+        selector: "textarea",
+        height: 480,
+        paste_data_images: true,
+        plugins: [
+          "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+          "searchreplace wordcount visualblocks visualchars code fullscreen",
+          "insertdatetime media nonbreaking save table directionality",
+          "emoticons template paste textpattern"
+        ],
+        toolbar1:
+          "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar2: "print preview media | forecolor backcolor emoticons",
+        image_title: true,
+        automatic_uploads: true,
+        images_upload_url: "/api/upload/tinymce",
+        file_picker_types: "image",
+        file_picker_callback: function(cb, value, meta) {
+          var input = document.createElement("input");
+          input.setAttribute("type", "file");
+          input.setAttribute("accept", "image/*");
+          input.onchange = function() {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function() {
+              var id = "blobid" + new Date().getTime();
+              var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+              var base64 = reader.result.split(",")[1];
+              var blobInfo = blobCache.create(id, file, base64);
+              blobCache.add(blobInfo);
+              cb(base64);
+            };
+          };
+          input.click();
+        }
       }
     };
   },

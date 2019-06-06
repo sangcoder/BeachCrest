@@ -177,11 +177,14 @@
         <b-col md="4">
           <b-form-group label="Lịch trình">
             <a-select
+              showSearch
               size="large"
-              defaultValue="Chọn lịch trình..."
+              placeholder="Chọn lịch trình..."
               style="width: 100%"
               v-model="formData.ScheduleId"
               @change="handleListSchedule"
+              optionFilterProp="children"
+              :filterOption="filterOption"
             >
               <a-select-option
                 v-for="schedule in AllSchedule"

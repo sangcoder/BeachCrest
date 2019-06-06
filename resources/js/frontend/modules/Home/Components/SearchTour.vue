@@ -5,13 +5,25 @@
       <b-row>
         <b-col lg="4">
           <a-form-item label="Điểm đến">
-            <a-input size="large" placeholder="Nhập tên điểm đến"/>
+            <a-select
+              showSearch
+              size="large"
+              placeholder="Chọn điểm đến"
+              optionFilterProp="children"
+              style="width: 100%"
+              :filterOption="filterOption"
+              @change="handleChange"
+            >
+              <a-select-option v-for="place in listPlace" :key="place.PlaceID" :value="place.PlaceID">
+                {{place.PlaceName}}
+              </a-select-option>
+            </a-select>
           </a-form-item>
         </b-col>
         <b-col lg="4">
           <a-form-item label="Ngày khởi hành">
             <a-range-picker
-              :defaultValue="[moment('01/06/2019', dateFormat), moment('01/09/2019', dateFormat)]"
+              :defaultValue="[moment(new Date(), dateFormat), moment(new Date(), dateFormat)]"
               :format="dateFormat"
               size="large"
               style="width: 100%;"
@@ -21,11 +33,10 @@
         <b-col lg="4" class="d-flex justify-content-center align-items-center">
           <a-button
             type="primary"
-            @click="searchTour"
-            block
             icon="search"
             size="large"
             style="margin-top: 10px;"
+            @click="$router.replace({name: 'SeachTour', query: {diemden: search.placeID }})"
           >Tìm kiếm</a-button>
         </b-col>
       </b-row>
@@ -36,19 +47,30 @@
 import moment from "moment";
 export default {
   name: "SearchTour",
+  props: {
+    listPlace: Array
+  },
   data() {
     return {
       advanced: false,
       queryParam: {},
+      search: {
+        placeID: ''
+      },
       dateFormat: "DD/MM/YYYY",
       monthFormat: "MM/YYYY"
     };
   },
   methods: {
     moment,
-    handleChange() {},
+    handleChange(value) {
+      this.search.placeID = value
+    },
     toggleAdvanced() {
       this.advanced = !this.advanced;
+    },
+    filterOption(input, option) {
+      return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
     },
     searchTour() {}
   }

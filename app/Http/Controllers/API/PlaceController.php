@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Model\Place;
 use Validator;
+use App\Model\Place;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PlaceCollection;
 
 class PlaceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.auth')->except(['index','getListPlaceValue']);
+    }
     public function testBase($s)
     {
           return (bool) preg_match('~data:\w+/.*;base64,.*~', $s);
@@ -89,6 +94,9 @@ class PlaceController extends Controller
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $place
         ]);
+    }
+    public function getListPlaceValue() {
+        return PlaceCollection::collection(Place::all());
     }
 
     /**

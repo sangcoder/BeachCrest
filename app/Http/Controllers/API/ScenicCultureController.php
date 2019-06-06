@@ -62,9 +62,9 @@ class ScenicCultureController extends Controller
      * @param  \App\Model\Scenic_Culture  $scenic_Culture
      * @return \Illuminate\Http\Response
      */
-    public function show(Scenic_Culture $scenic_Culture)
+    public function show(Scenic_Culture $culture)
     {
-        //
+        return $culture;
     }
 
     /**
@@ -73,7 +73,7 @@ class ScenicCultureController extends Controller
      * @param  \App\Model\Scenic_Culture  $scenic_Culture
      * @return \Illuminate\Http\Response
      */
-    public function edit(Scenic_Culture $scenic_Culture)
+    public function edit(Scenic_Culture $culture)
     {
         //
     }
@@ -85,7 +85,7 @@ class ScenicCultureController extends Controller
      * @param  \App\Model\Scenic_Culture  $scenic_Culture
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Scenic_Culture $scenic_Culture)
+    public function update(Request $request, Scenic_Culture $culture)
     {
         //
     }
@@ -96,7 +96,7 @@ class ScenicCultureController extends Controller
      * @param  \App\Model\Scenic_Culture  $scenic_Culture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Scenic_Culture $scenic_Culture)
+    public function destroy(Scenic_Culture $culture)
     {
         //
     }

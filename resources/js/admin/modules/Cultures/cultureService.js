@@ -6,5 +6,11 @@ export default {
     return Axios.get(APP_CONFIG.API_URL + '/cultures?page=' + page, {
       params
     })
+  },
+  getListPlace () {
+    return Axios.get(APP_CONFIG.API_URL + '/place/getSelect')
+  },
+  getCultureById (id) {
+    return Axios.get(APP_CONFIG.API_URL + '/cultures/' + id)
   }
 }

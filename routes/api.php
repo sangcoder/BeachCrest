@@ -60,6 +60,7 @@ Route::post('schedules/deleteGuiderToSchedule/{schedule}', 'ScheduleController@d
 Route::post('schedules/addNew', 'ScheduleController@store');
 Route::put('schedules/updateSchedule/{schedule}', 'ScheduleController@update');
 Route::delete('schedules/deleteSchedule/{schedule}', 'ScheduleController@destroy');
+Route::get('place/getSelect', 'API\PlaceController@getListPlaceValue');
 
 Route::group([
     'middleware' => 'jwt.auth'
@@ -93,3 +94,4 @@ Route::group([
 
 Route::post('uploadImage', 'API\UploadImage@upload');
 Route::post('uploadJson','API\UploadImage@uploadJson');
+Route::post('upload/tinymce', 'API\UploadImage@uploadMCE');

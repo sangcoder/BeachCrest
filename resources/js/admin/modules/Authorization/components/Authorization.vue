@@ -6,7 +6,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/>Phân nhóm chức năng
+              <a-icon type="global" class="mr-2"/>Phân nhóm chức năng
             </h4>
             <h5 class="card-subtitle">Cho phép tạo nhóm chức năng cho từng loại người dùng</h5>
           </div>

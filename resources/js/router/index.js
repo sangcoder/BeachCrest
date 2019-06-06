@@ -27,6 +27,7 @@ import Profile from '../admin/modules/Profile'
 import Home from '../frontend/modules/Home'
 import Detail from '../frontend/modules/Detail'
 import Booking from '../frontend/modules/Booking'
+import Search from '../frontend/modules/Search'
 
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
@@ -98,7 +99,7 @@ const router = new Router({
       component: Client,
       redirect: '/index.html',
       beforeEnter: nonRequire,
-      children: [...Home, ...Detail, ...Booking]
+      children: [...Home, ...Detail, ...Booking, ...Search]
     },
     {
       path: '/admin',
