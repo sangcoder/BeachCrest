@@ -23,8 +23,9 @@
         <b-col lg="4">
           <a-form-item label="Ngày khởi hành">
             <a-range-picker
-              :defaultValue="[moment(new Date(), dateFormat), moment(new Date(), dateFormat)]"
               :format="dateFormat"
+              :ranges="{ 'Hôm nay': [moment(), moment()], 'Tuần này': [moment(), moment().endOf('week')], 'Tháng này': [moment(), moment().endOf('month')] }"
+              @change="handleDeparture"
               size="large"
               style="width: 100%;"
             />
@@ -36,7 +37,7 @@
             icon="search"
             size="large"
             style="margin-top: 10px;"
-            @click="$router.replace({name: 'SeachTour', query: {diemden: search.placeID }})"
+            @click="$router.replace({name: 'SeachTour', query: {diemden: search.diemden, tuNgay: search.tungay, denNgay: search.denngay }})"
           >Tìm kiếm</a-button>
         </b-col>
       </b-row>
@@ -54,23 +55,30 @@ export default {
     return {
       advanced: false,
       queryParam: {},
+      dateRange: [moment(), moment()],
       search: {
-        placeID: ''
+        diemden: '',
+        tungay: '',
+        denngay: ''
       },
-      dateFormat: "DD/MM/YYYY",
-      monthFormat: "MM/YYYY"
+      dateFormat: "DD-MM-YYYY",
+      monthFormat: "MM-YYYY"
     };
   },
   methods: {
     moment,
     handleChange(value) {
-      this.search.placeID = value
+      this.search.diemden = value
     },
     toggleAdvanced() {
       this.advanced = !this.advanced;
     },
     filterOption(input, option) {
       return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+    },
+    handleDeparture (date) {
+      this.search.tungay = date[0].format(this.dateFormat)
+      this.search.denngay = date[1].format(this.dateFormat)
     },
     searchTour() {}
   }

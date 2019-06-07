@@ -5,7 +5,9 @@
       <main class="main">
         <breadcrumb :list="list" />
         <div class="container">
+          <a-locale-provider :locale="vi_VN">
           <router-view />
+          </a-locale-provider>
         </div>
       </main>
     </div>
@@ -15,6 +17,11 @@
 
 <script>
 import { Header as AppHeader, Footer as AppFooter, Breadcrumb } from '../frontend/components'
+import vi_VN from 'ant-design-vue/lib/locale-provider/vi_VN';
+import moment from 'moment';
+import 'moment/locale/vi';
+
+moment.locale('vi');
 
 export default {
   name      : 'Client',
@@ -25,6 +32,7 @@ export default {
   },
   data () {
     return {
+      vi_VN,
       offset      : true,
       fixedHeader : true,
       fixedSidebar: true,

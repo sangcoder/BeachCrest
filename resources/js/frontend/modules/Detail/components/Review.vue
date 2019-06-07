@@ -76,16 +76,6 @@
           </div>
         </div>
       </div>
-      <p class="mt-2">
-        <a-pagination
-          :pageSizeOptions="pageSizeOptions"
-          :total="total"
-          showSizeChanger
-          :pageSize="pageSize"
-          v-model="current"
-          @showSizeChange="onShowSizeChange"
-        />
-      </p>
     </a-spin>
   </div>
 </template>
