@@ -21,14 +21,19 @@
         />
       </b-form-group>
       <b-row>
+        <b-col>
+          Số người còn lại {{maxPerson}}
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col md="6">
           <b-form-group label="Người lớn">
-            <a-input-number size="large" :min="1" :max="10" v-model="dataBooking.numberAdult" :defaultValue="2" style="width: 100%;"/>
+            <a-input-number size="large" :min="1" :max="maxPerson" v-model="dataBooking.numberAdult" :defaultValue="2" style="width: 100%;"/>
           </b-form-group>
         </b-col>
         <b-col md="6">
           <b-form-group label="Trẻ em">
-            <a-input-number size="large" :min="1" :max="10" v-model="dataBooking.numberKid" :defaultValue="0" style="width: 100%;"/>
+            <a-input-number size="large" :min="1" :max="maxPerson - dataBooking.numberAdult" v-model="dataBooking.numberKid" :defaultValue="0" style="width: 100%;"/>
           </b-form-group>
         </b-col>
       </b-row>
@@ -51,7 +56,8 @@ export default {
     loading: {
       default: false,
       type: Boolean
-    }
+    },
+    maxPerson: Number
   },
   components: {
     SkeletonBox

@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-5 item-content">
           <div class="item-content-w">
-            <p class="service-location">Nha Trang</p>
+            <p class="service-location"><a-icon type="tags"/> <span  class="tourName" v-for="place in tourInfo.listPlace" :key="place.PlaceID">{{place.PlaceName}}</span></p>
             <h4 class="service-title">
               <a
                 @click="$router.push({name:'booking', query: {tour: tourInfo.TourID}})"
@@ -27,6 +27,7 @@
         </div>
         <div class="col-md-3 section-footer">
           <p class="service-duration ">{{tourInfo.TourTime}}</p>
+          <p style="color: #cd2c24; font-weight: bold;">Số chổ còn nhận: <span style="font-size: 1.25rem;">{{tourInfo.TourExists}}</span></p>
           <div class="service-price">
             <span class="price">
               <p class="text-lg price-item">Giá người lớn: {{tourInfo.OnsaleAdult | toCurrency}}</p>
@@ -34,10 +35,10 @@
             </span>
           </div>
 
-          <button
+          <!-- <button
             @click="$router.push({name:'booking', query: {tour: tourInfo.TourID}})"
             class="btn btn-primary btn-view-more"
-          >Xem chi tiết Tour</button>
+          >Xem chi tiết Tour</button> -->
 
           <span v-if="tourInfo" :class="tourInfo.Discount === 0 ? 'd-none' : 'st_sale_class'">11%</span>
         </div>
@@ -120,7 +121,7 @@ export default {
     background: orange;
 }
 .price-item {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 500;
 }
 @media (min-width: 576px) and (max-width: 767.98px) { 

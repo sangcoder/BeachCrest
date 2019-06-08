@@ -10,6 +10,14 @@ const mutations = {
   DELETE_PLACE (state, id) {
     let listPlace = state.listPlace.filter(item => item.PlaceID !== id)
     state.listPlace = listPlace
+  },
+  UPDATE_PROMOTION (state, payload) {
+    state.listPlace = state.listPlace.map((item) => {
+      if (item.PlaceID === payload.PlaceID) {
+        return Object.assign({}, item, payload)
+      }
+      return item
+    })
   }
 }
 
@@ -71,7 +79,7 @@ const actions = {
       }
       PlaceAPI.updatePlace(payload.id, PlaceInfo).then((res) => {
         // console.log(res.data.data)
-        commit('listPlace', res.data.data)
+        commit('UPDATE_PROMOTION', res.data.data)
         resolve(res)
       })
       .catch(err => {

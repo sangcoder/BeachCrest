@@ -35,15 +35,16 @@
         </b-form-group>
       </b-col>
       <b-col md="6" class="d-flex align-items-md-center">
-        <b-form-group>
+        <b-form-group :class="calcSlot ? 'has-warring' :''">
           <p>
             Số người hành khách (
             <span class="red-rquired">*</span>)
           </p>
           <span>Người lớn</span>
-          <a-input-number size="large" v-model="NumberAdult" :min="1" :max="12" :defaultValue="3"/>
+          <a-input-number size="large" v-model="NumberAdult" :min="1" :max="tourInfo.TourExists" :defaultValue="2"/>
           <span style="margin-left: 10px;">Trẻ em</span>
-          <a-input-number size="large" v-model="NumberKid" :min="0" :max="12" :defaultValue="0"/>
+          <a-input-number size="large" v-model="NumberKid" :min="0" :max="tourInfo.TourExists - NumberAdult" :defaultValue="0"/>
+          <p :class="calcSlot ? 'text-warning visible' :'invisible'">Đã đủ số người của Tour <span style="color: #cd2c24; font-weight: bold;"> {{tourInfo.TourExists}} </span></p>
         </b-form-group>
       </b-col>
       <b-col md="6">
@@ -80,6 +81,11 @@ export default {
     },
     NumberAdult (value) {
       this.NumberAdult = value
+    }
+  },
+  computed: {
+    calcSlot () {
+      return ((this.NumberKid + this.NumberAdult) >= this.tourInfo.TourExists) ? true : false
     }
   },
   methods: {

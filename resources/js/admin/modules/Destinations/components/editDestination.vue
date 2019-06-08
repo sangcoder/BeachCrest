@@ -205,7 +205,7 @@ export default {
         });
     },
 
-    handleChange(info) {
+    handleChange(info) {  
       if (info.file.status === "uploading") {
         this.loading = true;
         return;

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use DateTime;
 use Carbon\Carbon;
+use App\Model\Place;
 use Illuminate\Http\Resources\Json\Resource;
 
 class TourCollection extends Resource
@@ -30,6 +31,16 @@ class TourCollection extends Resource
         $date2 = new DateTime($this->DateBack);
         $numberOfNights= $date1->diff($date2)->format("%a");
         $newSchedule = array();
+
+        $listPlace = array();
+        foreach($this->scenics as $scenic) {
+            $place = Place::find($scenic->place_id);
+           array_push($listPlace, [
+            'PlaceID' => $place->PlaceID,
+            'PlaceName' => $place->PlaceName,
+           ]);
+        }
+
         foreach($this->schedules->guiders as $item) {
             array_push($newSchedule, [
                 'GuiderName' => $item->GuiderName,
@@ -53,6 +64,7 @@ class TourCollection extends Resource
             'Discount' => $promotion,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
+            'listPlace' => $listPlace,
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
             'Rating' => [
                 'NumberRating' =>  $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,

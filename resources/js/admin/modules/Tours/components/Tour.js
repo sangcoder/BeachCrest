@@ -249,6 +249,8 @@ export default {
     updateTour (tour) {
       this.visible = true
       this.editMode = true
+      this.fetchSchedules()
+      this.fetchCulture()
       this.formData.TourID = tour.TourID
       this.formData.TourName = tour.TourName
       this.formData.TourDescription = tour.TourDescription

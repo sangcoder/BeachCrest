@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use DateTime;
 use Carbon\Carbon;
+use App\Model\Place;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -46,6 +47,29 @@ class TourResource extends JsonResource
                     'percent' => round(($rev->total * 100) / $this->reviews->count(), 2)
                 ]);
             }
+
+        // Số người còn lại của Tour
+        $totalNum = 0;
+        foreach($this->bookings as $num) {
+            $totalNum += $num->NumberPerson;
+        } 
+        $listScenic = array();
+        $listPlace = array();
+        // Danh sách địa danh
+        foreach($this->scenics as $scenic) {
+            $place = Place::find($scenic->place_id);
+            array_push($listScenic, [
+                'Scenic_Name' => $scenic->ScenicName,
+                'Scenic_ID' => $scenic->ScenicID,
+                'ImgUrl' =>  $scenic->ImgUrl,
+
+            ]);
+           array_push($listPlace, [
+            'PlaceID' => $place->PlaceID,
+            'PlaceName' => $place->PlaceName,
+           ]);
+        }
+        // dd($totalNum);
         // dd($full);
         return [
             'TourID' => $this->TourID,
@@ -55,11 +79,14 @@ class TourResource extends JsonResource
             'DateBack' => $this->DateBack,
             'Note' => $this->Note,
             'ImageUrl' => $this->ImageUrl,
-            'NumberPerson' => $this->NumberPerson,
+            // 'NumberPerson' => $this->NumberPerson,
             'PriceAdult' => $this->PriceAdult,
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
             'Discount' => $promotion,
+            'TourExists' => $this->NumberPerson - $totalNum,
+            'listCultures' => $listScenic,
+            'listPlace' => $listPlace,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',

@@ -8,9 +8,11 @@
           placeholder="Chọn điểm đến"
           optionFilterProp="children"
           style="width: 100%"
+          v-model="search.diemden"
           :filterOption="filterOption"
           @change="handleChange"
         >
+          <a-select-option :value="-1">Tất cả</a-select-option>
           <a-select-option
             v-for="place in listPlace"
             :key="place.PlaceID"
@@ -24,10 +26,14 @@
             :format="dateFormat"
             :ranges="{ 'Hôm nay': [moment(), moment()], 'Tuần này': [moment(), moment().endOf('week')], 'Tháng này': [moment(), moment().endOf('month')] }"
             @change="handleDeparture"
+            v-model="search.dateDeparture"
             size="large"
             style="width: 100%;"
           />
         </a-form-item>
+      </b-form-group>
+      <b-form-group>
+        <a-button type="primary" @click="handleSearch">Tìm kiếm</a-button>
       </b-form-group>
     </div>
     <a-collapse defaultActiveKey="1" :bordered="false">
@@ -66,6 +72,10 @@ export default {
     return {
       dateFormat: "DD-MM-YYYY",
       monthFormat: "MM-YYYY",
+      search: {
+        diemden: -1,
+        dateDeparture: []
+      },
       filterRatingOptions: [
         { label: "Tất cả", value: "all" },
         { label: "Được xếp hạng 5 sao", value: 5 },
@@ -83,6 +93,23 @@ export default {
         { label: "Trên 5 triệu", value: 1 }
       ]
     };
+  },
+  created() {
+    let dateStart = moment(this.$route.query.tuNgay, "DD-MM-YYYY").format(
+      "MM-DD-YYYY"
+    );
+    let dateEnd = moment(this.$route.query.denNgay, "DD-MM-YYYY").format(
+      "MM-DD-YYYY"
+    );
+    if (this.$route.query.diemden) {
+      this.search.diemden = parseInt(this.$route.query.diemden);
+    }
+    if (this.$route.query.tuNgay && this.$route.query.denNgay) {
+      this.search.dateDeparture = [
+        moment(new Date(dateStart)),
+        moment(new Date(dateEnd))
+      ];
+    }
   },
   methods: {
     moment,
@@ -105,7 +132,28 @@ export default {
     handleDeparture(date) {
       this.search.tungay = date[0].format(this.dateFormat);
       this.search.denngay = date[1].format(this.dateFormat);
+    },
+    handleSearch() {
+      if (this.search.dateDeparture) {
+        this.$router.replace({
+          name: "SeachTour",
+          query: {
+            diemden: this.search.diemden,
+            tuNgay: this.search.dateDeparture[0].format("DD-MM-YYYY"),
+            denNgay: this.search.dateDeparture[1].format("DD-MM-YYYY")
+          }
+        });
+      }
+      this.$emit('EventReload', 'Hi Payloads')
+
     }
   }
 };
 </script>
+<style scoped>
+.search-box {
+  background: #fff;
+  padding: 12px;
+  border-radius: 5px 5px 0 0;
+}
+</style>

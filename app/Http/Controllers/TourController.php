@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use stdClass;
 use Validator;
 use Carbon\Carbon;
 use App\Model\Tour;
+use App\Model\Place;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\TourResource;
 use App\Http\Resources\TourCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TourController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth')->except(['index', 'show']);
+        $this->middleware('jwt.auth')->except(['index', 'show','findTour']);
     }
     public function testBase($s)
     {
@@ -206,8 +209,12 @@ class TourController extends Controller
             ]);
         
         // Save to data base
-
+        $arrayCultures = array();
+        foreach ($request->ListCultures as $cultureId) {
+            array_push($arrayCultures, $cultureId['value']);
+        }
         $tour->save();
+        $tour->scenics()->sync($arrayCultures);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'data' => $tour
@@ -241,5 +248,44 @@ class TourController extends Controller
         ]);
         // dd($tour->promotions[0]->pivot->Discount);
     }
+    public function findTour (Request $request) {
+        $tour = (new Tour)->newQuery();
+        if ($request->exists('dateDeparture') && empty($request->dateDeparture[0])) {
+            $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+        }
+        if ($request->exists('diemden') && $request->diemden != -1) {
+            $place = Place::find($request->diemden);
+            $arrayTour = array();
+            // dd($place->scenicCultures);
+            foreach($place->scenicCultures as $scenic) {
+                // array_push($arrayScenic, $scenic->tours->TourID);
+                foreach ($scenic->tours as $t) {
+                    array_push($arrayTour, $t);
+                }
+            }
+            // dd($arrayTour);
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $itemCollection = collect($arrayTour);
+            $perPage = 10;
+            $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+            $paginatedItems->setPath($request->url());
 
+            // $meta = new stdClass();
+            // $meta->total = 10;
+            
+            $tour = TourCollection::collection($paginatedItems);
+            // $tour->resource->meta = $countTotal;
+            // dd($tour);
+        } else {
+            
+            $tour = TourCollection::collection($tour->paginate(10));
+        }
+        if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
+            $tour = TourCollection::collection($tour->paginate(10));
+        }
+        // dd($tour->get());
+        return $tour;
+        
+    }
 }

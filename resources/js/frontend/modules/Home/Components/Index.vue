@@ -30,8 +30,8 @@
                   <!-- <div class="tour__tag bestseller">Featured</div> -->
                 </div>
               </template>
-              <template slot="tag">
-                <a-icon type="tags"/>Nha Trang
+              <template slot="tag" >
+                <a-icon type="tags"/> <span  class="tourName" v-for="place in tour.listPlace" :key="place.PlaceID">{{place.PlaceName}}</span>
               </template>
               <template slot="heading">
                 <a  @click="$router.push({name: 'booking', query: {tour: tour.TourID}})" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
@@ -108,3 +108,13 @@ export default {
   margin-bottom: 20px;
 }
 </style>
+<style>
+.tourName:not(:last-child):after {
+    content: "/";
+    margin-left: 4px;
+}
+.tourName:not(:last-child) {
+    margin-right: 5px;
+}
+</style>
+
