@@ -6,6 +6,7 @@ use DateTime;
 use Carbon\Carbon;
 use App\Model\Place;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\CultureResouce;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TourResource extends JsonResource
@@ -84,12 +85,13 @@ class TourResource extends JsonResource
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
             'Discount' => $promotion,
-            'TourExists' => $this->NumberPerson - $totalNum,
+            'TourExists' => ($this->NumberPerson - $totalNum) != 0 ? $this->NumberPerson - $totalNum : 'Hết chổ',
             'listCultures' => $listScenic,
             'listPlace' => $listPlace,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
+            'CultureOfTour' => CultureResouce::collection($this->scenics),
             'Rating' => [
                 'NumberRating' =>  $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,
                 'Score' => $full,

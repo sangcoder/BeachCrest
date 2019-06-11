@@ -250,10 +250,15 @@ class TourController extends Controller
     }
     public function findTour (Request $request) {
         $tour = (new Tour)->newQuery();
-        if ($request->exists('dateDeparture') && empty($request->dateDeparture[0])) {
-            $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+        if ($request->exists('q')) {
+            $result = $tour->where('TourName', 'LIKE', '%'.$request->q.'%');
+            return TourCollection::collection($result->paginate(10));
         }
-        if ($request->exists('diemden') && $request->diemden != -1) {
+        if ($request->exists('dateDeparture') && isset($request->dateDeparture[0])) {
+            $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+            // dd($tour->get());
+        }
+        if ($request->exists('diemden') && $request->diemden != -1 && isset($request->dateDeparture[0])) {
             $place = Place::find($request->diemden);
             $arrayTour = array();
             // dd($place->scenicCultures);
@@ -266,9 +271,10 @@ class TourController extends Controller
             // dd($arrayTour);
             $currentPage = LengthAwarePaginator::resolveCurrentPage();
             $itemCollection = collect($arrayTour);
+            $itemCollectionfilter =  $itemCollection->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
             $perPage = 10;
-            $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
-            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+            $currentPageItems = $itemCollectionfilter->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollectionfilter), $perPage);
             $paginatedItems->setPath($request->url());
 
             // $meta = new stdClass();
@@ -278,8 +284,19 @@ class TourController extends Controller
             // $tour->resource->meta = $countTotal;
             // dd($tour);
         } else {
-            
-            $tour = TourCollection::collection($tour->paginate(10));
+            if (isset($request->dateDeparture[0])) {
+                $tourFind = $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+                // dd($tourFind);
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $itemCollection = collect($tourFind->get());
+                $perPage = 10;
+                $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+                $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
+                $paginatedItems->setPath($request->url());
+                $tour = TourCollection::collection($paginatedItems);
+            } else {
+                $tour = TourCollection::collection($tour->paginate(10));
+            }
         }
         if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
             $tour = TourCollection::collection($tour->paginate(10));

@@ -12,5 +12,14 @@ export default {
   },
   getCultureById (id) {
     return Axios.get(APP_CONFIG.API_URL + '/cultures/' + id)
+  },
+  addCulture (payload) {
+    return Axios.post(APP_CONFIG.API_URL + '/cultures', payload)
+  },
+  editCulture (id, payload) {
+    return Axios.put(APP_CONFIG.API_URL + '/cultures/' + id, payload)
+  },
+  deleteCultures (id) {
+    return Axios.delete(APP_CONFIG.API_URL + '/cultures/' + id)
   }
 }

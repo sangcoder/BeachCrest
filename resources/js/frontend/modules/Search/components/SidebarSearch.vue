@@ -46,7 +46,7 @@
           />
         </p>
       </a-collapse-panel>
-      <a-collapse-panel header="Lọc theo rating" key="2">
+      <!-- <a-collapse-panel header="Lọc theo rating" key="2">
         <p>
           <a-checkbox-group
             :options="filterRatingOptions"
@@ -54,7 +54,7 @@
             :defaultValue="['all']"
           />
         </p>
-      </a-collapse-panel>
+      </a-collapse-panel> -->
       <!-- <a-collapse-panel header="Lọc theo địa điểm" key="3">
         <p>Lorem ipsum dolor sit</p>
       </a-collapse-panel>-->
@@ -134,13 +134,22 @@ export default {
       this.search.denngay = date[1].format(this.dateFormat);
     },
     handleSearch() {
-      if (this.search.dateDeparture) {
+      if (this.search.dateDeparture.length > 0) {
         this.$router.replace({
           name: "SeachTour",
           query: {
             diemden: this.search.diemden,
             tuNgay: this.search.dateDeparture[0].format("DD-MM-YYYY"),
             denNgay: this.search.dateDeparture[1].format("DD-MM-YYYY")
+          }
+        });
+      } else {
+        this.$router.replace({
+          name: "SeachTour",
+          query: {
+            diemden: this.search.diemden,
+            tuNgay: '',
+            denNgay: ''
           }
         });
       }

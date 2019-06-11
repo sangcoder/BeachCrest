@@ -7,7 +7,7 @@
             Họ và tên (
             <span class="red-rquired">*</span>)
           </p>
-          <a-input size="large" placeholder="Nhập họ và tên"/>
+          <a-input v-model="InfoContact.FullName" size="large" placeholder="Nhập họ và tên"/>
         </b-form-group>
       </b-col>
       <b-col md="6">
@@ -16,7 +16,7 @@
             Email (
             <span class="red-rquired">*</span>)
           </p>
-          <a-input size="large" placeholder="Email"/>
+          <a-input size="large" v-model="InfoContact.Email" placeholder="Email"/>
         </b-form-group>
       </b-col>
       <b-col md="6">
@@ -25,13 +25,13 @@
             Số điện thoại (
             <span class="red-rquired">*</span>)
           </p>
-          <a-input size="large" placeholder="Số điện thoại"/>
+          <a-input size="large" v-model="InfoContact.PhoneNumber" placeholder="Số điện thoại"/>
         </b-form-group>
       </b-col>
       <b-col md="6">
         <b-form-group>
           <p>Địa chỉ</p>
-          <a-input size="large" placeholder="Nhập địa chỉ"/>
+          <a-input size="large" v-model="InfoContact.Address" placeholder="Nhập địa chỉ"/>
         </b-form-group>
       </b-col>
       <b-col md="6" class="d-flex align-items-md-center">
@@ -49,12 +49,12 @@
       </b-col>
       <b-col md="6">
         <b-form-group label="Ghi chú">
-          <a-textarea placeholder="Nhập ghi chú" :rows="4"/>
+          <a-textarea v-model="InfoContact.Note" placeholder="Nhập ghi chú" :rows="4"/>
         </b-form-group>
       </b-col>
     </b-row>
     <h4 class="card-title">Danh sách khách hàng đi Tour</h4>
-    <info-customer :number-adult="NumberAdult" :number-kid="NumberKid" :price-kid="tourInfo.OnsaleKid" :price-adult="tourInfo.OnsaleAdult" />
+    <info-customer :info-contact="InfoContact" :number-adult="NumberAdult" :number-kid="NumberKid" :price-kid="tourInfo.OnsaleKid" :price-adult="tourInfo.OnsaleAdult" />
   </div>
 </template>
 <script>
@@ -71,8 +71,18 @@ export default {
   data () {
     return {
         NumberKid: parseInt(this.$route.query.numberKid),
-        NumberAdult: parseInt(this.$route.query.numberAdult)
+        NumberAdult: parseInt(this.$route.query.numberAdult),
+        InfoContact: {
+          FullName: this.$store.state.user.user.name,
+          Email: this.$store.state.user.user.email,
+          PhoneNumber: '',
+          Address: '',
+          Note: ''
+        }
     }
+  },
+  created() {
+    // console.log(this.$store.state.user.user.email)
   },
   watch: {
     NumberKid(value)

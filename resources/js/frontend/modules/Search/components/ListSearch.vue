@@ -1,7 +1,7 @@
 <template>
   <div class="main-content">
     <div>
-      <a-input-search placeholder="Nhập tên tour cần tìm kiếm" enterButton/>
+      <a-input-search placeholder="Nhập tên tour cần tìm kiếm" @search="searchTour" enterButton/>
     </div>
     <p class="mt-2">
       <a-alert :message="`Có ${total} kết quả được tìm thấy`" banner/>
@@ -103,7 +103,12 @@ export default {
   data() {
     return {
     };
-  }
+  },
+  methods: {
+    searchTour (value) {
+      this.$emit('search-name', value)
+    }
+  }  
 };
 </script>
 <style scoped>

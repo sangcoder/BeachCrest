@@ -79,6 +79,9 @@ Route::group([
     Route::delete('role/DeleteRole/{role}', 'AuthorizationController@deleteRoles');
     Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
 
+    // Booking
+    Route::post('booking/addNewBooking', 'BookingController@Booking');
+
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai

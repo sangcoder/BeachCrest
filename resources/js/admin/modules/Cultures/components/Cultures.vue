@@ -35,15 +35,15 @@
           <template slot="state" slot-scope="state">{{state === 1 ? 'OK' : 'Bảo trì'}}</template>
           <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
           <template slot="modify" slot-scope="modify">
-            <a-button type="primary" icon="edit" @click="updateTourGuider(modify)"></a-button>
+            <a-button size="small" type="primary" icon="edit" @click="updateTourGuider(modify)"></a-button>
             <a-popconfirm
               title="Are you sure delete?"
-              @confirm="deleteTourGuider(modify.GuiderID)"
+              @confirm="deleteTourGuider(modify.ScenicID)"
               @cancel="cancel"
               okText="Yes"
               cancelText="No"
             >
-              <a-button type="danger" icon="delete"></a-button>
+              <a-button size="small" type="danger" icon="delete"></a-button>
             </a-popconfirm>
           </template>
         </a-table>
@@ -151,8 +151,17 @@ export default {
     addNewCultures() {
       this.$router.push({name: 'editCultures'})
     },
-    updateTourGuider() {},
-    deleteTourGuider() {},
+    updateTourGuider(culture) {
+      this.$router.push({name: 'editCultures', query: {type: 'edit', cultureId: culture.ScenicID}})
+    },
+    deleteTourGuider(id) {
+      this.loading = true
+      CultureAPI.deleteCultures(id).then(res => {
+        this.fetchDataCultures(this.pagination.current)
+        this.loading = false
+        this.$message.success('Xóa thành công!');
+      })
+    },
     cancel() {}
   }
 };

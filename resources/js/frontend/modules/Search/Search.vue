@@ -6,7 +6,7 @@
         <sidebar-search @EventReload="FetchLoad" :list-place="listPlace"/>
       </b-col>
       <b-col lg="9">
-        <list-search  :list-tour-search="listSearchTour" :total="pagination.total" :loading="loading"/>
+        <list-search  @search-name="SearchName" :list-tour-search="listSearchTour" :total="pagination.total" :loading="loading"/>
       </b-col>
     </b-row>
   </div>
@@ -93,6 +93,12 @@ export default {
     FetchLoad (payload) {
       this.fetchListTour(this.queryData)
       // this.fetchListTour()
+    },
+    SearchName (value) {
+      let params = {
+        q: value
+      }
+      this.fetchListTour(params)
     }
   }
 };

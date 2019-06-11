@@ -21,7 +21,7 @@ class JWTAuthenticate
         // dd($request->user());
         // Middleware decode token từ front end JWT
         $rawToken = $request->cookie('token'); // Nhận token từ cookie front end
-        dd($rawToken);
+        // dd($rawToken);
         $token = new Token($rawToken);
         $payload = JWTAuth::decode($token);
         Auth::loginUsingId($payload['sub']); // Get ID and Login

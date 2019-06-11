@@ -88,7 +88,11 @@ export default {
   name: "CommentBox",
   props: {
     CountReview: Object,
-    comments: Array
+    comments: Array,
+    spinning: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -97,7 +101,6 @@ export default {
       pageSize: 10,
       total: 50,
       submitting: false,
-      spinning: false,
       value: 4,
       formData: {
         Rating: 5,
@@ -181,19 +184,12 @@ export default {
         .then(res => {
           this.submitting = false;
           let that = this;
-          // this.$emit('ReloadDS',payload )
-          location.reload();
+          this.formData.Contents = ''
+          this.$emit('ReloadDS',payload )
         })
         .catch(err => {
           this.submitting = false;
         });
-    },
-    fetchComment(id) {
-      this.spinning = true;
-      DetailTourAPI.getCommentByTourID(id).then(res => {
-        this.$prop.comments = res.data.data;
-        this.spinning = false;
-      });
     },
     handleChange(e) {
       this.value = e.target.value;

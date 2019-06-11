@@ -63,16 +63,19 @@
         </template>
       </div>
     </section>
+    <list-destination />
   </div>
 </template>
 <script>
 import SearchTour from "./SearchTour";
 import ListTour from "./ListTour";
 import HomeAPI from './homeSerive'
+import ListDestination from './ListDestination'
 export default {
   components: {
     SearchTour,
-    ListTour
+    ListTour,
+    ListDestination
   },
   data() {
     return {

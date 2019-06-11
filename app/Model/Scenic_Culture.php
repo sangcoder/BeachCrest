@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Scenic_Culture extends Model
 {
     protected $fillable = [
-        'place_id', 'Description', 'Contents', 'HitCount', 'ImgUrl', 'state'
+        'place_id', 'Description', 'Contents', 'HitCount', 'ImgUrl', 'state', 'ScenicName'
     ];
     public $timestamp = false;
     protected $primaryKey = "ScenicID";

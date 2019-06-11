@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     protected $primaryKey = "BookingID";
+    protected $fillable = [
+        'NumberPerson', 'DateBooking', 'Note', 'State', 'tour_id', 'user_id'
+    ];
     public $timestamps = true;
     //
     public function customers() {
-        return $this->hasMany('App\Model\Customers');
+        return $this->hasMany('App\Model\Customers', 'booking_id');
     }
     public function payments() {
         return $this->hasMany('App\Model\Payment');

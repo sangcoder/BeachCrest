@@ -15,7 +15,7 @@
             :Schedules="dataTour.Schedule"
           ></detail-content>
           <detail-content v-else :image-url="dataTour.ImageUrl" :Schedules="dataTour.Schedule"></detail-content>
-          <comment-box :CountReview="dataTour.Rating" :comments="comments"></comment-box>
+          <comment-box @ReloadDS="ReloadDSComment" :spinning="spinning" :CountReview="dataTour.Rating" :comments="comments"></comment-box>
           <!-- <comment-box :CountReview="dataTour.Rating" /*v-on="ReloadDS(item)" :comments="comments"></comment-box> -->
         </div>
       </b-col>
@@ -67,6 +67,7 @@ export default {
       mainContent: {
         height: 0
       },
+      spinning: false,
       sidebar: {
         height: 0,
         width: 0,
@@ -135,9 +136,11 @@ export default {
     },
     fetchComment(id) {
       this.loading = true;
+      this.spinning = true
       DetailTourAPI.getCommentByTourID(id).then(res => {
         this.comments = res.data.data;
         this.loading = false;
+        this.spinning = false
       });
     },
     fetchPromotion() {
@@ -151,6 +154,9 @@ export default {
         this.listPromotion = tempArray;
         this.loadingPromotion = false;
       });
+    },
+    ReloadDSComment (payload) {
+      this.fetchComment(this.$route.query.tour);
     },
     handleResize: _.throttle(function() {
       this.calculateSidebar();

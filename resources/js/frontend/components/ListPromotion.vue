@@ -1,5 +1,5 @@
 <template>
-  <div class="list-promotion mt-4">
+  <div v-if="listPromotion.length > 0" class="list-promotion mt-4">
     <div class="box-header">
       <skeleton-box v-if="loading" height="30px" />
       <h3 v-else class="box-title">{{titlePromotion}}</h3>

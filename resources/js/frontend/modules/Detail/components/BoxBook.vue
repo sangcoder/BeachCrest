@@ -2,7 +2,6 @@
   <div class="box-booking border-box-content">
     <template v-if="loading">
       <skeleton-box width="100%" height="56px"/>
-      <skeleton-box width="100%" height="56px"/>
     </template>
     <div v-else class="booking-head">
       <p class="price"><a-icon type="user" />{{priceTour | toCurrency}}</p>

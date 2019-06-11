@@ -128,10 +128,18 @@
         </div>
       </b-col>
     </b-row>
+        <b-row>
+      <b-col cols="12">
+        <div class="text-center" style="padding: 20px;">
+            <a-button size="large" type="primary" icon="bell" @click="handleBooking">Hoàn tất</a-button>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
-import moment from "moment";
+import moment from "moment"
+import BookingAPI from '../bookingService'
 export default {
   name: "InfoCustomer",
   props: {
@@ -150,6 +158,9 @@ export default {
     priceAdult: {
       type: Number,
       default: 0
+    },
+    infoContact: {
+      type: Object
     }
   },
   created() {
@@ -159,7 +170,7 @@ export default {
         this.listAdult.push({
           NameCustomner: "",
           Gender: 0,
-          BirthDay: moment("01/01/2000", "DD-MM-YYYY"),
+          BirthDay: moment("01/01/2006", "DD-MM-YYYY"),
           CustomType: "adult"
         });
       }
@@ -169,7 +180,7 @@ export default {
         this.listkid.push({
           NameCustomner: "",
           Gender: 0,
-          BirthDay: moment("01/01/2000", "DD-MM-YYYY"),
+          BirthDay: moment("01/01/1997", "DD-MM-YYYY"),
           CustomType: "kid"
         });
       }
@@ -188,7 +199,7 @@ export default {
         this.listkid.push({
           NameCustomner: "",
           Gender: 0,
-          BirthDay: moment("01/01/2000", "DD-MM-YYYY"),
+          BirthDay: moment("01/01/2006", "DD-MM-YYYY"),
           CustomType: "kid"
         });
       }
@@ -199,7 +210,7 @@ export default {
         this.listAdult.push({
           NameCustomner: "",
           Gender: 0,
-          BirthDay: moment("01/01/2000", "DD-MM-YYYY"),
+          BirthDay: moment("01/01/1997", "DD-MM-YYYY"),
           CustomType: "adult"
         });
       }
@@ -253,6 +264,19 @@ export default {
       // return (new Date(full)) ;
       // console.log(full, fullKid)
       return current &&  moment(new Date(full)).endOf("day") < current && current > moment(new Date(fullKid)).endOf("day");
+    },
+    handleBooking () {
+      let payload = {
+        TourID: this.$route.query.tour,
+        infoContact: this.infoContact,
+        listCustomer: [
+          this.listAdult,
+          this.listkid
+        ]
+      }
+      BookingAPI.addBooking(payload).then(res => {
+        console.log('ok')
+      })
     }
   }
 };

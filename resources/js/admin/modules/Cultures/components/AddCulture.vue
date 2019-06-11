@@ -24,77 +24,94 @@
         <!-- /title -->
       </div>
     </div>
-    <div class="card">
-      <h4 class="tourName">{{formData.CulturesName}}</h4>
-      <div class="card-body">
-        <b-row>
-          <b-col md="8">
-            <b-form-group label="Tên tour">
-              <a-input v-model="formData.CulturesName" placeholder="Nhập tên tour"/>
-            </b-form-group>
-          </b-col>
-          <b-col md="4">
-            <b-form-group label="Khu vực">
-              <a-select
-                showSearch
-                placeholder="Chọn điểm đến ..."
-                style="width: 100%;"
-                v-model="formData.Place_ID"
-                optionFilterProp="children"
-                :filterOption="filterOption"
-              >
-                <a-select-option
-                  v-for="place in placeData"
-                  :key="place.PlaceID"
-                  :value="place.PlaceID"
-                >{{place.PlaceName}}</a-select-option>
-              </a-select>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-group label="Mô tả">
-              <a-textarea placeholder="Nhập mô tả" v-model="formData.CultureDescription" :autosize="{ minRows: 2, maxRows: 6 }"/>
-            </b-form-group>
-          </b-col>
-          <b-col md="9">
-            <b-form-group label="Nội dung">
-              <editor
-                api-key="9nvefd4odlvd827e3j3aed8lbunqxjc9pyzruuxa37j58j4m"
-                v-model="formData.Contents"
-                :init="init"
-              ></editor>
-            </b-form-group>
-          </b-col>
-          <b-col md="3" class="sidebar-left">
-            <b-form-group label="Ảnh đại diện">
-              <a-upload
-                name="avatar"
-                listType="picture-card"
-                class="avatar-uploader"
-                :showUploadList="false"
-                action="/api/uploadJson"
-                @change="handleChange"
-              >
-                <img v-if="formData.featherImage" :src="formData.featherImage" alt="Feather Image">
-                <div v-else>
-                  <a-icon :type="loading ? 'loading' : 'plus'"/>
-                  <div class="ant-upload-text">Tải ảnh lên</div>
-                </div>
-              </a-upload>
-            </b-form-group>
-            <b-form-group label="Trạng thái">
-              <a-radio-group defaultValue="0" v-model="formData.State" buttonStyle="solid">
-                <a-radio-button value="0">Nháp</a-radio-button>
-                <a-radio-button value="1">Xuất bản</a-radio-button>
-              </a-radio-group>
-            </b-form-group>
-            <div class="publish">
-              <a-button type="primary" icon="download" size="large" @click="submitCultures">Xuất bản</a-button>
-            </div>
-          </b-col>
-        </b-row>
+    <a-spin :spinning="spinning">
+      <div class="card">
+        <h4
+          class="CultureName"
+        >{{formData.CulturesName === '' ? 'Tên danh lam thắng cảnh': formData.CulturesName}}</h4>
+        <div class="card-body">
+          <b-row>
+            <b-col md="8">
+              <b-form-group label="Tên tour">
+                <a-input v-model="formData.CulturesName" placeholder="Nhập tên tour"/>
+              </b-form-group>
+            </b-col>
+            <b-col md="4">
+              <b-form-group label="Khu vực">
+                <a-select
+                  showSearch
+                  placeholder="Chọn điểm đến ..."
+                  style="width: 100%;"
+                  v-model="formData.Place_ID"
+                  optionFilterProp="children"
+                  :filterOption="filterOption"
+                >
+                  <a-select-option
+                    v-for="place in placeData"
+                    :key="place.PlaceID"
+                    :value="place.PlaceID"
+                  >{{place.PlaceName}}</a-select-option>
+                </a-select>
+              </b-form-group>
+            </b-col>
+            <b-col cols="12">
+              <b-form-group label="Mô tả">
+                <a-textarea
+                  placeholder="Nhập mô tả"
+                  v-model="formData.CultureDescription"
+                  :autosize="{ minRows: 2, maxRows: 6 }"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col md="9">
+              <b-form-group label="Nội dung">
+                <editor
+                  api-key="9nvefd4odlvd827e3j3aed8lbunqxjc9pyzruuxa37j58j4m"
+                  v-model="formData.Contents"
+                  :init="init"
+                ></editor>
+              </b-form-group>
+            </b-col>
+            <b-col md="3" class="sidebar-left">
+              <b-form-group label="Ảnh đại diện">
+                <a-upload
+                  name="avatar"
+                  listType="picture-card"
+                  class="avatar-uploader"
+                  :showUploadList="false"
+                  action="/api/uploadJson"
+                  @change="handleChange"
+                >
+                  <img
+                    v-if="formData.featherImage"
+                    :src="/^https?:\/\//i.test(formData.featherImage) ? formData.featherImage : '/images/cultures/' + formData.featherImage"
+                    alt="Feather Image"
+                  >
+                  <div v-else>
+                    <a-icon :type="loading ? 'loading' : 'plus'"/>
+                    <div class="ant-upload-text">Tải ảnh lên</div>
+                  </div>
+                </a-upload>
+              </b-form-group>
+              <b-form-group label="Trạng thái">
+                <a-radio-group defaultValue="0" v-model="formData.State" buttonStyle="solid">
+                  <a-radio-button value="0">Nháp</a-radio-button>
+                  <a-radio-button value="1">Xuất bản</a-radio-button>
+                </a-radio-group>
+              </b-form-group>
+              <div class="publish">
+                <a-button
+                  type="primary"
+                  icon="download"
+                  size="large"
+                  @click="submitCultures"
+                >Xuất bản</a-button>
+              </div>
+            </b-col>
+          </b-row>
+        </div>
       </div>
-    </div>
+    </a-spin>
   </div>
 </template>
 <script>
@@ -109,23 +126,26 @@ export default {
   data() {
     return {
       loading: false,
+      spinning: false,
       placeData: [],
       detailCulture: {},
-      editMode: this.$route.query.type === 'edit' ? true : false,
+      editMode: this.$route.query.type === "edit" ? true : false,
       formData: {
-        CultureId: this.$route.query.cultureId ? this.$route.query.cultureId : -1,
-        CulturesName: '',
+        CultureId: this.$route.query.cultureId
+          ? this.$route.query.cultureId
+          : -1,
+        CulturesName: "",
         Contents: "",
         featherImage: "",
         Place_ID: "",
-        CultureDescription:"",
+        CultureDescription: "",
         State: "0",
-        create_at: '',
-        updated_at: ''
+        create_at: "",
+        updated_at: ""
       },
       init: {
         selector: "textarea",
-        height: 480,
+        height: 880,
         paste_data_images: true,
         plugins: [
           "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -164,16 +184,18 @@ export default {
   },
   created() {
     this.fetchPlace();
-    if(this.editMode) {
-      this.fetchCultureById(this.$route.query.cultureId )
+    if (this.editMode) {
+      this.fetchCultureById(this.$route.query.cultureId);
     }
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     filterOption(input, option) {
-      return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      return (
+        option.componentOptions.children[0].text
+          .toLowerCase()
+          .indexOf(input.toLowerCase()) >= 0
+      );
     },
     handleChange(info) {
       if (info.file.status === "uploading") {
@@ -187,8 +209,20 @@ export default {
         });
       }
     },
-    submitCultures () {
-
+    submitCultures() {
+      if (this.editMode) {
+        this.spinning = true;
+        CultureAPI.editCulture(this.formData.CultureId, this.formData).then(
+          res => {
+            this.$message.success('Sửa thành công!')
+            this.spinning = false
+          }
+        );
+      } else {
+        CultureAPI.addCulture(this.formData).then(res => {
+            this.$router.push({name: 'listCultures'})
+        });
+      }
     },
     fetchPlace() {
       return CultureAPI.getListPlace().then(res => {
@@ -196,17 +230,18 @@ export default {
       });
     },
     fetchCultureById(id) {
+      this.spinning = true;
       CultureAPI.getCultureById(id).then(res => {
-        this.formData.CulturesName = res.data.ScenicName 
-        this.formData.Place_ID = res.data.place_id 
-        this.formData.CultureDescription = res.data.Description 
-        this.formData.Contents = res.data.Contents 
-        this.formData.featherImage = res.data.ImgUrl 
-        this.formData.State = `${res.data.state}x` 
-        this.formData.create_at = res.data.created_at
-        this.formData.updated_at = res.data.updated_at
-
-      })
+        this.formData.CulturesName = res.data.ScenicName;
+        this.formData.Place_ID = res.data.place_id;
+        this.formData.CultureDescription = res.data.Description;
+        this.formData.Contents = res.data.Contents;
+        this.formData.featherImage = res.data.ImgUrl;
+        this.formData.State = `${res.data.state}`;
+        this.formData.create_at = res.data.created_at;
+        this.formData.updated_at = res.data.updated_at;
+        this.spinning = false;
+      });
     }
   }
 };
@@ -216,14 +251,14 @@ export default {
   width: 100% !important;
   height: 200px !important;
 }
-.add-cultures .ant-upload.ant-upload-select-picture-card img{
+.add-cultures .ant-upload.ant-upload-select-picture-card img {
   width: 200px !important;
   height: 160px !important;
 }
 </style>
 
 <style lang="css" scoped>
-.tourName {
+.CultureName {
   background: cadetblue;
   padding: 7px 10px;
   color: #fff;
