@@ -103,10 +103,15 @@ export default {
   top: 10px;
   z-index: 1;
   border-radius: 0 3px 3px 0;
-  background: blue;
   padding: 0px 10px;
   color: #fff;
   font-weight: 500;
+}
+.tour__tag.green{
+  background: #27ae60;
+}
+.tour__tag.blue{
+  background: #e74c3c;
 }
 .tour__review {
   margin: 12px 0;

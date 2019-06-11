@@ -27,7 +27,9 @@
                   <a @click="$router.push({name: 'booking', query: {tour: tour.TourID}})" style="display:block;" :title="tour.TourName">
                     <img src="/images/Tour.png">
                   </a>
-                  <!-- <div class="tour__tag bestseller">Featured</div> -->
+                  <div v-if="tour.TourExists > 0" class="tour__tag bestseller green">Còn nhận {{tour.TourExists}}</div>
+                  <div v-else class="tour__tag bestseller blue">Hết chổ</div>
+                  <!-- <div :class="tour.TourExists > 0 ? 'tour__tag bestseller' : 'd-none'">{{tour.TourExistss > 0 ? tour.TourExistss : 'Hết chổ'}}</div> -->
                 </div>
               </template>
               <template slot="tag" >
@@ -64,18 +66,22 @@
       </div>
     </section>
     <list-destination />
+<count-down :date="'2019-06-11 23:45:21'"></count-down>
   </div>
 </template>
 <script>
-import SearchTour from "./SearchTour";
-import ListTour from "./ListTour";
-import HomeAPI from './homeSerive'
+import SearchTour from "./SearchTour"
+import ListTour from "./ListTour"
 import ListDestination from './ListDestination'
+import CountDown from '../../../components/Countdown'
+
+import HomeAPI from './homeSerive'
 export default {
   components: {
     SearchTour,
     ListTour,
-    ListDestination
+    ListDestination,
+    CountDown
   },
   data() {
     return {

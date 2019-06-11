@@ -49,6 +49,11 @@ class TourCollection extends Resource
                 'Contents' => $item->pivot->Contents
             ]);
         }
+        // Số người còn lại của Tour
+        $totalNum = 0;
+        foreach($this->bookings as $num) {
+            $totalNum += $num->NumberPerson;
+        } 
         return [
             'TourID' => $this->TourID,
             'TourName' => $this->TourName,
@@ -62,6 +67,7 @@ class TourCollection extends Resource
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
             'Discount' => $promotion,
+            'TourExists' => ($this->NumberPerson - $totalNum) >= 0 ? $this->NumberPerson - $totalNum : 0,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
             'listPlace' => $listPlace,

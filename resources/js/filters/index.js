@@ -8,6 +8,13 @@ export function upText (text) {
 export function myDate (date) {
   return moment(date).format('YYYY-MM-DD HH:mm:ss')
 }
+export function twoDigits (value) {
+  if (value.toString().length <= 1) {
+    return '0' + value.toString()
+  }
+  return value.toString()
+}
+
 export function toCurrency (value) {
   if (typeof value !== 'number') {
     return value

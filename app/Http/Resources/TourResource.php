@@ -70,7 +70,7 @@ class TourResource extends JsonResource
             'PlaceName' => $place->PlaceName,
            ]);
         }
-        // dd($totalNum);
+        // dd(($this->NumberPerson - $totalNum) <= 0);
         // dd($full);
         return [
             'TourID' => $this->TourID,
@@ -85,7 +85,7 @@ class TourResource extends JsonResource
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
             'Discount' => $promotion,
-            'TourExists' => ($this->NumberPerson - $totalNum) != 0 ? $this->NumberPerson - $totalNum : 'Hết chổ',
+            'TourExists' => ($this->NumberPerson - $totalNum) >= 0 ? $this->NumberPerson - $totalNum : 0,
             'listCultures' => $listScenic,
             'listPlace' => $listPlace,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),

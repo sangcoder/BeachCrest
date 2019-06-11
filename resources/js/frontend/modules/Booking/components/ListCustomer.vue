@@ -54,7 +54,7 @@
       </b-col>
     </b-row>
     <h4 class="card-title">Danh sách khách hàng đi Tour</h4>
-    <info-customer :info-contact="InfoContact" :number-adult="NumberAdult" :number-kid="NumberKid" :price-kid="tourInfo.OnsaleKid" :price-adult="tourInfo.OnsaleAdult" />
+    <info-customer @BookingSuccess="BookingSuccess" :info-contact="InfoContact" :number-adult="NumberAdult" :number-kid="NumberKid" :price-kid="tourInfo.OnsaleKid" :price-adult="tourInfo.OnsaleAdult" />
   </div>
 </template>
 <script>
@@ -100,7 +100,10 @@ export default {
   },
   methods: {
     moment,
-    handleSubmit(e) {}
+    handleSubmit(e) {},
+    BookingSuccess () {
+      this.$emit('BookingSuccess')
+    }
   }
 };
 </script>

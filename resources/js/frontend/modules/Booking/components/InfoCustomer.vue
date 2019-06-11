@@ -275,7 +275,7 @@ export default {
         ]
       }
       BookingAPI.addBooking(payload).then(res => {
-        console.log('ok')
+        this.$emit('BookingSuccess')
       })
     }
   }

@@ -1,44 +1,67 @@
 <template>
-  <div class="box-booking border-box-content">
+  <div>
     <template v-if="loading">
       <skeleton-box width="100%" height="56px"/>
     </template>
     <div v-else class="booking-head">
-      <p class="price"><a-icon type="user" />{{priceTour | toCurrency}}</p>
-      <p class="price"><a-icon type="user" />{{priceKid | toCurrency}}</p>
+      <p class="price">
+        <a-icon type="user"/>
+        {{priceTour | toCurrency}}
+      </p>
+      <p class="price">
+        <a-icon type="user"/>
+        {{priceKid | toCurrency}}
+      </p>
     </div>
-    <a-divider dashed>Thông tin</a-divider>
-    <div class="booking-body">
-      <b-form-group>
-        <a-date-picker
-          placeholder="Chọn ngày"
-          format="DD-MM-YYYY"
-          v-model="dataBooking.dateBooking"
-          :disabledDate="disabledDate"
-          size="large"
-          style="width: 100%;"
-        />
-      </b-form-group>
-      <b-row>
-        <b-col>
-          Số người còn lại {{maxPerson}}
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="6">
-          <b-form-group label="Người lớn">
-            <a-input-number size="large" :min="1" :max="maxPerson" v-model="dataBooking.numberAdult" :defaultValue="2" style="width: 100%;"/>
-          </b-form-group>
-        </b-col>
-        <b-col md="6">
-          <b-form-group label="Trẻ em">
-            <a-input-number size="large" :min="1" :max="maxPerson - dataBooking.numberAdult" v-model="dataBooking.numberKid" :defaultValue="0" style="width: 100%;"/>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-form-group>
-        <a-button size="large" type="primary" @click="toBooking" block>Đặt ngay</a-button>
-      </b-form-group>
+    <div class="box-booking border-box-content">
+      <a-divider dashed>Thông tin Tour</a-divider>
+      <div class="booking-body">
+        <b-row class="mb-2">
+          <b-col cols="6">Ngày khởi hành</b-col>
+          <b-col cols="6">22/06/2019</b-col>
+        </b-row>
+        <b-row class="mb-2">
+          <b-col cols="6">Ngày kết thúc</b-col>
+          <b-col cols="6">23/06/2019</b-col>
+        </b-row>
+        <b-row class="mb-2">
+          <b-col cols="6">Thời gian</b-col>
+          <b-col cols="6">3 ngày 2 đếm</b-col>
+        </b-row>
+        <b-row class="mb-2">
+          <b-col cols="6">Số chổ còn lại</b-col>
+          <b-col cols="6">{{maxPerson}}</b-col>
+        </b-row>
+        <b-row>
+          <b-col md="6">
+            <b-form-group label="Người lớn">
+              <a-input-number
+                size="large"
+                :min="1"
+                :max="maxPerson"
+                v-model="dataBooking.numberAdult"
+                :defaultValue="2"
+                style="width: 100%;"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="6">
+            <b-form-group label="Trẻ em">
+              <a-input-number
+                size="large"
+                :min="1"
+                :max="maxPerson - dataBooking.numberAdult"
+                v-model="dataBooking.numberKid"
+                :defaultValue="0"
+                style="width: 100%;"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-form-group>
+          <a-button size="large" type="primary" @click="toBooking" block>Đặt ngay</a-button>
+        </b-form-group>
+      </div>
     </div>
   </div>
 </template>
@@ -64,11 +87,10 @@ export default {
   data() {
     return {
       dataBooking: {
-        dateBooking: moment(),
         numberKid: 0,
         numberAdult: 1
       }
-    }
+    };
   },
   methods: {
     moment,
@@ -92,8 +114,15 @@ export default {
         // disabledSeconds: () => [55, 56],
       };
     },
-    toBooking () {
-      this.$router.push({name: 'bookingTour', query: {tour: this.$route.query.tour, dateBooking: moment(this.dataBooking.dateBooking).format('DD-MM-YYYY'), numberAdult: this.dataBooking.numberAdult, numberKid: this.dataBooking.numberKid}})
+    toBooking() {
+      this.$router.push({
+        name: "bookingTour",
+        query: {
+          tour: this.$route.query.tour,
+          numberAdult: this.dataBooking.numberAdult,
+          numberKid: this.dataBooking.numberKid
+        }
+      });
     }
   }
 };
