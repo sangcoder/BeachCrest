@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Model\Tour;
 use App\Model\Review;
+use App\Model\Booking;
 use App\Model\Schedule;
 use App\Model\Promotion;
 use Illuminate\Http\Request;
@@ -35,8 +37,15 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $tour = Tour::find(50);
-        dd($tour->bookings);
+        $user = User::find(6);
+        dd($user->roles);
+        // dd($user->roles()->detach(2));
+        // $schedule = Schedule::find(51);
+        // dd($schedule->tours);
+        // $booking = Booking::find(12);
+        // dd($booking->tour);
+        // $tour = Tour::find(50);
+        // dd($tour->bookings);
         // $review = Review::find(21);
         // dd($review->tours);
         // $schedule = Schedule::find(51);

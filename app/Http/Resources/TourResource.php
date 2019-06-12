@@ -101,7 +101,7 @@ class TourResource extends JsonResource
                 ]
             ],
             'Schedule' => 
-            $this->schedules->guiders->count() > 0 ? $newSchedule : 'Chưa có lịch trình cho Tour này!',
+            $this->schedules->guiders->count() > 0 ? $newSchedule : [],
 
         ];    
     }

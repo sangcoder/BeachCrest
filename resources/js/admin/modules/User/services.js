@@ -15,5 +15,11 @@ export default {
   },
   getAllRole () {
     return Axios.get(APP_CONFIG.API_URL + '/roles/getAll')
+  },
+  getRolebyId (id) {
+    return Axios.get(APP_CONFIG.API_URL + '/user/getAllRole/' + id)
+  },
+  deleteRoleId (id, roleId) {
+    return Axios.post(APP_CONFIG.API_URL + '/user/deleteRole/' + id, roleId)
   }
 }

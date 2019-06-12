@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\TourResource;
 use App\Http\Resources\TourCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Resources\BookingResource;
 
 class TourController extends Controller
 {
@@ -205,7 +206,8 @@ class TourController extends Controller
                 'NumberPerson' => $request->NumberPerson,
                 'PriceAdult' => $request->PriceAdult,
                 'PriceKid' => $request->PriceKid,
-                'Unit' => $request->Unit
+                'Unit' => $request->Unit,
+                'schedule_id' => $request->ScheduleId
             ]);
         
         // Save to data base

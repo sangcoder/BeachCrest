@@ -6,7 +6,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/> Danh sách tài khoản
+              <a-icon type="global"/>Danh sách tài khoản
             </h4>
             <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
           </div>
@@ -26,7 +26,11 @@
         @change="handleTableChange"
       >
         <template slot="photo" slot-scope="photo">
-          <a-avatar :size="64" icon="user" :src="/^https?:\/\//i.test(photo) ? photo :'/images/' + photo"/>
+          <a-avatar
+            :size="64"
+            icon="user"
+            :src="/^https?:\/\//i.test(photo) ? photo :'/images/' + photo"
+          />
         </template>
         <template slot="active" slot-scope="active">
           <a-tooltip placement="bottom">
@@ -45,7 +49,10 @@
           </a-tooltip>
         </template>
         <template slot="roleName" slot-scope="roleName">
-          <a-tag color="#f50" v-if="roleName.includes('admin') || roleName.includes('mod')">{{ roleName | upText }}</a-tag>
+          <a-tag
+            color="#f50"
+            v-if="roleName.includes('admin') || roleName.includes('mod')"
+          >{{ roleName | upText }}</a-tag>
           <a-tag color="#87d068" v-else>{{ roleName | upText }}</a-tag>
         </template>
         <template slot="createAt" slot-scope="createAt">{{createAt | myDate(createAt)}}</template>
@@ -64,14 +71,44 @@
       </a-table>
     </div>
     <!-- Modal -->
-    <a-modal title="Chỉnh sửa quyền" v-model="visible" @ok="changeRole">
-      <a-select
-        defaultValue="Chọn nhóm người dùng"
-        style="width: 100%;"
-        @change="handleChangeSelect"
-      >
-        <a-select-option v-for="item in Roles" :key="item.id" :value="item.id">{{item.name}}</a-select-option>
-      </a-select>
+    <a-modal title="Chỉnh sửa quyền" v-model="visible" @ok="CloseModal" :maskClosable="false">
+      <b-form-group>
+        <b-row>
+          <b-col cols="8">
+            <a-select
+              defaultValue="Chọn nhóm người dùng"
+              style="width: 100%;"
+              @change="handleChangeSelect"
+            >
+              <a-select-option v-for="item in Roles" :key="item.id" :value="item.id">{{item.name}}</a-select-option>
+            </a-select>
+          </b-col>
+          <b-col cols="4">
+            <a-button type="primary" @click="addNewRole">Thêm nhóm</a-button>
+          </b-col>
+        </b-row>
+      </b-form-group>
+      <b-form-group>
+        <a-spin :spinning="spinning">
+          <table class="table table-hover">
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <th>Nhóm chức năng</th>
+                <th>Hành động</th>
+              </tr>
+              <tr v-for="item in allRoleId" :key="item.role_id">
+                <td>{{ item.role_id }}</td>
+                <td>{{ item.name | upText }}</td>
+                <td>
+                  <a-divider type="vertical"/>
+                  <a href="#" @click="deleteUserRole(modelHasRole.userID, item.role_id)">Xóa</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </a-spin>
+      </b-form-group>
     </a-modal>
   </div>
 </template>
@@ -111,8 +148,8 @@ const columns = [
     scopedSlots: { customRender: "roleName" }
   },
   {
-    title: 'Login with',
-    dataIndex: 'loginWith'
+    title: "Login with",
+    dataIndex: "loginWith"
   },
   {
     title: "Create at",
@@ -121,13 +158,15 @@ const columns = [
   },
   {
     title: "Modify",
-    scopedSlots: { customRender: "modify" }
+    scopedSlots: { customRender: "modify" },
+    width: "12%"
   }
 ];
 export default {
   data() {
     return {
       editmode: false,
+      spinning: false,
       pagination: {
         showQuickJumper: true,
         showSizeChanger: true,
@@ -139,6 +178,7 @@ export default {
         roleID: 0,
         userID: 0
       },
+      allRoleId: [],
       loading: false,
       visible: false,
       selectedRowKeys: [],
@@ -156,25 +196,42 @@ export default {
     };
   },
   created() {
-    this.fetchListUser()
+    this.fetchListUser();
   },
   methods: {
-    fetchListUser (page, params = {}) {
-        this.loading = true
-        UserAPI.getlistUser(page, params).then (res => {
-          this.loading = false
-          this.data = res.data.data
-          const pagination = { ...this.pagination }
-          pagination.pageSize = res.data.meta.per_page
-          pagination.total = res.data.meta.total
-          this.pagination = pagination
-        })
+    fetchListUser(page, params = {}) {
+      this.loading = true;
+      UserAPI.getlistUser(page, params).then(res => {
+        this.loading = false;
+        this.data = res.data.data;
+        const pagination = { ...this.pagination };
+        pagination.pageSize = res.data.meta.per_page;
+        pagination.total = res.data.meta.total;
+        this.pagination = pagination;
+      });
+    },
+    fetchRoleById(id) {
+      this.spinning = true;
+      return UserAPI.getRolebyId(id).then(res => {
+        this.allRoleId = res.data.data;
+        this.spinning = false;
+      });
+    },
+    deleteUserRole(id, roleId) {
+      let payload = {
+        roleId: roleId
+      };
+      this.spinning = true;
+      UserAPI.deleteRoleId(id, payload).then(res => {
+        this.spinning = false;
+        this.fetchRoleById(id);
+      });
     },
     onSearch(value) {
       this.loading = true;
       this.fetchListUser(this.pagination.current, {
-          searchEmail: value
-        })
+        searchEmail: value
+      });
     },
     onSelectChange(selectedRowKeys) {
       this.selectedRowKeys = selectedRowKeys;
@@ -184,10 +241,10 @@ export default {
       pager.current = pagination.current;
       this.pagination = pager;
       this.loading = true;
-      this.fetchListUser(this.pagination.current, {          
+      this.fetchListUser(this.pagination.current, {
         sortById: sorter.order,
-        ...filters 
-      })
+        ...filters
+      });
     },
     uploadPhoto(e) {
       let file = e.target.files[0];
@@ -200,28 +257,32 @@ export default {
     },
     deleteUser(id) {
       UserAPI.deleteUser(id).then(res => {
+        this.fetchListUser(this.pagination.current);
         this.loading = false;
-
       });
     },
     showModalRole(user) {
       this.visible = true;
-      this.modelHasRole.userID = user.id
+      this.modelHasRole.userID = user.id;
       this.fetchAllRole();
+      this.fetchRoleById(user.id);
     },
-    changeRole() {
-      this.visible = false;
-      this.loading = false;
-      UserAPI.addRoleModel(this.modelHasRole).then(res => {
-        this.fetchListUser(this.pagination.current)
-      })
+    CloseModal() {
+      this.visible = false
     },
     handleChangeSelect(value) {
-      this.modelHasRole.roleID = value
+      this.modelHasRole.roleID = value;
     },
     fetchAllRole() {
       UserAPI.getAllRole().then(res => {
         this.Roles = res.data;
+      });
+    },
+    addNewRole () {
+      this.loading = false;
+      UserAPI.addRoleModel(this.modelHasRole).then(res => {
+        this.fetchRoleById(this.modelHasRole.userID)
+        this.fetchListUser(this.pagination.current);
       });
     },
     confirm() {},

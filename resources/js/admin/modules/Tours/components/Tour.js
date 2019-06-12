@@ -260,6 +260,8 @@ export default {
       this.formData.NumberPerson = tour.NumberPerson
       this.formData.PriceAdult = tour.PriceAdult
       this.formData.PriceKid = tour.PriceKid
+      this.formData.ScheduleId = tour.ScheduleId
+      this.selectedValue = tour.Cultures
       let fl = JSON.parse(tour.ImageUrl)
       this.formData.ImageUrl = []
       fl.forEach((item, index) => {

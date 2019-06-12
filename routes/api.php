@@ -80,6 +80,7 @@ Route::group([
     Route::delete('tourguider/deletemore', 'TourGuiderController@removeMore');
 
     // Booking
+    Route::get('booking', 'BookingController@index');
     Route::post('booking/addNewBooking', 'BookingController@Booking');
 
     // Add khuyến mãi
@@ -87,6 +88,10 @@ Route::group([
     // Search khuyen mai
     Route::get('promotion/search', 'PromotionController@search');
     Route::get('cultures/getAllSelect', 'API\ScenicCultureController@getListTourValue');
+
+    // User
+    Route::get('user/getAllRole/{id}', 'API\UserController@getAllRoleByUser');
+    Route::post('user/deleteRole/{id}', 'API\UserController@deleteRoleById');
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

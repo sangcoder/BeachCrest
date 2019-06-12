@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 
@@ -151,5 +152,24 @@ class UserController extends Controller
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS
         ]);
+    }
+    public function getAllRoleByUser ($id) {
+        // $allRole = DB::table('model_has_roles')
+        //     ->where('model_id','=', $id)
+        //     ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        //     ->select('role_id', 'name')
+        //     ->get();
+        // return $allRole;
+        $user = User::find($id);
+        return RoleResource::collection($user->roles);
+    }
+
+    public function deleteRoleById($id, Request $request) {
+        $user = User::find($id);
+        // dd($request->all());
+        $user->roles()->detach($request->roleId);
+         return response()->json([
+             'success' => AppResponse::STATUS_SUCCESS
+         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Model\Booking;
 use App\Model\Customers;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use App\Http\Resources\BookingResource;
 
 class BookingController extends Controller
 {
@@ -18,7 +19,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $booking = Booking::all();
+        return BookingResource::Collection($booking);
     }
 
     /**

@@ -66,10 +66,12 @@ class TourCollection extends Resource
             'PriceAdult' => $this->PriceAdult,
             'PriceKid' => $this->PriceKid,
             'Unit' => $this->Unit,
+            'ScheduleId' => $this->schedule_id,
             'Discount' => $promotion,
             'TourExists' => ($this->NumberPerson - $totalNum) >= 0 ? $this->NumberPerson - $totalNum : 0,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
+            'Cultures' => CultureResouce::collection($this->scenics),
             'listPlace' => $listPlace,
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
             'Rating' => [

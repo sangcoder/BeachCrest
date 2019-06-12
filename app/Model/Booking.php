@@ -19,7 +19,7 @@ class Booking extends Model
         return $this->hasMany('App\Model\Payment');
     }
     public function tour() {
-        return $this->belongsTo(Tour::class);
+        return $this->belongsTo(Tour::class, 'tour_id');
     }
     public function user() {
         return $this->belongsTo(User::class);

@@ -2,10 +2,10 @@
   <div>
     <a-card style="margin-top: 24px" :bordered="false" title="Danh sách booking">
       <div slot="extra">
-        <a-radio-group>
-          <a-radio-button>Tất cả</a-radio-button>
-          <a-radio-button>Đã xử lý</a-radio-button>
-          <a-radio-button>Chưa xử lý</a-radio-button>
+        <a-radio-group defaultValue="all" buttonStyle="solid">
+          <a-radio-button value="all">Tất cả</a-radio-button>
+          <a-radio-button value="inprocess">Đã xử lý</a-radio-button>
+          <a-radio-button value="nonprocess">Chưa xử lý</a-radio-button>
         </a-radio-group>
         <a-input-search style="margin-left: 16px; width: 272px;"/>
       </div>
