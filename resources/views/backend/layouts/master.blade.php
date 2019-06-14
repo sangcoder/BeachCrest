@@ -13,6 +13,8 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   {{-- <script src="https://www.paypalobjects.com/api/checkout.js"> </script> --}}
+  {{-- <script src="https://www.paypal.com/sdk/js?client-id=sb"></script> --}}
+
 </head>
 <body >
   

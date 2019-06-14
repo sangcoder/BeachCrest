@@ -76,15 +76,19 @@
               <div>
                 <a-button type="primary" icon="smile" @click="paypalBooking">Thanh toán</a-button>
                 <!-- <paypal-checkout :amount="amount"></paypal-checkout> -->
-                <PayPal
-                  amount="10.00"
-                  currency="USD"
-                  :client="credentials"
-                  :items="myItems"
-                  env="sandbox"
-                  @payment-authorized="paymentAuthorized"
-                  @payment-completed="paymentCompleted"
-                ></PayPal>
+                <div v-if="dataBooking.TotalAmount">
+                  <PayPal
+                    :amount="`${dataBooking.TotalAmount}`"
+                    currency="USD"
+                    description="Tour mới"
+                    :client="credentials"
+                    :items="dataBooking.listPaypal"
+                     :button-style="myStyle"
+                    env="sandbox"
+                    @payment-authorized="paymentAuthorized"
+                    @payment-completed="paymentCompleted"
+                  ></PayPal>
+                </div>
               </div>
             </b-col>
 
@@ -161,22 +165,6 @@ export default {
           "AQvKshlWsrIkgNGV4wmSTBWiuIaspbylerlvlk20XEW8FSnPQ9UmZMkuMUXHaxPtAe0wrGFaOGDpsniD",
         production: "<production client id>"
       },
-      myItems: [
-        {
-          name: "hat",
-          description: "Brown hat.",
-          quantity: "1",
-          price: "5",
-          currency: "USD"
-        },
-        {
-          name: "handbag",
-          description: "Black handbag.",
-          quantity: "1",
-          price: "5",
-          currency: "USD"
-        }
-      ],
       isloading: false,
       user: null,
       empty: false,
@@ -188,6 +176,12 @@ export default {
         display: "block",
         height: "30px",
         lineHeight: "30px"
+      },
+      myStyle: {
+        label: "checkout",
+        size: "medium",
+        shape: "pill",
+        color: "gold"
       },
       dataBooking: []
     };
@@ -231,7 +225,7 @@ export default {
       });
     },
     paymentAuthorized: function(data) {
-      console.log('vaoooooo')
+      console.log("vaoooooo");
       console.log(data);
     },
     paymentCompleted: function(data) {

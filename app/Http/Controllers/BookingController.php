@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Carbon\Carbon;
+use App\Model\Tour;
 use App\Model\Booking;
 use App\Model\Customers;
 use App\Http\AppResponse;
@@ -165,13 +166,45 @@ class BookingController extends Controller
             }
         }
         // dd($request->all());
-        $bk = Booking::find($booking->BookingID);
-        $infoCotact = $bk->customers()->where('delegatePerson', '=', 1)->get();
-        $listCustomer = $bk->customers()->where('delegatePerson', '<>', 1)->get();
+        // $bk = Booking::find($booking->BookingID);
+        $infoCotact = $booking->customers()->where('delegatePerson', '=', 1)->get();
+        $listCustomer = $booking->customers()->where('delegatePerson', '<>', 1)->get();
+        $tour = Tour::find($booking->tour->TourID);
+        $promotion = 0;
+        foreach ( $tour->promotions as  $item) {
+            if(strtotime($item->pivot->ExpiredDate) > strtotime(Carbon::now())) {
+                $promotion = $item->pivot->Discount;
+                $ExpiredDate = $item->pivot->ExpiredDate;
+            } else {
+                $promotion = 0;
+            }
+        }
+        $Numberkid = $booking->customers()->where('delegatePerson', '<>', 1)->where('CustomerType', '=', 0)->get()->count();
+        $numberAdult = $booking->customers()->where('delegatePerson', '<>', 1)->where('CustomerType', '=', 1)->get()->count();
+        $priceAdult = round((1 - $promotion/ 100) * $tour->PriceAdult,2);
+        $PriceKid = round((1 - $promotion/ 100) * $tour->PriceKid,2);
+
+        $TotalAmout = $Numberkid * round($PriceKid/23000, 2) + round($priceAdult/23000, 2) * $numberAdult;
+        $data = array();
+        foreach($listCustomer as $item)
+        {
+            array_push($data, [
+                'sku' => $item->CustomerID,
+                'name'=> $item->CustomerName,
+                'description' => $item->CustomerType == 1 ? 'Người lớn' : 'Trẻ nhỏ',
+                'quantity' => 1,
+                'price' => $item->CustomerType == 1 ? round($priceAdult/23000, 2) : round($PriceKid/23000, 2),
+                'currency'=> 'USD'
+                ]);
+        }
+
+
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
             'infoContact' => $infoCotact,
             'listCustomer' => $listCustomer,
+            'listPaypal' => $data,
+            'TotalAmount' => round($TotalAmout, 2),
             'infoBooking' => [
                 'BookingID' => $booking->BookingID,
                 'NumberPerson' => $booking->NumberPerson,
