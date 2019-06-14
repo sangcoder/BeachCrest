@@ -107,3 +107,6 @@ Route::group([
 Route::post('uploadImage', 'API\UploadImage@upload');
 Route::post('uploadJson','API\UploadImage@uploadJson');
 Route::post('upload/tinymce', 'API\UploadImage@uploadMCE');
+
+
+Route::get('getRate', 'BookingController@getRateDolar');

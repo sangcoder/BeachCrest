@@ -139,11 +139,14 @@
         </b-col>
       </b-row>
     </div>
+  <loading :loading="isloading"/>
   </div>
 </template>
 <script>
 import moment from "moment";
 import BookingAPI from "../bookingService";
+
+import Loading from "../../../components/Loading";
 export default {
   name: "InfoCustomer",
   props: {
@@ -167,10 +170,14 @@ export default {
       type: Object
     }
   },
+  components: {
+    Loading
+  },
   data() {
     return {
       listAdult: [],
       listkid: [],
+      isloading: false,
       validation: {
         errors: {}
       }
@@ -284,11 +291,14 @@ export default {
         payment: this.value,
         listCustomer: [this.listAdult, this.listkid]
       };
+      this.isloading = true
       BookingAPI.addBooking(payload).then(res => {
         this.$emit("BookingSuccess", res.data);
+        this.isloading = false
       }).catch((err) => {
         if(err.response && err.response.data) {
           this.validation.errors = err.response.data.errors
+          this.isloading = false
         }
       })
 

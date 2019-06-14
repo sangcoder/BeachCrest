@@ -15,8 +15,8 @@ class Booking extends Model
     public function customers() {
         return $this->hasMany('App\Model\Customers', 'booking_id');
     }
-    public function payments() {
-        return $this->hasMany('App\Model\Payment');
+    public function payment() {
+        return $this->hasOne('App\Model\Payment', 'booking_id','BookingID');
     }
     public function tour() {
         return $this->belongsTo(Tour::class, 'tour_id');

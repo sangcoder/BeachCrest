@@ -41,8 +41,6 @@
           .path {stroke-dasharray: 0 !important;}
         </style>
             <![endif]-->
-
-
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
               <circle
                 class="path circle"
@@ -74,9 +72,9 @@
                 <a-radio :style="radioStyle" :value="2">Thanh toán thông qua Paypal</a-radio>
               </a-radio-group>
               <div>
-                <a-button type="primary" icon="smile" @click="paypalBooking">Thanh toán</a-button>
+                <a-button v-if="value === 1" type="primary" icon="smile" @click="paypalBooking">Thanh toán</a-button>
                 <!-- <paypal-checkout :amount="amount"></paypal-checkout> -->
-                <div v-if="dataBooking.TotalAmount">
+                <div v-if="dataBooking.TotalAmount && value === 2">
                   <PayPal
                     :amount="`${dataBooking.TotalAmount}`"
                     currency="USD"
@@ -129,7 +127,7 @@
                     <td>{{customer.CustomerName}}</td>
                     <td>{{customer.Birthday | birthDay}}- {{customer.Birthday | calcAge}}</td>
                     <td>{{customer.Gender === 0 ? 'Nữ' : 'Nam'}}</td>
-                    <td>{{customer.CustomerType === 0 ? 'Người lớn' : 'Trẻ em'}}</td>
+                    <td>{{customer.CustomerType === 1 ? 'Người lớn' : 'Trẻ em'}}</td>
                   </tr>
                 </tbody>
               </table>

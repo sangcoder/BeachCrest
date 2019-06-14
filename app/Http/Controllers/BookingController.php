@@ -6,6 +6,8 @@ use Validator;
 use Carbon\Carbon;
 use App\Model\Tour;
 use App\Model\Booking;
+use App\Model\Payment;
+use GuzzleHttp\Client;
 use App\Model\Customers;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
@@ -185,6 +187,8 @@ class BookingController extends Controller
         $PriceKid = round((1 - $promotion/ 100) * $tour->PriceKid,2);
 
         $TotalAmout = $Numberkid * round($PriceKid/23000, 2) + round($priceAdult/23000, 2) * $numberAdult;
+        $AmountVND =  ($Numberkid * $PriceKid) + ($numberAdult * $priceAdult);
+        // dd($AmountVND,  $Numberkid, $PriceKid, $numberAdult, $numberAdult);
         $data = array();
         foreach($listCustomer as $item)
         {
@@ -198,6 +202,12 @@ class BookingController extends Controller
                 ]);
         }
 
+        // Save payment
+        $payment = new Payment;
+        $payment->PaymentAmount = $AmountVND; 
+        $payment->PaymentDate = Carbon::now();
+        $payment->PaymentType = 1;  // 1 thanh toán tại văn phòng / thanh toán paypal 2
+        $booking->payment()->save($payment);
 
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
@@ -205,6 +215,7 @@ class BookingController extends Controller
             'listCustomer' => $listCustomer,
             'listPaypal' => $data,
             'TotalAmount' => round($TotalAmout, 2),
+            'AmountVND' => $AmountVND,
             'infoBooking' => [
                 'BookingID' => $booking->BookingID,
                 'NumberPerson' => $booking->NumberPerson,
@@ -215,5 +226,49 @@ class BookingController extends Controller
             ]
             // 'listCustomer' => $booking->customers
         ]);
+    }
+    public function addPaymentPaypals () {
+
+    }
+    public function getRateDolar (Request $req) {
+        // dd($req['currencyName']);
+        $client = new Client;
+        $results = $client->request('GET', 'https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx');
+        $xml = simplexml_load_string($results->getBody(),'SimpleXMLElement',LIBXML_NOCDATA);
+        $json = json_encode($xml);
+        $array = json_decode($json, true);
+        // $array_dot = array_dot($array);
+        $collection = collect($array);
+        $data =  array();
+        if ($req->exists('currencyName')) {
+            foreach($collection['Exrate'] as $rate) {
+                foreach($rate as $item) {
+                    if ($item['CurrencyCode'] == $req['currencyName']) {
+                        array_push($data, [
+                            'CurrencyCode' => $item['CurrencyCode'],
+                            'Rate' => $item['Buy'],
+                            'TimeUpdate' => $collection['DateTime']
+                        ]);
+                        break;
+                    }
+                }
+            }
+        } else {
+            foreach($collection['Exrate'] as $rate) {
+                foreach($rate as $item) {
+                    if ($item['CurrencyCode'] == 'USD') {
+                        array_push($data, [
+                            'CurrencyCode' => $item['CurrencyCode'],
+                            'Rate' => $item['Buy'],
+                            'TimeUpdate' => $collection['DateTime']
+                        ]);
+                        break;
+                    }
+                }
+            }
+        }
+        // dump($collection);
+
+        return $data[0];
     }
 }

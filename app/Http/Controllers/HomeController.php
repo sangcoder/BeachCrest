@@ -37,10 +37,10 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $bk = Booking::find(34);
+        $bk = Booking::find(50);
         $Numberkid = $bk->customers()->where('delegatePerson', '<>', 1)->where('CustomerType', '=', 1)->get()->count();
         $numberAdult = $bk->customers()->where('delegatePerson', '<>', 1)->where('CustomerType', '=', 0)->get()->count();
-        dd($Numberkid, $numberAdult);
+        dd($bk->payment);
         // $bk = Booking::find(18);
         // dd($bk->tour->TourName);
         // $infoCotact = $bk->customers()->where('delegatePerson', '=', 1);

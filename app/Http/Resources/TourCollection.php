@@ -54,6 +54,7 @@ class TourCollection extends Resource
         // Số người còn lại của Tour
         $totalNum = 0;
         foreach($this->bookings as $num) {
+            // dd($num);
             $totalNum += $num->NumberPerson;
         } 
         return [
