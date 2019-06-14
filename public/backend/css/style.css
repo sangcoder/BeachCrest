@@ -22270,6 +22270,13 @@ h5 {
   text-shadow: none;
 }
 
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #ececec;
+}
+
 .spinner-container {
   align-items: center;
   display: flex;

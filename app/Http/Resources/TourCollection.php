@@ -19,9 +19,11 @@ class TourCollection extends Resource
     {
         // return parent::toArray($request);
         $promotion = 0;
+        $ExpiredDate = "";
         foreach ( $this->promotions as  $item) {
             if(strtotime($item->pivot->ExpiredDate) > strtotime(Carbon::now())) {
                 $promotion = $item->pivot->Discount;
+                $ExpiredDate = $item->pivot->ExpiredDate;
             } else {
                 $promotion = 0;
             }
@@ -68,6 +70,7 @@ class TourCollection extends Resource
             'Unit' => $this->Unit,
             'ScheduleId' => $this->schedule_id,
             'Discount' => $promotion,
+            'ExpiredDate' => $ExpiredDate,
             'TourExists' => ($this->NumberPerson - $totalNum) >= 0 ? $this->NumberPerson - $totalNum : 0,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),

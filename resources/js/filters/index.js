@@ -5,6 +5,12 @@ export function upText (text) {
   text = text.toString()
   return text.charAt(0).toUpperCase() + text.substr(1)
 }
+export function birthDay (date) {
+  return moment(date).format('DD-MM-YYYY')
+}
+export function calcAge (date) {
+  return moment().diff(date, 'years')
+}
 export function myDate (date) {
   return moment(date).format('YYYY-MM-DD HH:mm:ss')
 }

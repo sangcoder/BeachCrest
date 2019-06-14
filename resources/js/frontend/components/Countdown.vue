@@ -2,20 +2,10 @@
   <div>
       <div v-if="distance !== 0" class="countdown">
        <div class="block">
-        <p class="digit">{{ days | twoDigits}}</p>
-        <p class="text">Days</p>
-    </div>
-    <div class="block">
-        <p class="digit">{{ hours | twoDigits }}</p>
-        <p class="text">Hours</p>
-    </div>
-    <div class="block">
-        <p class="digit">{{ minutes | twoDigits  }}</p>
-        <p class="text">Minutes</p>
-    </div>
-    <div class="block">
-        <p class="digit">{{ seconds | twoDigits }}</p>
-        <p class="text">Seconds</p>
+        <span :class="days === '0' ?  'd-none' :'digit'" >Còn {{ days | twoDigits}} ngày</span>
+        <span class="digit">{{ hours | twoDigits }} :</span>
+        <span class="digit">{{ minutes | twoDigits  }} :</span>
+        <span class="digit">{{ seconds | twoDigits }}</span>
     </div>
   </div>
   <div v-else>
@@ -69,3 +59,16 @@ export default {
   }
 }
 </script>
+<style scoped>
+.countdown {
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+    z-index: 1;
+    border-radius: 0 3px 3px 0;
+    padding: 0px 10px;
+    color: #fff;
+    font-weight: 500;
+    background: orange;
+}
+</style>

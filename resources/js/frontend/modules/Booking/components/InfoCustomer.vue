@@ -1,69 +1,11 @@
 <template>
-  <div class="list-customer">
-    <div class="card info-customer" v-for="(adult, index) in listAdult" :key="index">
-      <div class="card-body fail">
-        <div class="d-md-flex align-items-center">
-          <div>
-            <h4 class="card-title">Khách hàng người lớn #{{index + 1}}</h4>
-          </div>
-        </div>
-      </div>
-      <div class="failure">
-        <b-row>
-          <b-col md="4">
-            <b-form-group class="margin-top" label="Họ và tên">
-              <a-input size="large" placeholder="Họ và tên" v-model="adult.NameCustomner"/>
-            </b-form-group>
-          </b-col>
-          <b-col md="2">
-            <b-form-group class="margin-top" label="Giới tính">
-              <a-radio-group
-                size="large"
-                defaultValue="1"
-                buttonStyle="solid"
-                v-model="adult.Gender"
-              >
-                <a-radio-button value="1">Nam</a-radio-button>
-                <a-radio-button value="0">Nữ</a-radio-button>
-              </a-radio-group>
-            </b-form-group>
-          </b-col>
-          <b-col md="2">
-            <b-form-group class="margin-top" label="Ngày sinh">
-              <a-date-picker
-                size="large"
-                :format=" 'DD/MM/YYYY'"
-                :disabledDate="disabledDate"
-                v-model="adult.BirthDay"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="2">
-            <b-form-group class="margin-top" label="Độ tuổi">
-              <a-select
-                size="large"
-                defaultValue="adult"
-                style="width: 100%"
-                v-model="adult.CustomType"
-              >
-                <a-select-option value="adult">Người lớn</a-select-option>
-              </a-select>
-            </b-form-group>
-          </b-col>
-          <b-col md="2" class="footer-price d-flex align-items-md-center">
-            <b-form-group class="margin-top" label="Trị giá">
-              <span>{{priceAdult | toCurrency}}</span>
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </div>
-    </div>
-    <div v-if="listkid.length > 0">
-      <div class="card info-customer" v-for="(kid ,index) in listkid" :key="index">
+  <div>
+    <div class="list-customer">
+      <div class="card info-customer" v-for="(adult, index) in listAdult" :key="index">
         <div class="card-body fail">
           <div class="d-md-flex align-items-center">
             <div>
-              <h4 class="card-title">Khách hàng trẻ nhỏ #{{NumberAdult + index + 1}}</h4>
+              <h4 class="card-title">Khách hàng người lớn #{{index + 1}}</h4>
             </div>
           </div>
         </div>
@@ -71,7 +13,7 @@
           <b-row>
             <b-col md="4">
               <b-form-group class="margin-top" label="Họ và tên">
-                <a-input size="large" placeholder="Họ và tên" v-model="kid.NameCustomner"/>
+                <a-input size="large" placeholder="Họ và tên" v-model="adult.NameCustomner"/>
               </b-form-group>
             </b-col>
             <b-col md="2">
@@ -80,7 +22,7 @@
                   size="large"
                   defaultValue="1"
                   buttonStyle="solid"
-                  v-model="kid.Gender"
+                  v-model="adult.Gender"
                 >
                   <a-radio-button value="1">Nam</a-radio-button>
                   <a-radio-button value="0">Nữ</a-radio-button>
@@ -91,10 +33,9 @@
               <b-form-group class="margin-top" label="Ngày sinh">
                 <a-date-picker
                   size="large"
-                  v-model="kid.BirthDay"
-                  :disabledDate="disabledDateKid"
-                  :defaultValue="moment('01/01/2000',  'DD/MM/YYYY')"
                   :format=" 'DD/MM/YYYY'"
+                  :disabledDate="disabledDate"
+                  v-model="adult.BirthDay"
                 />
               </b-form-group>
             </b-col>
@@ -102,44 +43,107 @@
               <b-form-group class="margin-top" label="Độ tuổi">
                 <a-select
                   size="large"
-                  defaultValue="kid"
+                  defaultValue="adult"
                   style="width: 100%"
-                  v-model="kid.CustomType"
+                  v-model="adult.CustomType"
                 >
-                  <a-select-option value="kid">Trẻ em</a-select-option>
+                  <a-select-option value="adult">Người lớn</a-select-option>
                 </a-select>
               </b-form-group>
             </b-col>
             <b-col md="2" class="footer-price d-flex align-items-md-center">
               <b-form-group class="margin-top" label="Trị giá">
-                <span>{{priceKid | toCurrency}}</span>
+                <span>{{priceAdult | toCurrency}}</span>
               </b-form-group>
             </b-col>
           </b-row>
         </div>
       </div>
+      <div v-if="listkid.length > 0">
+        <div class="card info-customer" v-for="(kid ,index) in listkid" :key="index">
+          <div class="card-body fail">
+            <div class="d-md-flex align-items-center">
+              <div>
+                <h4 class="card-title">Khách hàng trẻ nhỏ #{{NumberAdult + index + 1}}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="failure">
+            <b-row>
+              <b-col md="4">
+                <b-form-group class="margin-top" label="Họ và tên">
+                  <a-input size="large" placeholder="Họ và tên" v-model="kid.NameCustomner"/>
+                </b-form-group>
+              </b-col>
+              <b-col md="2">
+                <b-form-group class="margin-top" label="Giới tính">
+                  <a-radio-group
+                    size="large"
+                    defaultValue="1"
+                    buttonStyle="solid"
+                    v-model="kid.Gender"
+                  >
+                    <a-radio-button value="1">Nam</a-radio-button>
+                    <a-radio-button value="0">Nữ</a-radio-button>
+                  </a-radio-group>
+                </b-form-group>
+              </b-col>
+              <b-col md="2">
+                <b-form-group class="margin-top" label="Ngày sinh">
+                  <a-date-picker
+                    size="large"
+                    v-model="kid.BirthDay"
+                    :disabledDate="disabledDateKid"
+                    :defaultValue="moment('01/01/2000',  'DD/MM/YYYY')"
+                    :format=" 'DD/MM/YYYY'"
+                  />
+                </b-form-group>
+              </b-col>
+              <b-col md="2">
+                <b-form-group class="margin-top" label="Độ tuổi">
+                  <a-select
+                    size="large"
+                    defaultValue="kid"
+                    style="width: 100%"
+                    v-model="kid.CustomType"
+                  >
+                    <a-select-option value="kid">Trẻ em</a-select-option>
+                  </a-select>
+                </b-form-group>
+              </b-col>
+              <b-col md="2" class="footer-price d-flex align-items-md-center">
+                <b-form-group class="margin-top" label="Trị giá">
+                  <span>{{priceKid | toCurrency}}</span>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </div>
+        </div>
+      </div>
     </div>
+    <div>
+      <b-row>
+        <b-col cols="12">
+          <div class="total-price">
+            <span>Tổng cộng</span>
+            <span class="price-bold">{{calcTotal | toCurrency}}</span>
+          </div>
+        </b-col>
+      </b-row>
 
-    <b-row>
-      <b-col cols="12">
-        <div class="total-price">
-          <span>Tổng cộng</span>
-          <span class="price-bold">{{calcTotal | toCurrency}}</span>
-        </div>
-      </b-col>
-    </b-row>
-        <b-row>
-      <b-col cols="12">
-        <div class="text-center" style="padding: 20px;">
-            <a-button size="large" type="primary" icon="bell" @click="handleBooking">Hoàn tất</a-button>
-        </div>
-      </b-col>
-    </b-row>
+      <b-row>
+        <b-col cols="12">
+          <div class="text-center" style="padding: 20px;">
+            <a-button size="large" type="primary" icon="bell" @click="handleBooking">Gửi yêu cầu</a-button>
+          </div>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 <script>
-import moment from "moment"
-import BookingAPI from '../bookingService'
+import moment from "moment";
+import BookingAPI from "../bookingService";
 export default {
   name: "InfoCustomer",
   props: {
@@ -163,6 +167,15 @@ export default {
       type: Object
     }
   },
+  data() {
+    return {
+      listAdult: [],
+      listkid: [],
+      validation: {
+        errors: {}
+      }
+    };
+  },
   created() {
     this.disabledDateKid();
     if (this.$route.query.numberAdult) {
@@ -170,7 +183,7 @@ export default {
         this.listAdult.push({
           NameCustomner: "",
           Gender: 0,
-          BirthDay: moment("01/01/2006", "DD-MM-YYYY"),
+          BirthDay: moment("01/01/1997", "DD-MM-YYYY"),
           CustomType: "adult"
         });
       }
@@ -180,18 +193,13 @@ export default {
         this.listkid.push({
           NameCustomner: "",
           Gender: 0,
-          BirthDay: moment("01/01/1997", "DD-MM-YYYY"),
+          BirthDay: moment("01/01/2006", "DD-MM-YYYY"),
           CustomType: "kid"
         });
       }
     }
   },
-  data() {
-    return {
-      listAdult: [],
-      listkid: []
-    };
-  },
+
   watch: {
     NumberKid(v) {
       this.listkid = [];
@@ -254,7 +262,7 @@ export default {
       let disableYearKid = today_year - 6;
       let disableMonthKid = 12 - today_month;
       let disableDateKid =
-      this.daysInMonth(today_month, today_year) - today_day;
+        this.daysInMonth(today_month, today_year) - today_day;
       let fullKid = `${disableYearKid}-${disableMonthKid}-${disableDateKid}`;
 
       let disableYear = today_year - 18;
@@ -263,27 +271,34 @@ export default {
       let full = `${disableMonth}-${disableDate}-${disableYear}`;
       // return (new Date(full)) ;
       // console.log(full, fullKid)
-      return current &&  moment(new Date(full)).endOf("day") < current && current > moment(new Date(fullKid)).endOf("day");
+      return (
+        current &&
+        moment(new Date(full)).endOf("day") < current &&
+        current > moment(new Date(fullKid)).endOf("day")
+      );
     },
-    handleBooking () {
+    handleBooking() {
       let payload = {
         TourID: this.$route.query.tour,
         infoContact: this.infoContact,
-        listCustomer: [
-          this.listAdult,
-          this.listkid
-        ]
-      }
+        payment: this.value,
+        listCustomer: [this.listAdult, this.listkid]
+      };
       BookingAPI.addBooking(payload).then(res => {
-        this.$emit('BookingSuccess')
+        this.$emit("BookingSuccess", res.data);
+      }).catch((err) => {
+        if(err.response && err.response.data) {
+          this.validation.errors = err.response.data.errors
+        }
       })
+
     }
   }
 };
 </script>  
 <style scoped>
 .card-body.fail {
-  background: #d06079;
+  background: #2b4c66;
   padding: 6px;
 }
 .card-title {
@@ -318,6 +333,8 @@ export default {
 .price-bold {
   color: #cd2c24;
 }
-@media screen {
+.payment {
+  padding: 17px;
 }
+
 </style>

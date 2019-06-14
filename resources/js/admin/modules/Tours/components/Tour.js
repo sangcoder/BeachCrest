@@ -40,9 +40,9 @@ const columns = [
   //   scopedSlots: { customRender: 'DateBack' }
   // },
   {
-    title: 'Người',
+    title: 'Còn nhận',
     slots: { title: 'customTitle' },
-    dataIndex: 'NumberPerson',
+    dataIndex: 'TourExists',
     sorter: true
   },
   {

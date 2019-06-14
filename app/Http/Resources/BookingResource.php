@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\TourBookingResource;
 use Illuminate\Http\Resources\Json\Resource;
 
 class BookingResource extends Resource
@@ -21,7 +22,8 @@ class BookingResource extends Resource
             'DateBooking' => $this->DateBooking,
             'Note' => $this->Note,
             'State' => $this->State,
-            'byTour' => $this->tour
+            'byTour' => new TourBookingResource($this->tour),
+            'approved_by' => $this->approved_by
         ];
     }
 }

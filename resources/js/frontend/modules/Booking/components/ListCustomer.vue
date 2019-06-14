@@ -101,8 +101,8 @@ export default {
   methods: {
     moment,
     handleSubmit(e) {},
-    BookingSuccess () {
-      this.$emit('BookingSuccess')
+    BookingSuccess (data) {
+      this.$emit('BookingSuccess', data)
     }
   }
 };

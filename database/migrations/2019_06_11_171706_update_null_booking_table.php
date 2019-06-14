@@ -14,7 +14,9 @@ class UpdateNullBookingTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->string('Note')->nullable->change();
+            $table->string('Note')->nullable()->change();
+            // $table->bigInteger('approved_by')->nullable();
+            // $table->string('Note')->nullable->change();
             // $table->string('PhoneNumber')->nullable();
             // $table->date('Birthday')->nullable()->change();
             // $table->boolean('delegatePerson')->default(false);
@@ -29,6 +31,14 @@ class UpdateNullBookingTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('bookings', function (Blueprint $table) {
+            $table->string('Note')->nullable()->change();
+            // $table->bigInteger('approved_by')->nullable();
+            // $table->string('Note')->nullable->change();
+            // $table->string('PhoneNumber')->nullable();
+            // $table->date('Birthday')->nullable()->change();
+            // $table->boolean('delegatePerson')->default(false);
+            // $table->string('Email')->nullable();
+        });
     }
 }

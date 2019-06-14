@@ -3,7 +3,6 @@ import './bootstrap'
 import Vue from 'vue'
 
 import Antd from 'ant-design-vue'
-import wysiwyg from 'vue-wysiwyg'
 import BootstrapVue from 'bootstrap-vue'
 import Vuelidate from 'vuelidate'
 import 'ant-design-vue/dist/antd.css'
@@ -28,14 +27,6 @@ Vue.use(Antd)
 Vue.use(BootstrapVue)
 Vue.use(Vuelidate)
 
-// Editor
-Vue.use(wysiwyg, {
-  image: {
-    uploadURL: '/api/uploadImage'
-  },
-  maxHeight: '500px',
-  forcePlainTextOnPaste: true
-})
 // Global ulti
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

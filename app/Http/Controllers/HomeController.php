@@ -37,8 +37,13 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $user = User::find(6);
-        dd($user->roles);
+        $bk = Booking::find(18);
+        dd($bk->tour->TourName);
+        // $infoCotact = $bk->customers()->where('delegatePerson', '=', 1);
+        // $listCustomer = $bk->customers()->where('delegatePerson', '<>', 1);
+        dd($listCustomer->get());
+        // $user = User::find(6);
+        // dd($user->roles);
         // dd($user->roles()->detach(2));
         // $schedule = Schedule::find(51);
         // dd($schedule->tours);

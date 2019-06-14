@@ -18,15 +18,15 @@
       <div class="booking-body">
         <b-row class="mb-2">
           <b-col cols="6">Ngày khởi hành</b-col>
-          <b-col cols="6">22/06/2019</b-col>
+          <b-col cols="6">{{DateDeparture}}</b-col>
         </b-row>
         <b-row class="mb-2">
           <b-col cols="6">Ngày kết thúc</b-col>
-          <b-col cols="6">23/06/2019</b-col>
+          <b-col cols="6">{{DateBack}}</b-col>
         </b-row>
         <b-row class="mb-2">
           <b-col cols="6">Thời gian</b-col>
-          <b-col cols="6">3 ngày 2 đếm</b-col>
+          <b-col cols="6">{{TourTime}}</b-col>
         </b-row>
         <b-row class="mb-2">
           <b-col cols="6">Số chổ còn lại</b-col>
@@ -79,7 +79,10 @@ export default {
       default: false,
       type: Boolean
     },
-    maxPerson: Number
+    maxPerson: Number,
+    TourTime : String,
+    DateDeparture: String,
+    DateBack: String
   },
   components: {
     SkeletonBox

@@ -19,8 +19,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $booking = Booking::all();
-        return BookingResource::Collection($booking);
+        $booking = (new Booking)->newQuery();
+
+        return BookingResource::Collection($booking->paginate(10));
     }
 
     /**
@@ -50,9 +51,16 @@ class BookingController extends Controller
      * @param  \App\Model\Booking  $booking
      * @return \Illuminate\Http\Response
      */
-    public function show(Booking $booking)
+    public function show(Booking $booking, Request $request)
     {
-        //
+        if ($request->exists('delegate')) {
+            $delegate = $booking->customers()->where('delegatePerson', '=', 1)->get();
+            return $delegate;
+        }
+        else {
+            $delegate = $booking->customers()->where('delegatePerson', '!=', 1)->get();
+            return $delegate;
+        }
     }
 
     /**
@@ -107,7 +115,7 @@ class BookingController extends Controller
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
                 'errors' => $validator->errors() 
-            ]);
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         // dd('pass');
         // Tính tổng số người
@@ -149,7 +157,7 @@ class BookingController extends Controller
                     'Gender' => $list['Gender'],
                     'Birthday' => $list['BirthDay'],
                     'Address' => $request->infoContact['Address'],
-                    'CustomerType' => $list['CustomType'] == 'adult' ? 0 : 1,
+                    'CustomerType' => $list['CustomType'] == 'adult' ? 1 : 0,
                     'booking_id' => $booking->BookingID,
                     'state' => 0
                 ]);
@@ -157,10 +165,22 @@ class BookingController extends Controller
             }
         }
         // dd($request->all());
+        $bk = Booking::find($booking->BookingID);
+        $infoCotact = $bk->customers()->where('delegatePerson', '=', 1)->get();
+        $listCustomer = $bk->customers()->where('delegatePerson', '<>', 1)->get();
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $booking,
-            'listCustomer' => $booking->customers
+            'infoContact' => $infoCotact,
+            'listCustomer' => $listCustomer,
+            'infoBooking' => [
+                'BookingID' => $booking->BookingID,
+                'NumberPerson' => $booking->NumberPerson,
+                'DateBooking' => $booking->DateBooking,
+                'Note' => $booking->Note,
+                'user_id' => $booking->user_id,
+                'tour' => $booking->tour->TourName
+            ]
+            // 'listCustomer' => $booking->customers
         ]);
     }
 }

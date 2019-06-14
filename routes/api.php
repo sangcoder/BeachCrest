@@ -82,6 +82,7 @@ Route::group([
     // Booking
     Route::get('booking', 'BookingController@index');
     Route::post('booking/addNewBooking', 'BookingController@Booking');
+    Route::get('booking/{booking}', 'BookingController@show');
 
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');

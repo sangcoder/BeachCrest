@@ -20,9 +20,11 @@ class TourResource extends JsonResource
     public function toArray($request)
     {
         $promotion = 0;
+       
         foreach ( $this->promotions as  $item) {
             if(strtotime($item->pivot->ExpiredDate) > strtotime(Carbon::now())) {
                 $promotion = $item->pivot->Discount;
+
             } else {
                 $promotion = 0;
             }

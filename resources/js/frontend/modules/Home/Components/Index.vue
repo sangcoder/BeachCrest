@@ -29,6 +29,7 @@
                   </a>
                   <div v-if="tour.TourExists > 0" class="tour__tag bestseller green">Còn nhận {{tour.TourExists}}</div>
                   <div v-else class="tour__tag bestseller blue">Hết chổ</div>
+                  <count-down v-if="tour.ExpiredDate.length > 0" :date="tour.ExpiredDate"></count-down>
                   <!-- <div :class="tour.TourExists > 0 ? 'tour__tag bestseller' : 'd-none'">{{tour.TourExistss > 0 ? tour.TourExistss : 'Hết chổ'}}</div> -->
                 </div>
               </template>
@@ -66,7 +67,7 @@
       </div>
     </section>
     <list-destination />
-<count-down :date="'2019-06-11 23:45:21'"></count-down>
+
   </div>
 </template>
 <script>

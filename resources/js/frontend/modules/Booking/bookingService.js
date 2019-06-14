@@ -7,5 +7,11 @@ export default {
   },
   addBooking (payload) {
     return Axios.post(APP_CONFIG.API_URL + '/booking/addNewBooking', payload)
+  },
+  bookingPaypal (params) {
+    return Axios.get(APP_CONFIG.URL_APP + '/checkout/paypal', {params})
+  },
+  checkOutPaypal (data) {
+    return Axios.post(APP_CONFIG.URL_APP + '/checkout-paypal', data)
   }
 }

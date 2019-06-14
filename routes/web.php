@@ -18,6 +18,14 @@ use Maatwebsite\Excel\Facades\Excel;
 Route::get('/redirect/facebook', 'SocialAuthController@redirectFacebook');
 Route::get('/redirect/facebook/callback', 'SocialAuthController@callbackFacebook');
 
+// Check out paypal
+Route::get('checkout/paypal', 'PaypalController@index');
+Route::get('paypal/status', 'PayPalTestController@status');
+Route::get('paypal/payment/list', 'PayPalTestController@paymentList');
+Route::get('paypal/payment/detail', 'PayPalTestController@paymentDetail');
+Route::post('checkout-paypal', 'PaypalController@checkoutPaypal');
+
+
 
 Route::get('/client', function () {
     return view('home');

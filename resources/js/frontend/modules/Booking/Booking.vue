@@ -42,6 +42,7 @@
         </style>
             <![endif]-->
 
+
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
               <circle
                 class="path circle"
@@ -64,8 +65,72 @@
               ></polyline>
             </svg>
             <p class="success">Quý khách đã gửi yêu cầu đặt tour thành công!</p>
-            
           </div>
+          <b-row class="mt-2">
+            <b-col md="12" class="payment">
+              <h4>HÌNH THỨC THANH TOÁN</h4>
+              <a-radio-group v-model="value">
+                <a-radio :style="radioStyle" :value="1">Thanh toán tại tại văn phòng</a-radio>
+                <a-radio :style="radioStyle" :value="2">Thanh toán thông qua Paypal</a-radio>
+              </a-radio-group>
+              <div>
+                <a-button type="primary" icon="smile" @click="paypalBooking">Thanh toán</a-button>
+                <!-- <paypal-checkout :amount="amount"></paypal-checkout> -->
+                <PayPal
+                  amount="10.00"
+                  currency="USD"
+                  :client="credentials"
+                  :items="myItems"
+                  env="sandbox"
+                  @payment-authorized="paymentAuthorized"
+                  @payment-completed="paymentCompleted"
+                ></PayPal>
+              </div>
+            </b-col>
+
+            <b-col md="12" class="info">
+              <p>THÔNG TIN BÊN BEACH CREST ĐÃ GHI NHẬN</p>
+              <h4>Thông tin người đại diện</h4>
+              <table v-if="dataBooking.infoContact" class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên người đại diện</th>
+                    <th>Địa chỉ</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                  </tr>
+                  <tr></tr>
+                  <tr>
+                    <td>{{dataBooking.infoContact[0].CustomerID}}</td>
+                    <td>{{dataBooking.infoContact[0].CustomerName}}</td>
+                    <td>{{dataBooking.infoContact[0].Address}}</td>
+                    <td>{{dataBooking.infoContact[0].Email}}</td>
+                    <td>{{dataBooking.infoContact[0].PhoneNumber}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h4 class="card-title">Danh sách khách tham gia Tour</h4>
+              <table v-if="dataBooking.listCustomer" class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên khách hàng</th>
+                    <th>Ngày sinh</th>
+                    <th>Giới tính</th>
+                    <th>Loại khách</th>
+                  </tr>
+                  <tr v-for="customer in dataBooking.listCustomer" :key="customer.CustomerID">
+                    <td>{{customer.CustomerID}}</td>
+                    <td>{{customer.CustomerName}}</td>
+                    <td>{{customer.Birthday | birthDay}}- {{customer.Birthday | calcAge}}</td>
+                    <td>{{customer.Gender === 0 ? 'Nữ' : 'Nam'}}</td>
+                    <td>{{customer.CustomerType === 0 ? 'Người lớn' : 'Trẻ em'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </b-col>
+          </b-row>
         </div>
       </div>
     </div>
@@ -76,20 +141,55 @@
 import Loading from "../../components/Loading";
 import VerticalTour from "./components/VerticalTour";
 import ListCustomer from "./components/ListCustomer";
+// import PaypalCheckout from './components/Paypal'
+import PayPal from "vue-paypal-checkout";
+
 import TourAPI from "./bookingService";
+
 export default {
   components: {
     Loading,
     VerticalTour,
-    ListCustomer
+    ListCustomer,
+    // PaypalCheckout,
+    PayPal
   },
   data() {
     return {
+      credentials: {
+        sandbox:
+          "AQvKshlWsrIkgNGV4wmSTBWiuIaspbylerlvlk20XEW8FSnPQ9UmZMkuMUXHaxPtAe0wrGFaOGDpsniD",
+        production: "<production client id>"
+      },
+      myItems: [
+        {
+          name: "hat",
+          description: "Brown hat.",
+          quantity: "1",
+          price: "5",
+          currency: "USD"
+        },
+        {
+          name: "handbag",
+          description: "Black handbag.",
+          quantity: "1",
+          price: "5",
+          currency: "USD"
+        }
+      ],
       isloading: false,
       user: null,
       empty: false,
       current: 1,
-      tourInfo: {}
+      value: 1,
+      amount: 10,
+      tourInfo: {},
+      radioStyle: {
+        display: "block",
+        height: "30px",
+        lineHeight: "30px"
+      },
+      dataBooking: []
     };
   },
   created() {
@@ -105,6 +205,7 @@ export default {
       }
     }
   },
+  computed: {},
   methods: {
     fetchTourId(id) {
       this.isloading = true;
@@ -116,13 +217,44 @@ export default {
         this.isloading = false;
       });
     },
-    BookingSuccess () {
-      this.current = 2
+    BookingSuccess(data) {
+      this.current = 2;
+      this.dataBooking = data;
+    },
+    paypalBooking() {
+      let infoBooking = {
+        BookingID: this.dataBooking.infoBooking.BookingID
+      };
+      TourAPI.bookingPaypal(infoBooking).then(res => {
+        console.log("test" + res.data);
+        window.location = res.data;
+      });
+    },
+    paymentAuthorized: function(data) {
+      console.log('vaoooooo')
+      console.log(data);
+    },
+    paymentCompleted: function(data) {
+      console.log(data);
+    },
+    paymentCancelled: function(data) {
+      console.log(data);
     }
   }
 };
 </script>
 <style scoped>
+table {
+  background-color: #fff;
+}
+table th {
+  background-color: #2b4c66;
+  color: #fff;
+}
+.table th,
+.table td {
+  font-size: 15px;
+}
 .steps-content {
   margin-top: 16px;
   border: 1px dashed #e9e9e9;
@@ -159,7 +291,7 @@ svg {
 }
 p {
   text-align: center;
-  margin: 20px 0 60px;
+  margin: 20px;
   font-size: 1.25em;
 }
 p.success {

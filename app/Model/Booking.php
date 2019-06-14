@@ -8,7 +8,7 @@ class Booking extends Model
 {
     protected $primaryKey = "BookingID";
     protected $fillable = [
-        'NumberPerson', 'DateBooking', 'Note', 'State', 'tour_id', 'user_id'
+        'NumberPerson', 'DateBooking', 'Note', 'State', 'tour_id', 'user_id', 'approved_by'
     ];
     public $timestamps = true;
     //

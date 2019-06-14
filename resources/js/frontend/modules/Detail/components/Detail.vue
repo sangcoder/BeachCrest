@@ -27,7 +27,14 @@
             :price-tour="dataTour.OnsaleAdult"
             :price-kid="dataTour.OnsaleKid"
           ></box-booking>
-          <box-booking v-else :max-person="dataTour.TourExists" :price-tour="dataTour.OnsaleAdult" :price-kid="dataTour.OnsaleKid"></box-booking>
+          <box-booking v-else 
+          :max-person="dataTour.TourExists" 
+          :price-tour="dataTour.OnsaleAdult" 
+          :price-kid="dataTour.OnsaleKid"
+          :tour-time="dataTour.TourTime"
+          :date-departure="dataTour.DateDeparture"
+          :date-back="dataTour.DateBack"
+          ></box-booking>
           <list-promotion
             :title-promotion="'Tour có khuyến mãi'"
             :list-promotion="listPromotion"
