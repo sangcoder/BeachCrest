@@ -260,45 +260,56 @@ class TourController extends Controller
             $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
             // dd($tour->get());
         }
-        if ($request->exists('diemden') && $request->diemden != -1 && isset($request->dateDeparture[0])) {
-            $place = Place::find($request->diemden);
-            $arrayTour = array();
-            // dd($place->scenicCultures);
-            foreach($place->scenicCultures as $scenic) {
-                // array_push($arrayScenic, $scenic->tours->TourID);
-                foreach ($scenic->tours as $t) {
-                    array_push($arrayTour, $t);
-                }
-            }
-            // dd($arrayTour);
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $itemCollection = collect($arrayTour);
-            $itemCollectionfilter =  $itemCollection->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
-            $perPage = 10;
-            $currentPageItems = $itemCollectionfilter->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
-            $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollectionfilter), $perPage);
-            $paginatedItems->setPath($request->url());
 
-            // $meta = new stdClass();
-            // $meta->total = 10;
-            
-            $tour = TourCollection::collection($paginatedItems);
-            // $tour->resource->meta = $countTotal;
-            // dd($tour);
-        } else {
+        if ($request->exists('diemden') && $request->diemden != -1) {
+            // dd('vao');
             if (isset($request->dateDeparture[0])) {
-                $tourFind = $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
-                // dd($tourFind);
+                $place = Place::find($request->diemden);
+                $arrayTour = array();
+                // dd($place->scenicCultures);
+                foreach($place->scenicCultures as $scenic) {
+                    // array_push($arrayScenic, $scenic->tours->TourID);
+                    foreach ($scenic->tours as $t) {
+                        array_push($arrayTour, $t);
+                    }
+                }
+                // dd($arrayTour);
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
-                $itemCollection = collect($tourFind->get());
+                $itemCollection = collect($arrayTour);
+                $itemCollectionfilter =  $itemCollection->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+                $perPage = 10;
+                $currentPageItems = $itemCollectionfilter->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+                $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollectionfilter), $perPage);
+                $paginatedItems->setPath($request->url());
+    
+                // $meta = new stdClass();
+                // $meta->total = 10;
+                
+                $tour = TourCollection::collection($paginatedItems);
+                // $tour->resource->meta = $countTotal;
+                // dd($tour);
+            } else {
+                $place = Place::find($request->diemden);
+                $arrayTour = array();
+                foreach($place->scenicCultures as $scenic) {
+                    foreach ($scenic->tours as $t) {
+                        array_push($arrayTour, $t);
+                    }
+                }
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $itemCollection = collect($arrayTour);
                 $perPage = 10;
                 $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
                 $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
                 $paginatedItems->setPath($request->url());
+    
+                
                 $tour = TourCollection::collection($paginatedItems);
-            } else {
-                $tour = TourCollection::collection($tour->paginate(10));
             }
+            
+        } else {
+            // dd('vao');
+                $tour = TourCollection::collection($tour->paginate(10));
         }
         if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
             $tour = TourCollection::collection($tour->paginate(10));

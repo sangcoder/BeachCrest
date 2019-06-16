@@ -83,7 +83,7 @@ Route::group([
     Route::get('booking', 'BookingController@index');
     Route::post('booking/addNewBooking', 'BookingController@Booking');
     Route::get('booking/{booking}', 'BookingController@show');
-
+    Route::post('booking/acceptPaypal', 'BookingController@addPaymentPaypals');
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai

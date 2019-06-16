@@ -22,7 +22,7 @@ class ReviewSource extends Resource
         } else {
           $isFalse = false;
         }
-        
+        // dd( $this->users);
         return [
             'ReviewID' => $this->ReviewID,
             'Rating' => $this->Rating,
@@ -31,9 +31,9 @@ class ReviewSource extends Resource
             'created_at' => $this->created_at,
             'ApproveBy' => isset($this->approve_by) ? $userName: $isFalse,
             'user' => [
-                'id' => $this->users->id,
-                'name' => $this->users->name,
-                'photo' => $this->users->photo  
+                'id' => $this->users['id'],
+                'name' => $this->users['name'],
+                'photo' => $this->users['photo']  
             ],
             'tour' => [
                 'TourID' => $this->tours->TourID,

@@ -15,11 +15,14 @@ class UpdateTablePaymnetMethod extends Migration
      */
     public function up()
     {
-        if (!Type::hasType('double')) {
-            Type::addType('double', FloatType::class);
-    }
+    //     if (!Type::hasType('double')) {
+    //         Type::addType('double', FloatType::class);
+    // }
+    //     SChema::table('payment', function (Blueprint $table) {
+    //         $table->double('PaymentAmount',12, 2)->change();
+    //     });
         SChema::table('payment', function (Blueprint $table) {
-            $table->double('PaymentAmount',12, 2)->change();
+            $table->string('PaypalPaymentID')->nullable()->change();
         });
     }
 
@@ -30,11 +33,14 @@ class UpdateTablePaymnetMethod extends Migration
      */
     public function down()
     {
-        if (!Type::hasType('double')) {
-            Type::addType('double', FloatType::class);
-    }
-        SChema::table('payment', function (Blueprint $table) {
-            $table->double('PaymentAmount',12, 2)->change();
-        });
+    //     if (!Type::hasType('double')) {
+    //         Type::addType('double', FloatType::class);
+    // }
+    //     SChema::table('payment', function (Blueprint $table) {
+    //         $table->double('PaymentAmount',12, 2)->change();
+    //     });
+    SChema::table('payment', function (Blueprint $table) {
+        $table->string('PaypalPaymentID')->nullable();
+    });
     }
 }

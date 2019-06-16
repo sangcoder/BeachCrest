@@ -59,7 +59,9 @@
           </b-col>
         </b-row>
         <b-form-group>
-          <a-button size="large" type="primary" @click="toBooking" block>Đặt ngay</a-button>
+          <a-button v-if="maxPerson > 0" size="large" type="primary" @click="toBooking" block>Đặt ngay</a-button>
+          <a-button v-else size="large" type="primary" block disabled>Đặt ngay</a-button>
+
         </b-form-group>
       </div>
     </div>

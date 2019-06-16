@@ -41,6 +41,8 @@
           .path {stroke-dasharray: 0 !important;}
         </style>
             <![endif]-->
+
+
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
               <circle
                 class="path circle"
@@ -64,15 +66,21 @@
             </svg>
             <p class="success">Quý khách đã gửi yêu cầu đặt tour thành công!</p>
           </div>
-          <b-row class="mt-2">
-            <b-col md="12" class="payment">
-              <h4>HÌNH THỨC THANH TOÁN</h4>
+          <b-row class="mt-5">
+            <b-col md="4" class="payment">
+              <h4 class="card-title">HÌNH THỨC THANH TOÁN</h4>
               <a-radio-group v-model="value">
                 <a-radio :style="radioStyle" :value="1">Thanh toán tại tại văn phòng</a-radio>
                 <a-radio :style="radioStyle" :value="2">Thanh toán thông qua Paypal</a-radio>
               </a-radio-group>
               <div>
-                <a-button v-if="value === 1" type="primary" icon="smile" @click="paypalBooking">Thanh toán</a-button>
+                <a-button
+                  v-if="value === 1"
+                  type="primary"
+                  icon="smile"
+                  @click="OfflineBooking"
+                  block
+                >Xác nhận</a-button>
                 <!-- <paypal-checkout :amount="amount"></paypal-checkout> -->
                 <div v-if="dataBooking.TotalAmount && value === 2">
                   <PayPal
@@ -81,7 +89,7 @@
                     description="Tour mới"
                     :client="credentials"
                     :items="dataBooking.listPaypal"
-                     :button-style="myStyle"
+                    :button-style="myStyle"
                     env="sandbox"
                     @payment-authorized="paymentAuthorized"
                     @payment-completed="paymentCompleted"
@@ -89,10 +97,48 @@
                 </div>
               </div>
             </b-col>
+            <b-col md="8">
+              <div class="alert-success" v-if="dataBooking.TotalAmount && value === 1">
+                <p>
+                  Bạn chọn thanh toán bằng tại
+                  <strong>văn phòng của Công ty</strong>.
+                </p>
+                <p>
+                  Quý khách vui lòng mang tiền mặt đến văn phòng của công ty để thanh toán trước 1 ngày Tour khởi hành
+                  để giao dịch được hoàn tất.
+                </p>
+                <p class="price-Amount">
+                  Tổng tiền phải trả là:
+                  <span>{{dataBooking.AmountVND | toCurrency}}</span>
+                </p>
 
+                <p>Cảm ơn quý khách đã tin dùng dịch vụ của Công ty.</p>
+              </div>
+              <div class="alert-success" v-if="dataBooking.TotalAmount && value === 2">
+                <p>
+                  Bạn chọn thanh toán bằng tại
+                  <strong>thông qua cổng giao dịch điện tử Paypal</strong>.
+                </p>
+                <p>
+                  Paypal chưa cho phép thanh toán bằng VND, nên số tiền của quý khách sẽ được chuyển đổi
+                  thành USD để việc thanh toán tiếp tục.
+                </p>
+                <p>
+                  Tỷ giá hiện tại được lấy từ VietCombank là:
+                  <strong>{{dataBooking.RateList.Rate | toCurrency}}</strong>, được cập nhật vào lúc
+                  <strong>{{dataBooking.RateList.DateUpdate}}</strong>
+                </p>
+                <p class="price-Amount">
+                  Tổng tiền phải trả là:
+                  <span>{{dataBooking.AmountVND | toCurrency}}</span>
+                  <a-icon type="swap"/>
+                  <span>{{dataBooking.TotalAmount | toCurrencyUSD}}</span>
+                </p>
+                <p>Cảm ơn quý khách đã tin dùng dịch vụ của Công ty.</p>
+              </div>
+            </b-col>
             <b-col md="12" class="info">
-              <p>THÔNG TIN BÊN BEACH CREST ĐÃ GHI NHẬN</p>
-              <h4>Thông tin người đại diện</h4>
+              <h4 class="card-title">Thông tin người đại diện</h4>
               <table v-if="dataBooking.infoContact" class="table table-striped">
                 <tbody>
                   <tr>
@@ -104,11 +150,11 @@
                   </tr>
                   <tr></tr>
                   <tr>
-                    <td>{{dataBooking.infoContact[0].CustomerID}}</td>
-                    <td>{{dataBooking.infoContact[0].CustomerName}}</td>
-                    <td>{{dataBooking.infoContact[0].Address}}</td>
-                    <td>{{dataBooking.infoContact[0].Email}}</td>
-                    <td>{{dataBooking.infoContact[0].PhoneNumber}}</td>
+                    <td>{{dataBooking.infoContact.CustomerID}}</td>
+                    <td>{{dataBooking.infoContact.CustomerName}}</td>
+                    <td>{{dataBooking.infoContact.Address}}</td>
+                    <td>{{dataBooking.infoContact.Email}}</td>
+                    <td>{{dataBooking.infoContact.PhoneNumber}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -125,7 +171,7 @@
                   <tr v-for="customer in dataBooking.listCustomer" :key="customer.CustomerID">
                     <td>{{customer.CustomerID}}</td>
                     <td>{{customer.CustomerName}}</td>
-                    <td>{{customer.Birthday | birthDay}}- {{customer.Birthday | calcAge}}</td>
+                    <td>{{customer.Birthday | birthDay}} - {{customer.Birthday | calcAge}} tuổi</td>
                     <td>{{customer.Gender === 0 ? 'Nữ' : 'Nam'}}</td>
                     <td>{{customer.CustomerType === 1 ? 'Người lớn' : 'Trẻ em'}}</td>
                   </tr>
@@ -147,6 +193,7 @@ import ListCustomer from "./components/ListCustomer";
 import PayPal from "vue-paypal-checkout";
 
 import TourAPI from "./bookingService";
+import bookingService from './bookingService';
 
 export default {
   components: {
@@ -168,7 +215,6 @@ export default {
       empty: false,
       current: 1,
       value: 1,
-      amount: 10,
       tourInfo: {},
       radioStyle: {
         display: "block",
@@ -213,21 +259,31 @@ export default {
       this.current = 2;
       this.dataBooking = data;
     },
-    paypalBooking() {
-      let infoBooking = {
-        BookingID: this.dataBooking.infoBooking.BookingID
-      };
-      TourAPI.bookingPaypal(infoBooking).then(res => {
-        console.log("test" + res.data);
-        window.location = res.data;
-      });
-    },
+    OfflineBooking() {},
+    // paypalBooking() {
+    //   let infoBooking = {
+    //     BookingID: this.dataBooking.infoBooking.BookingID
+    //   };
+    //   TourAPI.bookingPaypal(infoBooking).then(res => {
+    //     window.location = res.data;
+    //   });
+    // },
     paymentAuthorized: function(data) {
-      console.log("vaoooooo");
-      console.log(data);
+      // console.log(data);
+      console.log('Xác thực thành công...')
     },
     paymentCompleted: function(data) {
-      console.log(data);
+      // console.log(data);
+        let payload = {
+          'BookingID': this.dataBooking.infoBooking.BookingID,
+          'PaymentPaypalID': data.id
+        }
+      console.log('vao day')
+      if(data.state === 'approved') {
+        bookingService.acceptedPaypal(payload).then(res => {
+          console.log('thanh cong')
+        })
+      }
     },
     paymentCancelled: function(data) {
       console.log(data);
@@ -247,6 +303,23 @@ table th {
 .table td {
   font-size: 15px;
 }
+h4.card-title {
+  background: #73af55;
+  margin-left: -10px;
+  color: #fff;
+  padding: 5px;
+  display: inline-block;
+}
+.price-Amount span {
+  font-size: 24px;
+  font-weight: 500;
+}
+.alert-success {
+  padding: 20px;
+}
+.alert-success p {
+  font-size: 15px;
+}
 .steps-content {
   margin-top: 16px;
   border: 1px dashed #e9e9e9;
@@ -254,6 +327,9 @@ table th {
   background-color: #fafafa;
   min-height: 200px;
   padding: 12px;
+}
+div.success {
+  margin-bottom: 2rem;
 }
 .card-title {
   margin-top: 10px;
@@ -281,7 +357,7 @@ svg {
   -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
   animation: dash-check 0.9s 0.35s ease-in-out forwards;
 }
-p {
+p.success {
   text-align: center;
   margin: 20px;
   font-size: 1.25em;

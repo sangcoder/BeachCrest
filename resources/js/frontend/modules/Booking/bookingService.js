@@ -13,5 +13,8 @@ export default {
   },
   checkOutPaypal (data) {
     return Axios.post(APP_CONFIG.URL_APP + '/checkout-paypal', data)
+  },
+  acceptedPaypal (data) {
+    return Axios.post(APP_CONFIG.API_URL + '/booking/acceptPaypal', data)
   }
 }

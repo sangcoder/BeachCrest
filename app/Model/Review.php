@@ -17,6 +17,6 @@ class Review extends Model
         return $this->belongsTo(Tour::class, 'tour_id');
     }
     public function users() {
-        return $this->belongsTO(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

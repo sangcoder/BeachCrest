@@ -12,8 +12,13 @@
               <router-link :to="{ name: 'Profile' }">
                 Thông tin cá nhân
               </router-link>
+              <a-menu-item key="2">
+              <router-link :to="{ name: 'ChangePassword' }">
+                Danh sách booking
+              </router-link>
             </a-menu-item>
-            <a-menu-item key="2">
+            </a-menu-item>
+            <a-menu-item key="3">
               <router-link :to="{ name: 'ChangePassword' }">
                 Đổi mật khẩu
               </router-link>

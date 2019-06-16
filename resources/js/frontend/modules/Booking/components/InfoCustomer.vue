@@ -2,7 +2,10 @@
   <div>
     <div class="list-customer">
       <div class="card info-customer" v-for="(adult, index) in listAdult" :key="index">
-        <div class="card-body fail">
+        <div
+          class="card-body fail"
+          
+        >
           <div class="d-md-flex align-items-center">
             <div>
               <h4 class="card-title">Khách hàng người lớn #{{index + 1}}</h4>
@@ -12,8 +15,12 @@
         <div class="failure">
           <b-row>
             <b-col md="4">
-              <b-form-group class="margin-top" label="Họ và tên">
+              <b-form-group class="margin-top" label="Họ và tên" :class="validation.errors[`listCustomer.0.${index}.NameCustomner`] ? 'has-error' : ''">
                 <a-input size="large" placeholder="Họ và tên" v-model="adult.NameCustomner"/>
+                <div
+                  v-if="validation.errors[`listCustomer.0.${index}.NameCustomner`]"
+                  class="invalid-feedback d-block"
+                >{{validation.errors[`listCustomer.0.${index}.NameCustomner`][0]}}</div>
               </b-form-group>
             </b-col>
             <b-col md="2">
@@ -27,6 +34,10 @@
                   <a-radio-button value="1">Nam</a-radio-button>
                   <a-radio-button value="0">Nữ</a-radio-button>
                 </a-radio-group>
+                <div
+                  v-if="validation.errors[`listCustomer.0.${index}.Gender`]"
+                  class="invalid-feedback d-block"
+                >{{validation.errors[`listCustomer.0.${index}.Gender`][0]}}</div>
               </b-form-group>
             </b-col>
             <b-col md="2">
@@ -71,8 +82,12 @@
           <div class="failure">
             <b-row>
               <b-col md="4">
-                <b-form-group class="margin-top" label="Họ và tên">
+                <b-form-group class="margin-top" label="Họ và tên" :class="validation.errors[`listCustomer.1.${index}.NameCustomner`] ? 'has-error' : ''">
                   <a-input size="large" placeholder="Họ và tên" v-model="kid.NameCustomner"/>
+                  <div
+                    v-if="validation.errors[`listCustomer.1.${index}.NameCustomner`]"
+                    class="invalid-feedback d-block"
+                  >{{validation.errors[`listCustomer.1.${index}.NameCustomner`][0]}}</div>
                 </b-form-group>
               </b-col>
               <b-col md="2">
@@ -86,6 +101,10 @@
                     <a-radio-button value="1">Nam</a-radio-button>
                     <a-radio-button value="0">Nữ</a-radio-button>
                   </a-radio-group>
+                  <div
+                    v-if="validation.errors[`listCustomer.1.${index}.Gender`]"
+                    class="invalid-feedback d-block"
+                  >{{validation.errors[`listCustomer.1.${index}.Gender`][0]}}</div>
                 </b-form-group>
               </b-col>
               <b-col md="2">
@@ -139,7 +158,7 @@
         </b-col>
       </b-row>
     </div>
-  <loading :loading="isloading"/>
+    <loading :loading="isloading"/>
   </div>
 </template>
 <script>
@@ -189,8 +208,9 @@ export default {
       for (let i = 0; i < parseInt(this.$route.query.numberAdult); i++) {
         this.listAdult.push({
           NameCustomner: "",
-          Gender: 0,
-          BirthDay: moment("01/01/1997", "DD-MM-YYYY"),
+          Gender: null,
+          BirthDay: moment(this.dateAdult, "DD-MM-YYYY"),
+          BirthDayFomat: "",
           CustomType: "adult"
         });
       }
@@ -199,8 +219,9 @@ export default {
       for (let i = 0; i < parseInt(this.$route.query.numberKid); i++) {
         this.listkid.push({
           NameCustomner: "",
-          Gender: 0,
-          BirthDay: moment("01/01/2006", "DD-MM-YYYY"),
+          Gender: null,
+          BirthDay: moment(this.dateKid, "DD-MM-YYYY"),
+          BirthDayFomat: "",
           CustomType: "kid"
         });
       }
@@ -213,8 +234,9 @@ export default {
       for (let i = 0; i < v; i++) {
         this.listkid.push({
           NameCustomner: "",
-          Gender: 0,
-          BirthDay: moment("01/01/2006", "DD-MM-YYYY"),
+          Gender: null,
+          BirthDay: moment(this.dateKid, "DD-MM-YYYY"),
+          BirthDayFomat: "",
           CustomType: "kid"
         });
       }
@@ -224,8 +246,9 @@ export default {
       for (let i = 0; i < v; i++) {
         this.listAdult.push({
           NameCustomner: "",
-          Gender: 0,
-          BirthDay: moment("01/01/1997", "DD-MM-YYYY"),
+          Gender: null,
+          BirthDay: moment(this.dateAdult, "DD-MM-YYYY"),
+          BirthDayFomat: "",
           CustomType: "adult"
         });
       }
@@ -236,6 +259,28 @@ export default {
       return (
         this.NumberKid * this.priceKid + this.priceAdult * this.NumberAdult
       );
+    },
+    dateAdult() {
+      let today_date = new Date();
+      let today_year = today_date.getFullYear();
+      let today_month = today_date.getMonth() + 1;
+      let today_day = today_date.getDate();
+      let disableYear = today_year - 15;
+      let disableMonth = 12 - today_month;
+      let disableDate = this.daysInMonth(today_month, today_year) - today_day;
+      let full = `${disableDate}-${disableMonth}-${disableYear}`;
+      return full;
+    },
+    dateKid() {
+      let today_date = new Date();
+      let today_year = today_date.getFullYear();
+      let today_month = today_date.getMonth() + 1;
+      let today_day = today_date.getDate();
+      let disableYear = today_year - 12;
+      let disableMonth = 12 - today_month;
+      let disableDate = this.daysInMonth(today_month, today_year) - today_day;
+      let full = `${disableDate}-${disableMonth}-${disableYear}`;
+      return full;
     }
   },
   methods: {
@@ -248,12 +293,13 @@ export default {
     daysInMonth(month, year) {
       return new Date(year, month, 0).getDate();
     },
+
     disabledDate(current) {
       let today_date = new Date();
       let today_year = today_date.getFullYear();
       let today_month = today_date.getMonth() + 1;
       let today_day = today_date.getDate();
-      let disableYear = today_year - 18;
+      let disableYear = today_year - 15;
       let disableMonth = 12 - today_month;
       let disableDate = this.daysInMonth(today_month, today_year) - today_day;
       let full = `${disableMonth}-${disableDate}-${disableYear}`;
@@ -271,37 +317,46 @@ export default {
       let disableDateKid =
         this.daysInMonth(today_month, today_year) - today_day;
       let fullKid = `${disableYearKid}-${disableMonthKid}-${disableDateKid}`;
-
+      let disKid = `${disableMonthKid}-${disableDateKid}-${disableYearKid}`;
       let disableYear = today_year - 18;
       let disableMonth = 12 - today_month;
       let disableDate = this.daysInMonth(today_month, today_year) - today_day;
       let full = `${disableMonth}-${disableDate}-${disableYear}`;
       // return (new Date(full)) ;
       // console.log(full, fullKid)
-      return (
-        current &&
-        moment(new Date(full)).endOf("day") < current &&
-        current > moment(new Date(fullKid)).endOf("day")
-      );
+      // return current && current > moment(new Date(full)).endOf("day");
+      return current && current < moment(new Date(full)).endOf("day");
     },
     handleBooking() {
+      this.isloading = true;
+      // console.log(this.listAdult)
+      this.listAdult.forEach(item => {
+        item.BirthDayFomat = item.BirthDay.format("YYYY-MM-DD");
+      });
+      this.listkid.forEach(item => {
+        item.BirthDayFomat = item.BirthDay.format("YYYY-MM-DD");
+      });
+
       let payload = {
         TourID: this.$route.query.tour,
         infoContact: this.infoContact,
         payment: this.value,
         listCustomer: [this.listAdult, this.listkid]
       };
-      this.isloading = true
-      BookingAPI.addBooking(payload).then(res => {
-        this.$emit("BookingSuccess", res.data);
-        this.isloading = false
-      }).catch((err) => {
-        if(err.response && err.response.data) {
-          this.validation.errors = err.response.data.errors
-          this.isloading = false
-        }
-      })
-
+      BookingAPI.addBooking(payload)
+        .then(res => {
+          this.$emit("BookingSuccess", res.data);
+          this.isloading = false;
+        })
+        .catch(err => {
+          if (err.response && err.response.data) {
+            let i = 1;
+            // console.log(err.response.data.errors[`listCustomer.0.${i}.NameCustomner`]);
+            this.validation.errors = err.response.data.errors;
+            this.$emit("BookingFail", err.response.data.errors)
+            this.isloading = false;
+          }
+        });
     }
   }
 };
@@ -346,5 +401,4 @@ export default {
 .payment {
   padding: 17px;
 }
-
 </style>

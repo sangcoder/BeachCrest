@@ -51,15 +51,9 @@ export default {
     },
     {
       name: 'Quản lý Review',
+      url: '/admin/quan-ly-binh-luan.html',
       icon: 'icon-badge',
-      isRoles: 2,
-      children: [
-        {
-          name: 'Danh sách Review',
-          icon: 'icon-list',
-          url: '/admin/quan-ly-binh-luan.html'
-        }
-      ]
+      isRoles: 2
     },
     {
       name: 'Quản lý điểm đến',

@@ -32,6 +32,18 @@ export function toCurrency (value) {
   })
   return formatter.format(value)
 }
+export function toCurrencyUSD (value) {
+  if (typeof value !== 'number') {
+    return value
+  }
+  var formatter = new Intl.NumberFormat('it-IT', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0
+  })
+  return formatter.format(value)
+}
+
 
 export function timeAgo (value) {
   return moment(value).fromNow()

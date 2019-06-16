@@ -37,7 +37,7 @@ class HomeController extends Controller
     }
 
     public function test() {
-        $bk = Booking::find(50);
+        $bk = Booking::find(79);
         $Numberkid = $bk->customers()->where('delegatePerson', '<>', 1)->where('CustomerType', '=', 1)->get()->count();
         $numberAdult = $bk->customers()->where('delegatePerson', '<>', 1)->where('CustomerType', '=', 0)->get()->count();
         dd($bk->payment);

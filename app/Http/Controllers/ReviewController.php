@@ -36,6 +36,7 @@ class ReviewController extends Controller
             if ($request->type == 'spam') {
                 $review = $query->whereNull('approve_by')->orderBy('created_at', 'desc')->paginate(10);
                 $result =  ReviewSource::collection($review);
+                // dd($review);
             }
             if ($request->type == 'approved') {
                 $review = $query->where('approve_by', '<>', 'NULL')->orderBy('created_at', 'desc')->paginate(10);
