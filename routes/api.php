@@ -81,9 +81,12 @@ Route::group([
 
     // Booking
     Route::get('booking', 'BookingController@index');
-    Route::post('booking/addNewBooking', 'BookingController@Booking');
     Route::get('booking/{booking}', 'BookingController@show');
+    Route::get('bookingStats', 'BookingController@statsBookingAll');
+    Route::post('booking/addNewBooking', 'BookingController@Booking');
     Route::post('booking/acceptPaypal', 'BookingController@addPaymentPaypals');
+    Route::post('booking/acceptBooking', 'BookingController@acceptBooking');
+    Route::delete('booking/{booking}', 'BookingController@destroy');
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai

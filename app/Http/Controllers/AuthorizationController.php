@@ -47,9 +47,18 @@ class AuthorizationController extends Controller
     }
 
     public function deleteRoles (Role $role) {
-        $role->delete();
-        return response()->json([
-            'success' => AppResponse::STATUS_SUCCESS
-        ]);
+        // Không xóa được 3 quyền mặc định của hệ thống
+        if(in_array($role->id, [1, 2, 3])) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                "message" => "Không xóa được quyền mặc định của hệ thống"
+            ]);
+        } else {
+            $role->delete();
+            return response()->json([
+                'success' => AppResponse::STATUS_SUCCESS
+            ]);
+        }
+
     }
 }

@@ -13,21 +13,51 @@ use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookingRequest;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\PaymentResource;
 
 class BookingController extends Controller
 {
+    public function __construct () {
+        $this->middleware('jwt.auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request )
     {
         $booking = (new Booking)->newQuery();
-
-        return BookingResource::Collection($booking->paginate(10));
+        if($request->exists('type')) {
+            if ($request->type == 'all') {
+                $result = BookingResource::collection($booking->orderBy('created_at', 'desc')->paginate(10));
+            }
+            if ($request->type == 'inprocess') {
+                $listbooking = $booking->whereNull('approved_by')->orderBy('created_at', 'desc')->paginate(10);
+                $result =  BookingResource::collection($listbooking);
+                // dd($review);
+            }
+            if ($request->type == 'nonprocess') {
+                $listbooking = $booking->where('approved_by', '<>', 'NULL')->orderBy('created_at', 'desc')->paginate(10);
+                $result = BookingResource::collection($listbooking);
+            }
+        } else {
+            $result = BookingResource::collection($booking->orderBy('created_at', 'desc')->paginate(10));
+        }
+        return $result; 
+        // return BookingResource::Collection($booking->paginate(10));
     }
-
+    public function statsBookingAll () {
+        $query1 = (new Booking)->newQuery();
+        $query2 = (new Booking)->newQuery();
+        // dd($booking->get());
+        $accepted = $query1->where('approved_by', '<>', 'NULL')->count();
+        $processing = $query2->whereNull('approved_by')->count();
+        return [
+            'Accepted' => $accepted,
+            'Processing' => $processing
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -59,12 +89,14 @@ class BookingController extends Controller
     {
         if ($request->exists('delegate')) {
             $delegate = $booking->customers()->where('delegatePerson', '=', 1)->get();
-            return $delegate;
         }
         else {
             $delegate = $booking->customers()->where('delegatePerson', '!=', 1)->get();
-            return $delegate;
         }
+        if ($request->exists('type') && $request->type == 'payment') {
+           return new PaymentResource($booking->payment);
+        }
+        return $delegate;
     }
 
     /**
@@ -98,11 +130,22 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        $booking->delete();
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
     }
 
     public function Booking(BookingRequest $request) {
         // dd($request->all());
+/**
+ * Trạng thái booking.
+ * 1. Chưa thanh toán => Người dùng chọn thanh toán bằng tiền mặt => chuyển khoản hoặc giao dịch trực tiếp,
+ *  => nhân viên sẽ hoàn tất thanh toán thông qua trang quản trị
+ * 2. Đã thanh toán => Người dùng thanh toán thông qua cổng giao dịch Paypal
+ */
+
+
         // Tính tổng số người
         $NumberPersion = 0;
         foreach($request->listCustomer as $customer) {
@@ -116,6 +159,7 @@ class BookingController extends Controller
             'DateBooking' => Carbon::now(),
             'Note' => $request->infoContact['Note'],
             'user_id' => $user->id,
+            'State' => 1,
             'tour_id' => $request->TourID
         ]);
         $booking->save();
@@ -143,8 +187,7 @@ class BookingController extends Controller
                     'Birthday' => $list['BirthDayFomat'],
                     'Address' => $request->infoContact['Address'],
                     'CustomerType' => $list['CustomType'] == 'adult' ? 1 : 0,
-                    'booking_id' => $booking->BookingID,
-                    'state' => 0
+                    'booking_id' => $booking->BookingID
                 ]);
                 $listCustomer->save();
             }
@@ -238,6 +281,9 @@ class BookingController extends Controller
     public function addPaymentPaypals (Request $request) {
         // dd($request->all());
         $booking = Booking::find($request->BookingID);
+        $booking->update([
+            'State' => 2
+        ]);
         $booking->payment()->update([
             'PaymentType' => 2,
             'PaypalPaymentID' => $request->PaymentPaypalID
@@ -287,4 +333,23 @@ class BookingController extends Controller
 
         return $data[0];
     }
+    public function acceptBooking (Request $request) {
+        $user = auth()->user();
+        if ($user) {
+            $booking = Booking::find($request->BookingID);
+            $booking->update([
+                'State' => 2,
+                'approved_by' => $user->id
+            ]);
+        }
+        else {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE
+            ]);
+        }
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS
+        ]);
+    }
+
 }
