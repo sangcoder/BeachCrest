@@ -61,11 +61,11 @@
                 />
               </b-form-group>
               <b-form-group label="Nội dung">
-                                <editor
-                api-key="9nvefd4odlvd827e3j3aed8lbunqxjc9pyzruuxa37j58j4m"
-                v-model="placeInfo.Contents"
-                :init="init"
-              ></editor>
+                <editor
+                  api-key="9nvefd4odlvd827e3j3aed8lbunqxjc9pyzruuxa37j58j4m"
+                  v-model="placeInfo.Contents"
+                  :init="init"
+                ></editor>
               </b-form-group>
               <b-row>
                 <b-col cols="3">
@@ -79,7 +79,13 @@
                       :beforeUpload="beforeUpload"
                       @change="handleChange"
                     >
-                      <img v-if="placeInfo" :src="placeInfo.ImgUrl" alt="Destination" width="128">
+                      
+                      <img
+                        v-if="placeInfo"
+                        :src="/^https?:\/\//i.test(placeInfo.ImgUrl) ? placeInfo.ImgUrl : ((/^data:image/i).test(placeInfo.ImgUrl) ? placeInfo.ImgUrl : '/images/place/' + placeInfo.ImgUrl)"
+                        alt="Destination"
+                        width="128"
+                      >
                       <div v-else>
                         <a-icon :type="loading ? 'loading' : 'plus'"/>
                         <div class="ant-upload-text">Upload</div>
@@ -130,6 +136,10 @@ export default {
         {
           value: "TayBac",
           label: "Tây bắc"
+        },
+        {
+          value: "TayNguyen",
+          label: "Tây nguyên"
         }
       ],
       loading: false,
@@ -205,7 +215,7 @@ export default {
         });
     },
 
-    handleChange(info) {  
+    handleChange(info) {
       if (info.file.status === "uploading") {
         this.loading = true;
         return;

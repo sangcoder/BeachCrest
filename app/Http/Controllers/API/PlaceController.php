@@ -6,6 +6,7 @@ use Validator;
 use App\Model\Place;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PlaceCollection;
 
@@ -185,5 +186,16 @@ class PlaceController extends Controller
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS
         ],AppResponse::HTTP_OK);
+    }
+
+    public function statsDestination () {
+        $place = DB::table('places')
+                ->select(DB::raw('count(*) as number, PlaceName, places.ImgUrl, PlaceID'))
+                ->join('scenic__cultures', 'PlaceID', '=', 'place_id')
+                ->groupBy('PlaceID')
+                ->orderBy('number', 'desc')
+                ->take(8)
+                ->get();
+        return $place;
     }
 }

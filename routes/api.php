@@ -96,6 +96,9 @@ Route::group([
     // User
     Route::get('user/getAllRole/{id}', 'API\UserController@getAllRoleByUser');
     Route::post('user/deleteRole/{id}', 'API\UserController@deleteRoleById');
+
+    // Place
+    Route::get('place/statsCultures', 'API\PlaceController@statsDestination');
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

@@ -17,6 +17,26 @@ class TourResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+    function my_array_unique($array, $keep_key_assoc = false){
+        $duplicate_keys = array();
+        $tmp = array();       
+    
+        foreach ($array as $key => $val){
+            // convert objects to arrays, in_array() does not support objects
+            if (is_object($val))
+                $val = (array)$val;
+    
+            if (!in_array($val, $tmp))
+                $tmp[] = $val;
+            else
+                $duplicate_keys[] = $key;
+        }
+    
+        foreach ($duplicate_keys as $key)
+            unset($array[$key]);
+    
+        return $keep_key_assoc ? $array : array_values($array);
+    }
     public function toArray($request)
     {
         $promotion = 0;
@@ -67,11 +87,12 @@ class TourResource extends JsonResource
                 'ImgUrl' =>  $scenic->ImgUrl,
 
             ]);
-           array_push($listPlace, [
-            'PlaceID' => $place->PlaceID,
-            'PlaceName' => $place->PlaceName,
-           ]);
-        }
+            array_push($listPlace, [
+                'PlaceID' => $place->PlaceID,
+                'PlaceName' => $place->PlaceName,
+                ]);
+            }
+            $placeUnique = $this->my_array_unique($listPlace);
         // dd(($this->NumberPerson - $totalNum) <= 0);
         // dd($full);
         return [
@@ -89,7 +110,7 @@ class TourResource extends JsonResource
             'Discount' => $promotion,
             'TourExists' => ($this->NumberPerson - $totalNum) >= 0 ? $this->NumberPerson - $totalNum : 0,
             'listCultures' => $listScenic,
-            'listPlace' => $listPlace,
+            'listPlace' => $placeUnique,
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',

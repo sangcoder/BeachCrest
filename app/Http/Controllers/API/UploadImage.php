@@ -32,7 +32,7 @@ class UploadImage extends Controller
             $name = sha1(time()).'.'.$file->getClientOriginalExtension();
             $file->move($path,$name);
         }
-        $imgPath =env('APP_URL').'/'. $path.'/'.$name;
+        $imgPath ='/'. $path.'/'.$name;
         return json_encode(['location' => $imgPath]);
     }
 }

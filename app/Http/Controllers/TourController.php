@@ -250,6 +250,27 @@ class TourController extends Controller
         ]);
         // dd($tour->promotions[0]->pivot->Discount);
     }
+
+    function my_array_unique($array, $keep_key_assoc = false){
+        $duplicate_keys = array();
+        $tmp = array();       
+    
+        foreach ($array as $key => $val){
+            // convert objects to arrays, in_array() does not support objects
+            if (is_object($val))
+                $val = (array)$val;
+    
+            if (!in_array($val, $tmp))
+                $tmp[] = $val;
+            else
+                $duplicate_keys[] = $key;
+        }
+    
+        foreach ($duplicate_keys as $key)
+            unset($array[$key]);
+    
+        return $keep_key_assoc ? $array : array_values($array);
+    }
     public function findTour (Request $request) {
         $tour = (new Tour)->newQuery();
         if ($request->exists('q')) {
@@ -270,12 +291,15 @@ class TourController extends Controller
                 foreach($place->scenicCultures as $scenic) {
                     // array_push($arrayScenic, $scenic->tours->TourID);
                     foreach ($scenic->tours as $t) {
+                        // dd($t);     
                         array_push($arrayTour, $t);
                     }
                 }
                 // dd($arrayTour);
+                // dd('vao');
+                $uniqueTour = $this->my_array_unique($arrayTour);
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
-                $itemCollection = collect($arrayTour);
+                $itemCollection = collect($uniqueTour);
                 $itemCollectionfilter =  $itemCollection->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
                 $perPage = 10;
                 $currentPageItems = $itemCollectionfilter->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
@@ -286,6 +310,7 @@ class TourController extends Controller
                 // $meta->total = 10;
                 
                 $tour = TourCollection::collection($paginatedItems);
+                // dd($uniqueTour);
                 // $tour->resource->meta = $countTotal;
                 // dd($tour);
             } else {
@@ -296,8 +321,9 @@ class TourController extends Controller
                         array_push($arrayTour, $t);
                     }
                 }
+                $uniqueTOur = $this->my_array_unique($arrayTour);
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
-                $itemCollection = collect($arrayTour);
+                $itemCollection = collect($uniqueTOur);
                 $perPage = 10;
                 $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
                 $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
@@ -313,8 +339,10 @@ class TourController extends Controller
         }
         if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
             $tour = TourCollection::collection($tour->paginate(10));
+            // dd('ecc');
         }
         // dd($tour->get());
+        // dd($tour);
         return $tour;
         
     }

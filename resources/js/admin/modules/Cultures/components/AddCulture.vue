@@ -84,7 +84,7 @@
                 >
                   <img
                     v-if="formData.featherImage"
-                    :src="/^https?:\/\//i.test(formData.featherImage) ? formData.featherImage : '/images/cultures/' + formData.featherImage"
+                     :src="/^https?:\/\//i.test(formData.featherImage) ? formData.featherImage : ((/^data:image/i).test(formData.featherImage) ? formData.featherImage : '/images/cultures/' + formData.featherImage)"
                     alt="Feather Image"
                   >
                   <div v-else>

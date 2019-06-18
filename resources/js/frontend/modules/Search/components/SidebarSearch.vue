@@ -39,10 +39,17 @@
     <a-collapse defaultActiveKey="1" :bordered="false">
       <a-collapse-panel header="Lọc theo giá" key="1">
         <p>
+          <a-checkbox
+            :indeterminate="indeterminate"
+            @change="onCheckAllChange"
+            :checked="checkAll"
+          >Tất cả</a-checkbox>
+        </p>
+        <p>
           <a-checkbox-group
             :options="filterPriceOptions"
+            v-model="checkedList"
             @change="onchangePrice"
-            :defaultValue="['all']"
           />
         </p>
       </a-collapse-panel>
@@ -54,7 +61,7 @@
             :defaultValue="['all']"
           />
         </p>
-      </a-collapse-panel> -->
+      </a-collapse-panel>-->
       <!-- <a-collapse-panel header="Lọc theo địa điểm" key="3">
         <p>Lorem ipsum dolor sit</p>
       </a-collapse-panel>-->
@@ -72,6 +79,9 @@ export default {
     return {
       dateFormat: "DD-MM-YYYY",
       monthFormat: "MM-YYYY",
+      indeterminate: true,
+      checkAll: false,
+      checkedList: [],
       search: {
         diemden: -1,
         dateDeparture: []
@@ -85,7 +95,6 @@ export default {
         { label: "Được xếp hạng 1 sao", value: 1 }
       ],
       filterPriceOptions: [
-        { label: "Tất cả", value: "all" },
         { label: "Dưới 500 nghìn", value: 5 },
         { label: "Từ 500 - 1 triệu", value: 4 },
         { label: "Từ 1 - 2 triệu", value: 3 },
@@ -117,7 +126,8 @@ export default {
       console.log("checked = ", checkedValues);
     },
     onchangePrice(checkedPrice) {
-      console.log("checked = ", checkedPrice);
+      this.checkAll = false
+      this.checkedList = checkedPrice;
     },
     filterOption(input, option) {
       return (
@@ -132,6 +142,19 @@ export default {
     handleDeparture(date) {
       this.search.tungay = date[0].format(this.dateFormat);
       this.search.denngay = date[1].format(this.dateFormat);
+    },
+    onCheckAllChange(e) {
+      // if (e.target.checked) {
+      //    this.checkedList = ['all']
+      // } else {
+      //    this.checkedList = this.filterPriceOptions
+      // }
+      Object.assign(this, {
+        checkedList: e.target.checked ? ["all"] : [],
+        indeterminate: false,
+        checkAll: e.target.checked
+      });
+      console.log(this.checkedList);
     },
     handleSearch() {
       if (this.search.dateDeparture.length > 0) {
@@ -148,13 +171,12 @@ export default {
           name: "SeachTour",
           query: {
             diemden: this.search.diemden,
-            tuNgay: '',
-            denNgay: ''
+            tuNgay: "",
+            denNgay: ""
           }
         });
       }
-      this.$emit('EventReload', 'Hi Payloads')
-
+      this.$emit("EventReload", "Hi Payloads");
     }
   }
 };

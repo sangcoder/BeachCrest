@@ -39,7 +39,7 @@
                 </div>
               </template>
               <template slot="tag">
-                <a-icon type="tags"/>Nha Trang
+                <a-icon type="tags"/><span  class="tourName" v-for="place in tour.listPlace" :key="place.PlaceID">{{place.PlaceName}}</span>
               </template>
               <template slot="heading">
                 <a
@@ -97,7 +97,7 @@ export default {
     },
     total: {
       type: Number,
-      default: 1
+      default: 0
     }
   },
   data() {

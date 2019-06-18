@@ -32,7 +32,7 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <template slot="placeImage" slot-scope="placeImage">
-          <a-avatar shape="square" :size="64" icon="camera" :src="placeImage"/>
+          <a-avatar shape="square" :size="64" icon="camera" :src="'/images/place/' + placeImage"/>
         </template>
         <template slot="description" slot-scope="description">
           {{ description | truncate(100) }}

@@ -135,11 +135,11 @@
 
     &.active {
       @include borders($sidebar-nav-link-active-borders);
-      background: $sidebar-nav-link-active-bg;
-      color: $sidebar-nav-link-active-color;
+      background: #20a8d8;
+      
 
       i {
-        color: $sidebar-nav-link-active-icon-color;
+        color: #fff;
       }
     }
 
