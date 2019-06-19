@@ -65,6 +65,10 @@ Route::put('schedules/updateSchedule/{schedule}', 'ScheduleController@update');
 Route::delete('schedules/deleteSchedule/{schedule}', 'ScheduleController@destroy');
 Route::get('place/getSelect', 'API\PlaceController@getListPlaceValue');
 
+
+// Place
+Route::get('place/statsCultures', 'API\PlaceController@statsDestination');
+
 Route::group([
     'middleware' => 'jwt.auth'
 ], function () {
@@ -97,8 +101,7 @@ Route::group([
     Route::get('user/getAllRole/{id}', 'API\UserController@getAllRoleByUser');
     Route::post('user/deleteRole/{id}', 'API\UserController@deleteRoleById');
 
-    // Place
-    Route::get('place/statsCultures', 'API\PlaceController@statsDestination');
+
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

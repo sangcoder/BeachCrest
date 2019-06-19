@@ -14,7 +14,7 @@ class PlaceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('jwt.auth')->except(['index','getListPlaceValue']);
+        $this->middleware('jwt.auth')->except(['index','getListPlaceValue', 'statsDestination']);
     }
     public function testBase($s)
     {

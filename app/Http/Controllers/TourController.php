@@ -271,6 +271,20 @@ class TourController extends Controller
     
         return $keep_key_assoc ? $array : array_values($array);
     }
+    function unique_multidim_array($array, $key) { 
+        $temp_array = array(); 
+        $i = 0; 
+        $key_array = array(); 
+        
+        foreach($array as $val) { 
+            if (!in_array($val[$key], $key_array)) { 
+                $key_array[$i] = $val[$key]; 
+                $temp_array[$i] = $val; 
+            } 
+            $i++; 
+        } 
+        return $temp_array; 
+      }
     public function findTour (Request $request) {
         $tour = (new Tour)->newQuery();
         if ($request->exists('q')) {
@@ -295,9 +309,8 @@ class TourController extends Controller
                         array_push($arrayTour, $t);
                     }
                 }
-                // dd($arrayTour);
-                // dd('vao');
-                $uniqueTour = $this->my_array_unique($arrayTour);
+
+                $uniqueTour = $this->unique_multidim_array($arrayTour, 'TourID');
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
                 $itemCollection = collect($uniqueTour);
                 $itemCollectionfilter =  $itemCollection->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
