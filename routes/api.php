@@ -65,6 +65,10 @@ Route::put('schedules/updateSchedule/{schedule}', 'ScheduleController@update');
 Route::delete('schedules/deleteSchedule/{schedule}', 'ScheduleController@destroy');
 Route::get('place/getSelect', 'API\PlaceController@getListPlaceValue');
 
+
+// Place
+Route::get('place/statsCultures', 'API\PlaceController@statsDestination');
+
 Route::group([
     'middleware' => 'jwt.auth'
 ], function () {
@@ -81,9 +85,12 @@ Route::group([
 
     // Booking
     Route::get('booking', 'BookingController@index');
-    Route::post('booking/addNewBooking', 'BookingController@Booking');
     Route::get('booking/{booking}', 'BookingController@show');
+    Route::get('bookingStats', 'BookingController@statsBookingAll');
+    Route::post('booking/addNewBooking', 'BookingController@Booking');
     Route::post('booking/acceptPaypal', 'BookingController@addPaymentPaypals');
+    Route::post('booking/acceptBooking', 'BookingController@acceptBooking');
+    Route::delete('booking/{booking}', 'BookingController@destroy');
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai
@@ -93,6 +100,8 @@ Route::group([
     // User
     Route::get('user/getAllRole/{id}', 'API\UserController@getAllRoleByUser');
     Route::post('user/deleteRole/{id}', 'API\UserController@deleteRoleById');
+
+
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

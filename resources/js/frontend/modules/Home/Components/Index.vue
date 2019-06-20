@@ -66,7 +66,8 @@
         </template>
       </div>
     </section>
-    <list-destination />
+    <h2>Top địa điểm</h2>
+    <list-destination :listDestinations="startPlace" />
 
   </div>
 </template>
@@ -87,12 +88,14 @@ export default {
   data() {
     return {
       loading: true,
-      listPlace: []
+      listPlace: [],
+      startPlace: []
     };
   },
   created() {
     this.fetchListTour()
     this.fetchPlace()
+    this.fetchStats()
   },
   computed: {
     listTour() {
@@ -108,6 +111,11 @@ export default {
     fetchPlace () {
       HomeAPI.getListPlace().then(res => {
         this.listPlace = res.data.data
+      })
+    },
+    fetchStats () {
+      HomeAPI.getStatsPlace().then(res => {
+        this.startPlace = res.data
       })
     }
   }

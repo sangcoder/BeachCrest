@@ -167,9 +167,17 @@ class UserController extends Controller
     public function deleteRoleById($id, Request $request) {
         $user = User::find($id);
         // dd($request->all());
-        $user->roles()->detach($request->roleId);
-         return response()->json([
-             'success' => AppResponse::STATUS_SUCCESS
-         ]);
+        if ($request->roleId == 1) {
+            return response()->json([
+                'success' => AppResponse::STATUS_FAILURE,
+                'message' => "Không thể xóa vai trò mặc định"
+            ]);
+        } else {
+            $user->roles()->detach($request->roleId);
+            return response()->json([
+                'success' => AppResponse::STATUS_SUCCESS
+            ]);
+        }
+
     }
 }

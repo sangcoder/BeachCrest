@@ -6,7 +6,7 @@
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global"/> Danh lam thắng cảnh
+              <a-icon type="global"/>Danh lam thắng cảnh
             </h4>
             <h5 class="card-subtitle">Danh sách danh lam thắng cảnh</h5>
           </div>
@@ -29,10 +29,15 @@
           :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         >
           <template slot="scenicName" slot-scope="scenicName">
-            <a-avatar :size="64" shape="square" icon="camera" :src="scenicName"/>
+            <a-avatar
+              :size="64"
+              shape="square"
+              icon="camera"
+              :src="/^https?:\/\//i.test(scenicName) ? scenicName : ((/^data:image/i).test(scenicName) ? scenicName : '/images/cultures/' + scenicName)"
+            />
           </template>
           <template slot="description" slot-scope="description">{{ description | truncate(45) }}</template>
-          <template slot="state" slot-scope="state">{{state === 1 ? 'OK' : 'Bảo trì'}}</template>
+          <template slot="state" slot-scope="state">{{state === 1 ? 'Xuất bản' : 'Nháp'}}</template>
           <template slot="dateCreate" slot-scope="dateCreate">{{dateCreate | myDate}}</template>
           <template slot="modify" slot-scope="modify">
             <a-button size="small" type="primary" icon="edit" @click="updateTourGuider(modify)"></a-button>
@@ -149,18 +154,21 @@ export default {
       this.selectedRowKeys = selectedRowKeys;
     },
     addNewCultures() {
-      this.$router.push({name: 'editCultures'})
+      this.$router.push({ name: "editCultures" });
     },
     updateTourGuider(culture) {
-      this.$router.push({name: 'editCultures', query: {type: 'edit', cultureId: culture.ScenicID}})
+      this.$router.push({
+        name: "editCultures",
+        query: { type: "edit", cultureId: culture.ScenicID }
+      });
     },
     deleteTourGuider(id) {
-      this.loading = true
+      this.loading = true;
       CultureAPI.deleteCultures(id).then(res => {
-        this.fetchDataCultures(this.pagination.current)
-        this.loading = false
-        this.$message.success('Xóa thành công!');
-      })
+        this.fetchDataCultures(this.pagination.current);
+        this.loading = false;
+        this.$message.success("Xóa thành công!");
+      });
     },
     cancel() {}
   }

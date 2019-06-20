@@ -32,6 +32,7 @@
 </template>
 <script>
 import SkeletonBox from "../../../components/Effects/SkeletonBox";
+
 const baseUrl = "/images/tour/";
 export default {
   name: "DetaiContent",

@@ -70,7 +70,7 @@
             <b-col md="4" class="payment">
               <h4 class="card-title">HÌNH THỨC THANH TOÁN</h4>
               <a-radio-group v-model="value">
-                <a-radio :style="radioStyle" :value="1">Thanh toán tại tại văn phòng</a-radio>
+                <a-radio :style="radioStyle" :value="1">Thanh toán bằng tiền mặt</a-radio>
                 <a-radio :style="radioStyle" :value="2">Thanh toán thông qua Paypal</a-radio>
               </a-radio-group>
               <div>
@@ -104,7 +104,7 @@
                   <strong>văn phòng của Công ty</strong>.
                 </p>
                 <p>
-                  Quý khách vui lòng mang tiền mặt đến văn phòng của công ty để thanh toán trước 1 ngày Tour khởi hành
+                  Quý khách vui lòng mang tiền mặt đến văn phòng của công ty hoặc đến ngân hàng để chuyển tiền vào STK <strong>97043668 12234888</strong>. <br>Ngân hàng VietCombank để thanh toán trước 1 ngày Tour khởi hành
                   để giao dịch được hoàn tất.
                 </p>
                 <p class="price-Amount">
@@ -281,12 +281,18 @@ export default {
       console.log('vao day')
       if(data.state === 'approved') {
         bookingService.acceptedPaypal(payload).then(res => {
-          console.log('thanh cong')
+          this.$notification["success"]({
+            message: "Bạn đã thanh toán thành công",
+            description: "Nhân viên sẽ liên hệ bạn trong thời gian sớm nhất để xác nhận."
+          });        
         })
       }
     },
     paymentCancelled: function(data) {
-      console.log(data);
+       this.$notification["error"]({
+            message: "Hủy bỏ thanh toán",
+            description: "Bạn đã hủy thanh toán bằng bằng Paypal"
+          });
     }
   }
 };

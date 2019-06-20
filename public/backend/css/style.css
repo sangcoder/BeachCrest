@@ -18715,14 +18715,13 @@ base-chart.chart {
 .sidebar .nav-link.active,
 .sidebar .navbar .active.dropdown-toggle,
 .navbar .sidebar .active.dropdown-toggle {
-  background: #33444c;
-  color: #fff;
+  background: #20a8d8;
 }
 
 .sidebar .nav-link.active i,
 .sidebar .navbar .active.dropdown-toggle i,
 .navbar .sidebar .active.dropdown-toggle i {
-  color: #20a8d8;
+  color: #fff;
 }
 
 .sidebar .nav-link:hover,

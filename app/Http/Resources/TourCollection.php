@@ -15,6 +15,26 @@ class TourCollection extends Resource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+    function my_array_unique($array, $keep_key_assoc = false){
+        $duplicate_keys = array();
+        $tmp = array();       
+    
+        foreach ($array as $key => $val){
+            // convert objects to arrays, in_array() does not support objects
+            if (is_object($val))
+                $val = (array)$val;
+    
+            if (!in_array($val, $tmp))
+                $tmp[] = $val;
+            else
+                $duplicate_keys[] = $key;
+        }
+    
+        foreach ($duplicate_keys as $key)
+            unset($array[$key]);
+    
+        return $keep_key_assoc ? $array : array_values($array);
+    }
     public function toArray($request)
     {
         // return parent::toArray($request);
@@ -37,12 +57,13 @@ class TourCollection extends Resource
         $listPlace = array();
         foreach($this->scenics as $scenic) {
             $place = Place::find($scenic->place_id);
-           array_push($listPlace, [
-            'PlaceID' => $place->PlaceID,
-            'PlaceName' => $place->PlaceName,
-           ]);
-        }
-
+            array_push($listPlace, [
+                'PlaceID' => $place->PlaceID,
+                'PlaceName' => $place->PlaceName,
+                ]);
+            }
+            $placeUnique = $this->my_array_unique($listPlace);
+            
         foreach($this->schedules->guiders as $item) {
             array_push($newSchedule, [
                 'GuiderName' => $item->GuiderName,
@@ -57,6 +78,7 @@ class TourCollection extends Resource
             // dd($num);
             $totalNum += $num->NumberPerson;
         } 
+
         return [
             'TourID' => $this->TourID,
             'TourName' => $this->TourName,
@@ -76,7 +98,7 @@ class TourCollection extends Resource
             'OnsaleAdult' => round((1 - $promotion/ 100) * $this->PriceAdult,2),
             'OnsaleKid' => round((1 - $promotion/ 100) * $this->PriceKid,2),
             'Cultures' => CultureResouce::collection($this->scenics),
-            'listPlace' => $listPlace,
+            'listPlace' => $placeUnique,
             'TourTime' => $numberOfNights == 0 ? $numberOfNights + 1 .' ngày' : $numberOfNights + 1 .' ngày '. $numberOfNights.' đêm',
             'Rating' => [
                 'NumberRating' =>  $this->reviews->count() > 0 ? floor(($this->reviews->sum('Rating') / $this->reviews->count()) * 2) / 2 : 0,

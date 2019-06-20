@@ -91,7 +91,8 @@ function nonRequire (from, to, next) {
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
-  linkActiveClass: 'open active',
+  scrollBehavior : () => ({ y: 0 }),
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',

@@ -15,6 +15,7 @@
             :Schedules="dataTour.Schedule"
           ></detail-content>
           <detail-content v-else :image-url="dataTour.ImageUrl" :Schedules="dataTour.Schedule"></detail-content>
+          <list-culture :listCultures="dataTour.listCultures"  />
           <comment-box @ReloadDS="ReloadDSComment" :spinning="spinning" :CountReview="dataTour.Rating" :comments="comments"></comment-box>
           <!-- <comment-box :CountReview="dataTour.Rating" /*v-on="ReloadDS(item)" :comments="comments"></comment-box> -->
         </div>
@@ -54,6 +55,7 @@ import DetailContent from "./DetailContent";
 import CommentBox from "./Review";
 import ListPromotion from "../../../components/ListPromotion";
 import SkeletonBox from "../../../components/Effects/SkeletonBox";
+import ListCulture from './ListCulture'
 // import service
 import DetailTourAPI from "../serviceDetailTour";
 export default {
@@ -62,7 +64,8 @@ export default {
     DetailContent,
     CommentBox,
     ListPromotion,
-    SkeletonBox
+    SkeletonBox,
+    ListCulture
   },
   data() {
     return {
@@ -149,7 +152,7 @@ export default {
         this.loading = false;
         this.spinning = false
       });
-    },
+    },  
     fetchPromotion() {
       this.loadingPromotion = true;
       DetailTourAPI.getListPromotion().then(res => {
@@ -164,6 +167,8 @@ export default {
     },
     ReloadDSComment (payload) {
       this.fetchComment(this.$route.query.tour);
+      this.fetchTour(this.$route.query.tour)
+      
     },
     handleResize: _.throttle(function() {
       this.calculateSidebar();

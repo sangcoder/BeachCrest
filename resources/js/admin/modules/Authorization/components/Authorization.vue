@@ -11,7 +11,11 @@
             <h5 class="card-subtitle">Cho phép tạo nhóm chức năng cho từng loại người dùng</h5>
           </div>
           <div class="ml-auto">
-            <a-button type="primary" @click="$router.push({name: 'UserInfo'})" icon="usergroup-add">Danh sách tài khoản</a-button>
+            <a-button
+              type="primary"
+              @click="$router.push({name: 'UserInfo'})"
+              icon="usergroup-add"
+            >Danh sách tài khoản</a-button>
           </div>
         </div>
         <!-- /title -->
@@ -23,12 +27,12 @@
           <div class="card-body">
             <h5 class="text-uppercase mb-3">Danh sách nhóm người dùng</h5>
             <a-spin :spinning="loadingRole">
-            <a-menu @select="selectMenu">
-              <a-menu-item v-for="role in Roles" :key="role.id">
-                <a-icon type="lock"/>
-                {{role.name | upText}}
-              </a-menu-item>
-            </a-menu>
+              <a-menu @select="selectMenu">
+                <a-menu-item v-for="role in Roles" :key="role.id">
+                  <a-icon type="lock"/>
+                  {{role.name | upText}}
+                </a-menu-item>
+              </a-menu>
             </a-spin>
             <b-form-group>
               <a-button
@@ -48,34 +52,27 @@
             <h5 class="text-uppercase mb-3">Danh sách chức năng</h5>
             <a-checkbox-group @change="onChange">
               <b-container>
-                  <b-form-group>  
-                    <a-checkbox-group :options="nameRoles"  v-model="valueRoles" ></a-checkbox-group>
-                  </b-form-group>
+                <b-form-group>
+                  <a-checkbox-group :options="nameRoles" v-model="valueRoles"></a-checkbox-group>
+                </b-form-group>
               </b-container>
             </a-checkbox-group>
             <div class="tool d-md-flex">
               <a-button type="primary" @click="addPermisionWithRole">Sửa quyền</a-button>
-            <div class="ml-auto">
-              <!-- <a-button type="primary" @click="renameGgroup">Sửa tên nhóm</a-button> -->
-               <a-button type="danger" @click="deleteGroup">Xóa nhóm</a-button>
-            </div>
+              <div class="ml-auto">
+                <!-- <a-button type="primary" @click="renameGgroup">Sửa tên nhóm</a-button> -->
+                <a-button type="danger" @click="deleteGroup">Xóa nhóm</a-button>
+              </div>
             </div>
           </div>
         </div>
       </b-col>
     </b-row>
     <!-- Modal new Role -->
-      <a-modal
-      title="Thêm nhóm quyền mới"
-      v-model="visibleRole"
-      @ok="submitRole"
-      okText="Thêm quyền"
-    >
-  <b-form-group
-  label="Nhập tên nhóm người dùng mới"
-  >
-  <a-input v-model="formData.NameRole" placeholder="Nhập nhóm người dùng"/>
-  </b-form-group>
+    <a-modal title="Thêm nhóm quyền mới" v-model="visibleRole" @ok="submitRole" okText="Thêm quyền">
+      <b-form-group label="Nhập tên nhóm người dùng mới">
+        <a-input v-model="formData.NameRole" placeholder="Nhập nhóm người dùng"/>
+      </b-form-group>
     </a-modal>
   </div>
 </template>
@@ -92,9 +89,9 @@ export default {
       loadingRole: false,
       formData: {
         roleId: 0,
-        NameRole: ''
+        NameRole: ""
       }
-    }
+    };
   },
   created() {
     this.fetchAllRole();
@@ -104,48 +101,60 @@ export default {
     filterPermission() {}
   },
   methods: {
-    deleteGroup () {
-      this.loadingRole = true
-      AuthAPI.deleteRole(this.formData.roleId).then(res => {
-        this.loadingRole = false
-        this.fetchAllRole()
-        this.$message.success('Xóa thành công');
-      })
+    deleteGroup() {
+      this.loadingRole = true;
+      let that = this
+      AuthAPI.deleteRole(this.formData.roleId)
+        .then(res => {
+          if (res.data.success) {
+            that.loadingRole = false;
+            that.fetchAllRole();
+            that.$notification["success"]({
+              message: "Bạn đã xóa thành công",
+              description: "Danh sách đã cập nhật lại!"
+            });
+          } else {
+            that.loadingRole = false;
+            that.$notification["error"]({
+              message: "Có lỗi xảy ra",
+              description: res.data.message
+            });
+          }
+        })
+        .catch(err => {
+          console.log("Opps Err" + err);
+        });
     },
-    renameGgroup () {
-
+    renameGgroup() {},
+    showModal() {
+      this.visibleRole = true;
     },
-    showModal () {
-      this.visibleRole = true
-    },
-    submitRole () {
+    submitRole() {
       let payload = {
         NameRoles: this.formData.NameRole
-      }
-      this.loadingRole = true
+      };
+      this.loadingRole = true;
       AuthAPI.addNewRole(payload).then(res => {
-        this.visibleRole = false
-        this.$message.success('Thêm nhóm người thành công!');
-        this.fetchAllRole()
-        this.loadingRole = false
-      })
+        this.visibleRole = false;
+        this.$message.success("Thêm nhóm người thành công!");
+        this.fetchAllRole();
+        this.loadingRole = false;
+      });
     },
-    addPermisionWithRole () {
+    addPermisionWithRole() {
       let payload = {
         roleId: this.formData.roleId,
         valueRoles: this.valueRoles
-      }
+      };
       AuthAPI.addPermissioToRole(payload).then(res => {
-        console.log('OK')
-      })
+        console.log("OK");
+      });
     },
     selectMenu({ item, key, selectedKeys }) {
-      this.fetchPermisionByRole(key)
-      this.formData.roleId = key
+      this.fetchPermisionByRole(key);
+      this.formData.roleId = key;
     },
-    onChange() {
-
-    },
+    onChange() {},
     addNewGroup() {},
     fetchAllRole() {
       AuthAPI.getAllRole().then(res => {
@@ -154,12 +163,16 @@ export default {
     },
     fetchAllPermision() {
       AuthAPI.getAllPermission().then(res => {
-        this.nameRoles = res.data.map(item => {return {label:item.name, value: item.id} })
+        this.nameRoles = res.data.map(item => {
+          return { label: item.name, value: item.id };
+        });
       });
     },
     fetchPermisionByRole(id) {
       AuthAPI.getAllPermisionById(id).then(res => {
-        this.valueRoles = res.data.map(item => {return item.permission_id})
+        this.valueRoles = res.data.map(item => {
+          return item.permission_id;
+        });
       });
     }
   }

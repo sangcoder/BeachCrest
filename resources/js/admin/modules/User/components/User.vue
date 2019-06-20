@@ -84,7 +84,7 @@
             </a-select>
           </b-col>
           <b-col cols="4">
-            <a-button type="primary" @click="addNewRole">Thêm nhóm</a-button>
+            <a-button type="primary" @click="addNewRole" icon="add">Thêm nhóm</a-button>
           </b-col>
         </b-row>
       </b-form-group>
@@ -222,9 +222,22 @@ export default {
         roleId: roleId
       };
       this.spinning = true;
+      let that = this
       UserAPI.deleteRoleId(id, payload).then(res => {
-        this.spinning = false;
-        this.fetchRoleById(id);
+        if (res.data.success) {
+          this.spinning = false;
+          this.fetchRoleById(id);
+          that.$notification["success"]({
+            message: "Bạn đã xóa vai trò thành công",
+            description: "Danh sách đã cập nhật lại!"
+          });
+        } else {
+          this.spinning = false;
+          that.$notification["error"]({
+            message: "Có lỗi xảy ra",
+            description: res.data.message
+          });
+        }
       });
     },
     onSearch(value) {
@@ -268,7 +281,7 @@ export default {
       this.fetchRoleById(user.id);
     },
     CloseModal() {
-      this.visible = false
+      this.visible = false;
     },
     handleChangeSelect(value) {
       this.modelHasRole.roleID = value;
@@ -278,10 +291,10 @@ export default {
         this.Roles = res.data;
       });
     },
-    addNewRole () {
+    addNewRole() {
       this.loading = false;
       UserAPI.addRoleModel(this.modelHasRole).then(res => {
-        this.fetchRoleById(this.modelHasRole.userID)
+        this.fetchRoleById(this.modelHasRole.userID);
         this.fetchListUser(this.pagination.current);
       });
     },
