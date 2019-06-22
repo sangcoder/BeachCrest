@@ -7,5 +7,8 @@ export default {
   },
   getStatsPlace () {
     return Axios.get(APP_CONFIG.API_URL + '/place/statsCultures')
+  },
+  getListNews (page = 1) {
+    return Axios.get(APP_CONFIG.API_URL + '/news', page)
   }
 }

@@ -301,6 +301,7 @@ class BookingController extends Controller
         $array = json_decode($json, true);
         // $array_dot = array_dot($array);
         $collection = collect($array);
+        dd($collection);
         $data =  array();
         if ($req->exists('currencyName')) {
             foreach($collection['Exrate'] as $rate) {

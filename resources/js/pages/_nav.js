@@ -86,8 +86,15 @@ export default {
       url: '/admin/huong-dan-vien.html'
     },
     {
+      name: 'Quản lý tin tức',
+      icon: 'icon-info',
+      isRoles: 2,
+      url: '/admin/quan-ly-tin-tuc.html'
+    },
+    {
       name: 'Thống kê',
       icon: 'icon-pie-chart',
+      isRoles: 2,
       children:
       [
         {

@@ -24,20 +24,35 @@
                   <span
                     :class="tour.Discount === 0 ? 'text-white d-none' : 'text-white d-block'"
                   >{{tour.Discount}}%</span>
-                  <a @click="$router.push({name: 'booking', query: {tour: tour.TourID}})" style="display:block;" :title="tour.TourName">
+                  <a
+                    @click="$router.push({name: 'booking', query: {tour: tour.TourID}})"
+                    style="display:block;"
+                    :title="tour.TourName"
+                  >
                     <img src="/images/Tour.png">
                   </a>
-                  <div v-if="tour.TourExists > 0" class="tour__tag bestseller green">Còn nhận {{tour.TourExists}}</div>
+                  <div
+                    v-if="tour.TourExists > 0"
+                    class="tour__tag bestseller green"
+                  >Còn nhận {{tour.TourExists}}</div>
                   <div v-else class="tour__tag bestseller blue">Hết chổ</div>
                   <count-down v-if="tour.ExpiredDate.length > 0" :date="tour.ExpiredDate"></count-down>
                   <!-- <div :class="tour.TourExists > 0 ? 'tour__tag bestseller' : 'd-none'">{{tour.TourExistss > 0 ? tour.TourExistss : 'Hết chổ'}}</div> -->
                 </div>
               </template>
-              <template slot="tag" >
-                <a-icon type="tags"/> <span  class="tourName" v-for="place in tour.listPlace" :key="place.PlaceID">{{place.PlaceName}}</span>
+              <template slot="tag">
+                <a-icon type="tags"/>
+                <span
+                  class="tourName"
+                  v-for="place in tour.listPlace"
+                  :key="place.PlaceID"
+                >{{place.PlaceName}}</span>
               </template>
               <template slot="heading">
-                <a  @click="$router.push({name: 'booking', query: {tour: tour.TourID}})" :title="tour.TourName">{{tour.TourName | truncate(50)}}</a>
+                <a
+                  @click="$router.push({name: 'booking', query: {tour: tour.TourID}})"
+                  :title="tour.TourName"
+                >{{tour.TourName | truncate(50)}}</a>
               </template>
               <template slot="rating">
                 <a-rate :defaultValue="tour.Rating.NumberRating" allowHalf disabled/>
@@ -65,37 +80,52 @@
           </div>
         </template>
       </div>
+      <div class="pagination-index d-flex justify-content-center mb-2">
+        <a-pagination showQuickJumper :defaultCurrent="1" :pageSize.sync="pagination.pageSize"  :total="pagination.total" @change="onChangePage"/>
+      </div>
     </section>
-    <h2>Top địa điểm</h2>
-    <list-destination :listDestinations="startPlace" />
 
+    <!-- List destination -->
+    <list-destination :titleHeader="'Top địa điểm'" :listDestinations="startPlace" />
+    <section class="news-index">
+      <list-news :news-title="'Tin tức du lịch'" :list-news="listNews"  />
+    </section>
   </div>
 </template>
 <script>
-import SearchTour from "./SearchTour"
-import ListTour from "./ListTour"
-import ListDestination from './ListDestination'
-import CountDown from '../../../components/Countdown'
+import SearchTour from "./SearchTour";
+import ListTour from "./ListTour";
+import ListDestination from "./ListDestination";
+import ListNews from "./ListNews";
+import CountDown from "../../../components/Countdown";
 
-import HomeAPI from './homeSerive'
+import HomeAPI from "./homeSerive";
 export default {
   components: {
     SearchTour,
     ListTour,
     ListDestination,
-    CountDown
+    CountDown,
+    ListNews
   },
   data() {
     return {
       loading: true,
       listPlace: [],
-      startPlace: []
+      startPlace: [],
+      listNews: [],
+      pagination: {
+        total: 1,
+        pageSize: 1,
+        current: 1
+      }
     };
   },
   created() {
-    this.fetchListTour()
-    this.fetchPlace()
-    this.fetchStats()
+    this.fetchListTour();
+    this.fetchPlace();
+    this.fetchStats();
+    this.fetchNews();
   },
   computed: {
     listTour() {
@@ -103,21 +133,29 @@ export default {
     }
   },
   methods: {
-    fetchListTour () {
+    fetchListTour() {
       this.$store.dispatch("tour/getListTour").then(res => {
         this.loading = false;
-      })
+        this.pagination.total = res.data.meta.total
+        this.pagination.pageSize = res.data.meta.per_page
+      });
     },
-    fetchPlace () {
+    fetchPlace() {
       HomeAPI.getListPlace().then(res => {
-        this.listPlace = res.data.data
+        this.listPlace = res.data.data;
+      });
+    },
+    fetchStats() {
+      HomeAPI.getStatsPlace().then(res => {
+        this.startPlace = res.data;
+      });
+    },
+    fetchNews(page) {
+      HomeAPI.getListNews(page).then(res => {
+        this.listNews = res.data.data
       })
     },
-    fetchStats () {
-      HomeAPI.getStatsPlace().then(res => {
-        this.startPlace = res.data
-      })
-    }
+    onChangePage() {}
   }
 };
 </script>
@@ -125,14 +163,18 @@ export default {
 .tour--item {
   margin-bottom: 20px;
 }
+.mod-tour {
+  background: #fff;
+  padding: 15px;
+}
 </style>
 <style>
 .tourName:not(:last-child):after {
-    content: "/";
-    margin-left: 4px;
+  content: "/";
+  margin-left: 4px;
 }
 .tourName:not(:last-child) {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 </style>
 

@@ -51,6 +51,7 @@
         "daterangepicker": "^3.0.4",
         "element-ui": "^2.7.2",
         "es6-promise": "^4.2.6",
+        "he": "^1.2.0",
         "moment": "^2.24.0",
         "nprogress": "^0.2.0",
         "perfect-scrollbar": "0.7.1",

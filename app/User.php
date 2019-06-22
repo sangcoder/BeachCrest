@@ -36,7 +36,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     {
         return $this->hasMany(SocialNetwork::class);
     }
-
+    public function news() {
+        return $this->hasMany(News::class, 'user_id');
+    }
     public function roles() {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id','role_id');
     }

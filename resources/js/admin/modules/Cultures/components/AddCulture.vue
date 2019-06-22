@@ -247,11 +247,13 @@ export default {
 };
 </script>
 <style>
-.add-cultures .ant-upload.ant-upload-select-picture-card {
+.add-cultures .ant-upload.ant-upload-select-picture-card,
+.modify-news .ant-upload.ant-upload-select-picture-card {
   width: 100% !important;
   height: 200px !important;
 }
-.add-cultures .ant-upload.ant-upload-select-picture-card img {
+.add-cultures .ant-upload.ant-upload-select-picture-card img,
+.modify-news .ant-upload.ant-upload-select-picture-card img {
   width: 200px !important;
   height: 160px !important;
 }

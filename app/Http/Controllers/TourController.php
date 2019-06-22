@@ -67,7 +67,7 @@ class TourController extends Controller
 
         } else {
             // $result = $tour->paginate(10);
-            $result = TourCollection::collection($tour->orderBy('created_at', 'desc')->paginate(10));
+            $result = TourCollection::collection($tour->orderBy('created_at', 'desc')->paginate(8));
         }
         return $result;
 

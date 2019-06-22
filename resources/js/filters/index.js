@@ -1,5 +1,5 @@
 import moment from 'moment'
-
+import he from 'he'
 export function upText (text) {
   if (!text) return ''
   text = text.toString()
@@ -20,7 +20,13 @@ export function twoDigits (value) {
   }
   return value.toString()
 }
-
+export function removeHMTLTag (value) {
+  let StrippedString = value.replace(/(<([^>]+)>)/ig, '')
+  return StrippedString
+}
+export function unicodeValue (value) {
+  return he.decode(value)
+}
 export function toCurrency (value) {
   if (typeof value !== 'number') {
     return value
@@ -43,7 +49,6 @@ export function toCurrencyUSD (value) {
   })
   return formatter.format(value)
 }
-
 
 export function timeAgo (value) {
   return moment(value).fromNow()

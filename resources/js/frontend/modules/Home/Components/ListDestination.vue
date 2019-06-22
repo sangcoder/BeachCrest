@@ -1,6 +1,7 @@
 <template>
   <div id="list-category">
     <div class="container">
+      <h2>{{titleHeader}}</h2>
       <div id="list-post">
         <ul class="category-item">
           <li v-for="item in listDestinations" :key="item.PlaceID">
@@ -27,8 +28,9 @@
 export default {
 	name: "listDestination",
 	props: {
-		listDestinations: Array
-	}
+		listDestinations: Array,
+    titleHeader: String
+  }
 };
 </script>
 <style lang="css" scoped>
@@ -45,7 +47,7 @@ ul.category-item {
 }
 .category-item li {
   position: relative;
-  margin: 0 10px 0 0;
+  margin: 0 10px 10px 0;
   list-style: none;
   overflow: hidden;
   width: calc(25% - 10px);

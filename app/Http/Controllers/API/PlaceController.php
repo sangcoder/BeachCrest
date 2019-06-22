@@ -38,6 +38,8 @@ class PlaceController extends Controller
     * )
     */
     /**
+     * Định nghĩa theo chuẩn Restful API
+     * GET api/place
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -45,10 +47,11 @@ class PlaceController extends Controller
 
     public function index()
     {
-        $product = Place::paginate(10);
+        // Phân trang 10 địa điểm trên 1 trang
+        $place = Place::paginate(10);
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
-            'data' => $product
+            'data' => $place
         ]);
     }
 

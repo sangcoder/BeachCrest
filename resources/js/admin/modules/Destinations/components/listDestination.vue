@@ -23,6 +23,7 @@
         <!-- title -->
       </div>
       <a-table
+        v-if="listPlace"
         :columns="columns"
         :rowKey="record => record.PlaceID"
         :dataSource="listPlace"
@@ -32,7 +33,7 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <template slot="placeImage" slot-scope="placeImage">
-          <a-avatar shape="square" :size="64" icon="camera" :src="'/images/place/' + placeImage"/>
+          <a-avatar shape="square" :size="64" icon="camera" :src="/^https?:\/\//i.test(placeImage) ? placeImage :'/images/place/' + placeImage" />
         </template>
         <template slot="description" slot-scope="description">
           {{ description | truncate(100) }}
@@ -43,11 +44,11 @@
         <template slot="modify" slot-scope="modify">
           <a-button size="small" type="primary" icon="edit" @click="goToEdit(modify.PlaceID)"></a-button>
           <a-popconfirm
-            title="Are you sure delete?"
+            title="Bạn có chắc muốn xóa?"
             @confirm="confirm(modify.PlaceID)"
             @cancel="cancel"
-            okText="Yes"
-            cancelText="No"
+            okText="Đồng ý"
+            cancelText="Hủy"
           >
             <a-button size="small" type="danger" icon="delete"></a-button>
           </a-popconfirm>

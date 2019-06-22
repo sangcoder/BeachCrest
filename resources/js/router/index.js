@@ -21,6 +21,8 @@ import Tour from '../admin/modules/Tours'
 import Schedule from '../admin/modules/Schedules'
 import Review from '../admin/modules/Reviews'
 import BookingManga from '../admin/modules/Booking'
+import NewManger from '../admin/modules/News'
+
 // Import profile
 import Profile from '../admin/modules/Profile'
 // Import Client Module
@@ -111,7 +113,7 @@ const router = new Router({
       beforeEnter: requireAuth,
       children: [...Dashboard, ...User, ...Authorization,
         ...Destination, ...Promotion, ...TourGuider,
-        ...Cultures, ...Tour, ...Profile, ...Schedule, ...Review, ...BookingManga
+        ...Cultures, ...Tour, ...Profile, ...Schedule, ...Review, ...BookingManga, ...NewManger
       ]
     },
     {

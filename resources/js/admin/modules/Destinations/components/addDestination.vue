@@ -75,7 +75,7 @@
                     >
                       <img
                         v-if="form.ImgUrl"
-                        :src="/^https?:\/\//i.test(form.ImgUrl) ? form.ImgUrl : ((/^data:image/i).test(form.ImgUrl) ? form.ImgUrl : '/images/place/' + form.ImgUrl)"
+                        :src="/^https?:\/\//i.test(form.ImageUrl) ? form.ImageUrl : ((/^data:image/i).test(form.ImageUrl) ? form.ImageUrl : '/images/place/' + form.ImageUrl)"
                         alt="Destination"
                         width="128"
                       >
@@ -208,7 +208,7 @@ export default {
       if (info.file.status === "done") {
         // Get this url from response in real world.
         getBase64(info.file.originFileObj, imageUrl => {
-          this.form.ImgUrl = imageUrl;
+          this.form.ImageUrl = imageUrl;
           this.loading = false;
         });
       }
