@@ -102,7 +102,7 @@ Route::group([
     Route::post('user/deleteRole/{id}', 'API\UserController@deleteRoleById');
 
     // CRUD New
-    Route::get('news', 'NewsController@index');
+    
     Route::post('news', 'NewsController@store');
     Route::put('news/{news}', 'NewsController@update');
     Route::delete('news/{news}', 'NewsController@destroy');
@@ -115,6 +115,7 @@ Route::group([
         'cultures' => 'API\ScenicCultureController'
     ]);
 });
+Route::get('news', 'NewsController@index');
 Route::get('news/getbyId/{news}', 'NewsController@show');
 
 Route::post('uploadImage', 'API\UploadImage@upload');

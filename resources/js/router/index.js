@@ -30,6 +30,7 @@ import Home from '../frontend/modules/Home'
 import Detail from '../frontend/modules/Detail'
 import Booking from '../frontend/modules/Booking'
 import Search from '../frontend/modules/Search'
+import ViewNew from '../frontend/modules/News'
 
 function requireAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
@@ -93,7 +94,7 @@ function nonRequire (from, to, next) {
 Vue.use(Router)
 const router = new Router({
   mode: 'history',
-  scrollBehavior : () => ({ y: 0 }),
+  scrollBehavior: () => ({ y: 0 }),
   linkActiveClass: 'active',
   routes: [
     {
@@ -102,7 +103,7 @@ const router = new Router({
       component: Client,
       redirect: '/index.html',
       beforeEnter: nonRequire,
-      children: [...Home, ...Detail, ...Booking, ...Search]
+      children: [ ...Home, ...Detail, ...Booking, ...Search, ...ViewNew ]
     },
     {
       path: '/admin',

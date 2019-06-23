@@ -6,7 +6,7 @@
         <div v-for="item in listNews" :key="item.NewsID" class="category-post-item category-module-full">
           <div class="category-post-item-inner">
             <div class="category-post-avatar">
-              <a href="#">
+              <a  @click="$router.push({name: 'ViewNews', query: {news: item.NewsID}})">
                 <img
                   :src="item.ImgUrl"
                   :alt="item.Title"
@@ -14,7 +14,7 @@
               </a>
             </div>
             <div class="category-post-content">
-              <a href="#">
+              <a @click="$router.push({name: 'ViewNews', query: {view: item.NewsID}})">
                 <h3 class="category-post-title">{{item.Title}}</h3>
               </a>
               <p class="category-post-info color">
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="quatrang d-flex justify-content-center w-100 mb-3">
-        <a-pagination showQuickJumper :defaultCurrent="2" :total="500" @change="onChange"/>
+        <a-pagination showQuickJumper :defaultCurrent="1" :total="totalNews" @change="onChange"/>
       </div>
     </div>
   </div>
@@ -42,10 +42,18 @@ export default {
   name: "ListNews",
   props: {
     newsTitle: String,
-    listNews: Array
+    listNews: Array,
+    totalNews: Number
+  },
+  data () {
+    return {
+
+    }
   },
   methods: {
-    onChange(value) {}
+    onChange(value) {
+      this.$$emit('changpage', value)
+    }
   }
 };
 </script>

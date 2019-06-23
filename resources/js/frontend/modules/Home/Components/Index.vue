@@ -5,7 +5,7 @@
       <h2>Tour mới cập nhật</h2>
       <div class="row tour-r">
         <template v-if="loading">
-          <div v-for="i in 4" :key="i" class="col-lg-3 col-md-4 col-sm-6 tour--item">
+          <div v-for="i in 8" :key="i" class="col-lg-3 col-md-4 col-sm-6 tour--item">
             <list-tour loading/>
           </div>
         </template>
@@ -81,14 +81,25 @@
         </template>
       </div>
       <div class="pagination-index d-flex justify-content-center mb-2">
-        <a-pagination showQuickJumper :defaultCurrent="1" :pageSize.sync="pagination.pageSize"  :total="pagination.total" @change="onChangePage"/>
+        <a-pagination
+          showQuickJumper
+          :defaultCurrent="1"
+          :pageSize.sync="pagination.pageSize"
+          :total="pagination.total"
+          @change="onChangePage"
+        />
       </div>
     </section>
 
     <!-- List destination -->
-    <list-destination :titleHeader="'Top địa điểm'" :listDestinations="startPlace" />
+    <list-destination :titleHeader="'Top địa điểm'" :listDestinations="startPlace"/>
     <section class="news-index">
-      <list-news :news-title="'Tin tức du lịch'" :list-news="listNews"  />
+      <list-news
+        :news-title="'Tin tức du lịch'"
+        :list-news="listNews"
+        :totalNews="paginationTour.total"
+        @changpage="ChangePage"
+      />
     </section>
   </div>
 </template>
@@ -114,6 +125,9 @@ export default {
       listPlace: [],
       startPlace: [],
       listNews: [],
+      paginationTour: {
+        total: 1
+      },
       pagination: {
         total: 1,
         pageSize: 1,
@@ -133,11 +147,12 @@ export default {
     }
   },
   methods: {
-    fetchListTour() {
-      this.$store.dispatch("tour/getListTour").then(res => {
+    fetchListTour(page) {
+      this.loading = true;
+      this.$store.dispatch("tour/getListTour", page).then(res => {
         this.loading = false;
-        this.pagination.total = res.data.meta.total
-        this.pagination.pageSize = res.data.meta.per_page
+        this.pagination.total = res.data.meta.total;
+        this.pagination.pageSize = res.data.meta.per_page;
       });
     },
     fetchPlace() {
@@ -152,10 +167,16 @@ export default {
     },
     fetchNews(page) {
       HomeAPI.getListNews(page).then(res => {
-        this.listNews = res.data.data
-      })
+        this.listNews = res.data.data;
+        this.paginationTour.total = res.data.meta.total;
+      });
     },
-    onChangePage() {}
+    onChangePage(value) {
+      this.fetchListTour(value);
+    },
+    ChangePage(page) {
+      console.log(page);
+    }
   }
 };
 </script>

@@ -5,7 +5,7 @@
       <div id="list-post">
         <ul class="category-item">
           <li v-for="item in listDestinations" :key="item.PlaceID">
-            <a href="#">
+            <a href="#"   @click="$router.replace({name: 'SeachTour', query: {diemden: item.PlaceID, tuNgay: search.tungay, denNgay: search.denngay }})">
               <div class="overlayX">
                 <img
                   class="lazy"
@@ -30,6 +30,15 @@ export default {
 	props: {
 		listDestinations: Array,
     titleHeader: String
+  },
+  data () {
+    return {
+      search: {
+        diemden: "",
+        tungay: "",
+        denngay: ""
+      }
+    }
   }
 };
 </script>

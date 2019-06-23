@@ -4,7 +4,7 @@
     <div class="app-body">
       <main class="main">
         <breadcrumb :list="list" />
-        <div class="container">
+        <div class="container" style="margin-bottom: 20px;">
           <a-locale-provider :locale="vi_VN">
           <router-view />
           </a-locale-provider>
