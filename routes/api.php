@@ -31,7 +31,8 @@ Route::group([
         'middleware' => 'api'
     ], function() {
         Route::post('password/token/create','AuthController@createPasswordResetToken');
-        
+        Route::get('password/token/find/{token}', 'AuthController@findPasswordResetToken');
+        Route::post('password/reset', 'AuthController@resetPassword');
     });
 });
 

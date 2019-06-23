@@ -16,6 +16,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Log;
 use App\Notifications\RegisterActivate;
 use Spatie\Permission\Models\Permission;
+use App\Notifications\PasswordResetRequest;
+use App\Notifications\PasswordResetSuccess;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller
@@ -353,6 +355,7 @@ class AuthController extends Controller
             ]
         );
         if($user && $passwordReset) {
+            // dd($passwordReset);
             $user->notify(new PasswordResetRequest($passwordReset->token));
         }
 
@@ -367,18 +370,18 @@ class AuthController extends Controller
         if(!$passwordReset) {
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
-                'message' => 'This password reset token is invalid'
+                'message' => 'Token không hợp lệ'
             ], AppResponse::HTTP_BAD_REQUEST);
         }
         if (Carbon::parse($passwordReset->updated_at)->addMinutes(720)->isPast()) {
             $passwordReset->delete();
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
-                'message' => 'This password invalid'
-            ]);
+                'message' => 'Token đã hết hạn'
+            ], AppResponse::HTTP_BAD_REQUEST);
         }
         return response()->json([
-            'success' => AppResponse::STATUS_SUCCCESS,
+            'success' => AppResponse::STATUS_SUCCESS,
             'data' => $passwordReset
         ], AppResponse::HTTP_OK);
     }
@@ -386,8 +389,7 @@ class AuthController extends Controller
     public function resetPassword(Request $request) {
         //  Ràng buộc dữ liệu
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|string|email',
             'password' => 'required|string',
             'password_confirmation' => 'required|string:same:password',
             'token' => 'required|string'
@@ -398,15 +400,16 @@ class AuthController extends Controller
                 'errors'=>$validator->errors()
             ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
-
+        // dd($request->email);
         $passwordReset = PasswordReset::where([
             ['token', $request->token],
             ['email', $request->email]
         ])->first();
-        if($passwordReset) {
+        // dd($passwordReset);
+        if(!$passwordReset) {
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
-                'message' => 'Dữ liệu không hợp lệ'
+                'message' => 'Token hoặc email không hợp lệ'
             ], AppResponse::HTTP_BAD_REQUEST);
         }
         $user = User::where('email', $passwordReset->email)->first();
@@ -417,7 +420,7 @@ class AuthController extends Controller
             ], AppRespose::HTTP_BAD_REQUEST);
         }
         // lưu new password
-        $user->password= brcypt($request->password);
+        $user->password= bcrypt($request->password);
         $user->save();
         // xóa password reset token
         $passwordReset->delete();

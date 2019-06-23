@@ -9,6 +9,7 @@
         <h2 class="login-box-msg">Đăng nhập vào hệ thống</h2>
         <div class="input-group mb-3">
           <a-input
+            size="large"
             placeholder="Enter your email"
             v-model="email"
             ref="emailInput"
@@ -24,6 +25,7 @@
         </div>
         <div class="input-group mb-3">
           <a-input
+            size="large"
             placeholder="Enter your password"
             type="password"
             v-model="password"
@@ -58,7 +60,7 @@
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-          <a href="#">Quên mật khẩu?</a>
+          <a href="javascript:;"  @click="$router.push({name: 'ForgotPassword'})">Quên mật khẩu?</a>
         </p>
         <p class="mb-0">
           <a href="javascript:;" @click="$router.push({name: 'Register'})" class="text-center">Đăng kí mới tài khoản tại đây</a>

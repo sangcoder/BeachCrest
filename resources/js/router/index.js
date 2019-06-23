@@ -9,6 +9,9 @@ import Register from '../pages/Register.vue'
 import store from '../store/index'
 import Client from '../pages/Client.vue'
 import ActiveMember from '../pages/ActiveMember.vue'
+import ForgotPassword from '../pages/ForgotPassword.vue'
+import PasswordReset from '../pages/PasswordReset.vue'
+
 // import module admin
 import User from '../admin/modules/User'
 import Destination from '../admin/modules/Destinations'
@@ -137,6 +140,16 @@ const router = new Router({
       path: '/auth/active/:token',
       name: ActiveMember,
       component: ActiveMember
+    },
+    {
+      path: '/forgot/password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
+    },
+    {
+      path: '/reset-password/:token',
+      name: 'ResetPassword',
+      component: PasswordReset
     },
     {
       path: '*',

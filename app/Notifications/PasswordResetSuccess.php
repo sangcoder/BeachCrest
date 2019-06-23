@@ -41,9 +41,11 @@ class PasswordResetSuccess extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->from('beachcrestsupport@gmail.com', 'BeachCrest Support')
+                    ->subject('Thay đổi mật khẩu tài khoản tại BeachCrest')
+                    ->line('Bạn đã thay đổi thành công mật khẩu. .')
+                    ->action('Bạn có thể đăng nhập tại đây', url('/auth/login'))
+                    ->line('Hệ thống');
     }
 
     /**

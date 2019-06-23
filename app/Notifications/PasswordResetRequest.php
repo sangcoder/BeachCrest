@@ -10,15 +10,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 class PasswordResetRequest extends Notification
 {
     use Queueable;
-
+    protected $token;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -44,12 +44,14 @@ class PasswordResetRequest extends Notification
         if (substr($configUrl, -1) !== '/') {
             $configUrl = $configUrl . '/';
         }
+        // dd($notifiable);
         $url = $configUrl . $this->token;
-
         return (new MailMessage)
-                    ->line('You are receiving this email because we received a password reset request for your account.')
-                    ->action('Reset Password', url($url))
-                    ->line('If you did not request a password reset, no further action is required.');
+                    ->from('beachcrestsupport@gmail.com', 'BeachCrest Support')
+                    ->subject('Đổi mật khẩu tài khoản tại BeachCrest')
+                    ->line('Bạn nhận thư mày bởi vì bạn đã yêu đầu đổi mật khẩu tài khoản tại BeachCrest')
+                    ->action('Link đổi mật khẩu', url($url))
+                    ->line('Nếu bạn không gửi bất kỳ yêu cầu nào thì vui lòng không tiếp tục');
     }
 
     /**

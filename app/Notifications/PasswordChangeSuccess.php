@@ -41,8 +41,10 @@ class PasswordChangeSuccess extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('You have changed your password successfully.')
-            ->line('If you did not do it, then please consider protecting your account.');
+            ->from('beachcrestsupport@gmail.com', 'BeachCrest Support')
+            ->subject('Xác nhận tài khoản tại BeachCrest')
+            ->line('Bạn đãn thay đổi thành công mật khẩu')
+            ->line('Hãy bảo mật tài khoản');
         }
 
     /**
