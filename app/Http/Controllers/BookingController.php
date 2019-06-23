@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\PaymentResource;
+use App\Http\Resources\BookingMemberResource;
 
 class BookingController extends Controller
 {
@@ -352,5 +353,10 @@ class BookingController extends Controller
             'success' => AppResponse::STATUS_SUCCESS
         ]);
     }
-
+    public function getBookingMember (Request $request) {
+        $user = auth()->user();
+        $listBooking = $user->bookings();
+        return BookingMemberResource::collection($listBooking->paginate(10));
+        // dd($user->bookings);
+    }
 }

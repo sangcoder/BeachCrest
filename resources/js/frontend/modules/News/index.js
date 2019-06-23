@@ -5,6 +5,6 @@ export default [
     path: '/news',
     name: 'ViewNews',
     component: ViewNews,
-    meta: {lablel: 'Xem tin tức'}
+    meta: {label: 'Xem tin tức'}
   }
 ]

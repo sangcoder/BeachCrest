@@ -1,7 +1,7 @@
 import MainProfile from './components/index.vue'
 import Profile from './components/Profile.vue'
 import ChangePassword from './components/ChangePassword.vue'
-
+import HistoryBooking from './components/HistoryBooking.vue'
 export default [
   {
     path: '/auth/profile',
@@ -14,6 +14,12 @@ export default [
         path: '/auth/thong-tin-tai-khoan.html',
         name: 'Profile',
         component: Profile,
+        meta: {isRoles: 1}
+      },
+      {
+        path: '/auth/lich-su-booking.html',
+        name: 'historyBooking',
+        component: HistoryBooking,
         meta: {isRoles: 1}
       },
       {

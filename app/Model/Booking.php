@@ -22,6 +22,6 @@ class Booking extends Model
         return $this->belongsTo(Tour::class, 'tour_id');
     }
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo('App\User');
     }
 }

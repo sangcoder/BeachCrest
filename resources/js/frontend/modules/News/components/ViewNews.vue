@@ -10,7 +10,7 @@
           </p>
         </div>
         <div class="feather-img">
-          <img class="img-responsive" :src="infoNews.ImgUrl" :alt="infoNews.Title">
+          <img class="img-fluid w-100" :src="infoNews.ImgUrl" :alt="infoNews.Title">
         </div>
         <div class="content-news" v-html="infoNews.Contents"></div>
       </b-col>
@@ -75,9 +75,12 @@ export default {
   padding: 15px;
   background: #fff;
 }
+.main-content {
+  border-right: 1px solid #eee;
+}
 .header-news h2 {
   margin-top: 0px;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 25px;
   margin-bottom: 0;
   font-weight: 500;

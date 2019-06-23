@@ -1,32 +1,26 @@
 <template>
   <div class="page-profile">
-     <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
-      <div class="account-settings-info-main" >
+    <a-card
+      :bordered="false"
+      :bodyStyle="{ padding: '16px 0', height: '100%' }"
+      :style="{ height: '100%' }"
+    >
+      <div class="account-settings-info-main">
         <div class="account-settings-info-left">
-          <a-menu
-            :defaultSelectedKeys="['1']"
-            type="inner"
-            @openChange="onOpenChange"
-          >
+          <a-menu :defaultSelectedKeys="['1']" type="inner" @openChange="onOpenChange">
             <a-menu-item key="1">
-              <router-link :to="{ name: 'Profile' }">
-                Thông tin cá nhân
-              </router-link>
-              <a-menu-item key="2">
-              <router-link :to="{ name: 'ChangePassword' }">
-                Danh sách booking
-              </router-link>
+              <router-link :to="{ name: 'Profile' }">Thông tin cá nhân</router-link>
             </a-menu-item>
+            <a-menu-item key="2">
+              <router-link :to="{ name: 'historyBooking' }">Lịch sử booking</router-link>
             </a-menu-item>
             <a-menu-item key="3">
-              <router-link :to="{ name: 'ChangePassword' }">
-                Đổi mật khẩu
-              </router-link>
+              <router-link :to="{ name: 'ChangePassword' }">Đổi mật khẩu</router-link>
             </a-menu-item>
           </a-menu>
         </div>
         <div class="account-settings-info-right">
-          <router-view />
+          <router-view/>
         </div>
       </div>
     </a-card>
@@ -34,18 +28,16 @@
 </template>
 <script>
 export default {
-  name      : 'Profile',
-  data () {
+  name: "Profile",
+  data() {
     return {
-      defaultSelectedKeys: [],
-    }
+      defaultSelectedKeys: []
+    };
   },
   methods: {
-    onOpenChange () {
-
-    }
+    onOpenChange() {}
   }
-}
+};
 </script>
 <style scoped>
 .account-settings-info-main {
@@ -76,15 +68,18 @@ export default {
   flex: 1 1;
   padding: 8px 40px;
 }
-.account-settings-info-main .account-settings-info-right .account-settings-info-title {
+.account-settings-info-main
+  .account-settings-info-right
+  .account-settings-info-title {
   color: rgba(0, 0, 0, 0.85);
   font-size: 20px;
   font-weight: 500;
   line-height: 28px;
   margin-bottom: 12px;
 }
-.account-settings-info-main .account-settings-info-right .account-settings-info-view {
+.account-settings-info-main
+  .account-settings-info-right
+  .account-settings-info-view {
   padding-top: 12px;
 }
-
 </style>

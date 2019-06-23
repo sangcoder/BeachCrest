@@ -9,6 +9,7 @@ import 'ant-design-vue/dist/antd.css'
 import 'nprogress/nprogress.css'
 import * as filters from './filters'
 import Editor from '@tinymce/tinymce-vue'
+import VueScrollTo from 'vue-scrollto'
 
 // import GlobalComponents from './globalComponents'
 // Routers
@@ -22,6 +23,7 @@ Vue.component('editor', Editor)
 window.Vue = Vue
 
 // Vue.use(GlobalComponents)
+Vue.use(VueScrollTo)
 Vue.use(VueTruncate)
 Vue.use(Antd)
 Vue.use(BootstrapVue)

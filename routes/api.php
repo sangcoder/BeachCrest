@@ -91,6 +91,8 @@ Route::group([
     Route::post('booking/acceptPaypal', 'BookingController@addPaymentPaypals');
     Route::post('booking/acceptBooking', 'BookingController@acceptBooking');
     Route::delete('booking/{booking}', 'BookingController@destroy');
+    // Member booking
+    Route::get('historybooking/member', 'BookingController@getBookingMember');
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai

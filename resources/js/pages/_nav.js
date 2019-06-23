@@ -7,6 +7,12 @@ export default {
       isRoles: 1
     },
     {
+      name: 'Thông tin tài khoản',
+      url: '/auth/thong-tin-tai-khoan.html',
+      icon: 'icon-user',
+      isRoles: 1
+    },
+    {
       name: 'Quản lý tài khoản',
       icon: 'icon-user',
       isRoles: 2,

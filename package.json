@@ -68,6 +68,7 @@
         "vue-notifyjs": "^0.2.0",
         "vue-paypal-checkout": "^3.2.0",
         "vue-router": "^3.0.2",
+        "vue-scrollto": "^2.15.0",
         "vue-truncate-filter": "^1.1.7",
         "vue-wysiwyg": "^1.7.2",
         "vuelidate": "^0.7.4",

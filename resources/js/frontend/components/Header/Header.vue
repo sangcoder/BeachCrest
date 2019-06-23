@@ -18,8 +18,9 @@
       </button>
       <b-navbar-nav class="d-md-down-none">
         <b-nav-item class="px-3" @click="goTo('/')">Home</b-nav-item>
-        <b-nav-item class="px-3" @click="goTo('/api/documentation')">Danh sách tour</b-nav-item>
-        <b-nav-item class="px-3" @click="goTo('/api/documentation')">Tour khuyến mãi</b-nav-item>
+        <b-nav-item class="px-3" v-scroll-to="{el: '#listTour',  offset:0}">Danh sách tour </b-nav-item>
+        <b-nav-item class="px-3" v-scroll-to="{el: '#topDestination',  offset:0}">Danh sách địa điểm</b-nav-item>
+        <b-nav-item class="px-3" v-scroll-to="{el: '#newsSection',  offset:0}">Danh sách địa điểm</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <header-dropdown/>

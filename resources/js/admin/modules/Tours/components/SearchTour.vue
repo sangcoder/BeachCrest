@@ -4,13 +4,13 @@
       <h4 class="card-title"> <a-icon type="file-search" /> Tìm kiếm tour</h4>
       <b-row>
         <b-col lg="4">
-          <a-form-item label="Điểm đến">
-            <a-input size="large" placeholder="Nhập tên điểm đến"/>
+          <a-form-item label="Mã tour">
+            <a-input size="large" placeholder="Nhập mã tour"/>
           </a-form-item>
         </b-col>
         <b-col lg="4">
-          <a-form-item label="Ngày khởi hành">
-            <a-input size="large" placeholder="Nhập tên điểm đến"/>
+          <a-form-item label="Tên tour">
+            <a-input size="large" placeholder="Nhập tên tour"/>
           </a-form-item>
         </b-col>
         <b-col lg="2" class="d-flex justify-content-center align-items-center">

@@ -1,7 +1,7 @@
 <template>
   <div class="main-index">
     <SearchTour :list-place="listPlace"/>
-    <section class="mod-tour">
+    <section class="mod-tour" id="listTour">
       <h2>Tour mới cập nhật</h2>
       <div class="row tour-r">
         <template v-if="loading">
@@ -92,8 +92,10 @@
     </section>
 
     <!-- List destination -->
+    <section id="topDestination">
     <list-destination :titleHeader="'Top địa điểm'" :listDestinations="startPlace"/>
-    <section class="news-index">
+    </section>
+    <section class="news-index" id="newsSection">
       <list-news
         :news-title="'Tin tức du lịch'"
         :list-news="listNews"
