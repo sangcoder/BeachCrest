@@ -18,6 +18,7 @@ use App\Notifications\RegisterActivate;
 use Spatie\Permission\Models\Permission;
 use App\Notifications\PasswordResetRequest;
 use App\Notifications\PasswordResetSuccess;
+use App\Notifications\PasswordChangeSuccess;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller

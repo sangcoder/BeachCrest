@@ -1,7 +1,7 @@
 <template>
   <div class="section section-detail">
     <b-row class="flex-column-reverse flex-lg-row">
-      <b-col md="8">
+      <b-col lg="8">
         <template v-if="loading">
           <skeleton-box width="90%" height="20px"/>
           <skeleton-box width="40%" height="15px"/>
@@ -20,7 +20,7 @@
           <!-- <comment-box :CountReview="dataTour.Rating" /*v-on="ReloadDS(item)" :comments="comments"></comment-box> -->
         </div>
       </b-col>
-      <b-col md="4">
+      <b-col lg="4">
         <div class="sidebar-content" :class="sidebarStyle" ref="sidebarContent">
           <box-booking
             v-if="loading"

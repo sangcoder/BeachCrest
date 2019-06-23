@@ -25,6 +25,7 @@ Route::group([
     ], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('getUser', 'AuthController@getUser');
+        Route::post('password/change', 'AuthController@changePassword');
     });
     // Giới hạn số lần request/s cho các route 60s/req
     Route::group([
