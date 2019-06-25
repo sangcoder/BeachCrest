@@ -162,6 +162,9 @@ export default {
         automatic_uploads: true,
         images_upload_url: "/api/upload/tinymce",
         file_picker_types: "image",
+        external_filemanager_path:"/filemanager/filemanager/",
+        filemanager_title:"Responsive Filemanager" ,
+        external_plugins: { "filemanager" : "/filemanager/tinymce/plugins/responsivefilemanager/plugin.min.js"},
         file_picker_callback: function(cb, value, meta) {
           var input = document.createElement("input");
           input.setAttribute("type", "file");

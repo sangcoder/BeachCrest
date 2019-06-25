@@ -15,7 +15,7 @@
                 </span>
               </div>
               <div>
-                <span>Wallet Balance</span>
+                <span>Doanh thu tháng này</span>
                 <h3 class="font-medium m-b-0">$3,567.53</h3>
               </div>
             </div>
@@ -30,7 +30,7 @@
                 </span>
               </div>
               <div>
-                <span>Referral Earnings</span>
+                <span>Doanh thu hôm nay</span>
                 <h3 class="font-medium m-b-0">$769.08</h3>
               </div>
             </div>
@@ -45,7 +45,7 @@
                 </span>
               </div>
               <div>
-                <span>Estimate Sales</span>
+                <span>Tổng số Booking</span>
                 <h3 class="font-medium m-b-0">5489</h3>
               </div>
             </div>
@@ -60,7 +60,7 @@
                 </span>
               </div>
               <div>
-                <span>Earnings</span>
+                <span>Số Booking chưa duyệt</span>
                 <h3 class="font-medium m-b-0">$23,568.90</h3>
               </div>
             </div>

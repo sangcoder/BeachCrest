@@ -25,11 +25,23 @@ Route::get('paypal/payment/list', 'PayPalTestController@paymentList');
 Route::get('paypal/payment/detail', 'PayPalTestController@paymentDetail');
 Route::post('checkout-paypal', 'PaypalController@checkoutPaypal');
 
-
+// All export
 
 Route::get('/client', function () {
-    return view('home');
+    return view('pdf.invoice');
 });
+// Export Excel
+Route::get('/download/tourguider', function () {
+    ob_end_clean(); // this
+    ob_start(); // and this
+    return Excel::download(new TourGuiderExport, 'danh-sach-huong-dan-vien.xlsx');
+});
+
+// Export Invoice
+
+Route::get('/download/invoice', 'ExportFile@generate_invoice_pdf');
+
+
 
 Route::get('/test','HomeController@test');
 
@@ -46,7 +58,3 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home',['as' => 'search', 'use' => 'HomeController@search'] );
 
-// Export Excel
-Route::get('/download/tourguider', function () {
-    return Excel::download(new TourGuiderExport, 'danh-sach-huong-dan-vien.xlsx');
-});

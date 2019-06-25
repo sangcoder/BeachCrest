@@ -35,7 +35,7 @@
             <a-avatar :size="64" icon="user" :src="avatar"/>
           </template>
           <template slot="gender" slot-scope="gender">{{gender === 1 ? 'Nam' : 'Nữ'}}</template>
-          <template slot="bday" slot-scope="bday">{{bday | myDate}}</template>
+          <template slot="bday" slot-scope="bday">{{bday | birthDay}}</template>
           <template slot="modify" slot-scope="modify">
             <a-button type="primary" icon="edit" @click="updateTourGuider(modify)"></a-button>
             <a-popconfirm

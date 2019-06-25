@@ -9,17 +9,23 @@
       :loading="loading"
       @change="handleTableChange"
     >
-      <template slot="tour" slot-scope="tour"><a target="_blank" rel="noopener noreferrer" @click="$router.push({name: 'booking', query: {tour: tour.infoTour.id}})" >{{tour.infoTour.name}}</a> </template>
+      <template slot="tour" slot-scope="tour"><a target="_blank" href="javascript:;" rel="noopener noreferrer" @click="$router.push({name: 'booking', query: {tour: tour.infoTour.id}})" >{{tour.infoTour.name | truncate(45)}}</a> </template>
       <template slot="State" slot-scope="State">
         {{State === 1 ? 'Chưa thanh toán': 'Đã thanh toán'}}</template>
       <template slot="dateBooking" slot-scope="dateBooking">{{dateBooking.DateBooking}}</template>
       <template slot="nguoiduyet" slot-scope="nguoiduyet">
-        <p v-if="nguoiduyet">
-          <strong>{{nguoiduyet}}</strong>
+        <p v-if="nguoiduyet.infoStaff.name">
+          <strong>{{nguoiduyet.infoStaff.name}}</strong>
         </p>
-        <p>
+        <p v-else>
           Chưa duyệt
         </p>
+      </template>
+      <template slot="totalAmount" slot-scope="totalAmount">
+        {{totalAmount.payment.PaymentAmount | toCurrency}}
+      </template>
+      <template slot="type" slot-scope="type">
+        {{type.payment.PaymentType === 1 ? 'Normal' : 'Paypal'}}
       </template>
     </a-table>
   </div>
@@ -51,8 +57,16 @@ const columns = [
   },
   {
     title: "Người duyệt",
-    dataIndex: "nguoiduyet",
+    // dataIndex: "nguoiduyet",
     scopedSlots: { customRender: "nguoiduyet" }
+  },
+  {
+    title: 'Tổng tiền',
+    scopedSlots: {customRender: 'totalAmount'}  
+  },
+  {
+    title: 'Phương thức',
+    scopedSlots: {customRender: 'type'}
   }
 ];
 export default {
@@ -69,14 +83,19 @@ export default {
   },
   methods: {
     handleTableChange(pagination, filters, sorter) {
-      console.log(pagination);
+           const pager = { ...this.pagination };
+      pager.current = pagination.current;
+      this.pagination = pager;
+      this.fetchHistoryBooking(this.pagination.current)
     },
     fetchHistoryBooking(page) {
+      this.loading = true
       HistoryBooking.getHistoryBooking(page).then(res => {
         const pagination = { ...this.pagination };
         pagination.total = res.data.meta.total;
         this.data = res.data.data;
         this.pagination = pagination;
+        this.loading = false
       });
     }
   }

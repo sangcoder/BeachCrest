@@ -15,6 +15,7 @@ use App\Http\Requests\BookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\BookingMemberResource;
+use GuzzleHttp\Exception\RequestException;
 
 class BookingController extends Controller
 {
@@ -146,7 +147,6 @@ class BookingController extends Controller
  * 2. Đã thanh toán => Người dùng thanh toán thông qua cổng giao dịch Paypal
  */
 
-
         // Tính tổng số người
         $NumberPersion = 0;
         foreach($request->listCustomer as $customer) {
@@ -213,30 +213,9 @@ class BookingController extends Controller
         $PriceKid = round((1 - $promotion/ 100) * $tour->PriceKid,2);
 
         // Get tỷ giá hiện tại
-        $rate = 0;
-        $rateList = array();
-        $client = new Client;
-        $results = $client->request('GET', 'https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx');
-        $xml = simplexml_load_string($results->getBody(),'SimpleXMLElement',LIBXML_NOCDATA);
-        $json = json_encode($xml);
-        $array = json_decode($json, true);
-        // $array_dot = array_dot($array);
-        $collection = collect($array);
-
-        foreach($collection['Exrate'] as $rate) {
-            foreach($rate as $item) {
-                if ($item['CurrencyCode'] == 'USD') {
-                    $rate = $item['Buy'];
-                    array_push($rateList, [
-                        'DateUpdate' =>  $collection['DateTime'],
-                        'Rate' =>  $item['Buy']
-                    ]);
-                    break;
-                }
-            }
-        }
-
-        $TotalAmout = $Numberkid * round($PriceKid/$rate, 2) + round($priceAdult/$rate, 2) * $numberAdult;
+        $rateList = $this->getRateDolar();
+        // dd($rateList);
+        $TotalAmout = $Numberkid * round($PriceKid/$rateList['Rate'], 2) + round($priceAdult/$rateList['Rate'], 2) * $numberAdult;
         $AmountVND =  ($Numberkid * $PriceKid) + ($numberAdult * $priceAdult);
         // dd($AmountVND,  $Numberkid, $PriceKid, $numberAdult, $numberAdult);
         $data = array();
@@ -247,7 +226,7 @@ class BookingController extends Controller
                 'name'=> $item->CustomerName,
                 'description' => $item->CustomerType == 1 ? 'Người lớn' : 'Trẻ nhỏ',
                 'quantity' => 1,
-                'price' => $item->CustomerType == 1 ? round($priceAdult/$rate, 2) : round($PriceKid/$rate, 2),
+                'price' => $item->CustomerType == 1 ? round($priceAdult/$rateList['Rate'], 2) : round($PriceKid/$rateList['Rate'], 2),
                 'currency'=> 'USD'
                 ]);
         }
@@ -266,7 +245,7 @@ class BookingController extends Controller
             'listPaypal' => $data,
             'TotalAmount' => round($TotalAmout, 2),
             'AmountVND' => $AmountVND,
-            'RateList' => $rateList[0],
+            'RateList' => $rateList,
             'infoBooking' => [
                 'BookingID' => $booking->BookingID,
                 'PaymentID' => $booking->payment->id,
@@ -293,47 +272,64 @@ class BookingController extends Controller
             'success' => AppResponse::STATUS_SUCCESS
         ]);
     }
-    public function getRateDolar (Request $req) {
+    public function getRateDolar () {
+        
+        /**
+         * VietCombank chi cho request 5phus 1 lần request
+        */
         // dd($req['currencyName']);
-        $client = new Client;
-        $results = $client->request('GET', 'https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx');
-        $xml = simplexml_load_string($results->getBody(),'SimpleXMLElement',LIBXML_NOCDATA);
-        $json = json_encode($xml);
-        $array = json_decode($json, true);
-        // $array_dot = array_dot($array);
-        $collection = collect($array);
-        dd($collection);
-        $data =  array();
-        if ($req->exists('currencyName')) {
-            foreach($collection['Exrate'] as $rate) {
-                foreach($rate as $item) {
-                    if ($item['CurrencyCode'] == $req['currencyName']) {
-                        array_push($data, [
-                            'CurrencyCode' => $item['CurrencyCode'],
-                            'Rate' => $item['Buy'],
-                            'TimeUpdate' => $collection['DateTime']
-                        ]);
-                        break;
+        $arrayData = array();
+        $reload = true;
+        $fileVCB = public_path().'/cache/_rateVCB.cache';
+        $reload = false;
+        $currentTime = Carbon::now();
+        // dd(strtotime($currentTime), filemtime($fileVCB)-300);
+        if (!file_exists($fileVCB)) {
+            $reload = true;
+        } else if(filemtime($fileVCB) < strtotime($currentTime) - 900) {
+            $reload = true;
+        }
+        if ($reload) {
+            // dd('vao');
+            $stringRate = "";
+            $client = new Client;
+            $results = $client->request('GET', 'https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx');
+            $xml = simplexml_load_string($results->getBody(),'SimpleXMLElement',LIBXML_NOCDATA);
+            // dd($xml);
+            if ($xml) {
+                
+                $json = json_encode($xml);
+                $array = json_decode($json, true);
+                // $array_dot = array_dot($array);
+                $collection = collect($array);
+                foreach($collection['Exrate'] as $rate) {
+                    foreach($rate as $item) {
+                        if ($item['CurrencyCode'] == 'USD') {
+                            array_push($arrayData, [
+                                'CurrencyCode' => $item['CurrencyCode'],
+                                'Rate' => $item['Buy'],
+                                'TimeUpdate' => $collection['DateTime']
+                            ]);
+                            break;
+                        }
                     }
                 }
+                $stringRate = serialize($arrayData);
+                file_put_contents($fileVCB, $stringRate, LOCK_EX);
+                // dd($stringRate);
             }
         } else {
-            foreach($collection['Exrate'] as $rate) {
-                foreach($rate as $item) {
-                    if ($item['CurrencyCode'] == 'USD') {
-                        array_push($data, [
-                            'CurrencyCode' => $item['CurrencyCode'],
-                            'Rate' => $item['Buy'],
-                            'TimeUpdate' => $collection['DateTime']
-                        ]);
-                        break;
-                    }
-                }
+            $stringRate = file_get_contents($fileVCB);
+            if (!empty($stringRate)) {
+                $arrayData = unserialize($stringRate);
+                // dd('data',$arrayData);
             }
         }
-        // dump($collection);
+        $stringRate = file_get_contents($fileVCB);
+        // dd($stringRate);
+        return $arrayData[0];
 
-        return $data[0];
+
     }
     public function acceptBooking (Request $request) {
         $user = auth()->user();

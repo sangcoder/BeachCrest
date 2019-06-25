@@ -19,7 +19,7 @@ class BookingResource extends Resource
         // return parent::toArray($request);
         $user = User::find($this->approved_by);
         if (isset($user)) {
-            $userName = $user->name;
+        $userName = $user->name;
         } else {
           $isFalse = false;
         }

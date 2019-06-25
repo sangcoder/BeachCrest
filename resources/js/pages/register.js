@@ -46,6 +46,12 @@ export default {
           duration: 10
         })
       }).catch((err) => {
+        this.loading = false
+        this.$notification['error']({
+          message: 'Thất bại',
+          description: `Đăng kí thất bại`,
+          duration: 10
+        })
         if (err.response && err.response.data) {
           this.validation.errors = err.response.data.errors
         }

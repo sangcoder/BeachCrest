@@ -32,6 +32,7 @@ class BookingMemberResource extends Resource
                 'id' => $this->tour_id,
                 'name' => $this->tour->TourName
             ],
+            'payment' => new PaymentMemberResource($this->payment),
             'infoMember' => [
                 'id' => $this->user_id,
                 'name' => $this->user->name

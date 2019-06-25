@@ -35,14 +35,12 @@
         </div>
 
         <div v-if="current === 2" class="steps-content">
-          <div class="success">
+          <div class="success" >
             <!--[if lte IE 9]>
         <style>
           .path {stroke-dasharray: 0 !important;}
         </style>
             <![endif]-->
-
-
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
               <circle
                 class="path circle"
@@ -67,6 +65,10 @@
             <p class="success">Quý khách đã gửi yêu cầu đặt tour thành công!</p>
           </div>
           <b-row class="mt-5">
+            <!-- 
+               nếu booking thành công ẩn => success === 1
+               Nếu booking thất bại hủy => success === 2
+             -->
             <b-col md="4" class="payment">
               <h4 class="card-title">HÌNH THỨC THANH TOÁN</h4>
               <a-radio-group v-model="value">
@@ -74,13 +76,13 @@
                 <a-radio :style="radioStyle" :value="2">Thanh toán thông qua Paypal</a-radio>
               </a-radio-group>
               <div>
-                <a-button
+                <!-- <a-button
                   v-if="value === 1"
                   type="primary"
                   icon="smile"
                   @click="OfflineBooking"
                   block
-                >Xác nhận</a-button>
+                >Xác nhận</a-button> -->
                 <!-- <paypal-checkout :amount="amount"></paypal-checkout> -->
                 <div v-if="dataBooking.TotalAmount && value === 2">
                   <PayPal
@@ -91,20 +93,21 @@
                     :items="dataBooking.listPaypal"
                     :button-style="myStyle"
                     env="sandbox"
-                    @payment-authorized="paymentAuthorized"
+                    @payment-authorized="paymentAuthorized" 
                     @payment-completed="paymentCompleted"
                   ></PayPal>
                 </div>
               </div>
             </b-col>
-            <b-col md="8">
+            <b-col md="8" >
               <div class="alert-success" v-if="dataBooking.TotalAmount && value === 1">
                 <p>
                   Bạn chọn thanh toán bằng tại
                   <strong>văn phòng của Công ty</strong>.
                 </p>
                 <p>
-                  Quý khách vui lòng mang tiền mặt đến văn phòng của công ty hoặc đến ngân hàng để chuyển tiền vào STK <strong>97043668 12234888</strong>. <br>Ngân hàng VietCombank để thanh toán trước 1 ngày Tour khởi hành
+                  Quý khách vui lòng mang tiền mặt đến văn phòng của công ty hoặc đến ngân hàng để chuyển tiền vào STK <strong>97043668 12234888</strong>. 
+                  <br>Ngân hàng VietCombank để thanh toán trước 1 ngày Tour khởi hành
                   để giao dịch được hoàn tất.
                 </p>
                 <p class="price-Amount">
@@ -125,7 +128,7 @@
                 </p>
                 <p>
                   Tỷ giá hiện tại được lấy từ VietCombank là:
-                  <strong>{{dataBooking.RateList.Rate | toCurrency}}</strong>, được cập nhật vào lúc
+                  <strong>{{parseFloat(dataBooking.RateList.Rate) | toCurrency}}</strong>, được cập nhật vào lúc
                   <strong>{{dataBooking.RateList.DateUpdate}}</strong>
                 </p>
                 <p class="price-Amount">
