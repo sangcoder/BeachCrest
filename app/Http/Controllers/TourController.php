@@ -353,6 +353,7 @@ class TourController extends Controller
                 $itemCollection = collect($uniqueTOur);
                 if($request->exists('filters')) {
                     $itemCollection = $this->filterPrice($itemCollection, $request->filters);
+                    // dd('day');
                 }
                 $perPage = 10;
                 $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
@@ -365,12 +366,21 @@ class TourController extends Controller
             
         } 
         else {
-            if(!$request->exists('filters')) {
+            if($request->exists('filters')) {
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $tour = $this->filterPrice($tour->get(), $request->filters);
+                // dd($tour);
+                $perPage = 10;
+                $currentPageItems = $tour->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+                $paginatedItems= new LengthAwarePaginator($currentPageItems , count($tour), $perPage);
+                $paginatedItems->setPath($request->url());
+                $tour = TourCollection::collection($paginatedItems);
+            } else {
                 $tour = TourCollection::collection($tour->paginate(10));
             }
         }
         if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
-            $tour = TourCollection::collection($tour->paginate(10));
+                $tour = TourCollection::collection($tour->paginate(10));
             // dd('ecc');
         }
         // dd($tour->get());
