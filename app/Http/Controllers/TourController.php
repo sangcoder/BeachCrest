@@ -295,6 +295,7 @@ class TourController extends Controller
         if ($request->exists('dateDeparture') && isset($request->dateDeparture[0])) {
             // dd('bay');
             $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+
             if($request->exists('filters')) {
                 // dd('vao');
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
@@ -307,7 +308,7 @@ class TourController extends Controller
                 $tour = TourCollection::collection($paginatedItems);
             } 
             // dd($tour->get());
-        }
+        } 
 
         if ($request->exists('diemden') && $request->diemden != -1) {
             // dd('vao');
@@ -340,7 +341,6 @@ class TourController extends Controller
                 // dd($tour);
 
             } else {
-                
                 $place = Place::find($request->diemden);
                 $arrayTour = array();
                 foreach($place->scenicCultures as $scenic) {
@@ -355,6 +355,7 @@ class TourController extends Controller
                     $itemCollection = $this->filterPrice($itemCollection, $request->filters);
                     // dd('day');
                 }
+                // dd($itemCollection);
                 $perPage = 10;
                 $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
                 $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
@@ -368,8 +369,10 @@ class TourController extends Controller
         else {
             if($request->exists('filters')) {
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                // dd('day', $tour->get());
                 $tour = $this->filterPrice($tour->get(), $request->filters);
                 // dd($tour);
+                // dd('xuong');
                 $perPage = 10;
                 $currentPageItems = $tour->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
                 $paginatedItems= new LengthAwarePaginator($currentPageItems , count($tour), $perPage);
@@ -379,40 +382,37 @@ class TourController extends Controller
                 $tour = TourCollection::collection($tour->paginate(10));
             }
         }
-        if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
-                $tour = TourCollection::collection($tour->paginate(10));
-            // dd('ecc');
-        }
+        // if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
+        //     $tour = TourCollection::collection($tour->paginate(10));
+        //     // dd('ecc');
+        // }
         // dd($tour->get());
         return $tour;
         
     }
     public function filterPrice ($filterCollection, $valuePrice) {
         // Duoi 500 nghin
-        // dd('hello');
-        // dd($valuePrice);
-        // $filterCollection = TourCollection::collection($filterCollection);
-        // dd($filterCollection);
+        // dd('khong qua', $valuePrice);
         switch ($valuePrice) {
             case 'small500':
                 $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
                     // dd($value);
-                    return $this->getPricePromotion($value->TourID) < 500000;
+                    return $this->getPricePromotion($value->TourID) <= 500000;
                 });
                 break;
             case '500to1000':
                 $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
-                    return $this->getPricePromotion($value->TourID) > 500000 && $this->getPricePromotion($value->TourID) < 1000000;
+                    return $this->getPricePromotion($value->TourID) > 500000 && $this->getPricePromotion($value->TourID) <= 1000000;
                 });
                 break;
             case '1000to2000':
                 $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
-                    return $this->getPricePromotion($value->TourID) > 1000000 && $this->getPricePromotion($value->TourID) < 2000000;
+                    return $this->getPricePromotion($value->TourID) > 1000000 && $this->getPricePromotion($value->TourID) <= 2000000;
                 });
                 break;
             case '2000to5000':
                 $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
-                    return $this->getPricePromotion($value->TourID) > 2000000 && $this->getPricePromotion($value->TourID) < 5000000;
+                    return $this->getPricePromotion($value->TourID) > 2000000 && $this->getPricePromotion($value->TourID) <= 5000000;
                 });
                 break;
             case 'big5000':
@@ -424,7 +424,7 @@ class TourController extends Controller
                 return $filterCollection;
                 break;
         }
-
+        // dd($filterCollectionDone);
         return $filterCollectionDone;
     }
     public function getPricePromotion ($idTour) {

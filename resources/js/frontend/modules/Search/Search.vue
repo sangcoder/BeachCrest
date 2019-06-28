@@ -70,16 +70,25 @@ export default {
       }
     },
     "$route.query.tuNgay"() {
+      if (this.$route.query.tuNgay.length > 0) {
       this.queryData.dateDeparture[0] = moment(
         this.$route.query.tuNgay,
         "DD-MM-YYYY"
       ).format("YYYY-MM-DD");
+      } else {
+         this.queryData.dateDeparture[0] = ''
+      }
+
     },
     "$route.query.denNgay"() {
+      if (this.$route.query.denNgay.length > 0) {
       this.queryData.dateDeparture[1] = moment(
         this.$route.query.denNgay,
         "DD-MM-YYYY"
       ).format("YYYY-MM-DD");
+      } else {
+         this.queryData.dateDeparture[1] = '' 
+      }
     }
   },
   methods: {
@@ -101,16 +110,13 @@ export default {
       });
     },
     FetchLoad(payload) {
-      let send = {
-        dateDeparture: this.queryData.dateDeparture,
-        diemden: this.queryData.diemden
-      };
+
       this.fetchListTour(this.queryData);
       // this.fetchListTour()
     },
     SearchFilter(value) {
       // Filter Array
-            let send = {
+      let send = {
         dateDeparture: this.queryData.dateDeparture,
         diemden: this.queryData.diemden,
         filters: value

@@ -92,6 +92,8 @@ export default {
       value: 'all',
       checkedList: [],
       search: {
+        tuNgay: '',
+        denNgay: '',
         diemden: -1,
         dateDeparture: []
       },
@@ -137,11 +139,9 @@ export default {
   methods: {
     moment,
     onchageRating(checkedValues) {
-      console.log("checked = ", checkedValues);
     },
     onchangePrice(e) {
-      // this.checkAll = false;
-      // this.checkedList = checkedPrice;
+
       this.$emit("search-filter", e.target.value);
       // console.log(checkedPrice)
     },
@@ -159,10 +159,7 @@ export default {
       if (date.length > 0) {
       this.search.tungay = date[0].format(this.dateFormat);
       this.search.denngay = date[1].format(this.dateFormat);
-      } else {
-        this.search.tungay = ''
-        this.search.denngay  = ''
-      }
+      } 
 
     },
     onCheckAllChange(e) {
@@ -176,7 +173,6 @@ export default {
         indeterminate: false,
         checkAll: e.target.checked
       });
-      console.log(this.checkedList);
     },
     handleSearch() {
       if (this.search.dateDeparture.length > 0) {
@@ -184,8 +180,8 @@ export default {
           name: "SeachTour",
           query: {
             diemden: this.search.diemden,
-            tuNgay: this.search.dateDeparture[0].format("DD-MM-YYYY"),
-            denNgay: this.search.dateDeparture[1].format("DD-MM-YYYY")
+            tuNgay: this.search.dateDeparture ? this.search.dateDeparture[0].format("DD-MM-YYYY") : '',
+            denNgay:  this.search.dateDeparture ? this.search.dateDeparture[1].format("DD-MM-YYYY") : ''
           }
         });
       } else {
@@ -198,6 +194,7 @@ export default {
           }
         });
       }
+      this.value = 'all'
       this.$emit("EventReload", this.checkedList);
     }
   }
