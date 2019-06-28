@@ -3,10 +3,19 @@
     <h2>Tìm kiếm tour</h2>
     <b-row>
       <b-col lg="3">
-        <sidebar-search @EventReload="FetchLoad" :list-place="listPlace"/>
+        <sidebar-search
+          @EventReload="FetchLoad"
+          @search-filter="SearchFilter"
+          :list-place="listPlace"
+        />
       </b-col>
       <b-col lg="9">
-        <list-search  @search-name="SearchName" :list-tour-search="listSearchTour" :total="pagination.total" :loading="loading"/>
+        <list-search
+          @search-name="SearchName"
+          :list-tour-search="listSearchTour"
+          :total="pagination.total"
+          :loading="loading"
+        />
       </b-col>
     </b-row>
   </div>
@@ -61,14 +70,16 @@ export default {
       }
     },
     "$route.query.tuNgay"() {
-      this.queryData.dateDeparture[0]= moment(this.$route.query.tuNgay, "DD-MM-YYYY").format(
-        "YYYY-MM-DD"
-      );
+      this.queryData.dateDeparture[0] = moment(
+        this.$route.query.tuNgay,
+        "DD-MM-YYYY"
+      ).format("YYYY-MM-DD");
     },
     "$route.query.denNgay"() {
-      this.queryData.dateDeparture[1] = moment(this.$route.query.denNgay, "DD-MM-YYYY").format(
-        "YYYY-MM-DD"
-      );
+      this.queryData.dateDeparture[1] = moment(
+        this.$route.query.denNgay,
+        "DD-MM-YYYY"
+      ).format("YYYY-MM-DD");
     }
   },
   methods: {
@@ -81,8 +92,7 @@ export default {
           ele.ImageUrl = JSON.parse(ele.ImageUrl);
         });
         this.listSearchTour = tmp;
-        this.pagination.total = res.data.meta.total,
-        this.loading = false;
+        (this.pagination.total = res.data.meta.total), (this.loading = false);
       });
     },
     fetchPlace() {
@@ -90,15 +100,49 @@ export default {
         this.listPlace = res.data.data;
       });
     },
-    FetchLoad (payload) {
-      this.fetchListTour(this.queryData)
+    FetchLoad(payload) {
+      let send = {
+        dateDeparture: this.queryData.dateDeparture,
+        diemden: this.queryData.diemden
+      };
+      this.fetchListTour(this.queryData);
       // this.fetchListTour()
     },
-    SearchName (value) {
+    SearchFilter(value) {
+      // Filter Array
+            let send = {
+        dateDeparture: this.queryData.dateDeparture,
+        diemden: this.queryData.diemden,
+        filters: value
+      };
+      this.fetchListTour(send);
+      // switch (value) {
+      //   case "small500":
+      //     // filter
+      //     this.listSearchTour.filter(item => {
+      //       return item.OnsaleAdult < 500000;
+      //     });
+      //     break;
+      //   case "500to1000":
+      //     this.listSearchTour.filter(item => {
+      //       return item.OnsaleAdult > 500000 && item.OnsaleAdult < 1000000;
+      //     });
+      //     break;
+      //   case "1000to2000":
+      //     break;
+      //   case "2000to5000":
+      //     break;
+      //   case "big5000":
+      //     break;
+      //   default:
+      //}
+      // this.listSearchTour.filter()
+    },
+    SearchName(value) {
       let params = {
         q: value
-      }
-      this.fetchListTour(params)
+      };
+      this.fetchListTour(params);
     }
   }
 };

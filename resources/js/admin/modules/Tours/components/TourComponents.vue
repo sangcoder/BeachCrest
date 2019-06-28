@@ -164,12 +164,12 @@
         </b-col>
         <b-col md="4">
           <b-form-group label="Giá người lớn (VND)">
-            <a-input v-model="formData.PriceAdult" size="large" placeholder="Giá người lớn"/>
+            <a-input v-model="formData.PriceAdult" size="large" type="number" placeholder="Giá người lớn"/>
           </b-form-group>
         </b-col>
         <b-col md="4">
           <b-form-group label="Giá trẻ nhỏ (VND)">
-            <a-input v-model="formData.PriceKid" size="large" placeholder="Giá trẻ nhỏ"/>
+            <a-input v-model="formData.PriceKid" size="large" type="number" placeholder="Giá trẻ nhỏ"/>
           </b-form-group>
         </b-col>
       </b-row>

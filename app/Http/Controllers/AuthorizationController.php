@@ -45,7 +45,9 @@ class AuthorizationController extends Controller
             'data' => $newRole
         ]);
     }
-
+    public function deleteUserRole (Request $request) {
+        dd($request->all());
+    }
     public function deleteRoles (Role $role) {
         // Không xóa được 3 quyền mặc định của hệ thống
         if(in_array($role->id, [1, 2, 3])) {

@@ -10,7 +10,7 @@ class Payment extends Model
 
   public $timestamps = true;
   protected $fillable = [
-    'PaymentAmount', 'booking_id', 'PaymentDate', 'PaymentType'
+    'PaymentAmount', 'booking_id', 'PaymentDate', 'PaymentType', 'PaypalPaymentID'
   ];
     public function booking() {
       return $this->belongsTo('App\Model\Booking','BookingID', 'booking_id');

@@ -67,7 +67,7 @@ class TourController extends Controller
 
         } else {
             // $result = $tour->paginate(10);
-            $result = TourCollection::collection($tour->orderBy('created_at', 'desc')->paginate(8));
+            $result = TourCollection::collection($tour->orderBy('updated_at', 'desc')->paginate(8));
         }
         return $result;
 
@@ -286,13 +286,26 @@ class TourController extends Controller
         return $temp_array; 
       }
     public function findTour (Request $request) {
+        // dd($request->all());
         $tour = (new Tour)->newQuery();
         if ($request->exists('q')) {
             $result = $tour->where('TourName', 'LIKE', '%'.$request->q.'%');
             return TourCollection::collection($result->paginate(10));
         }
         if ($request->exists('dateDeparture') && isset($request->dateDeparture[0])) {
+            // dd('bay');
             $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+            if($request->exists('filters')) {
+                // dd('vao');
+                $currentPage = LengthAwarePaginator::resolveCurrentPage();
+                $tour = $this->filterPrice($tour->get(), $request->filters);
+                // dd($tour);
+                $perPage = 10;
+                $currentPageItems = $tour->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
+                $paginatedItems= new LengthAwarePaginator($currentPageItems , count($tour), $perPage);
+                $paginatedItems->setPath($request->url());
+                $tour = TourCollection::collection($paginatedItems);
+            } 
             // dd($tour->get());
         }
 
@@ -314,19 +327,20 @@ class TourController extends Controller
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
                 $itemCollection = collect($uniqueTour);
                 $itemCollectionfilter =  $itemCollection->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
+                if($request->exists('filters')) {
+                    // dd('vao');
+                    $itemCollectionfilter = $this->filterPrice($itemCollectionfilter, $request->filters);
+                } 
                 $perPage = 10;
                 $currentPageItems = $itemCollectionfilter->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
                 $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollectionfilter), $perPage);
                 $paginatedItems->setPath($request->url());
-    
-                // $meta = new stdClass();
-                // $meta->total = 10;
-                
+
                 $tour = TourCollection::collection($paginatedItems);
-                // dd($uniqueTour);
-                // $tour->resource->meta = $countTotal;
                 // dd($tour);
+
             } else {
+                
                 $place = Place::find($request->diemden);
                 $arrayTour = array();
                 foreach($place->scenicCultures as $scenic) {
@@ -334,9 +348,12 @@ class TourController extends Controller
                         array_push($arrayTour, $t);
                     }
                 }
-                $uniqueTOur = $this->my_array_unique($arrayTour);
+                $uniqueTOur = $this->unique_multidim_array($arrayTour, 'TourID');
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
                 $itemCollection = collect($uniqueTOur);
+                if($request->exists('filters')) {
+                    $itemCollection = $this->filterPrice($itemCollection, $request->filters);
+                }
                 $perPage = 10;
                 $currentPageItems = $itemCollection->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
                 $paginatedItems= new LengthAwarePaginator($currentPageItems , count($itemCollection), $perPage);
@@ -346,17 +363,72 @@ class TourController extends Controller
                 $tour = TourCollection::collection($paginatedItems);
             }
             
-        } else {
-            // dd('vao');
+        } 
+        else {
+            if(!$request->exists('filters')) {
                 $tour = TourCollection::collection($tour->paginate(10));
+            }
         }
         if ($request->exists('dateDeparture') && empty($request->dateDeparture[0]) && $request->exists('diemden') && $request->diemden != -1) {
             $tour = TourCollection::collection($tour->paginate(10));
             // dd('ecc');
         }
         // dd($tour->get());
-        // dd($tour);
         return $tour;
         
+    }
+    public function filterPrice ($filterCollection, $valuePrice) {
+        // Duoi 500 nghin
+        // dd('hello');
+        // dd($valuePrice);
+        // $filterCollection = TourCollection::collection($filterCollection);
+        // dd($filterCollection);
+        switch ($valuePrice) {
+            case 'small500':
+                $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
+                    // dd($value);
+                    return $this->getPricePromotion($value->TourID) < 500000;
+                });
+                break;
+            case '500to1000':
+                $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
+                    return $this->getPricePromotion($value->TourID) > 500000 && $this->getPricePromotion($value->TourID) < 1000000;
+                });
+                break;
+            case '1000to2000':
+                $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
+                    return $this->getPricePromotion($value->TourID) > 1000000 && $this->getPricePromotion($value->TourID) < 2000000;
+                });
+                break;
+            case '2000to5000':
+                $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
+                    return $this->getPricePromotion($value->TourID) > 2000000 && $this->getPricePromotion($value->TourID) < 5000000;
+                });
+                break;
+            case 'big5000':
+                $filterCollectionDone = $filterCollection->filter(function ($value, $key) {
+                    return $this->getPricePromotion($value->TourID) > 5000000;
+                });
+                break;
+            default: 
+                return $filterCollection;
+                break;
+        }
+
+        return $filterCollectionDone;
+    }
+    public function getPricePromotion ($idTour) {
+        $promotion = 0;
+        $ExpiredDate = "";
+        $tour = Tour::find($idTour);
+        foreach ( $tour->promotions as  $item) {
+            if(strtotime($item->pivot->ExpiredDate) > strtotime(Carbon::now())) {
+                $promotion = $item->pivot->Discount;
+                $ExpiredDate = $item->pivot->ExpiredDate;
+            } else {
+                $promotion = 0;
+            }
+        }
+        return round((1 - $promotion/ 100) * $tour->PriceAdult,2);
     }
 }

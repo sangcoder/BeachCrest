@@ -1,5 +1,4 @@
 import Dashboard from '../Dashboard/components/Dashboard.vue'
-
 export default [
   {
     path: '/admin/dashboard',

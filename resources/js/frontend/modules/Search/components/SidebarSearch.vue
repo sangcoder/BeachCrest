@@ -39,18 +39,26 @@
     <a-collapse defaultActiveKey="1" :bordered="false">
       <a-collapse-panel header="Lọc theo giá" key="1">
         <p>
-          <a-checkbox
+          <!-- <a-checkbox
             :indeterminate="indeterminate"
             @change="onCheckAllChange"
             :checked="checkAll"
-          >Tất cả</a-checkbox>
+          >Tất cả</a-checkbox>-->
         </p>
         <p>
-          <a-checkbox-group
+          <a-radio-group @change="onchangePrice" v-model="value" >
+            <a-radio :style="radioStyle" :value="'all'">Tất cả</a-radio>
+            <a-radio :style="radioStyle" :value="'small500'">Dưới 500 nghìn</a-radio>
+            <a-radio :style="radioStyle" :value="'500to1000'">Từ 500 - 1 triệu</a-radio>
+            <a-radio :style="radioStyle" :value="'1000to2000'">Từ 1 - 2 triệu</a-radio>
+            <a-radio :style="radioStyle" :value="'2000to5000'">Từ 2 - 5 triệu</a-radio>
+            <a-radio :style="radioStyle" :value="'big5000'">Trên 5 triệu</a-radio>
+          </a-radio-group>
+          <!-- <a-checkbox-group
             :options="filterPriceOptions"
             v-model="checkedList"
             @change="onchangePrice"
-          />
+          />-->
         </p>
       </a-collapse-panel>
       <!-- <a-collapse-panel header="Lọc theo rating" key="2">
@@ -81,10 +89,16 @@ export default {
       monthFormat: "MM-YYYY",
       indeterminate: true,
       checkAll: false,
+      value: 'all',
       checkedList: [],
       search: {
         diemden: -1,
         dateDeparture: []
+      },
+      radioStyle: {
+        display: "block",
+        height: "30px",
+        lineHeight: "30px"
       },
       filterRatingOptions: [
         { label: "Tất cả", value: "all" },
@@ -95,11 +109,11 @@ export default {
         { label: "Được xếp hạng 1 sao", value: 1 }
       ],
       filterPriceOptions: [
-        { label: "Dưới 500 nghìn", value: 5 },
-        { label: "Từ 500 - 1 triệu", value: 4 },
-        { label: "Từ 1 - 2 triệu", value: 3 },
-        { label: "Từ 2 - 5 triệu", value: 2 },
-        { label: "Trên 5 triệu", value: 1 }
+        { label: "Dưới 500 nghìn", value: "small500" },
+        { label: "Từ 500 - 1 triệu", value: "500to1000" },
+        { label: "Từ 1 - 2 triệu", value: "1000to2000" },
+        { label: "Từ 2 - 5 triệu", value: "2000to5000" },
+        { label: "Trên 5 triệu", value: "big5000" }
       ]
     };
   },
@@ -125,9 +139,11 @@ export default {
     onchageRating(checkedValues) {
       console.log("checked = ", checkedValues);
     },
-    onchangePrice(checkedPrice) {
-      this.checkAll = false
-      this.checkedList = checkedPrice;
+    onchangePrice(e) {
+      // this.checkAll = false;
+      // this.checkedList = checkedPrice;
+      this.$emit("search-filter", e.target.value);
+      // console.log(checkedPrice)
     },
     filterOption(input, option) {
       return (
@@ -140,8 +156,14 @@ export default {
       this.search.diemden = value;
     },
     handleDeparture(date) {
+      if (date.length > 0) {
       this.search.tungay = date[0].format(this.dateFormat);
       this.search.denngay = date[1].format(this.dateFormat);
+      } else {
+        this.search.tungay = ''
+        this.search.denngay  = ''
+      }
+
     },
     onCheckAllChange(e) {
       // if (e.target.checked) {
@@ -176,7 +198,7 @@ export default {
           }
         });
       }
-      this.$emit("EventReload", "Hi Payloads");
+      this.$emit("EventReload", this.checkedList);
     }
   }
 };

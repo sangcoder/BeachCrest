@@ -6,7 +6,7 @@
       <div slot="header" />
       <ul class="nav">
         <template v-for="(item, index) in navItems">
-          <template v-if="permission && permission.length > 0 && permission.some(key => key.permission_id === item.isRoles)">
+          <template v-if="permission && permission.length > 0 && permission.some(key => key.role_id === item.isRoles)">
             <template v-if="item.title">
               <sidebar-nav-title
                 :key="index"

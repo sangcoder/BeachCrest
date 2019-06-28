@@ -16,7 +16,7 @@
               </div>
               <div>
                 <span>Doanh thu tháng này</span>
-                <h3 class="font-medium m-b-0">$3,567.53</h3>
+                <h3 class="font-medium m-b-0">{{dataDash.MonthTotal | toCurrency}}</h3>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
               </div>
               <div>
                 <span>Doanh thu hôm nay</span>
-                <h3 class="font-medium m-b-0">$769.08</h3>
+                <h3 class="font-medium m-b-0">{{dataDash.TotalPriceToday | toCurrency}}</h3>
               </div>
             </div>
           </div>
@@ -46,7 +46,7 @@
               </div>
               <div>
                 <span>Tổng số Booking</span>
-                <h3 class="font-medium m-b-0">5489</h3>
+                <h3 class="font-medium m-b-0">{{dataDash.TotalBooking}}</h3>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
               </div>
               <div>
                 <span>Số Booking chưa duyệt</span>
-                <h3 class="font-medium m-b-0">$23,568.90</h3>
+                <h3 class="font-medium m-b-0">{{dataDash.NotAccept}}</h3>
               </div>
             </div>
           </div>
@@ -69,5 +69,29 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
+<script>
+import DashAPI from '../serviceDashboard'
+export default {
+  data () {
+    return {
+      dataDash: {}
+    }
+  },
+  created () {
+    this.fetchDashboard()
+  },
+  methods: {
+    fetchDashboard () {
+      DashAPI.getBookingAdmin().then(res => {
+        this.dataDash = res.data.data
+      })
+    }
+  }
+}
+</script>
+<style lang="css" scoped>
+  
+</style>

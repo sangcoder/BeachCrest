@@ -60,6 +60,46 @@ class BookingController extends Controller
             'Processing' => $processing
         ];
     }
+    // Thống kê Dashboard Member
+    public function statMembers() {
+        // $booking = (new Booking)->newQuery();
+        $user = auth()->user();
+        $total = 0;
+        $acceptBooking = $user->bookings()->where('approved_by', '<>', 'NULL')->get()->count();
+        if ($user) {
+            foreach ( $user->bookings as $booking) {
+                $total += $booking->payment['PaymentAmount'];
+            }
+            // dd($total);
+            return response()->json([
+                'NumberBooking' => $user->bookings()->count(),
+                'TotalPrice' => $total,
+                'AccepBooking' => $acceptBooking
+            ]);
+        }
+    }
+    public function statAdmin () {
+        $payment = (new Payment)->newQuery();
+        $booking = (new Booking)->newQuery();
+        $query2 = (new Booking)->newQuery();
+        $datte = Carbon::now();
+        $monthCount = $payment->whereMonth('updated_at', '=', $datte->month)->count();
+        $monthTotal = $payment->whereMonth('updated_at', '=', $datte->month)->sum('PaymentAmount');
+        $monthTotalToday = $payment->whereDate('updated_at', '=', $datte)->sum('PaymentAmount');
+        $notAccept = $booking->whereNull('approved_by')->count();
+        $totalBooking = $query2->count();
+
+        return response()->json([
+            'success' => AppResponse::STATUS_SUCCESS,
+            'data' => [
+                'ThisMonth' => $monthCount,
+                'MonthTotal' => $monthTotal,
+                'TotalPriceToday' => $monthTotalToday,
+                'NotAccept' => $notAccept,
+                'TotalBooking' => $totalBooking
+            ]
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -99,29 +139,6 @@ class BookingController extends Controller
            return new PaymentResource($booking->payment);
         }
         return $delegate;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Booking $booking)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Booking $booking)
-    {
-        //
     }
 
     /**

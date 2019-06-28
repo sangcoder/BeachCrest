@@ -19,13 +19,15 @@ import Promotion from '../admin/modules/Promotion'
 import TourGuider from '../admin/modules/TourGuiders'
 import Cultures from '../admin/modules/Cultures'
 import Dashboard from '../admin/modules/Dashboard'
+import DashboardMember from '../admin/modules/Dashboard/member'
 import Authorization from '../admin/modules/Authorization'
 import Tour from '../admin/modules/Tours'
 import Schedule from '../admin/modules/Schedules'
 import Review from '../admin/modules/Reviews'
 import BookingManga from '../admin/modules/Booking'
 import NewManger from '../admin/modules/News'
-
+import HistoryBooking from '../admin/modules/Profile/components/HistoryBooking.vue'
+import MainStatics from '../admin/modules/Statics'
 // Import profile
 import Profile from '../admin/modules/Profile'
 // Import Client Module
@@ -36,7 +38,7 @@ import Search from '../frontend/modules/Search'
 import ViewNew from '../frontend/modules/News'
 
 function requireAuth (to, from, next) {
-  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
+  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.role_id === to.meta.isRoles)) {
     next()
   } else {
     if (store.get('user/userLoadStatus') === 3) {
@@ -45,10 +47,10 @@ function requireAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          if (store.get('user/user') && store.get('user/user').permistion && store.get('user/user').permistion.length > 0 && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
+          if (store.get('user/user') && store.get('user/user').permistion && store.get('user/user').permistion.length > 0 && store.get('user/user').permistion.some(item => item.role_id === to.meta.isRoles)) {
             next()
           } else {
-            next('/')
+            next('/404')
           }
         } else if (store.get('user/userLoadStatus') === 3) {
           next('/auth/login')
@@ -60,8 +62,8 @@ function requireAuth (to, from, next) {
 
 // Ko yêu cầu quyền
 function requireNonAuth (to, from, next) {
-  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.permission_id === to.meta.isRoles)) {
-    next('/auth/profile')
+  if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.role_id === to.meta.isRoles)) {
+    next('/member/client')
   } else {
     if (store.get('user/userLoadStatus') === 3) {
       next()
@@ -69,7 +71,7 @@ function requireNonAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          next('/auth/profile')
+          next('/member/client')
         } else if (store.get('user/userLoadStatus') === 3) {
           next()
         }
@@ -117,8 +119,22 @@ const router = new Router({
       beforeEnter: requireAuth,
       children: [...Dashboard, ...User, ...Authorization,
         ...Destination, ...Promotion, ...TourGuider,
-        ...Cultures, ...Tour, ...Profile, ...Schedule, ...Review, ...BookingManga, ...NewManger
+        ...Cultures, ...Tour, ...Schedule, ...Review, ...BookingManga, ...NewManger, ...MainStatics
       ]
+    },
+    {
+      path: '/member',
+      name: 'MemberArea',
+      redirect: '/member/client',
+      component: Admin,
+      meta: {isRoles: 1},
+      beforeEnter: requireAuth,
+      children: [...DashboardMember, ...Profile, {
+        path: '/auth/lich-su-booking.html',
+        name: 'historyBooking',
+        component: HistoryBooking,
+        meta: {isRoles: 1}
+      }]
     },
     {
       path: '/404',

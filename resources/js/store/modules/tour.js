@@ -15,7 +15,6 @@ const getters = {
 
 const actions = {
   getListTour ({commit}, page) {
-    console.log(page)
     return new Promise((resolve, reject) => {
       TourAPI.getListTour(page)
         .then(res => {

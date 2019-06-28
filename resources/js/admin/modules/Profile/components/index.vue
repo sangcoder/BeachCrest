@@ -11,9 +11,6 @@
             <a-menu-item key="1">
               <router-link :to="{ name: 'Profile' }">Thông tin cá nhân</router-link>
             </a-menu-item>
-            <a-menu-item key="2">
-              <router-link :to="{ name: 'historyBooking' }">Lịch sử booking</router-link>
-            </a-menu-item>
             <a-menu-item key="3">
               <router-link :to="{ name: 'ChangePassword' }">Đổi mật khẩu</router-link>
             </a-menu-item>

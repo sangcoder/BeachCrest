@@ -76,7 +76,7 @@ function fetchPromotion (value, callback) {
     timeout = null
   }
   currentValue = value
-  function fakeRequest () {
+  function fakeRequest() {
     Axios.get('/api/promotion/search?q=' + value).then(res => {
       if (currentValue === value) {
         const result = res.data.data
@@ -135,8 +135,8 @@ export default {
         Note: '',
         ImageUrl: [],
         NumberPerson: 0,
-        PriceAdult: '',
-        PriceKid: '',
+        PriceAdult: 0,
+        PriceKid: 0,
         Unit: 'VND',
         ScheduleId: ''
       },
@@ -150,6 +150,20 @@ export default {
   },
   created () {
     this.fetchTour()
+  },
+  computed: {
+    // formattedValue: {
+    //   get: function () {
+    //     return this.formData.PriceAdult
+    //   },
+    //   set: function (newValue) {
+    //     if (newValue.length > 3) {
+    //       this.formData.PriceAdult = newValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    //     } else {
+    //       this.formData.PriceAdult = '10'
+    //     }
+    //   }
+    // }
   },
   methods: {
     moment,
@@ -306,8 +320,8 @@ export default {
         })
       }
     },
-    exportTour () {},
-    deleteMore () {},
+    exportTour () { },
+    deleteMore () { },
     addPromotion () {
       let payload = {
         PromotionID: this.promotionData.PromotionID,
@@ -351,7 +365,7 @@ export default {
       this.value = value
       fetchPromotion(value, data => (this.dataSelectbox = data))
     },
-    onChangePerson () {},
-    cancel () {}
+    onChangePerson () { },
+    cancel () { }
   }
 }

@@ -4,11 +4,23 @@ export default {
       name: 'Bảng điều khiển',
       url: '/admin/dashboard',
       icon: 'icon-speedometer',
+      isRoles: 2
+    },
+    {
+      name: 'Bảng điều khiển',
+      url: '/member/client',
+      icon: 'icon-speedometer',
       isRoles: 1
     },
     {
       name: 'Thông tin tài khoản',
       url: '/auth/thong-tin-tai-khoan.html',
+      icon: 'icon-user',
+      isRoles: 1
+    },
+    {
+      name: 'Lịch sử booking',
+      url: '/auth/lich-su-booking.html',
       icon: 'icon-user',
       isRoles: 1
     },
@@ -107,12 +119,13 @@ export default {
           name: 'Doanh thu',
           icon: 'icon-fire',
           url: '/admin/thong-ke-doanh-thu.html'
-        },
-        {
-          name: 'Lượng khách',
-          icon: 'icon-graph',
-          url: '/admin/thong-ke-luong-khach.html'
         }
+        // ,
+        // {
+        //   name: 'Lượng khách',
+        //   icon: 'icon-graph',
+        //   url: '/admin/thong-ke-luong-khach.html'
+        // }
       ]
     },
     {

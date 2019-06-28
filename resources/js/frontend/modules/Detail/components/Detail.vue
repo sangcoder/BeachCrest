@@ -137,6 +137,14 @@ export default {
             let tempArray = res.data.data;
             tempArray.ImageUrl = JSON.parse(tempArray.ImageUrl);
             this.dataTour = tempArray;
+            
+            // Save item localstorage
+            let objectStorage = [{
+              TourID: res.data.data.TourID,
+              TourName: res.data.data.TourName,
+              Price: res.data.data.OnsaleAdult
+            }]
+            localStorage.setItem('tourVisited', JSON.stringify(objectStorage));
             this.loading = false;
           }
         })

@@ -95,6 +95,8 @@ Route::group([
     Route::delete('booking/{booking}', 'BookingController@destroy');
     // Member booking
     Route::get('historybooking/member', 'BookingController@getBookingMember');
+    Route::get('dashboard/member', 'BookingController@statMembers');
+    Route::get('dashboard/admin', 'BookingController@statAdmin');
     // Add khuyến mãi
     Route::post('tour/addPromotion/{tour}', 'TourController@addPromotion');
     // Search khuyen mai

@@ -27,7 +27,14 @@ export default {
       let payload = { email: this.email, password: this.password }
       var that = this
       that.$store.dispatch('user/login', payload).then(res => {
-        if (res.data.success) {
+        if (res.data.success && res.data.data.permistion.some(item => item.role_id === 1)) {
+          this.loading = false
+          that.$router.push({ name: 'DashboardMember' })
+          this.$notification['success']({
+            message: 'Đăng nhập thành công',
+            description: 'Chào mừng bạn đến với hệ thống quản lý tour BeachCrest'
+          })
+        } else if (res.data.success && res.data.data.permistion.some(item => item.role_id === 2)) {
           this.loading = false
           that.$router.push({ name: 'Dashboard' })
           this.$notification['success']({

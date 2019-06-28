@@ -147,8 +147,11 @@ export default {
         valueRoles: this.valueRoles
       };
       AuthAPI.addPermissioToRole(payload).then(res => {
-        console.log("OK");
-      });
+       this.$message.success("Thêm chức năng cho vai trò thành công");
+      }).catch(err => {
+        this.$message.error("Lỗi");
+        console.log('err', err)
+      })
     },
     selectMenu({ item, key, selectedKeys }) {
       this.fetchPermisionByRole(key);
