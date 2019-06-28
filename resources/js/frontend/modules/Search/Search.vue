@@ -75,9 +75,7 @@ export default {
         this.$route.query.tuNgay,
         "DD-MM-YYYY"
       ).format("YYYY-MM-DD");
-      } else {
-         this.queryData.dateDeparture[0] = ''
-      }
+      } 
 
     },
     "$route.query.denNgay"() {
@@ -86,8 +84,6 @@ export default {
         this.$route.query.denNgay,
         "DD-MM-YYYY"
       ).format("YYYY-MM-DD");
-      } else {
-         this.queryData.dateDeparture[1] = '' 
       }
     }
   },
