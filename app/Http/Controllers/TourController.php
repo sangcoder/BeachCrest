@@ -294,11 +294,16 @@ class TourController extends Controller
         }
         if ($request->exists('dateDeparture') && isset($request->dateDeparture[0])) {
             // dd('bay');
-            $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
-
+            $tour = $tour->whereBetween('DateDeparture', [$request->dateDeparture[0], $request->dateDeparture[1]]);
             if($request->exists('filters')) {
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
-                $tour = $this->filterPrice($tour->get(), $request->filters);
+                // dd('qua day');
+                if ($request->exists('diemden') && $request->diemden == -1) {
+                    // dd();
+                    $tour = $this->filterPrice($tour->get(), $request->filters);
+                } else {
+                    $tour = $this->filterPrice($tour->get(), $request->filters);
+                }
                 // dd($tour);
                 $perPage = 10;
                 $currentPageItems = $tour->slice(($currentPage * $perPage) - $perPage, $perPage)->all();
@@ -370,9 +375,7 @@ class TourController extends Controller
                 // dd('aaa');
                 $currentPage = LengthAwarePaginator::resolveCurrentPage();
                 // dd('day', $tour->get());
-                if ($request->exists('diemden') && $request->diemden == -1) {
-                    $tour = $this->filterPrice($tour, $request->filters);
-                } else {
+                if ($request->exists('diemden') && $request->diemden == -1 && !$request->exists('dateDeparture')) {
                     $tour = $this->filterPrice($tour->get(), $request->filters);
                 }
                 // dd($tour);
@@ -383,6 +386,7 @@ class TourController extends Controller
                 $paginatedItems->setPath($request->url());
                 $tour = TourCollection::collection($paginatedItems);
             } else {
+                // dd('qua');
                 $tour = TourCollection::collection($tour->paginate(10));
             }
         }
@@ -396,7 +400,8 @@ class TourController extends Controller
     }
     public function filterPrice ($filterCollection, $valuePrice) {
         // Duoi 500 nghin
-        // dd('khong qua', $filterCollection);
+        // dd('khong qua', $valuePrice);
+        // dd($filterCollection);
         switch ($valuePrice) {
             case 'small500':
                 $filterCollectionDone = $filterCollection->filter(function ($value, $key) {

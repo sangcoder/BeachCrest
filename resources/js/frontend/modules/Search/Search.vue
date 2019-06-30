@@ -75,7 +75,9 @@ export default {
         this.$route.query.tuNgay,
         "DD-MM-YYYY"
       ).format("YYYY-MM-DD");
-      } 
+      } else {
+         this.queryData.dateDeparture[0] = ''
+      }
 
     },
     "$route.query.denNgay"() {
@@ -84,6 +86,8 @@ export default {
         this.$route.query.denNgay,
         "DD-MM-YYYY"
       ).format("YYYY-MM-DD");
+      } else {
+         this.queryData.dateDeparture[1] = '' 
       }
     }
   },
@@ -117,7 +121,15 @@ export default {
         diemden: this.queryData.diemden,
         filters: value
       };
-      this.fetchListTour(send);
+      let sends = {
+        diemden: this.queryData.diemden,
+        filters: value
+      }
+      if (this.queryData.dateDeparture[0] === '') {
+        this.fetchListTour(sends);
+      } else {
+        this.fetchListTour(send)
+      }
       // switch (value) {
       //   case "small500":
       //     // filter
