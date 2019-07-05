@@ -162,7 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        niklasravnsborg\laravel-pdf\LaravelPdf\PdfServiceProvider::class,
+        // niklasravnsborg\laravel-pdf\LaravelPdf\PdfServiceProvider::class,
         // 'Barryvdh\Debugbar\ServiceProvider',
 
         /*
@@ -229,7 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'PDF' => niklasravnsborg\laravel-pdf\LaravelPdf\Facades\Pdf::class,
+        // 'PDF' => niklasravnsborg\laravel-pdf\LaravelPdf\Facades\Pdf::class,
         // 'Debugbar' => 'Barryvdh\Debugbar\Facade',
 
     ],

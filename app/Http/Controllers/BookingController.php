@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Validator;
 use Carbon\Carbon;
 use App\Model\Tour;
@@ -12,10 +13,11 @@ use App\Model\Customers;
 use App\Http\AppResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookingRequest;
+use App\Notifications\SuccessBooking;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\PaymentResource;
-use App\Http\Resources\BookingMemberResource;
 use GuzzleHttp\Exception\RequestException;
+use App\Http\Resources\BookingMemberResource;
 
 class BookingController extends Controller
 {
@@ -215,6 +217,7 @@ class BookingController extends Controller
         $infoCotact = $booking->customers()->where('delegatePerson', '=', 1)->get();
         $listCustomer = $booking->customers()->where('delegatePerson', '<>', 1)->get();
         $tour = Tour::find($booking->tour->TourID);
+        // Tinh khuyen mai
         $promotion = 0;
         foreach ( $tour->promotions as  $item) {
             if(strtotime($item->pivot->ExpiredDate) > strtotime(Carbon::now())) {
@@ -229,7 +232,7 @@ class BookingController extends Controller
         $priceAdult = round((1 - $promotion/ 100) * $tour->PriceAdult,2);
         $PriceKid = round((1 - $promotion/ 100) * $tour->PriceKid,2);
 
-        // Get tỷ giá hiện tại
+        // Get tỷ giá VCB hiện tại
         $rateList = $this->getRateDolar();
         // dd($rateList);
         $TotalAmout = $Numberkid * round($PriceKid/$rateList['Rate'], 2) + round($priceAdult/$rateList['Rate'], 2) * $numberAdult;
@@ -254,6 +257,25 @@ class BookingController extends Controller
         $payment->PaymentDate = Carbon::now();
         $payment->PaymentType = 1;  // 1 thanh toán tại văn phòng / thanh toán paypal 2
         $booking->payment()->save($payment);
+
+        $dataInvoice = [
+            'infoContact' =>  $infoCotact,
+            'listCustomer' => $listCustomer,
+            'ToTalAmount' =>  $AmountVND,
+            'priceKid' => $PriceKid,
+            'priceAdult' => $priceAdult,
+            'BookingID' => $booking->BookingID
+        ];
+        // dd($dataInvoice);
+        // Xuất ra pdf thông tin thanh toán
+        $pdf = PDF::loadView('pdf.invoice', compact('dataInvoice'), [], [
+            'margin_left' => 0
+        ]);
+        $pdfName = 'hoa-don-booking'.$booking->BookingID.sha1(time()) . '.pdf';
+        $pathPdf = public_path().'/pdf/'.$pdfName;
+        $pdfMail = '/pdf/'.$pdfName;
+        $pdf->save($pathPdf);
+        $user->notify(new SuccessBooking($pdfMail));
 
         return response()->json([
             'success' => AppResponse::STATUS_SUCCESS,
@@ -292,7 +314,7 @@ class BookingController extends Controller
     public function getRateDolar () {
         
         /**
-         * VietCombank chi cho request 5phus 1 lần request
+         * VietCombank chi cho request 5 phut 1 lần request
         */
         // dd($req['currencyName']);
         $arrayData = array();

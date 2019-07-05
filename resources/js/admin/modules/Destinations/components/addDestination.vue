@@ -27,11 +27,15 @@
                 <b-col cols="8">
                   <b-form-group id="lblDiaDanh" label="Địa danh" label-for="lblDiaDanh">
                     <a-input
-                      placeholder="Nhập mô tả"
+                      placeholder="Nhập tên địa danh"
                       v-model="form.PlaceName"
                       type="text"
                       required
                     />
+                    <div
+                      class="invalid-feedback d-block"
+                      v-if="$v.form.PlaceName.$invalid && validation.errors && validation.errors.PlaceName"
+                    >{{ validation.errors.PlaceName[0] }}</div>
                   </b-form-group>
                 </b-col>
                 <b-col cols="4">
@@ -52,9 +56,17 @@
               </b-row>
 
               <b-form-group id="lbldescription" label="Mô tả ngắn" label-for="inputdesc">
-                <a-input placeholder="Nhập mô tả" v-model="form.Description" type="text" required/>
+                <a-input placeholder="Nhập mô tả" v-model="form.Description" type="text" required />
+                <div
+                  class="invalid-feedback d-block"
+                  v-if="$v.form.Description.$invalid && validation.errors && validation.errors.Description"
+                >{{ validation.errors.Description[0] }}</div>
               </b-form-group>
               <b-form-group label="Nội dung">
+                <div
+                  class="invalid-feedback d-block"
+                  v-if="$v.form.Contents.$invalid && validation.errors && validation.errors.Contents"
+                >{{ validation.errors.Contents[0] }}</div>
                 <editor
                   api-key="9nvefd4odlvd827e3j3aed8lbunqxjc9pyzruuxa37j58j4m"
                   v-model="form.Contents"
@@ -78,10 +90,10 @@
                         :src="/^https?:\/\//i.test(form.ImageUrl) ? form.ImageUrl : ((/^data:image/i).test(form.ImageUrl) ? form.ImageUrl : '/images/place/' + form.ImageUrl)"
                         alt="Destination"
                         width="128"
-                      >
+                      />
 
                       <div v-else>
-                        <a-icon :type="loading ? 'loading' : 'plus'"/>
+                        <a-icon :type="loading ? 'loading' : 'plus'" />
                         <div class="ant-upload-text">Upload</div>
                       </div>
                     </a-upload>
@@ -102,6 +114,7 @@
   </div>
 </template>
 <script>
+import { required, maxLength } from "vuelidate/lib/validators";
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -145,6 +158,10 @@ export default {
         Contents: "",
         Region: "Chọn khu vực..."
       },
+      validation: {
+        message: "",
+        errors: {}
+      },
       init: {
         selector: "textarea",
         height: 480,
@@ -162,9 +179,12 @@ export default {
         automatic_uploads: true,
         images_upload_url: "/api/upload/tinymce",
         file_picker_types: "image",
-        external_filemanager_path:"/filemanager/filemanager/",
-        filemanager_title:"Responsive Filemanager" ,
-        external_plugins: { "filemanager" : "/filemanager/tinymce/plugins/responsivefilemanager/plugin.min.js"},
+        external_filemanager_path: "/filemanager/filemanager/",
+        filemanager_title: "Responsive Filemanager",
+        external_plugins: {
+          filemanager:
+            "/filemanager/tinymce/plugins/responsivefilemanager/plugin.min.js"
+        },
         file_picker_callback: function(cb, value, meta) {
           var input = document.createElement("input");
           input.setAttribute("type", "file");
@@ -187,6 +207,15 @@ export default {
       }
     };
   },
+  validations() {
+    return {
+      form: {
+        PlaceName: { required, maxLength: maxLength(150) },
+        Description: { required, maxLength: maxLength(150) },
+        Contents: { required }
+      }
+    };
+  },
   methods: {
     handleChangeSelect() {},
     addPlace() {
@@ -198,10 +227,17 @@ export default {
         Region: this.form.Region
       };
       let that = this;
-      this.$store.dispatch("place/addPlace", payload).then(res => {
-        that.$router.push({ name: "listDestination" });
-        this.$message.success("Đã thêm thành công");
-      });
+      this.$store
+        .dispatch("place/addPlace", payload)
+        .then(res => {
+          that.$router.push({ name: "listDestination" });
+          this.$message.success("Đã thêm thành công");
+        })
+        .catch(err => {
+          if (err.response && err.response.data) {
+            this.validation.errors = err.response.data.errors;
+          }
+        });
     },
     handleChange(info) {
       if (info.file.status === "uploading") {

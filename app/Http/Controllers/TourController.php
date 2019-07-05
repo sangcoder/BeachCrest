@@ -83,9 +83,10 @@ class TourController extends Controller
     {
         // dd($request->all());
         // validate
+  
         $validator = Validator::make($request->all(), [
-            'TourName' => 'required|string',
-            'TourDescription' => 'required|string',
+            'TourName' => 'required|string|max:150',
+            'TourDescription' => 'required|string|max:150',
             'DateDeparture' => 'required',
             'DateBack' => 'required',
             'NumberPerson' => 'required',
@@ -166,8 +167,8 @@ class TourController extends Controller
     public function update(Request $request, Tour $tour)
     {
         $validator = Validator::make($request->all(), [
-            'TourName' => 'required|string',
-            'TourDescription' => 'required|string',
+            'TourName' => 'required|string|max:150',
+            'TourDescription' => 'required|string|max:150',
             'DateDeparture' => 'required',
             'DateBack' => 'required',
             'NumberPerson' => 'required',
@@ -449,5 +450,16 @@ class TourController extends Controller
             }
         }
         return round((1 - $promotion/ 100) * $tour->PriceAdult,2);
+    }
+
+    public function searchTourAdmin (Request $request) {
+        $tour = (new Tour)->newQuery();
+        if ($request->exists('byName') && strlen($request->byName) > 0) {
+            $tour->where('TourName', 'LIKE', '%'.$request->byName.'%');
+        }
+        if ($request->exists('byId') && strlen($request->byId)) {
+            $tour->where('TourID','=',$request->byId);
+        }
+        return TourCollection::collection($tour->paginate(10));
     }
 }

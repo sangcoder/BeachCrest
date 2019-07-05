@@ -69,7 +69,7 @@
                nếu booking thành công ẩn => success === 1
                Nếu booking thất bại hủy => success === 2
              -->
-            <b-col md="4" class="payment">
+            <b-col md="4" class="payment" v-if="bookingSucess">
               <h4 class="card-title">HÌNH THỨC THANH TOÁN</h4>
               <a-radio-group v-model="value">
                 <a-radio :style="radioStyle" :value="1">Thanh toán bằng tiền mặt</a-radio>
@@ -99,7 +99,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col md="8" >
+            <b-col md="8" v-if="bookingSucess">
               <div class="alert-success" v-if="dataBooking.TotalAmount && value === 1">
                 <p>
                   Bạn chọn thanh toán bằng tại
@@ -218,6 +218,7 @@ export default {
       empty: false,
       current: 1,
       value: 1,
+      bookingSucess: true,
       tourInfo: {},
       radioStyle: {
         display: "block",
@@ -284,6 +285,7 @@ export default {
       console.log('vao day')
       if(data.state === 'approved') {
         bookingService.acceptedPaypal(payload).then(res => {
+          this.bookingSucess = false
           this.$notification["success"]({
             message: "Bạn đã thanh toán thành công",
             description: "Nhân viên sẽ liên hệ bạn trong thời gian sớm nhất để xác nhận."

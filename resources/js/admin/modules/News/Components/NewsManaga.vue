@@ -67,6 +67,7 @@
 </template>
 <script>
 import NewsAPI from "../newsService";
+import newsService from '../newsService';
 const columns = [
   {
     title: "ID",
@@ -144,7 +145,20 @@ export default {
       this.pagination = pager;
       this.fetchData(this.pagination.current);
     },
-    onSearch() {}
+    onSearch(value) {
+      this.loading = true
+      newsService.searchNews(value).then(res => {
+        this.loading = false
+        const pagination = { ...this.pagination };
+        this.listNews = res.data.data;
+        pagination.total = res.data.meta.total;
+        this.loading = false;
+        this.pagination = pagination;
+        this.loading = false;
+      }).catch(err => {
+        this.loading = false
+      })
+    }
   }
 };
 </script>

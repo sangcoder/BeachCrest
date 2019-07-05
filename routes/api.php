@@ -45,7 +45,7 @@ Route::delete('tour/deleteTour/{tour}', 'TourController@destroy');
 Route::get('tour/getById/{tour}', 'TourController@show');
 // Find Tour
 Route::get('tour/findAndFilter', 'TourController@findTour');
-
+Route::get('tour/searchAdmin', 'TourController@searchTourAdmin');
 // Review
 Route::get('review/getReviewById/{tour}', 'ReviewController@index')->name('reviews.index');
 Route::get('review/getAll', 'ReviewController@getAll');
@@ -114,6 +114,9 @@ Route::group([
     Route::post('news', 'NewsController@store');
     Route::put('news/{news}', 'NewsController@update');
     Route::delete('news/{news}', 'NewsController@destroy');
+
+    // Search news
+    Route::get('news/search', 'NewsController@searchNews');
     // API CRUD
     Route::apiResources([
         'user' =>'API\UserController',

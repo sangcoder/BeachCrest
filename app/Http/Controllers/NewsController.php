@@ -151,4 +151,12 @@ class NewsController extends Controller
             'success' => AppResponse::STATUS_SUCCESS
         ]);
     }
+
+    public function searchNews(Request $request) {
+        $news = (new News)->newQuery();
+        if ($request->exists('keyword') && strlen($request->keyword) > 0) {
+            $news->where('Title', 'LIKE', '%'.$request->keyword.'%');
+        }
+        return NewsCollection::collection($news->paginate(10));
+    }
 }

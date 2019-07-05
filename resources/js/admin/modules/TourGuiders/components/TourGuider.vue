@@ -32,7 +32,8 @@
           @change="handleTableChange"
         >
           <template slot="avatar" slot-scope="avatar">
-            <a-avatar :size="64" icon="user" :src="avatar"/>
+            <a-avatar :size="64" icon="user" :src="/^https?:\/\//i.test(avatar) ? avatar :'/images/place/' + avatar"/>
+            
           </template>
           <template slot="gender" slot-scope="gender">{{gender === 1 ? 'Nam' : 'Nữ'}}</template>
           <template slot="bday" slot-scope="bday">{{bday | birthDay}}</template>
@@ -201,9 +202,9 @@ export default {
       this.$confirm({
         title: "Bạn chắc chắn muốn xóa?",
         content: "Dữ liệu sẽ mất đi, không khôi phục lại được",
-        okText: "Yes",
+        okText: "Đồng ý",
         okType: "danger",
-        cancelText: "No",
+        cancelText: "Hủy",
         onOk() {
           Axios.delete(APP_CONFIG.API_URL + "/tourguider/deletemore", {
             params: { ids: that.selectedRowKeys }

@@ -5,6 +5,7 @@ namespace App\Providers;
 use DateTime;
 use Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -51,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
 
                // or the same using Carbon:
                 return Carbon::now()->diff(new Carbon($value))->y < $minAge;
+            });
+            Blade::directive('convert', function ($money) {
+                return "<?php echo number_format($money, 0 ,'.' ,'.'); ?>";
             });
     }
 }

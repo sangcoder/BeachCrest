@@ -3,7 +3,7 @@ import moment from 'moment'
 import TourAPI from '../tourServices'
 import Axios from 'axios'
 import Multiselect from 'vue-multiselect'
-
+import { required, maxLength } from 'vuelidate/lib/validators'
 const columns = [
   {
     title: 'ID',
@@ -145,6 +145,21 @@ export default {
         TourID: '',
         Discount: 0,
         ExpriedDate: moment()
+      },
+      validation: {
+        message: '',
+        errors: {}
+      }
+    }
+  },
+  validations () {
+    return {
+      formData: {
+        TourName: {required, maxLength: maxLength(150)},
+        TourDescription: { required, maxLength: maxLength(150) },
+        NumberPerson: {required},
+        PriceAdult: {required},
+        PriceKid: {required}
       }
     }
   },
@@ -205,6 +220,14 @@ export default {
         this.data = res.data.data
         this.loading = false
       })
+    },
+    SearchTourHeader (payload) {
+      console.log('helooo')
+      this.data = payload.data.data
+      const pagination = { ...this.pagination }
+      pagination.total = payload.data.meta.total
+      pagination.pageSize = payload.data.meta.per_page
+      this.pagination = pagination
     },
     fetchSchedules () {
       TourAPI.getAllSchedule().then(res => {
@@ -311,6 +334,10 @@ export default {
           this.visible = false
           this.fetchTour(this.pagination.current)
           this.$message.success('Thêm thành công')
+        }).catch(err => {
+          if (err.response && err.response.data) {
+            this.validation.errors = err.response.data.errors
+          }
         })
       } else {
         TourAPI.updateTour(this.formData.TourID, payload).then(res => {

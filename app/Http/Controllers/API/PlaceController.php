@@ -65,8 +65,8 @@ class PlaceController extends Controller
     {
         // Ràng buộc dữ liệu
         $validator = Validator::make($request->all(), [
-            'PlaceName' => 'required|string',
-            'Description' => 'required',
+            'PlaceName' => 'required|string|max:150',
+            'Description' => 'required|string|max:150',
             'Contents' => 'required'
         ]);
         if($validator->fails()) {

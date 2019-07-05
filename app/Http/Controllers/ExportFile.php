@@ -11,16 +11,24 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExportFile extends Controller
 {
+    
     public function generate_invoice_pdf() {
         // return 'avc';
-        // $data = [
-        //     'foo' => 'bar'
-        // ];
-        dd('acc');
-        // $pdf = PDF::loadView('pdf.invoice');
+        $data = [
+            'foo' => 'bar'
+        ];
+        // dd('hello viet');
+        $dataInvoice = [
+            'hello' => 'word'
+        ];
+        $pdf = PDF::loadView('pdf.invoice', compact('dataInvoice'), [], [
+            'margin_left' => 0
+        ]);
+        return $pdf->stream('document.pdf');
+        // PDF::loadView('pdf.invoice', $data)->save();
         // dd('acc');
         // dd($pdf);
-        return $pdf->download('document.pdf');
+        // return $pdf->download('document.pdf');
     }
 
     public function exportPayment (Request $request) {

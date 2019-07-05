@@ -8,6 +8,13 @@ export default {
   getNewById (id) {
     return Axios.get(APP_CONFIG.API_URL + '/news/getbyId/' + id)
   },
+  searchNews (keyword) {
+    return Axios.get(APP_CONFIG.API_URL + '/news/search', {
+      params: {
+        keyword: keyword
+      }
+    })
+  },
   addNews (payload) {
     return Axios.post(APP_CONFIG.API_URL + '/news', payload)
   },

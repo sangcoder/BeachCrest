@@ -1,13 +1,13 @@
 <template>
   <div class="TourManagerment">
-    <SearchTour/>
+    <SearchTour  @search-tour="SearchTourHeader" />
     <div class="card">
       <div class="card-body">
         <!-- title -->
         <div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">
-              <a-icon type="global" class="mr-2"/>Quản lý Tour
+              <a-icon type="global" class="mr-2" />Quản lý Tour
             </h4>
             <h5 class="card-subtitle">Danh sách Tour hệ thống</h5>
           </div>
@@ -80,18 +80,32 @@
       cancelText="Hủy bỏ"
     >
       <a-divider>
-        <a-icon type="audit" class="mr-2"/>Thông tin Tour
-        <a-icon type="audit" class="ml-2"/>
+        <a-icon type="audit" class="mr-2" />Thông tin Tour
+        <a-icon type="audit" class="ml-2" />
       </a-divider>
       <b-form-group label="Tên Tour:">
-        <a-input size="large" v-model="formData.TourName" placeholder="Nhập tên tour"/>
+        <a-input
+          size="large"
+          v-model="formData.TourName"
+          placeholder="Nhập tên tour"
+          :class="$v.formData.TourName.$error ? 'has-feedback has-error' : ''"
+        />
+        <div
+          class="invalid-feedback d-block"
+          v-if="$v.formData.TourName.$invalid && validation.errors && validation.errors.TourName"
+        >{{ validation.errors.TourName[0] }}</div>
       </b-form-group>
       <b-form-group label="Mô tả ngắn">
         <a-input
           size="large"
           v-model="formData.TourDescription"
           placeholder="Nhập mô tả ngắn về Tour"
+          :class="$v.formData.TourDescription.$error ? 'has-feedback has-error' : ''"
         />
+        <div
+          class="invalid-feedback d-block"
+          v-if="$v.formData.TourDescription.$invalid && validation.errors && validation.errors.TourDescription"
+        >{{ validation.errors.TourDescription[0] }}</div>
       </b-form-group>
       <b-row>
         <b-col md="6">
@@ -124,7 +138,7 @@
       <b-form-group label="Lưu ý">
         <a-textarea
           v-model="formData.Note"
-          placeholder="Những chú yếu về Tour"
+          placeholder="Những lưu ý về Tour"
           :autosize="{ minRows: 2, maxRows: 6 }"
         />
       </b-form-group>
@@ -139,12 +153,12 @@
             v-model="formData.ImageUrl"
           >
             <div v-if="formData.ImageUrl.length < 5">
-              <a-icon type="plus"/>
+              <a-icon type="plus" />
               <div class="ant-upload-text">Upload</div>
             </div>
           </a-upload>
           <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
-            <img alt="example" style="width: 100%" :src="previewImage">
+            <img alt="example" style="width: 100%" :src="previewImage" />
           </a-modal>
         </div>
       </b-form-group>
@@ -154,22 +168,50 @@
             <a-input-number
               size="large"
               :min="1"
-              :max="100000"
+              :max="100"
               :defaultValue="3"
               @change="onChangePerson"
               style="width:100%;"
               v-model="formData.NumberPerson"
             />
+            <div
+              class="invalid-feedback d-block"
+              v-if="$v.formData.NumberPerson.$invalid && validation.errors && validation.errors.NumberPerson"
+            >{{ validation.errors.NumberPerson[0] }}</div>
           </b-form-group>
         </b-col>
         <b-col md="4">
           <b-form-group label="Giá người lớn (VND)">
-            <a-input v-model="formData.PriceAdult" size="large" type="number" placeholder="Giá người lớn"/>
+            <a-input-number
+              size="large"
+              :min="10000"
+              :defaultValue="100000"
+              @change="onChangePerson"
+              style="width:100%;"
+              v-model="formData.PriceAdult"
+              placeholder="Giá người lớn"
+            />
+
+            <div
+              class="invalid-feedback d-block"
+              v-if="$v.formData.PriceAdult.$invalid && validation.errors && validation.errors.PriceAdult"
+            >{{ validation.errors.PriceAdult[0] }}</div>
           </b-form-group>
         </b-col>
         <b-col md="4">
           <b-form-group label="Giá trẻ nhỏ (VND)">
-            <a-input v-model="formData.PriceKid" size="large" type="number" placeholder="Giá trẻ nhỏ"/>
+            <a-input-number
+              size="large"
+              :min="100000"
+              :defaultValue="100000"
+              style="width:100%;"
+              v-model="formData.PriceKid"
+              placeholder="Giá trẻ nhỏ"
+            />
+            <div
+              class="invalid-feedback d-block"
+              v-if="$v.formData.PriceKid.$invalid && validation.errors && validation.errors.PriceKid"
+            >{{ validation.errors.PriceKid[0] }}</div>
           </b-form-group>
         </b-col>
       </b-row>
@@ -196,7 +238,7 @@
         </b-col>
         <b-col md="8">
           <b-form-group label="Mô tả">
-            <a-textarea placeholder="Nội dung lịch trình..." :rows="2" :value="ContentSchedule"/>
+            <a-textarea placeholder="Nội dung lịch trình..." :rows="2" :value="ContentSchedule" />
           </b-form-group>
         </b-col>
       </b-row>

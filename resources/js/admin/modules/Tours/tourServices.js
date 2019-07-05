@@ -7,6 +7,11 @@ export default {
       params
     })
   },
+  searchTour (params = {}) {
+    return Axios.get(APP_CONFIG.API_URL + '/tour/searchAdmin', {
+      params
+    })
+  },
   addNewTour (payload) {
     return Axios.post(APP_CONFIG.API_URL + '/tour/addNewTour', payload)
   },

@@ -11,7 +11,7 @@
             <h5 class="card-subtitle">Trang lưu trữ danh sách tài khoản</h5>
           </div>
           <div class="ml-auto">
-            <a-input-search placeholder="Input email..." style="width: 250px" @search="onSearch"/>
+            <a-input-search placeholder="Nhập địa chỉ email..." style="width: 250px" @search="onSearch"/>
           </div>
         </div>
         <!-- title -->
