@@ -52,7 +52,7 @@ class NewsController extends Controller
             return response()->json([
                 'success' => AppResponse::STATUS_FAILURE,
                 'errors' => $validator->errors()
-            ]);
+            ], AppResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
         $user = auth()->user();
         if ($request->ImgUrl  && $this->testBase($request->ImgUrl)) {

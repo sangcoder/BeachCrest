@@ -63,7 +63,7 @@ function requireAuth (to, from, next) {
 // Ko yêu cầu quyền
 function requireNonAuth (to, from, next) {
   if (store.get('user/user') && store.get('user/user').id && store.get('user/user').permistion.some(item => item.role_id === to.meta.isRoles)) {
-    next('/member/client')
+    next('/admin')
   } else {
     if (store.get('user/userLoadStatus') === 3) {
       next()
@@ -71,7 +71,7 @@ function requireNonAuth (to, from, next) {
       store.dispatch('user/getUser')
       store.watch(store.getters['user/getUserLoadStatus'], n => {
         if (store.get('user/userLoadStatus') === 2) {
-          next('/member/client')
+          next('/admin')
         } else if (store.get('user/userLoadStatus') === 3) {
           next()
         }

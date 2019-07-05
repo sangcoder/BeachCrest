@@ -52,8 +52,8 @@
             <div class="list-content-item">
               <span>Trạng thái</span>
               <p
-                :class="item.State === 0 ? 'text-red' : 'text-green'"
-              >{{item.State === 0 ? 'Chưa Thanh toán': 'Đã thanh toán' }}</p>
+                :class="item.State === 1 ? 'text-red' : 'text-green'"
+              >{{item.State === 1 ? 'Chưa Thanh toán': 'Đã thanh toán' }}</p>
             </div>
             <div class="list-content-item">
               <span>Duyệt bởi</span>

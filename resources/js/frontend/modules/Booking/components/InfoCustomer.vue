@@ -2,10 +2,7 @@
   <div>
     <div class="list-customer">
       <div class="card info-customer" v-for="(adult, index) in listAdult" :key="index">
-        <div
-          class="card-body fail"
-          
-        >
+        <div class="card-body fail">
           <div class="d-md-flex align-items-center">
             <div>
               <h4 class="card-title">Khách hàng người lớn #{{index + 1}}</h4>
@@ -15,8 +12,12 @@
         <div class="failure">
           <b-row>
             <b-col md="4">
-              <b-form-group class="margin-top" label="Họ và tên" :class="validation.errors[`listCustomer.0.${index}.NameCustomner`] ? 'has-error' : ''">
-                <a-input size="large" placeholder="Họ và tên" v-model="adult.NameCustomner"/>
+              <b-form-group
+                class="margin-top"
+                label="Họ và tên"
+                :class="validation.errors[`listCustomer.0.${index}.NameCustomner`] ? 'has-error' : ''"
+              >
+                <a-input size="large" placeholder="Họ và tên" v-model="adult.NameCustomner" />
                 <div
                   v-if="validation.errors[`listCustomer.0.${index}.NameCustomner`]"
                   class="invalid-feedback d-block"
@@ -82,8 +83,12 @@
           <div class="failure">
             <b-row>
               <b-col md="4">
-                <b-form-group class="margin-top" label="Họ và tên" :class="validation.errors[`listCustomer.1.${index}.NameCustomner`] ? 'has-error' : ''">
-                  <a-input size="large" placeholder="Họ và tên" v-model="kid.NameCustomner"/>
+                <b-form-group
+                  class="margin-top"
+                  label="Họ và tên"
+                  :class="validation.errors[`listCustomer.1.${index}.NameCustomner`] ? 'has-error' : ''"
+                >
+                  <a-input size="large" placeholder="Họ và tên" v-model="kid.NameCustomner" />
                   <div
                     v-if="validation.errors[`listCustomer.1.${index}.NameCustomner`]"
                     class="invalid-feedback d-block"
@@ -158,7 +163,7 @@
         </b-col>
       </b-row>
     </div>
-    <loading :loading="isloading"/>
+    <loading :loading="isloading" />
   </div>
 </template>
 <script>
@@ -268,6 +273,9 @@ export default {
       let disableYear = today_year - 15;
       let disableMonth = 12 - today_month;
       let disableDate = this.daysInMonth(today_month, today_year) - today_day;
+      if (disableDate === 0) {
+        disableDate = '01';
+      }
       let full = `${disableDate}-${disableMonth}-${disableYear}`;
       return full;
     },
@@ -279,6 +287,10 @@ export default {
       let disableYear = today_year - 12;
       let disableMonth = 12 - today_month;
       let disableDate = this.daysInMonth(today_month, today_year) - today_day;
+      if (disableDate === 0) {
+        disableDate = '01';
+      }
+
       let full = `${disableDate}-${disableMonth}-${disableYear}`;
       return full;
     }
@@ -302,6 +314,9 @@ export default {
       let disableYear = today_year - 15;
       let disableMonth = 12 - today_month;
       let disableDate = this.daysInMonth(today_month, today_year) - today_day;
+      if (disableDate === 0) {
+        disableDate = '01';
+      }
       let full = `${disableMonth}-${disableDate}-${disableYear}`;
       // return (new Date(full)) ;
       return current && current > moment(new Date(full)).endOf("day");
@@ -321,6 +336,9 @@ export default {
       let disableYear = today_year - 18;
       let disableMonth = 12 - today_month;
       let disableDate = this.daysInMonth(today_month, today_year) - today_day;
+      if (disableDate === 0) {
+        disableDate = '01';
+      }
       let full = `${disableMonth}-${disableDate}-${disableYear}`;
       // return (new Date(full)) ;
       // console.log(full, fullKid)
@@ -353,7 +371,7 @@ export default {
             let i = 1;
             // console.log(err.response.data.errors[`listCustomer.0.${i}.NameCustomner`]);
             this.validation.errors = err.response.data.errors;
-            this.$emit("BookingFail", err.response.data.errors)
+            this.$emit("BookingFail", err.response.data.errors);
             this.isloading = false;
           }
         });

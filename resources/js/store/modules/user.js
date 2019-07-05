@@ -20,7 +20,7 @@ const getters = {
 
 const actions = {
   getUser ({ commit }) {
-    commit('userLoadStatus', 1)
+    // commit('userLoadStatus', 1)
     UserAPI.getUser()
     .then((response) => {
       commit('userLoadStatus', 2)
@@ -33,12 +33,12 @@ const actions = {
   },
 
   logout ({ commit }) {
-    commit('userLoadStatus', 0)
+    commit('userLoadStatus', 3)
     commit('user', null)
   },
 
   login ({ commit }, credential) {
-    commit('userLoadStatus', 1)
+    // commit('userLoadStatus', 1)
     return new Promise((resolve, reject) => {
       AuthAPI.getAccessToken(credential.email, credential.password)
       .then((response) => {

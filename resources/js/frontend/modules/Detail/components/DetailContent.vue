@@ -18,7 +18,7 @@
     </template>
     <div v-else class="lichTrinh">
       <h3>Lịch trình</h3>
-      <a-timeline v-if="Schedules.length !== 0">
+      <a-timeline v-if="Schedules.length > 0">
         <a-timeline-item v-for="(item, index) in Schedules" :key="index">
           <span class="startTime">{{item.StartTime | timeHour}}</span> -
           <span class="endTime">{{ item.EndTime | timeHour }}</span>

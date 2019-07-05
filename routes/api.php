@@ -107,6 +107,8 @@ Route::group([
     Route::get('user/getAllRole/{id}', 'API\UserController@getAllRoleByUser');
     Route::post('user/deleteRole/{id}', 'API\UserController@deleteRoleById');
 
+    Route::post('static/thongke', 'PaymentController@statsByDate');
+
     // CRUD New
     
     Route::post('news', 'NewsController@store');

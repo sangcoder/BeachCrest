@@ -12,6 +12,8 @@ class TourGuiderExport implements FromCollection
     */
     public function collection()
     {
+        // dd( TourGuider::all());
+
         return TourGuider::all();
     }
 }

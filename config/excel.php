@@ -5,7 +5,7 @@ use Maatwebsite\Excel\Excel;
 return [
 
     'exports' => [
-
+        'startRow'                => 3,
         /*
         |--------------------------------------------------------------------------
         | Chunk size

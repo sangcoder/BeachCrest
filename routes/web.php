@@ -36,6 +36,7 @@ Route::get('/download/tourguider', function () {
     ob_start(); // and this
     return Excel::download(new TourGuiderExport, 'danh-sach-huong-dan-vien.xlsx');
 });
+Route::get('/download/payment', 'ExportFile@exportPayment');
 
 // Export Invoice
 

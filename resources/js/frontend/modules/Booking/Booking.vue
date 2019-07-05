@@ -129,7 +129,7 @@
                 <p>
                   Tỷ giá hiện tại được lấy từ VietCombank là:
                   <strong>{{parseFloat(dataBooking.RateList.Rate) | toCurrency}}</strong>, được cập nhật vào lúc
-                  <strong>{{dataBooking.RateList.DateUpdate}}</strong>
+                  <strong>{{dataBooking.RateList.TimeUpdate}}</strong>
                 </p>
                 <p class="price-Amount">
                   Tổng tiền phải trả là:
