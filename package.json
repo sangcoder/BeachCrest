@@ -14,7 +14,7 @@
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@babel/preset-env": "^7.4.2",
         "animate.css": "^3.7.0",
-        "axios": "^0.18",
+        "axios": "^0.21",
         "babel-core": "^7.0.0-0",
         "babel-loader": "^7.1.5",
         "browser-sync": "^2.26.3",
